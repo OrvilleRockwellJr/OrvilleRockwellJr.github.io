@@ -1,6 +1,6 @@
 # Orville Rockwell Jr. — Academic Website
 
-Live at **https://UriRock.github.io**
+Live at **https://OrvilleRockwellJr.github.io**
 
 A static site. No build step, no dependencies, no framework — plain HTML and CSS with one
 small inline script. Every file in this repo is served as-is.
@@ -55,10 +55,10 @@ domain — Namecheap `.me`, Name.com, and `.TECH` are all listed. To use one:
 
 1. Add a `CNAME` file containing only the domain, e.g. `orvillerockwell.me`
 2. At the registrar, add four `A` records for `@` → `185.199.108.153`, `185.199.109.153`,
-   `185.199.110.153`, `185.199.111.153`, and a `CNAME` for `www` → `UriRock.github.io`
+   `185.199.110.153`, `185.199.111.153`, and a `CNAME` for `www` → `OrvilleRockwellJr.github.io`
 3. Settings → Pages → enter the domain → tick **Enforce HTTPS** once the cert issues
 4. Update the URLs in `index.html` (canonical, Open Graph, Twitter, JSON-LD), `robots.txt`
-   and `sitemap.xml` from `UriRock.github.io` to the new domain
+   and `sitemap.xml` from `OrvilleRockwellJr.github.io` to the new domain
 
 ## Local preview
 
