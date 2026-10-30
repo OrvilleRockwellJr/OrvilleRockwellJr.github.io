@@ -111,6 +111,8 @@ section.block h2{font-size:clamp(26px,3.4vw,32px);font-weight:800;letter-spacing
 .area.ml .ico{background:var(--ml-bg);color:var(--ml)}
 .area.bio .ico{background:var(--bio-bg);color:var(--bio)}
 .area h3{font-size:18px;font-weight:700;letter-spacing:-.01em}
+.area .focus{align-self:flex-start;font-size:10.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:3px 9px;border-radius:999px;background:var(--auto-bg);color:var(--auto);border:1px solid color-mix(in srgb,var(--auto) 32%,transparent)}
+.area.primary{border-color:color-mix(in srgb,var(--auto) 34%,var(--line))}
 .area .q{font-size:15px;font-weight:600;line-height:1.45}
 .area.auto .q{color:var(--auto)}
 .area.ml .q{color:var(--ml)}
@@ -215,7 +217,7 @@ body.locked{overflow:hidden}
         <h1>Orville Rockwell Jr.</h1>
         <p class="subtitle">Master's Student in Applied Artificial Intelligence</p>
         <p class="affil">Northeastern University &middot; Providence, RI</p>
-        <p class="about">I'm a Master's student in Applied Artificial Intelligence at <strong>Northeastern University</strong>, concentrating in Machine Learning for Cybersecurity. My work sits where learning systems meet the physical world: I contribute to GPS-denied drone navigation research in <strong>Prof. Benjamin Kimia's</strong> computer vision group at <strong>Brown</strong>, build perception software for Northeastern's NUWave underwater ROV, and develop generative models for drug discovery. Before graduate school I earned a B.S. in Information Technology from Purdue University Global (Chancellor's List) and spent roughly five years as a software engineer across iTribe, RICI and MySudra.</p>
+        <p class="about">I'm a Master's student in Applied Artificial Intelligence at <strong>Northeastern University</strong>, concentrating in Machine Learning for Cybersecurity. My main work is perception for systems that have to localize without clean signals: I contribute to GPS-denied drone navigation research in <strong>Prof. Benjamin Kimia's</strong> computer vision group at <strong>Brown</strong>, and build perception software for Northeastern's NUWave underwater ROV. The same calibration and uncertainty methods carry into my work on probabilistic forecasting and generative molecular design. Before graduate school I earned a B.S. in Information Technology from Purdue University Global (Chancellor's List) and spent roughly five years as a software engineer across iTribe, RICI and MySudra.</p>
         <div class="buttons">
           <a class="btn primary" href="mailto:Rockwell.o@northeastern.edu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>Email</a>
           <a class="btn" href="https://github.com/OrvilleRockwellJr" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.58 2 12.25c0 4.52 2.87 8.35 6.84 9.7.5.1.68-.22.68-.49l-.01-1.9c-2.78.62-3.37-1.21-3.37-1.21-.46-1.18-1.11-1.49-1.11-1.49-.9-.63.07-.62.07-.62 1 .07 1.53 1.05 1.53 1.05.89 1.56 2.34 1.11 2.91.85.09-.66.35-1.11.63-1.37-2.22-.26-4.56-1.14-4.56-5.07 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.71 0 0 .84-.28 2.75 1.05a9.4 9.4 0 0 1 5 0c1.91-1.33 2.75-1.05 2.75-1.05.55 1.41.2 2.45.1 2.71.64.72 1.03 1.63 1.03 2.75 0 3.94-2.34 4.81-4.57 5.06.36.32.68.94.68 1.9l-.01 2.82c0 .27.18.59.69.49A10.26 10.26 0 0 0 22 12.25C22 6.58 17.52 2 12 2Z"/></svg>GitHub</a>
@@ -230,10 +232,11 @@ body.locked{overflow:hidden}
     <div class="wrap">
       <h2>Research Interests</h2>
       <div class="overview">
-        <p class="lead">My research asks how learning systems can <strong>act reliably when the world doesn't hand them clean signals</strong>. I work across three areas:</p>
+        <p class="lead">My research asks how learning systems can <strong>act reliably when the world doesn't hand them clean signals</strong>. My primary focus is <strong>perception and localization for autonomous systems</strong>; the two threads beside it share its methodology rather than competing with it.</p>
         <div class="areas">
-          <div class="area auto">
+          <div class="area auto primary">
             <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="5.5" r="2.5"/><circle cx="18.5" cy="5.5" r="2.5"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/><path d="M7.5 7.5 10 10M16.5 7.5 14 10M7.5 16.5 10 14M16.5 16.5 14 14"/><rect x="10" y="10" width="4" height="4" rx="1"/></svg></span>
+            <span class="focus">Primary focus</span>
             <h3>Autonomous Systems</h3>
             <p class="q">How does a robot know where it is when GPS disappears?</p>
             <p class="d">Vision-based localization, multi-camera synchronization and calibration, and sensor fusion for aerial and underwater vehicles, down to the electronics that feed them.</p>
@@ -251,7 +254,7 @@ body.locked{overflow:hidden}
             <p class="d">Generative design guided by learned property classifiers, aimed at conditions that still lack treatments, such as lasting disability after stroke.</p>
           </div>
         </div>
-        <p class="close">The common thread is <em>uncertainty-aware models that make decisions with real consequences</em>, whether that decision steers a drone, prices a contract, or nominates a candidate for the lab to test.</p>
+        <p class="close">All three rest on the same question: <em>how a model should behave when it cannot be certain</em>. I work on that in vision and localization first, and carry the same calibration and evaluation methods into forecasting and molecular design.</p>
       </div>
     </div>
   </section>
@@ -316,7 +319,7 @@ body.locked{overflow:hidden}
             <h3>VAD-LSTM: Volatility-Aware Distributional Forecasting</h3>
             <p class="meta"><b>Applied Deep Learning (AAI 6640)</b> &middot; Northeastern University &middot; team lead, 4 members</p>
             <p class="sum">A recurrent network that forecasts a full probability distribution instead of a point estimate, so any threshold question is read straight off the model. It extends the GARCH&ndash;LSTM equivalence of Zhao et al. (2024) with an in-cell variance recursion and a heavy-tailed Student-t output head, validated with purged walk-forward splits, isotonic recalibration, and conformal coverage. I led the team and owned the ten-year point-in-time dataset.</p>
-            <div class="chips"><span>TensorFlow Probability</span><span>Sequence models</span><span>Calibration</span></div>
+            <div class="chips"><span>TensorFlow Probability</span><span>Sequence models</span><span>Calibration</span><span>Pinned envs &amp; fixed seeds</span></div>
           </div>
         </article>
 
