@@ -1,0 +1,546 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Orville Rockwell Jr.</title>
+<meta name="description" content="Orville Rockwell Jr. is a Master's student in Applied Artificial Intelligence at Northeastern University, working on machine learning, autonomous systems, and computational biology.">
+<meta name="author" content="Orville Rockwell Jr.">
+<meta name="theme-color" content="#0A0C11">
+<link rel="canonical" href="https://UriRock.github.io/">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+<meta property="og:type" content="profile">
+<meta property="og:site_name" content="Orville Rockwell Jr.">
+<meta property="og:title" content="Orville Rockwell Jr.">
+<meta property="og:description" content="Orville Rockwell Jr. is a Master's student in Applied Artificial Intelligence at Northeastern University, working on machine learning, autonomous systems, and computational biology.">
+<meta property="og:url" content="https://UriRock.github.io/">
+<meta property="og:image" content="https://UriRock.github.io/assets/img/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Orville Rockwell Jr.">
+<meta name="twitter:description" content="Orville Rockwell Jr. is a Master's student in Applied Artificial Intelligence at Northeastern University, working on machine learning, autonomous systems, and computational biology.">
+<meta name="twitter:image" content="https://UriRock.github.io/assets/img/og.png">
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Orville Rockwell Jr.",
+  "url": "https://UriRock.github.io/",
+  "image": "https://UriRock.github.io/assets/img/profile.jpg",
+  "email": "mailto:Rockwell.o@northeastern.edu",
+  "jobTitle": "Master's Student in Applied Artificial Intelligence",
+  "description": "Orville Rockwell Jr. is a Master's student in Applied Artificial Intelligence at Northeastern University, working on machine learning, autonomous systems, and computational biology.",
+  "address": {"@type": "PostalAddress", "addressLocality": "Providence", "addressRegion": "RI", "addressCountry": "US"},
+  "affiliation": {"@type": "CollegeOrUniversity", "name": "Northeastern University"},
+  "alumniOf": {"@type": "CollegeOrUniversity", "name": "Purdue University Global"},
+  "knowsAbout": ["Machine Learning", "Autonomous Systems", "Computer Vision", "Computational Biology", "Sensor Fusion"],
+  "sameAs": ["https://github.com/UriRock"]
+}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Dark academic profile: two-column hero with ringed round portrait, centered section titles, an interests overview card, then three-column cards with media on top. Three thread colors code every card: autonomy (cyan), ML (indigo), comp bio (rose). */
+:root{
+  --bg:#0A0C11; --card:#11151C; --card-2:#151A22; --fig:#0D1117;
+  --line:#222935; --line-2:#2C3442;
+  --fg:#ECEFF4; --muted:#A2AAB6; --faint:#6F7886;
+  --auto:#5CCADA; --ml:#929FFF; --bio:#EE92B6;
+  --auto-bg:rgba(92,202,218,.12); --ml-bg:rgba(146,159,255,.13); --bio-bg:rgba(238,146,182,.12);
+  --sans:"Inter","Helvetica Neue",Arial,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+  --max:1160px;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+.skip{position:absolute;left:-9999px;top:0;z-index:50;background:var(--ml);color:#0A0C11;font-weight:600;padding:10px 16px;border-radius:0 0 10px 0}
+.skip:focus{left:0;text-decoration:none}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--bg)}
+a{color:var(--ml);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+a:focus-visible,button:focus-visible{outline:2px solid var(--ml);outline-offset:3px;border-radius:6px}
+.wrap{max-width:var(--max);margin:0 auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+h1,h2,h3{margin:0;text-wrap:balance}
+p{margin:0}
+
+header.site{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:rgba(10,12,17,.78);backdrop-filter:blur(14px) saturate(150%);-webkit-backdrop-filter:blur(14px) saturate(150%);border-bottom:1px solid var(--line)}
+header.site .wrap{display:flex;align-items:center;justify-content:space-between;gap:14px;padding-block:12px;flex-wrap:wrap}
+.brand{font-weight:700;font-size:16px;letter-spacing:-.01em;color:var(--fg)}
+.brand:hover{text-decoration:none}
+nav.primary{display:flex;gap:2px;flex-wrap:wrap}
+nav.primary a{font-size:14px;font-weight:500;color:var(--muted);padding:7px 11px;border-radius:9px}
+nav.primary a:hover{color:var(--fg);background:var(--card);text-decoration:none}
+nav.primary a.active{color:var(--fg);background:var(--card-2)}
+
+.hero{padding-block:72px 56px}
+.hero-grid{display:grid;grid-template-columns:1fr;gap:36px;align-items:center;justify-items:center;text-align:center}
+@media (min-width:880px){.hero-grid{grid-template-columns:auto minmax(0,1fr);gap:56px;justify-items:start;text-align:left}}
+.hero-grid > *{min-width:0}
+.ring{width:236px;height:236px;max-width:100%;padding:5px;border-radius:50%;background:conic-gradient(from 210deg,var(--ml),var(--auto),var(--bio),var(--ml));box-shadow:0 0 60px rgba(146,159,255,.22)}
+@media (min-width:880px){.ring{width:296px;height:296px;padding:6px}}
+.ring img{width:100%;height:100%;display:block;border-radius:50%;object-fit:cover;object-position:50% 22%;border:5px solid var(--bg);background:var(--card)}
+.hero h1{font-size:clamp(34px,5vw,48px);font-weight:800;letter-spacing:-.025em;line-height:1.1;background:linear-gradient(120deg,var(--fg) 30%,var(--ml) 68%,var(--auto));-webkit-background-clip:text;background-clip:text;color:transparent}
+.subtitle{font-size:18px;font-weight:600;color:var(--ml);margin-top:8px}
+.affil{font-size:15px;color:var(--faint);margin-top:2px}
+.about{margin-top:22px;max-width:66ch;color:#CDD3DC;line-height:1.8;text-align:left}
+.about strong{color:var(--fg);font-weight:600}
+.buttons{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px;justify-content:center}
+@media (min-width:880px){.buttons{justify-content:flex-start}}
+.btn{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:600;color:var(--fg);background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 15px}
+.btn:hover{text-decoration:none;border-color:var(--line-2);background:var(--card-2)}
+.btn svg{width:16px;height:16px;flex:none}
+.btn.primary{background:var(--ml);color:#0A0C11;border-color:var(--ml)}
+.btn.primary:hover{background:#A9B3FF;border-color:#A9B3FF}
+
+section.block{padding-block:56px}
+section.block h2{font-size:clamp(26px,3.4vw,32px);font-weight:800;letter-spacing:-.02em;text-align:center;margin-bottom:10px}
+.lede{text-align:center;color:var(--muted);max-width:62ch;margin:0 auto 34px;font-size:16px}
+
+.overview{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:34px 30px}
+.overview .lead{text-align:center;font-size:17px;line-height:1.8;max-width:68ch;margin:0 auto 30px;color:#D2D8E0}
+.overview .lead strong{color:var(--fg)}
+.areas{display:grid;grid-template-columns:1fr;gap:16px}
+@media (min-width:860px){.areas{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.area{background:var(--card-2);border:1px solid var(--line);border-radius:16px;padding:22px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.area .ico{width:42px;height:42px;border-radius:12px;display:grid;place-items:center}
+.area .ico svg{width:22px;height:22px}
+.area.auto .ico{background:var(--auto-bg);color:var(--auto)}
+.area.ml .ico{background:var(--ml-bg);color:var(--ml)}
+.area.bio .ico{background:var(--bio-bg);color:var(--bio)}
+.area h3{font-size:18px;font-weight:700;letter-spacing:-.01em}
+.area .q{font-size:15px;font-weight:600;line-height:1.45}
+.area.auto .q{color:var(--auto)}
+.area.ml .q{color:var(--ml)}
+.area.bio .q{color:var(--bio)}
+.area p.d{font-size:14.5px;color:var(--muted);line-height:1.65}
+.overview .close{text-align:center;color:var(--muted);font-size:15px;max-width:64ch;margin:28px auto 0}
+.overview .close em{color:var(--fg);font-style:normal;font-weight:600}
+
+.grid{display:grid;grid-template-columns:1fr;gap:22px}
+@media (min-width:620px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (min-width:1000px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.card{--t:var(--ml);--tbg:var(--ml-bg);display:flex;flex-direction:column;background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden;transition:border-color .2s,transform .2s;min-width:0}
+.card:hover{border-color:color-mix(in srgb,var(--t) 45%,var(--line));transform:translateY(-2px)}
+.card.auto{--t:var(--auto);--tbg:var(--auto-bg)}
+.card.bio{--t:var(--bio);--tbg:var(--bio-bg)}
+.media{position:relative;aspect-ratio:16/10;max-width:100%;background-color:var(--fig);background-image:radial-gradient(rgba(255,255,255,.05) 1px,transparent 1px);background-size:14px 14px;border-bottom:1px solid var(--line);overflow:hidden}
+.media.photo{background:#fff}
+.media img{width:100%;height:100%;object-fit:cover;display:block}
+.media svg{position:absolute;inset:0;width:100%;height:100%}
+.credit{position:absolute;left:10px;bottom:10px;font-size:11px;font-weight:500;color:#E9EDF3;background:rgba(8,10,14,.72);border-radius:7px;padding:3px 8px}
+.body{padding:20px 20px 22px;display:flex;flex-direction:column;gap:8px;flex:1;min-width:0}
+.kicker{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:700;letter-spacing:.03em;text-transform:uppercase;color:var(--t)}
+.kicker::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--t)}
+.card h3{font-size:18px;font-weight:700;letter-spacing:-.015em;line-height:1.3}
+.meta{font-size:13.5px;color:var(--faint);line-height:1.5}
+.meta b{color:var(--muted);font-weight:600}
+.sum{font-size:14.5px;color:var(--muted);line-height:1.65}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;padding-top:8px}
+.chips span{font-size:12px;font-weight:500;color:var(--fg);background:var(--tbg);border-radius:7px;padding:3px 9px}
+
+.fig text{font-family:var(--mono);font-size:10px;fill:var(--muted)}
+.fig .lbl{fill:var(--fg);font-weight:500}
+.st{fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.st-faint{stroke:var(--line-2)}
+.st-mute{stroke:var(--faint)}
+.st-ml{stroke:var(--ml)}
+.st-auto{stroke:var(--auto)}
+.st-bio{stroke:var(--bio)}
+.fl-ml{fill:var(--ml)}
+.fl-auto{fill:var(--auto)}
+.fl-bio{fill:var(--bio)}
+.fl-card{fill:var(--card-2)}
+.fl-track{fill:var(--line)}
+
+.contact-card{max-width:720px;margin:0 auto;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:30px;text-align:center}
+.contact-card p.intro{color:var(--muted);max-width:56ch;margin:0 auto}
+.mails{display:flex;flex-direction:column;gap:12px;margin:24px auto 0;max-width:520px}
+.mail{display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:space-between;background:var(--card-2);border:1px solid var(--line);border-radius:14px;padding:12px 14px;text-align:left}
+.mail .who{font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--faint)}
+.mail .addr{font-family:var(--mono);font-size:14.5px;color:var(--fg);user-select:all;word-break:break-all}
+.mail > div{display:flex;flex-direction:column;gap:2px;min-width:0}
+.copy{font:inherit;font-size:12.5px;font-weight:600;color:var(--fg);background:var(--card);border:1px solid var(--line-2);border-radius:9px;padding:7px 12px;cursor:pointer}
+.copy:hover{border-color:var(--ml);color:var(--ml)}
+.where{margin-top:18px;font-size:14px;color:var(--faint)}
+
+footer.site{border-top:1px solid var(--line);margin-top:24px}
+footer.site .wrap{padding-block:26px 40px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:13px;color:var(--faint)}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.card{transition:none}.card:hover{transform:none}}
+.cvdlg{position:fixed;inset:0;z-index:60;display:none;align-items:flex-start;justify-content:center;
+ background:rgba(5,7,10,.82);backdrop-filter:blur(6px);overflow-y:auto;
+ padding:max(24px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) 40px max(16px,env(safe-area-inset-left,0px))}
+.cvdlg[open]{display:flex}
+.cvbox{width:100%;max-width:880px;display:flex;flex-direction:column;gap:14px}
+.cvbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+ background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;position:sticky;top:0}
+.cvbar h3{font-size:15px;font-weight:600}
+.cvbar .acts{display:flex;gap:8px;flex-wrap:wrap}
+.cvsheet{background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.5);line-height:0}
+.cvsheet img{width:100%;height:auto;display:block}
+.cvx{font:inherit;font-size:13px;font-weight:600;color:var(--fg);background:var(--card-2);
+ border:1px solid var(--line-2);border-radius:10px;padding:9px 14px;cursor:pointer}
+.cvx:hover{border-color:var(--ml);color:var(--ml)}
+a.cvx{text-decoration:none}
+a.cvx.go{background:var(--ml);color:#0A0C11;border-color:var(--ml)}
+a.cvx.go:hover{background:#A9B3FF;color:#0A0C11;text-decoration:none}
+body.locked{overflow:hidden}
+
+</style>
+</head>
+<body>
+
+
+<a class="skip" href="#main">Skip to content</a>
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="#top">Orville Rockwell Jr.</a>
+    <nav class="primary" aria-label="Sections">
+      <a href="#interests">Interests</a>
+      <a href="#research">Research</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+      <a href="cv/Orville_Rockwell_CV.pdf" download="Orville_Rockwell_CV.pdf" target="_blank" rel="noopener">CV</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="hero" id="top">
+    <div class="wrap hero-grid">
+      <div class="ring"><img src="assets/img/profile.jpg" alt="Orville Rockwell Jr."></div>
+      <div>
+        <h1>Orville Rockwell Jr.</h1>
+        <p class="subtitle">Master's Student in Applied Artificial Intelligence</p>
+        <p class="affil">Northeastern University &middot; Providence, RI</p>
+        <p class="about">I'm a Master's student in Applied Artificial Intelligence at <strong>Northeastern University</strong>, concentrating in Machine Learning for Cybersecurity. My work sits where learning systems meet the physical world: I contribute to GPS-denied drone navigation research in <strong>Prof. Benjamin Kimia's</strong> computer vision group at <strong>Brown</strong>, build perception software for Northeastern's NUWave underwater ROV, and develop generative models for drug discovery. Before graduate school I earned a B.S. in Information Technology from Purdue University Global (Chancellor's List) and spent roughly five years as a software engineer across iTribe, RICI and MySudra.</p>
+        <div class="buttons">
+          <a class="btn primary" href="mailto:Rockwell.o@northeastern.edu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>Email</a>
+          <a class="btn" href="https://github.com/UriRock" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.58 2 12.25c0 4.52 2.87 8.35 6.84 9.7.5.1.68-.22.68-.49l-.01-1.9c-2.78.62-3.37-1.21-3.37-1.21-.46-1.18-1.11-1.49-1.11-1.49-.9-.63.07-.62.07-.62 1 .07 1.53 1.05 1.53 1.05.89 1.56 2.34 1.11 2.91.85.09-.66.35-1.11.63-1.37-2.22-.26-4.56-1.14-4.56-5.07 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.71 0 0 .84-.28 2.75 1.05a9.4 9.4 0 0 1 5 0c1.91-1.33 2.75-1.05 2.75-1.05.55 1.41.2 2.45.1 2.71.64.72 1.03 1.63 1.03 2.75 0 3.94-2.34 4.81-4.57 5.06.36.32.68.94.68 1.9l-.01 2.82c0 .27.18.59.69.49A10.26 10.26 0 0 0 22 12.25C22 6.58 17.52 2 12 2Z"/></svg>GitHub</a>
+          <a class="btn" href="cv/Orville_Rockwell_CV.pdf" download="Orville_Rockwell_CV.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2Z"/><path d="M9 13h6M9 17h4"/></svg>CV</a>
+          <a class="btn" href="https://www.linkedin.com/in/orville-rockwell-jr-92806528a" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29ZM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14Zm1.78 13.02H3.55V9h3.57v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.22.79 24 1.77 24h20.45c.98 0 1.78-.78 1.78-1.73V1.73C24 .77 23.2 0 22.22 0Z"/></svg>LinkedIn</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="interests">
+    <div class="wrap">
+      <h2>Research Interests</h2>
+      <div class="overview">
+        <p class="lead">My research asks how learning systems can <strong>act reliably when the world doesn't hand them clean signals</strong>. I work across three areas:</p>
+        <div class="areas">
+          <div class="area auto">
+            <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="5.5" r="2.5"/><circle cx="18.5" cy="5.5" r="2.5"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/><path d="M7.5 7.5 10 10M16.5 7.5 14 10M7.5 16.5 10 14M16.5 16.5 14 14"/><rect x="10" y="10" width="4" height="4" rx="1"/></svg></span>
+            <h3>Autonomous Systems</h3>
+            <p class="q">How does a robot know where it is when GPS disappears?</p>
+            <p class="d">Vision-based localization, multi-camera synchronization and calibration, and sensor fusion for aerial and underwater vehicles, down to the electronics that feed them.</p>
+          </div>
+          <div class="area ml">
+            <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20h18"/><path d="M3 19c3 0 4-13 9-13s6 13 9 13"/><path d="M16 12v8"/></svg></span>
+            <h3>Machine Learning</h3>
+            <p class="q">Can a model tell you how much to trust it?</p>
+            <p class="d">Architectures with domain structure built into their layers, full predictive distributions in place of point estimates, calibration, and evaluation that survives distribution shift.</p>
+          </div>
+          <div class="area bio">
+            <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 19 7v8l-7 4-7-4V7z"/><path d="M12 3v4M19 15l3 2M5 15l-3 2"/><circle cx="12" cy="11" r="2"/></svg></span>
+            <h3>Computational Biology</h3>
+            <p class="q">Can a model design a therapy where no library has one?</p>
+            <p class="d">Generative design guided by learned property classifiers, aimed at conditions that still lack treatments, such as lasting disability after stroke.</p>
+          </div>
+        </div>
+        <p class="close">The common thread is <em>uncertainty-aware models that make decisions with real consequences</em>, whether that decision steers a drone, prices a contract, or nominates a candidate for the lab to test.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="research">
+    <div class="wrap">
+      <h2>Research</h2>
+      <p class="lede">Lab research, independent studies, and graduate research projects.</p>
+      <div class="grid">
+
+        <article class="card auto">
+          <div class="media photo"><img src="assets/img/camera-array.jpg" alt="Synchronized multi-camera array board with four camera modules and ribbon cables"><span class="credit">Camera array hardware &middot; Arducam</span></div>
+          <div class="body">
+            <span class="kicker">Lab research &bull; 2026&ndash;present</span>
+            <h3>GPS-Denied Autonomous Drone Navigation</h3>
+            <p class="meta"><b>Prof. Benjamin Kimia's group</b> &middot; LEMS, Brown University</p>
+            <p class="sum">Vision-based navigation for drones flying where GPS is unavailable. I work on the multi-camera synchronization and calibration layer (B-CamSync): bringing up a synchronized camera array on a Raspberry&nbsp;Pi&nbsp;5, calibrating the cameras, and contributing calibration and test code to the group's repository.</p>
+            <div class="chips"><span>Computer vision</span><span>Camera calibration</span><span>Sensor fusion</span><span>Embedded systems</span></div>
+          </div>
+        </article>
+
+        <article class="card bio">
+          <div class="media fig">
+            <svg viewBox="0 0 320 200" role="img" aria-label="Three property filters narrow a large candidate pool down to a small ranked shortlist, with the score feeding back to the generator">
+              <text x="20" y="34" class="lbl">candidates</text>
+              <rect x="20" y="44" width="150" height="13" rx="6.5" class="fl-track"/><rect x="20" y="44" width="150" height="13" rx="6.5" class="fl-bio" opacity=".30"/>
+              <text x="180" y="55">generated</text>
+              <rect x="20" y="72" width="150" height="13" rx="6.5" class="fl-track"/><rect x="20" y="72" width="104" height="13" rx="6.5" class="fl-bio" opacity=".48"/>
+              <text x="180" y="83">barrier</text>
+              <rect x="20" y="100" width="150" height="13" rx="6.5" class="fl-track"/><rect x="20" y="100" width="62" height="13" rx="6.5" class="fl-bio" opacity=".70"/>
+              <text x="180" y="111">target</text>
+              <rect x="20" y="128" width="150" height="13" rx="6.5" class="fl-track"/><rect x="20" y="128" width="29" height="13" rx="6.5" class="fl-bio"/>
+              <text x="180" y="139" class="lbl">ranked</text>
+              <path d="M258 60 C 292 60, 292 150, 150 162 L 40 162" class="st st-bio" opacity=".65" stroke-dasharray="4 4"/>
+              <path d="M48 157 L38 162 L48 167" class="st st-bio" opacity=".65"/>
+              <text x="150" y="182" text-anchor="middle">score &rarr; reward &rarr; generator</text>
+            </svg>
+          </div>
+          <div class="body">
+            <span class="kicker">Independent research &bull; 2026</span>
+            <h3>Generative Drug Design for Post-Stroke Repair</h3>
+            <p class="meta"><b>Applied AI (AAI 6600)</b> &middot; Northeastern University</p>
+            <p class="sum">Most stroke survivors miss the treatment window and live with lasting disability, and scar tissue blocks nerve regrowth. This fully computational pipeline proposes candidates and scores each one for barrier crossing, target activity, and safety; the combined score becomes the reinforcement-learning reward that retrains the generator. Scaffold-split validation and a held-out judging classifier guard against circular scoring. Outputs are predictions for laboratory testing, not findings.</p>
+            <div class="chips"><span>Generative models</span><span>Reinforcement learning</span><span>Scaffold-split eval</span></div>
+          </div>
+        </article>
+
+        <article class="card ml">
+          <div class="media fig">
+            <svg viewBox="0 0 320 200" role="img" aria-label="A heavy-tailed predictive distribution with the probability mass above a threshold shaded">
+              <line x1="24" y1="160" x2="296" y2="160" class="st st-faint"/>
+              <path d="M204.2,160 L204.2,108.7 L211.1,119.6 L218.0,128.4 L224.9,135.4 L231.7,140.9 L238.6,145.2 L245.5,148.4 L252.4,150.9 L259.3,152.9 L266.2,154.3 L273.1,155.5 L279.9,156.4 L286.8,157.1 L296.0,157.8 L296.0,160 Z" class="fl-ml" opacity=".26"/>
+              <path d="M24.0,157.8 L37.6,156.7 L51.2,154.8 L64.8,151.8 L75.0,148.2 L85.2,142.9 L95.4,135.2 L105.6,124.1 L115.8,108.7 L126.0,89.1 L136.2,67.3 L146.4,47.8 L156.6,37.0 L160.0,36.2 L163.4,37.0 L173.6,47.8 L183.8,67.3 L194.0,89.1 L204.2,108.7 L214.4,124.1 L224.6,135.2 L234.8,142.9 L245.0,148.2 L255.2,151.8 L268.8,154.8 L282.4,156.7 L296.0,157.8" class="st st-ml"/>
+              <line x1="204.2" y1="34" x2="204.2" y2="160" class="st st-bio" stroke-dasharray="4 3" stroke-width="1.3"/>
+              <text x="210" y="44" class="lbl">k</text>
+              <text x="236" y="98" class="lbl">P(X &gt; k)</text>
+              <text x="160" y="180" text-anchor="middle">one forecast prices every strike</text>
+            </svg>
+          </div>
+          <div class="body">
+            <span class="kicker">Graduate research &bull; 2026</span>
+            <h3>VAD-LSTM: Volatility-Aware Distributional Forecasting</h3>
+            <p class="meta"><b>Applied Deep Learning (AAI 6640)</b> &middot; Northeastern University &middot; team lead, 4 members</p>
+            <p class="sum">A recurrent network that forecasts a full probability distribution instead of a point estimate, so any threshold question is read straight off the model. It extends the GARCH&ndash;LSTM equivalence of Zhao et al. (2024) with an in-cell variance recursion and a heavy-tailed Student-t output head, validated with purged walk-forward splits, isotonic recalibration, and conformal coverage. I led the team and owned the ten-year point-in-time dataset.</p>
+            <div class="chips"><span>TensorFlow Probability</span><span>Sequence models</span><span>Calibration</span></div>
+          </div>
+        </article>
+
+        <article class="card ml">
+          <div class="media fig">
+            <svg viewBox="0 0 320 200" role="img" aria-label="Walk-forward validation folds with purged gaps, and a locked holdout block at the end">
+              <text x="22" y="34">walk-forward folds</text>
+              <rect x="22" y="46" width="96" height="14" rx="4" class="fl-ml" opacity=".55"/><rect x="124" y="46" width="34" height="14" rx="4" class="fl-ml"/>
+              <rect x="22" y="74" width="130" height="14" rx="4" class="fl-ml" opacity=".55"/><rect x="158" y="74" width="34" height="14" rx="4" class="fl-ml"/>
+              <rect x="22" y="102" width="164" height="14" rx="4" class="fl-ml" opacity=".55"/><rect x="192" y="102" width="34" height="14" rx="4" class="fl-ml"/>
+              <rect x="118" y="46" width="6" height="14" class="fl-bio" opacity=".8"/>
+              <rect x="152" y="74" width="6" height="14" class="fl-bio" opacity=".8"/>
+              <rect x="186" y="102" width="6" height="14" class="fl-bio" opacity=".8"/>
+              <text x="236" y="57" class="lbl">test</text>
+              <text x="236" y="113" class="fl-bio" style="fill:var(--bio)">purge</text>
+              <rect x="22" y="132" width="204" height="14" rx="4" class="fl-track"/>
+              <rect x="232" y="132" width="66" height="14" rx="4" class="fl-auto" opacity=".75"/>
+              <text x="22" y="166">locked holdout, opened once</text>
+            </svg>
+          </div>
+          <div class="body">
+            <span class="kicker">Graduate research &bull; 2026</span>
+            <h3>Market-Neutral Signal Discovery</h3>
+            <p class="meta"><b>Applied Machine Learning (AAI 6610)</b> &middot; Northeastern University</p>
+            <p class="sum">A pilot study asking whether machine-learning signals survive risk adjustment, multiple-testing correction, and realistic costs. Tree and deep models are compared against a regularized linear baseline under purged, embargoed cross-validation, with every hyperparameter trial logged and the result scored by a deflated Sharpe ratio, so apparent skill is separated from selection bias. A null result is treated as a valid answer.</p>
+            <div class="chips"><span>XGBoost</span><span>LSTM / Transformer</span><span>Deflated Sharpe</span><span>Leakage-safe CV</span></div>
+          </div>
+        </article>
+
+        <article class="card bio">
+          <div class="media fig">
+            <svg viewBox="0 0 320 200" role="img" aria-label="A double helix with mutation sites marked and a predicted stability score">
+              <path d="M20.0,78.0 L34.0,102.9 L48.0,92.3 L62.0,61.3 L76.0,54.1 L90.0,81.0 L104.0,103.6 L118.0,89.7 L132.0,59.1 L146.0,55.5 L160.0,84.0 L174.0,104.0 L188.0,86.9 L202.0,57.1 L216.0,57.2 L230.0,86.9 L244.0,104.0 L258.0,84.0 L272.0,55.5 L286.0,59.1 L300.0,89.7" class="st st-bio"/>
+              <path d="M20.0,78.0 L34.0,53.1 L48.0,63.7 L62.0,94.7 L76.0,101.9 L90.0,75.0 L104.0,52.4 L118.0,66.3 L132.0,96.9 L146.0,100.5 L160.0,72.0 L174.0,52.0 L188.0,69.1 L202.0,98.9 L216.0,98.8 L230.0,69.1 L244.0,52.0 L258.0,72.0 L272.0,100.5 L286.0,96.9 L300.0,66.3" class="st st-auto" opacity=".75"/>
+              <path d="M34.0,102.9 L34.0,53.1 M76.0,54.1 L76.0,101.9 M118.0,89.7 L118.0,66.3 M160.0,84.0 L160.0,72.0 M202.0,57.1 L202.0,98.9 M244.0,104.0 L244.0,52.0 M286.0,59.1 L286.0,96.9" class="st st-faint" stroke-width="1.2"/>
+              <circle cx="118" cy="78" r="5" class="fl-bio"/><circle cx="244" cy="78" r="5" class="fl-bio"/>
+              <text x="160" y="150" text-anchor="middle" class="lbl">&Delta;&Delta;G predicted per mutation</text>
+              <text x="160" y="170" text-anchor="middle">stability &middot; binding &middot; ranking</text>
+            </svg>
+          </div>
+          <div class="body">
+            <span class="kicker">Independent research &bull; 2026</span>
+            <h3>ProtStab-AI: Protein Stability and Binding Prediction</h3>
+            <p class="meta">Self-directed research project</p>
+            <p class="sum">A model that predicts how a mutation shifts protein stability and small-molecule binding, from sequence and structural features. It is the scoring companion to the generative work above: a way to rank and triage candidates computationally before anything reaches a bench. Built as a reproducible, benchmarked pipeline with strict train/test separation.</p>
+            <div class="chips"><span>Representation learning</span><span>Protein features</span><span>Ranking metrics</span></div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="projects">
+    <div class="wrap">
+      <h2>Projects</h2>
+      <p class="lede">Engineering work: team robotics and independent software platforms.</p>
+      <div class="grid">
+
+        <article class="card auto">
+          <div class="media photo"><img src="assets/img/rov.jpg" alt="NUWave remotely operated underwater vehicle during a pool run"><span class="credit">NUWave ROV &middot; MATE competition report</span></div>
+          <div class="body">
+            <span class="kicker">Team project &bull; 2026&ndash;present</span>
+            <h3>NUWave: Perception for a Semi-Autonomous Submersible</h3>
+            <p class="meta"><b>Northeastern Marine Robotics</b> &middot; software &amp; electrical division &middot; MATE ROV competition team</p>
+            <p class="sum">Onboard vision for the team's remotely operated underwater vehicle. I write the object-recognition node that feeds the ROV's perception stack and the automated tests behind it, and help wire the camera and sensor interfaces. Work is split across software, electrical and mechanical divisions and tracked in Jira.</p>
+            <div class="chips"><span>ROS</span><span>OpenCV</span><span>Object detection</span><span>I&sup2;C / UART</span></div>
+          </div>
+        </article>
+
+        <article class="card ml">
+          <div class="media fig">
+            <svg viewBox="0 0 320 200" role="img" aria-label="A text prompt is converted into structured parameters that drive a rendered part">
+              <rect x="20" y="40" width="112" height="60" rx="10" class="fl-card" stroke="var(--line-2)" stroke-width="1"/>
+              <rect x="32" y="56" width="74" height="5" rx="2.5" class="fl-track"/>
+              <rect x="32" y="68" width="88" height="5" rx="2.5" class="fl-track"/>
+              <rect x="32" y="80" width="54" height="5" rx="2.5" class="fl-track"/>
+              <text x="20" y="117">natural language</text>
+              <path d="M140 70 L172 70" class="st st-mute"/><path d="M166 65 L173 70 L166 75" class="st st-mute"/>
+              <rect x="182" y="34" width="118" height="72" rx="10" class="fl-card" stroke="var(--line-2)" stroke-width="1"/>
+              <text x="194" y="54" class="lbl">width: 40</text>
+              <text x="194" y="72" class="lbl">holes: 4</text>
+              <text x="194" y="90" class="lbl">fillet: 2.5</text>
+              <text x="182" y="123">structured parameters</text>
+              <path d="M110 150 L150 132 L190 150 L150 168 Z" class="st st-ml"/>
+              <path d="M110 150 L110 166 L150 184 L190 166 L190 150" class="st st-ml" opacity=".6"/>
+              <path d="M150 168 L150 184" class="st st-ml" opacity=".6"/>
+            </svg>
+          </div>
+          <div class="body">
+            <span class="kicker">Software &bull; 2026</span>
+            <h3>CAD-LLM Platform</h3>
+            <p class="meta">Independent project &middot; <a href="https://github.com/UriRock/CadLLM" target="_blank" rel="noopener">CadLLM repository</a></p>
+            <p class="sum">Turns a natural-language specification into structured CAD parameters through a language-model-backed REST pipeline, so a non-specialist can describe a part and get a usable design back. I designed the prompt-to-parameter translation layer and evaluated outputs against manually specified designs.</p>
+            <div class="chips"><span>Python</span><span>REST APIs</span><span>LLM integration</span></div>
+          </div>
+        </article>
+
+        <article class="card ml">
+          <div class="media fig">
+            <svg viewBox="0 0 320 200" role="img" aria-label="A model comparison chart with accuracy bars and an inference latency line">
+              <line x1="30" y1="150" x2="296" y2="150" class="st st-faint"/>
+              <line x1="30" y1="40" x2="30" y2="150" class="st st-faint"/>
+              <rect x="52" y="104" width="34" height="46" rx="4" class="fl-ml" opacity=".45"/>
+              <rect x="108" y="88" width="34" height="62" rx="4" class="fl-ml" opacity=".6"/>
+              <rect x="164" y="70" width="34" height="80" rx="4" class="fl-ml" opacity=".78"/>
+              <rect x="220" y="62" width="34" height="88" rx="4" class="fl-ml"/>
+              <path d="M69,128 L125,118 L181,96 L237,58" class="st st-auto" stroke-dasharray="5 4"/>
+              <circle cx="69" cy="128" r="3.4" class="fl-auto"/><circle cx="125" cy="118" r="3.4" class="fl-auto"/><circle cx="181" cy="96" r="3.4" class="fl-auto"/><circle cx="237" cy="58" r="3.4" class="fl-auto"/>
+              <text x="36" y="36" class="lbl">accuracy</text>
+              <text x="236" y="40" style="fill:var(--auto)">latency</text>
+              <text x="30" y="172">benchmarked across architectures</text>
+            </svg>
+          </div>
+          <div class="body">
+            <span class="kicker">Software &bull; 2025</span>
+            <h3>APML: Analytical Predictive ML Platform</h3>
+            <p class="meta">Independent project &middot; <a href="https://github.com/UriRock/Analytical-Predictive-ML-Platform" target="_blank" rel="noopener">APML repository</a></p>
+            <p class="sum">An end-to-end predictive pipeline, from data ingestion through feature engineering to model training, that surfaces usable signal from raw tabular data. Multiple architectures are benchmarked in TensorFlow on both accuracy and inference latency, so the chosen model is defensible on more than one axis.</p>
+            <div class="chips"><span>TensorFlow</span><span>scikit-learn</span><span>Pandas</span></div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="contact">
+    <div class="wrap">
+      <h2>Get In Touch</h2>
+      <div class="contact-card">
+        <p class="intro">I'm glad to hear about research collaborations, PhD openings, and work across machine learning, autonomous systems, and computational biology.</p>
+        <div class="mails">
+          <div class="mail">
+            <div><span class="who">Research &amp; PhD</span><span class="addr">Rockwell.o@northeastern.edu</span></div>
+            <button class="copy" type="button">Copy</button>
+          </div>
+          <div class="mail">
+            <div><span class="who">General</span><span class="addr">Rockwellkorville@gmail.com</span></div>
+            <button class="copy" type="button">Copy</button>
+          </div>
+        </div>
+        <p class="where">Providence, Rhode Island &middot; <a href="https://github.com/UriRock" target="_blank" rel="noopener">github.com/UriRock</a> &middot; <a href="https://www.linkedin.com/in/orville-rockwell-jr-92806528a" target="_blank" rel="noopener">LinkedIn</a></p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="cvdlg" id="cvdlg" role="dialog" aria-modal="true" aria-labelledby="cvttl">
+  <div class="cvbox">
+    <div class="cvbar">
+      <h3 id="cvttl">Curriculum Vitae &mdash; Orville Rockwell Jr.</h3>
+      <div class="acts">
+        <a class="cvx go" id="cvopen" href="cv/Orville_Rockwell_CV.pdf" target="_blank" rel="noopener">Open PDF</a>
+        <button class="cvx" id="cvclose" type="button">Close</button>
+      </div>
+    </div>
+    <div class="cvsheet"><img src="assets/img/cv-preview.jpg" alt="Curriculum vitae of Orville Rockwell Jr., page 1" loading="lazy"></div>
+  </div>
+</div>
+
+
+<footer class="site">
+  <div class="wrap">
+    <span>&copy; <span id="yr">2026</span> Orville Rockwell Jr.</span>
+    <span><a href="cv/Orville_Rockwell_CV.pdf" download="Orville_Rockwell_CV.pdf" target="_blank" rel="noopener">Curriculum Vitae</a> &middot; Providence, RI</span>
+  </div>
+</footer>
+
+<script>
+document.getElementById("yr").textContent=new Date().getFullYear();
+
+document.querySelectorAll(".mail").forEach(function(row){
+  var addr=row.querySelector(".addr"), btn=row.querySelector(".copy");
+  if(!addr||!btn)return;
+  btn.addEventListener("click",async function(){
+    try{
+      await navigator.clipboard.writeText(addr.textContent.trim());
+      btn.textContent="Copied";
+    }catch(e){
+      var r=document.createRange();r.selectNodeContents(addr);
+      var s=getSelection();s.removeAllRanges();s.addRange(r);
+      btn.textContent="Select";
+    }
+    setTimeout(function(){btn.textContent="Copy";},1600);
+  });
+});
+
+(function(){
+  var links=Array.prototype.slice.call(document.querySelectorAll("nav.primary a"));
+  var map={};links.forEach(function(a){map[a.getAttribute("href").slice(1)]=a;});
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(e.isIntersecting){
+        links.forEach(function(a){a.classList.remove("active");});
+        var a=map[e.target.id];if(a)a.classList.add("active");
+      }
+    });
+  },{rootMargin:"-45% 0px -50% 0px"});
+  document.querySelectorAll("main section[id]").forEach(function(s){io.observe(s);});
+})();
+
+(function(){
+  var dlg=document.getElementById('cvdlg');
+  if(!dlg)return;
+  var last=null;
+  function open(e){
+    if(e){e.preventDefault();last=e.currentTarget;}
+    dlg.setAttribute('open','');document.body.classList.add('locked');
+    var c=document.getElementById('cvclose');if(c)c.focus();
+  }
+  function close(){
+    dlg.removeAttribute('open');document.body.classList.remove('locked');
+    if(last&&last.focus)last.focus();
+  }
+  document.querySelectorAll('a[href$="Orville_Rockwell_CV.pdf"]').forEach(function(a){
+    if(a.id==='cvopen')return;
+    a.addEventListener('click',open);
+  });
+  var cb=document.getElementById('cvclose');if(cb)cb.addEventListener('click',close);
+  dlg.addEventListener('click',function(e){if(e.target===dlg)close();});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&dlg.hasAttribute('open'))close();});
+})();
+</script>
+
+</body>
+</html>
