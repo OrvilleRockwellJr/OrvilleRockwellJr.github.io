@@ -250,8 +250,8 @@ body.locked{overflow:hidden}
           <div class="area bio">
             <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 19 7v8l-7 4-7-4V7z"/><path d="M12 3v4M19 15l3 2M5 15l-3 2"/><circle cx="12" cy="11" r="2"/></svg></span>
             <h3>Computational Biology</h3>
-            <p class="q">Can a model design a therapy where no library has one?</p>
-            <p class="d">Generative design guided by learned property classifiers, aimed at conditions that still lack treatments, such as lasting disability after stroke.</p>
+            <p class="q">Can a lab run its own search for a therapy?</p>
+            <p class="d">Generative design guided by learned property classifiers, and closed-loop experiment selection &mdash; autonomy applied to discovery rather than to vehicles.</p>
           </div>
         </div>
         <p class="close">All three rest on the same question: <em>how a model should behave when it cannot be certain</em>. I work on that in vision and localization first, and carry the same calibration and evaluation methods into forecasting and molecular design.</p>
@@ -351,21 +351,30 @@ body.locked{overflow:hidden}
 
         <article class="card bio">
           <div class="media fig">
-            <svg viewBox="0 0 320 200" role="img" aria-label="A double helix with mutation sites marked and a predicted stability score">
-              <path d="M20.0,78.0 L34.0,102.9 L48.0,92.3 L62.0,61.3 L76.0,54.1 L90.0,81.0 L104.0,103.6 L118.0,89.7 L132.0,59.1 L146.0,55.5 L160.0,84.0 L174.0,104.0 L188.0,86.9 L202.0,57.1 L216.0,57.2 L230.0,86.9 L244.0,104.0 L258.0,84.0 L272.0,55.5 L286.0,59.1 L300.0,89.7" class="st st-bio"/>
-              <path d="M20.0,78.0 L34.0,53.1 L48.0,63.7 L62.0,94.7 L76.0,101.9 L90.0,75.0 L104.0,52.4 L118.0,66.3 L132.0,96.9 L146.0,100.5 L160.0,72.0 L174.0,52.0 L188.0,69.1 L202.0,98.9 L216.0,98.8 L230.0,69.1 L244.0,52.0 L258.0,72.0 L272.0,100.5 L286.0,96.9 L300.0,66.3" class="st st-auto" opacity=".75"/>
-              <path d="M34.0,102.9 L34.0,53.1 M76.0,54.1 L76.0,101.9 M118.0,89.7 L118.0,66.3 M160.0,84.0 L160.0,72.0 M202.0,57.1 L202.0,98.9 M244.0,104.0 L244.0,52.0 M286.0,59.1 L286.0,96.9" class="st st-faint" stroke-width="1.2"/>
-              <circle cx="118" cy="78" r="5" class="fl-bio"/><circle cx="244" cy="78" r="5" class="fl-bio"/>
-              <text x="160" y="150" text-anchor="middle" class="lbl">&Delta;&Delta;G predicted per mutation</text>
-              <text x="160" y="170" text-anchor="middle">stability &middot; binding &middot; ranking</text>
+            <svg viewBox="0 0 320 200" role="img" aria-label="A closed loop: a model proposes candidates, a subset is tested, results return and retrain the model">
+              <defs><marker id="lp" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="fl-bio"/></marker></defs>
+              <rect x="22" y="40" width="104" height="38" rx="9" class="fl-card" stroke="var(--line-2)" stroke-width="1"/>
+              <text x="74" y="63" text-anchor="middle" class="lbl">propose</text>
+              <rect x="194" y="40" width="104" height="38" rx="9" class="fl-card" stroke="var(--line-2)" stroke-width="1"/>
+              <text x="246" y="63" text-anchor="middle" class="lbl">select batch</text>
+              <rect x="194" y="122" width="104" height="38" rx="9" class="fl-card" stroke="var(--line-2)" stroke-width="1"/>
+              <text x="246" y="145" text-anchor="middle" class="lbl">test</text>
+              <rect x="22" y="122" width="104" height="38" rx="9" class="fl-card" stroke="var(--line-2)" stroke-width="1"/>
+              <text x="74" y="145" text-anchor="middle" class="lbl">retrain</text>
+              <path d="M126 59 L188 59" class="st st-bio" marker-end="url(#lp)"/>
+              <path d="M246 78 L246 118" class="st st-bio" marker-end="url(#lp)"/>
+              <path d="M194 141 L132 141" class="st st-bio" marker-end="url(#lp)"/>
+              <path d="M74 122 L74 82" class="st st-bio" marker-end="url(#lp)"/>
+              <text x="160" y="104" text-anchor="middle">calibrated uncertainty picks the batch</text>
+              <text x="160" y="186" text-anchor="middle">experiments to recover N actives</text>
             </svg>
           </div>
           <div class="body">
-            <span class="kicker">Independent research &bull; 2026</span>
-            <h3>ProtStab-AI: Protein Stability and Binding Prediction</h3>
-            <p class="meta">Self-directed research project</p>
-            <p class="sum">A model that predicts how a mutation shifts protein stability and small-molecule binding, from sequence and structural features. It is the scoring companion to the generative work above: a way to rank and triage candidates computationally before anything reaches a bench. Built as a reproducible, benchmarked pipeline with strict train/test separation.</p>
-            <div class="chips"><span>Representation learning</span><span>Protein features</span><span>Ranking metrics</span></div>
+            <span class="kicker">Independent research &bull; in progress</span>
+            <h3>Calibration-Aware Active Learning for Closed-Loop Discovery</h3>
+            <p class="meta">Self-directed &middot; <em>bridges autonomous decision-making and computational biology</em></p>
+            <p class="sum">A self-driving lab is a control loop: a model proposes candidates, a system tests a subset, and the results retrain the model. That loop has to choose what to test next under uncertainty &mdash; the same problem as deciding where a robot is when its signals are noisy. I am running a simulated version over public bioactivity data to test whether the <em>calibration</em> of the scoring model, rather than its ranking accuracy, governs how many experiments the loop needs. Results pending.</p>
+            <div class="chips"><span>Active learning</span><span>Conformal prediction</span><span>Sequential decisions</span><span>Cheminformatics</span></div>
           </div>
         </article>
 
