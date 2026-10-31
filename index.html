@@ -45,7 +45,7 @@
 :root{
   --bg:#0A0C11; --card:#11151C; --card-2:#151A22; --fig:#0D1117;
   --line:#222935; --line-2:#2C3442;
-  --fg:#ECEFF4; --muted:#A2AAB6; --faint:#6F7886;
+  --fg:#ECEFF4; --muted:#A2AAB6; --faint:#8A939F;
   --auto:#5CCADA; --ml:#929FFF; --bio:#EE92B6;
   --auto-bg:rgba(92,202,218,.12); --ml-bg:rgba(146,159,255,.13); --bio-bg:rgba(238,146,182,.12);
   --sans:"Inter","Helvetica Neue",Arial,sans-serif;
@@ -70,7 +70,9 @@ header.site{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;backgrou
 header.site .wrap{display:flex;align-items:center;justify-content:space-between;gap:14px;padding-block:12px;flex-wrap:wrap}
 .brand{font-weight:700;font-size:16px;letter-spacing:-.01em;color:var(--fg)}
 .brand:hover{text-decoration:none}
-nav.primary{display:flex;gap:2px;flex-wrap:wrap}
+nav.primary{display:flex;gap:2px;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none;max-width:100%}
+nav.primary::-webkit-scrollbar{display:none}
+nav.primary a{white-space:nowrap}
 nav.primary a{font-size:14px;font-weight:500;color:var(--muted);padding:7px 11px;border-radius:9px}
 nav.primary a:hover{color:var(--fg);background:var(--card);text-decoration:none}
 nav.primary a.active{color:var(--fg);background:var(--card-2)}
@@ -129,7 +131,7 @@ section.block h2{font-size:clamp(26px,3.4vw,32px);font-weight:800;letter-spacing
 .card.auto{--t:var(--auto);--tbg:var(--auto-bg)}
 .card.bio{--t:var(--bio);--tbg:var(--bio-bg)}
 .media{position:relative;aspect-ratio:16/10;max-width:100%;background-color:var(--fig);background-image:radial-gradient(rgba(255,255,255,.05) 1px,transparent 1px);background-size:14px 14px;border-bottom:1px solid var(--line);overflow:hidden}
-.media.photo{background:#fff}
+.media.photo{background:var(--card)}
 .media img{width:100%;height:100%;object-fit:cover;display:block}
 .media svg{position:absolute;inset:0;width:100%;height:100%}
 .credit{position:absolute;left:10px;bottom:10px;font-size:11px;font-weight:500;color:#E9EDF3;background:rgba(8,10,14,.72);border-radius:7px;padding:3px 8px}
@@ -139,6 +141,7 @@ section.block h2{font-size:clamp(26px,3.4vw,32px);font-weight:800;letter-spacing
 .card h3{font-size:18px;font-weight:700;letter-spacing:-.015em;line-height:1.3}
 .meta{font-size:13.5px;color:var(--faint);line-height:1.5}
 .meta b{color:var(--muted);font-weight:600}
+.meta a,.where a,footer.site a{display:inline-block;padding:7px 2px;margin:-7px 0;line-height:1.2}
 .sum{font-size:14.5px;color:var(--muted);line-height:1.65}
 .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;padding-top:8px}
 .chips span{font-size:12px;font-weight:500;color:var(--fg);background:var(--tbg);border-radius:7px;padding:3px 9px}
@@ -372,7 +375,7 @@ body.locked{overflow:hidden}
           <div class="body">
             <span class="kicker">Independent research &bull; in progress</span>
             <h3>Calibration-Aware Active Learning for Closed-Loop Discovery</h3>
-            <p class="meta">Self-directed &middot; <em>bridges autonomous decision-making and computational biology</em></p>
+            <p class="meta">Self-directed &middot;&nbsp;<em>bridges autonomous decision-making and computational biology</em></p>
             <p class="sum">A self-driving lab is a control loop: a model proposes candidates, a system tests a subset, and the results retrain the model. That loop has to choose what to test next under uncertainty &mdash; the same problem as deciding where a robot is when its signals are noisy. I am running a simulated version over public bioactivity data to test whether the <em>calibration</em> of the scoring model, rather than its ranking accuracy, governs how many experiments the loop needs. Results pending.</p>
             <div class="chips"><span>Active learning</span><span>Conformal prediction</span><span>Sequential decisions</span><span>Cheminformatics</span></div>
           </div>
