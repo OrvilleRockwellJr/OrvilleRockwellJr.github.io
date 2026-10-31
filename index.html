@@ -15,13 +15,14 @@
 <meta property="og:title" content="Orville Rockwell Jr.">
 <meta property="og:description" content="Orville Rockwell Jr. is a Master's student in Applied Artificial Intelligence at Northeastern University, working on machine learning, autonomous systems, and computational biology.">
 <meta property="og:url" content="https://OrvilleRockwellJr.github.io/">
-<meta property="og:image" content="https://OrvilleRockwellJr.github.io/assets/img/og.png">
+<meta property="og:image" content="https://OrvilleRockwellJr.github.io/assets/img/og.jpg">
+<meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Orville Rockwell Jr.">
 <meta name="twitter:description" content="Orville Rockwell Jr. is a Master's student in Applied Artificial Intelligence at Northeastern University, working on machine learning, autonomous systems, and computational biology.">
-<meta name="twitter:image" content="https://OrvilleRockwellJr.github.io/assets/img/og.png">
+<meta name="twitter:image" content="https://OrvilleRockwellJr.github.io/assets/img/og.jpg">
 <script type="application/ld+json">{
   "@context": "https://schema.org",
   "@type": "Person",
@@ -300,7 +301,7 @@ body.locked{overflow:hidden}
             <span class="kicker">Independent research &bull; 2026</span>
             <h3>Generative Drug Design for Post-Stroke Repair</h3>
             <p class="meta"><b>Applied AI (AAI 6600)</b> &middot; Northeastern University</p>
-            <p class="sum">Most stroke survivors miss the treatment window and live with lasting disability, and scar tissue blocks nerve regrowth. This fully computational pipeline proposes candidates and scores each one for barrier crossing, target activity, and safety; the combined score becomes the reinforcement-learning reward that retrains the generator. Scaffold-split validation and a held-out judging classifier guard against circular scoring. Outputs are predictions for laboratory testing, not findings.</p>
+            <p class="sum">Most stroke survivors miss the treatment window and keep lasting disability, because scar tissue blocks nerve regrowth. A fully computational pipeline proposes candidate compounds and scores each for barrier crossing, target activity and safety; the combined score is the reinforcement-learning reward that retrains the generator. Scaffold-split validation and a held-out judging classifier prevent circular scoring. Outputs are predictions for the lab to test, not findings.</p>
             <div class="chips"><span>Generative models</span><span>Reinforcement learning</span><span>Scaffold-split eval</span></div>
           </div>
         </article>
@@ -321,7 +322,7 @@ body.locked{overflow:hidden}
             <span class="kicker">Graduate research &bull; 2026</span>
             <h3>VAD-LSTM: Volatility-Aware Distributional Forecasting</h3>
             <p class="meta"><b>Applied Deep Learning (AAI 6640)</b> &middot; Northeastern University &middot; team lead, 4 members</p>
-            <p class="sum">A recurrent network that forecasts a full probability distribution instead of a point estimate, so any threshold question is read straight off the model. It extends the GARCH&ndash;LSTM equivalence of Zhao et al. (2024) with an in-cell variance recursion and a heavy-tailed Student-t output head, validated with purged walk-forward splits, isotonic recalibration, and conformal coverage. I led the team and owned the ten-year point-in-time dataset.</p>
+            <p class="sum">A recurrent network that forecasts a full probability distribution rather than a point estimate, so any threshold question is read straight off the model. It extends the GARCH&ndash;LSTM equivalence of Zhao et al. (2024) with an in-cell variance recursion and a Student-t output head, validated with purged walk-forward splits, isotonic recalibration and conformal coverage. I led the team and owned the ten-year dataset.</p>
             <div class="chips"><span>TensorFlow Probability</span><span>Sequence models</span><span>Calibration</span><span>Pinned envs &amp; fixed seeds</span></div>
           </div>
         </article>
@@ -373,11 +374,11 @@ body.locked{overflow:hidden}
             </svg>
           </div>
           <div class="body">
-            <span class="kicker">Independent research &bull; in progress</span>
+            <span class="kicker">Independent research &bull; preliminary result</span>
             <h3>Calibration-Aware Active Learning for Closed-Loop Discovery</h3>
             <p class="meta">Self-directed &middot;&nbsp;<em>bridges autonomous decision-making and computational biology</em></p>
-            <p class="sum">A self-driving lab is a control loop: a model proposes candidates, a system tests a subset, and the results retrain the model. That loop has to choose what to test next under uncertainty &mdash; the same problem as deciding where a robot is when its signals are noisy. I am running a simulated version over public bioactivity data to test whether the <em>calibration</em> of the scoring model, rather than its ranking accuracy, governs how many experiments the loop needs. Results pending.</p>
-            <div class="chips"><span>Active learning</span><span>Conformal prediction</span><span>Sequential decisions</span><span>Cheminformatics</span></div>
+            <p class="sum">A self-driving lab is a control loop: a model proposes candidates, a system tests a subset, and the results retrain the model. Choosing what to test next under uncertainty is the same problem as locating a robot from noisy signals. I simulated the loop over 2,311 PTP1B inhibitors from ChEMBL and asked whether <em>calibrating</em> the scoring models makes it more efficient. It does not &mdash; 35.5 &plusmn; 3.5 hits versus 35.3 &plusmn; 4.2 at a 360-experiment budget &mdash; and for single-objective selection it actively hurts. The cause is tie-creation: isotonic regression collapses 1,844 distinct scores into 74, leaving 100 molecules tied at exactly 1.000, so the next batch is picked arbitrarily among them. One target, 8 seeds; reported as the negative result it is.</p>
+            <div class="chips"><span>Active learning</span><span>Calibration</span><span>Sequential decisions</span><span>ChEMBL / RDKit</span></div>
           </div>
         </article>
 
