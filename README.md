@@ -33,20 +33,23 @@ the old version — Pages caches aggressively.
 
 ## Editing the content
 
-Everything is in `index.html`. Sections in order: hero, Research Interests, Research,
-Projects, Get In Touch.
+Everything is in `index.html`. Sections in order: hero, Research focus, News, Research,
+Projects, Contact.
 
-- **Add a research or project card** — copy an existing `<article class="card ...">` block
-  and edit it. The second class sets the color: `card auto` (cyan, autonomous systems),
-  `card ml` (indigo, machine learning), `card bio` (rose, computational biology). The grid
-  reflows on its own.
+- **Add a news item** — copy an `<li>` in the News list; keep the newest first and update the
+  "Last updated" line in the footer.
+- **Add a research or project entry** — copy an existing `<article class="entry">` block.
+  The colored dot before the title marks the thread: `var(--cv)` (cobalt, method),
+  `var(--auto)` (teal, autonomous systems), `var(--bio)` (rose, computational biology).
+- **Status tags** — `status live` (teal, ongoing), `status result` (rose, has a result),
+  plain `status` (grey, in progress).
 - **Change the palette** — the `:root` block at the top of the `<style>`.
 - **Swap the portrait** — replace `assets/img/profile.jpg`; square crops work best.
 - **Update the CV** — replace `cv/Orville_Rockwell_CV.pdf`, and regenerate
   `assets/img/cv-preview.jpg` (a 150 dpi render of page 1) so the in-page viewer matches.
 
-One caution: the CSS classes `auto`, `ml` and `bio` carry the thread colors. Don't reuse
-those names for anything else or the styles will collide.
+The calibration-board figure on the Brown entry animates once when it scrolls into view
+(skipped under reduced motion).
 
 ## Custom domain (optional)
 
