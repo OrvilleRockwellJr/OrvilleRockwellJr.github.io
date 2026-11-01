@@ -6,7 +6,7 @@
 <title>Orville Rockwell Jr.</title>
 <meta name="description" content="Orville Rockwell Jr. is a Master's student in Applied Artificial Intelligence at Northeastern University, working on computer vision for autonomous systems and computational biology.">
 <meta name="author" content="Orville Rockwell Jr.">
-<meta name="theme-color" content="#FFFFFF">
+<meta name="theme-color" content="#14305A">
 <link rel="canonical" href="https://OrvilleRockwellJr.github.io/">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
@@ -54,7 +54,7 @@
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-body{margin:0;border-top:4px solid transparent;border-image:linear-gradient(90deg,var(--cv) 0 33.3%,var(--auto) 33.3% 66.6%,var(--bio) 66.6%) 1;background:var(--paper);color:var(--ink);font-family:var(--serif);font-size:18px;line-height:1.62;font-optical-sizing:auto;-webkit-font-smoothing:antialiased}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--serif);font-size:18px;line-height:1.62;font-optical-sizing:auto;-webkit-font-smoothing:antialiased}
 a{color:var(--cv);text-decoration:underline;text-decoration-color:color-mix(in srgb,var(--cv) 35%,transparent);text-underline-offset:3px;text-decoration-thickness:1px}
 a:hover{text-decoration-color:var(--cv)}
 a:focus-visible{outline:2px solid var(--cv);outline-offset:3px;border-radius:2px}
@@ -63,9 +63,27 @@ p{margin:0}
 .skip:focus{left:0}
 .page{max-width:calc(var(--col) + 14rem);margin:0 auto;padding:0 max(22px,env(safe-area-inset-left,0px)) 0 max(22px,env(safe-area-inset-right,0px))}
 
+/* masthead: deep cobalt band with the three thread colors along its lower edge */
+:root{--navy:#14305A;--navy-2:#0F2547;--on:#FFFFFF;--on-2:#D4DEEC;--on-3:#A9BDD9;--cv-bg:#EAF0F8;--auto-bg:#E6F3F3;--bio-bg:#F8E9EF}
+.mast{background:radial-gradient(120% 140% at 85% -10%,#1E4A85 0%,var(--navy) 45%,var(--navy-2) 100%);color:var(--on);position:relative}
+.mast::after{content:"";position:absolute;left:0;right:0;bottom:0;height:5px;background:linear-gradient(90deg,#3E7BD0 0 33.3%,#1AA3AA 33.3% 66.6%,#D9568A 66.6%)}
+.mast a{color:#BFD5F7;text-decoration-color:rgba(191,213,247,.45)}
+.mast a:hover{text-decoration-color:#BFD5F7}
+.mast a:focus-visible{outline-color:#fff}
+.mast .top a{color:var(--on-3)}
+.mast .top a:hover{color:#fff}
+.mast .hero{border-bottom:0;padding-bottom:56px}
+.mast h1{color:#fff}
+.mast .role{color:var(--on-3)}
+.mast .focusline{color:#fff}
+.mast .bio{color:var(--on-2)}
+.mast .bio strong{color:#fff}
+.mast .portrait{box-shadow:0 0 0 4px rgba(255,255,255,.12),0 18px 40px rgba(4,12,28,.45)}
+
 /* top line */
 .top{display:flex;justify-content:flex-end;gap:22px;padding:22px 0 0;font-family:var(--sans);font-size:14px}
-.top a{color:var(--muted);text-decoration:none}
+.top a{color:var(--muted);text-decoration:none;white-space:nowrap}
+@media (max-width:540px){.top{justify-content:flex-start;flex-wrap:wrap;gap:6px 18px;font-size:13.5px}}
 .top a:hover{color:var(--ink)}
 
 /* hero */
@@ -82,7 +100,8 @@ h1{font-size:clamp(2.3rem,5.2vw,3.1rem);font-weight:700;letter-spacing:-.015em;l
 /* sections */
 section{padding:40px 0 8px}
 main section[id]{scroll-margin-top:16px}
-h2{font-size:1.5rem;font-weight:600;letter-spacing:-.01em;margin:0 0 20px}
+h2{font-size:1.5rem;font-weight:600;letter-spacing:-.01em;margin:0 0 20px;color:var(--navy)}
+h2::after{content:"";display:block;width:36px;height:3px;border-radius:2px;margin-top:8px;background:linear-gradient(90deg,var(--cv) 0 33.3%,var(--auto) 33.3% 66.6%,var(--bio) 66.6%)}
 .sub{font-family:var(--sans);font-size:14.5px;color:var(--muted);margin:-12px 0 22px;max-width:var(--col)}
 
 /* research focus */
@@ -97,14 +116,14 @@ h2{font-size:1.5rem;font-weight:600;letter-spacing:-.01em;margin:0 0 20px}
 /* news */
 .news{list-style:none;margin:0;padding:0;max-width:calc(var(--col) + 7rem)}
 .news li{display:grid;grid-template-columns:6.5rem minmax(0,1fr);gap:16px;padding:7px 0}
-.news time{font-family:var(--sans);font-size:14.5px;color:var(--faint);padding-top:2px;font-variant-numeric:tabular-nums}
+.news time{font-family:var(--sans);font-size:14.5px;font-weight:500;color:var(--cv);padding-top:2px;font-variant-numeric:tabular-nums}
 @media (max-width:540px){.news li{grid-template-columns:1fr;gap:0}}
 
 /* entries */
 .entries{display:flex;flex-direction:column;gap:34px}
 .entry{display:grid;grid-template-columns:1fr;gap:14px}
 @media (min-width:760px){.entry{grid-template-columns:16.5rem minmax(0,1fr);gap:30px}}
-.thumb{position:relative;aspect-ratio:16/10;background:var(--wash);border:1px solid var(--rule);border-radius:4px;overflow:hidden;max-width:24rem}
+.thumb{position:relative;aspect-ratio:16/10;background:var(--tbg,var(--wash));border:1px solid color-mix(in srgb,var(--t,var(--cv)) 22%,#fff);border-radius:4px;overflow:hidden;max-width:24rem}
 .thumb img{width:100%;height:100%;object-fit:cover;display:block}
 .thumb svg{position:absolute;inset:0;width:100%;height:100%}
 .entry h3{font-size:1.18rem;font-weight:600;line-height:1.3;margin:0;display:flex;gap:10px;align-items:baseline}
@@ -120,15 +139,20 @@ h2{font-size:1.5rem;font-weight:600;letter-spacing:-.01em;margin:0 0 20px}
 /* key line under each entry: the one sentence a skimmer should leave with */
 .key{margin-top:12px;padding:2px 0 2px 14px;border-left:3px solid var(--t,var(--cv));font-size:17px;max-width:var(--col)}
 .key b{font-weight:600}
-.entry.t-auto{--t:var(--auto)} .entry.t-bio{--t:var(--bio)} .entry.t-cv{--t:var(--cv)}
+.entry.t-auto{--t:var(--auto);--tbg:var(--auto-bg)} .entry.t-bio{--t:var(--bio);--tbg:var(--bio-bg)} .entry.t-cv{--t:var(--cv);--tbg:var(--cv-bg)}
+.entry h3{color:var(--ink)}
+.key{background:color-mix(in srgb,var(--t,var(--cv)) 5%,#fff);padding:10px 14px 10px 16px;border-radius:0 4px 4px 0}
 
 /* questions I want to pursue */
-.qs{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:22px;max-width:calc(var(--col) + 4rem)}
+.qs{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:14px}
 .qs li{display:grid;grid-template-columns:12px minmax(0,1fr);gap:0 16px}
 .qs .mk{width:10px;height:10px;border-radius:50%;margin-top:.7em}
 .qs q{display:block;font-size:1.24rem;font-style:italic;line-height:1.4;quotes:none}
 .qs p{color:var(--muted);margin-top:6px;font-size:16.5px}
-.agenda{background:var(--wash);border-radius:6px;padding:30px 30px 32px;margin-top:8px}
+.agenda{background:linear-gradient(135deg,var(--cv-bg),#F1F4FA 55%,var(--bio-bg));border-radius:8px;padding:26px;margin-top:8px}
+.qs li{background:#fff;border-radius:6px;padding:18px 20px 18px 18px;box-shadow:0 1px 2px rgba(20,48,90,.06);border-left:4px solid var(--qc)}
+.qs li .mk{display:none}
+.qs li{grid-template-columns:minmax(0,1fr)!important}
 @media (max-width:540px){.agenda{padding:22px 18px 24px;margin-left:-6px;margin-right:-6px}}
 
 /* compact projects */
@@ -166,11 +190,14 @@ h2{font-size:1.5rem;font-weight:600;letter-spacing:-.01em;margin:0 0 20px}
 .contact dt{color:var(--faint)}
 .contact dd{margin:0;word-break:break-word}
 @media (max-width:540px){.contact dl{grid-template-columns:1fr;gap:0}.contact dd{margin-bottom:8px}}
-footer{margin-top:48px;border-top:1px solid var(--rule);padding:20px 0 40px;font-family:var(--sans);font-size:13.5px;color:var(--faint);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+footer{margin-top:56px;background:var(--navy-2);color:var(--on-3);font-family:var(--sans);font-size:13.5px;position:relative}
+footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;background:linear-gradient(90deg,#3E7BD0 0 33.3%,#1AA3AA 33.3% 66.6%,#D9568A 66.6%)}
+.foot{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-top:26px;padding-bottom:36px}
 </style>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
+<div class="mast">
 <div class="page">
   <nav class="top" aria-label="Sections">
     <a href="#research">Research</a>
@@ -180,8 +207,7 @@ footer{margin-top:48px;border-top:1px solid var(--rule);padding:20px 0 40px;font
     <a href="cv/Orville_Rockwell_CV.pdf" target="_blank" rel="noopener">CV</a>
   </nav>
 
-  <main id="main">
-    <header class="hero">
+    <header class="hero" id="main">
       <img class="portrait" src="assets/img/profile.jpg" alt="Orville Rockwell Jr.">
       <div>
         <h1>Orville Rockwell Jr.</h1>
@@ -200,6 +226,10 @@ footer{margin-top:48px;border-top:1px solid var(--rule);padding:20px 0 40px;font
         </p>
       </div>
     </header>
+</div>
+</div>
+<div class="page">
+  <main>
 
     <section id="focus">
       <h2>Research focus</h2>
@@ -392,9 +422,9 @@ footer{margin-top:48px;border-top:1px solid var(--rule);padding:20px 0 40px;font
       <p class="sub">What I would like to work on in a PhD, each one grown out of the work above.</p>
       <div class="agenda">
         <ol class="qs">
-          <li><span class="mk" style="background:var(--cv)" aria-hidden="true"></span><div><q>How stable are multiview estimates when calibration is slightly off, and how should that error carry into the decisions built on them?</q><p>At Brown I calibrate a multi-camera array; in closed-loop discovery, a small calibration artifact changed which experiments got run. Both point to the same problem: small, invisible errors turning into confident downstream choices.</p></div></li>
-          <li><span class="mk" style="background:var(--auto)" aria-hidden="true"></span><div><q>Can a drone keep localizing from many synchronized cameras when GPS is gone and fast motion leaves each view blurry and feature-poor?</q><p>This is the setting my Brown work feeds into. The underwater ROV faces a cousin of it: murky water with little texture to track.</p></div></li>
-          <li><span class="mk" style="background:var(--bio)" aria-hidden="true"></span><div><q>Can a closed discovery loop observe biology through images, not only assay numbers?</q><p>Microscopy and organism tracking would let the same perceive-decide-act loop see the effect of each experiment directly.</p></div></li>
+          <li style="--qc:var(--cv)"><span class="mk" aria-hidden="true"></span><div><q>How stable are multiview estimates when calibration is slightly off, and how should that error carry into the decisions built on them?</q><p>At Brown I calibrate a multi-camera array; in closed-loop discovery, a small calibration artifact changed which experiments got run. Both point to the same problem: small, invisible errors turning into confident downstream choices.</p></div></li>
+          <li style="--qc:var(--auto)"><span class="mk" aria-hidden="true"></span><div><q>Can a drone keep localizing from many synchronized cameras when GPS is gone and fast motion leaves each view blurry and feature-poor?</q><p>This is the setting my Brown work feeds into. The underwater ROV faces a cousin of it: murky water with little texture to track.</p></div></li>
+          <li style="--qc:var(--bio)"><span class="mk" aria-hidden="true"></span><div><q>Can a closed discovery loop observe biology through images, not only assay numbers?</q><p>Microscopy and organism tracking would let the same perceive-decide-act loop see the effect of each experiment directly.</p></div></li>
         </ol>
       </div>
     </section>
@@ -430,11 +460,13 @@ footer{margin-top:48px;border-top:1px solid var(--rule);padding:20px 0 40px;font
     </section>
   </main>
 
-  <footer>
+</div>
+<footer>
+  <div class="page foot">
     <span>&copy; 2026 Orville Rockwell Jr.</span>
     <span>Last updated November 2026</span>
-  </footer>
-</div>
+  </div>
+</footer>
 
 <script>
 (function(){
