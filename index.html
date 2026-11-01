@@ -65,7 +65,7 @@ p{margin:0}
 
 /* masthead: deep cobalt band with the three thread colors along its lower edge */
 :root{--navy:#14305A;--navy-2:#0F2547;--on:#FFFFFF;--on-2:#D4DEEC;--on-3:#A9BDD9;--cv-bg:#EAF0F8;--auto-bg:#E6F3F3;--bio-bg:#F8E9EF}
-.mast{background:radial-gradient(120% 140% at 85% -10%,#1E4A85 0%,var(--navy) 45%,var(--navy-2) 100%);color:var(--on);position:relative}
+.mast{overflow:hidden;background:radial-gradient(120% 140% at 85% -10%,#1E4A85 0%,var(--navy) 45%,var(--navy-2) 100%);color:var(--on);position:relative}
 .mast::after{content:"";position:absolute;left:0;right:0;bottom:0;height:5px;background:linear-gradient(90deg,#3E7BD0 0 33.3%,#1AA3AA 33.3% 66.6%,#D9568A 66.6%)}
 .mast a{color:#BFD5F7;text-decoration-color:rgba(191,213,247,.45)}
 .mast a:hover{text-decoration-color:#BFD5F7}
@@ -80,6 +80,16 @@ p{margin:0}
 .mast .bio strong{color:#fff}
 .mast .portrait{box-shadow:0 0 0 4px rgba(255,255,255,.12),0 18px 40px rgba(4,12,28,.45)}
 
+/* masthead illustration: cameras on a flight path observing a sparse 3D point cloud */
+.mvg{position:absolute;right:-90px;top:30px;width:min(470px,38vw);height:auto;pointer-events:none;opacity:.42;z-index:0;-webkit-mask-image:linear-gradient(100deg,transparent 8%,#000 45%),linear-gradient(180deg,#000 55%,transparent 92%);-webkit-mask-composite:source-in;mask-image:linear-gradient(100deg,transparent 8%,#000 45%),linear-gradient(180deg,#000 55%,transparent 92%);mask-composite:intersect}
+.m-pt{fill:#7FA6E6}.m-pt.s{fill:#C9DBFA}
+.m-ray{stroke:#D9568A;stroke-width:.8;opacity:.55}
+.m-traj{fill:none;stroke:#1AA3AA;stroke-width:1.4;stroke-dasharray:3 4}
+.m-fr{fill:none;stroke:#5CC8CF;stroke-width:1}
+.m-cam{fill:#5CC8CF}
+.mast .page{position:relative;z-index:1}
+@media (max-width:900px){.mvg{display:none}}
+
 /* top line */
 .top{display:flex;justify-content:flex-end;gap:22px;padding:22px 0 0;font-family:var(--sans);font-size:14px}
 .top a{color:var(--muted);text-decoration:none;white-space:nowrap}
@@ -90,7 +100,7 @@ p{margin:0}
 .hero{display:grid;grid-template-columns:1fr;gap:26px;padding:44px 0 40px;border-bottom:1px solid var(--rule)}
 @media (min-width:760px){.hero{grid-template-columns:11.5rem minmax(0,1fr);gap:42px;align-items:start;padding-top:64px}}
 .portrait{width:11.5rem;max-width:58vw;aspect-ratio:4/5;object-fit:cover;object-position:50% 20%;border-radius:4px;display:block;background:var(--wash)}
-h1{font-size:clamp(2.3rem,5.2vw,3.1rem);font-weight:700;letter-spacing:-.015em;line-height:1.05;margin:0}
+h1{font-size:clamp(2.4rem,5.6vw,3.4rem);font-weight:700;letter-spacing:-.015em;line-height:1.05;margin:0}
 .role{font-family:var(--sans);font-size:15.5px;color:var(--muted);margin-top:10px;line-height:1.5}
 .focusline{font-size:1.32rem;font-style:italic;margin-top:18px;line-height:1.4;color:var(--ink)}
 .bio{margin-top:16px;max-width:var(--col)}
@@ -112,6 +122,22 @@ h2::after{content:"";display:block;width:36px;height:3px;border-radius:2px;margi
 .threads span.d{color:var(--muted)}
 @media (max-width:640px){.threads li{grid-template-columns:12px minmax(0,1fr)}.threads span.d{grid-column:2}}
 .mk.cv{background:var(--cv)} .mk.auto{background:var(--auto)} .mk.bio{background:var(--bio)}
+
+/* research areas */
+.areas{display:grid;grid-template-columns:1fr;gap:16px;margin:0;padding:0;list-style:none}
+@media (min-width:860px){.areas{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.area{border-top:3px solid var(--ac);background:linear-gradient(180deg,color-mix(in srgb,var(--ac) 7%,#fff),#fff 70%);border-radius:0 0 6px 6px;padding:18px 18px 20px;box-shadow:0 1px 0 var(--rule),inset 0 0 0 1px var(--rule)}
+.area h3{font-size:1.12rem;font-weight:600;margin:0;color:var(--navy)}
+.area p{font-size:16px;margin-top:8px;color:var(--ink)}
+.area p.methods{margin-top:10px;font-family:var(--sans);font-size:13.5px;color:var(--faint)}
+.lead{max-width:calc(var(--col) + 6rem);margin:-4px 0 22px;font-size:17.5px}
+
+/* methods and tools */
+.tools{display:grid;grid-template-columns:1fr;gap:14px 28px;margin:0}
+@media (min-width:760px){.tools{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.tools div{border-left:2px solid var(--rule);padding-left:14px}
+.tools dt{font-weight:600;color:var(--navy)}
+.tools dd{margin:3px 0 0;font-family:var(--sans);font-size:14.5px;color:var(--muted);line-height:1.55}
 
 /* news */
 .news{list-style:none;margin:0;padding:0;max-width:calc(var(--col) + 7rem)}
@@ -198,8 +224,228 @@ footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;back
 <body>
 <a class="skip" href="#main">Skip to content</a>
 <div class="mast">
+<svg class="mvg" viewBox="-320 200 660 380" aria-hidden="true" focusable="false">
+<line x1="-166.9" y1="282.3" x2="-12.9" y2="479.4" class="m-ray"/>
+<line x1="-166.9" y1="282.3" x2="130.5" y2="454.6" class="m-ray"/>
+<line x1="-166.9" y1="282.3" x2="170.2" y2="434.4" class="m-ray"/>
+<line x1="-166.9" y1="282.3" x2="-46.5" y2="464.2" class="m-ray"/>
+<line x1="-39.2" y1="243.7" x2="-13.1" y2="534.5" class="m-ray"/>
+<line x1="-39.2" y1="243.7" x2="-42.0" y2="523.8" class="m-ray"/>
+<line x1="-39.2" y1="243.7" x2="76.6" y2="450.0" class="m-ray"/>
+<line x1="-39.2" y1="243.7" x2="78.2" y2="451.9" class="m-ray"/>
+<line x1="102.4" y1="232.4" x2="130.5" y2="454.6" class="m-ray"/>
+<line x1="102.4" y1="232.4" x2="170.2" y2="434.4" class="m-ray"/>
+<line x1="102.4" y1="232.4" x2="-46.5" y2="464.2" class="m-ray"/>
+<line x1="102.4" y1="232.4" x2="75.2" y2="448.9" class="m-ray"/>
+<line x1="216.7" y1="270.2" x2="-12.9" y2="479.4" class="m-ray"/>
+<line x1="216.7" y1="270.2" x2="130.5" y2="454.6" class="m-ray"/>
+<line x1="216.7" y1="270.2" x2="170.2" y2="434.4" class="m-ray"/>
+<line x1="216.7" y1="270.2" x2="-46.5" y2="464.2" class="m-ray"/>
+<line x1="289.0" y1="316.5" x2="-13.1" y2="534.5" class="m-ray"/>
+<line x1="289.0" y1="316.5" x2="-42.0" y2="523.8" class="m-ray"/>
+<line x1="289.0" y1="316.5" x2="76.6" y2="450.0" class="m-ray"/>
+<line x1="289.0" y1="316.5" x2="78.2" y2="451.9" class="m-ray"/>
+<polyline class="m-traj" points="-189.1,289.2 -178.5,286.0 -167.1,282.4 -154.8,278.4 -141.9,274.1 -128.2,269.7 -113.8,265.0 -98.9,260.3 -83.6,255.6 -67.8,251.1 -51.6,246.8 -35.3,242.8 -18.7,239.2 -2.2,236.1 14.4,233.6 30.9,231.7 47.3,230.6 63.4,230.2 79.2,230.5 94.8,231.6 109.9,233.4 124.7,235.9 139.0,239.1 152.8,243.0 166.1,247.3 178.9,252.2 191.2,257.5 202.9,263.0 214.1,268.8 224.7,274.7 234.7,280.6 244.1,286.5 253.0,292.2 261.3,297.7 269.1,303.0 276.3,307.9 283.0,312.4 289.1,316.6 294.8,320.3 299.9,323.6"/>
+<circle cx="-305.2" cy="494.4" r="1.5" class="m-pt"/>
+<circle cx="-277.4" cy="504.7" r="1.5" class="m-pt"/>
+<circle cx="-231.2" cy="498.7" r="1.5" class="m-pt"/>
+<circle cx="-207.5" cy="493.8" r="1.5" class="m-pt"/>
+<circle cx="-189.9" cy="479.7" r="1.5" class="m-pt"/>
+<circle cx="-169.4" cy="464.0" r="1.5" class="m-pt"/>
+<circle cx="-153.2" cy="459.1" r="1.5" class="m-pt"/>
+<circle cx="-132.6" cy="444.0" r="1.5" class="m-pt"/>
+<circle cx="-117.6" cy="438.2" r="1.5" class="m-pt"/>
+<circle cx="-104.1" cy="439.4" r="1.5" class="m-pt"/>
+<circle cx="-98.0" cy="445.2" r="1.5" class="m-pt"/>
+<circle cx="-243.9" cy="517.5" r="1.5" class="m-pt"/>
+<circle cx="-213.5" cy="516.9" r="1.5" class="m-pt"/>
+<circle cx="-190.9" cy="514.6" r="1.5" class="m-pt"/>
+<circle cx="-166.4" cy="509.6" r="1.5" class="m-pt"/>
+<circle cx="-143.9" cy="498.1" r="1.5" class="m-pt"/>
+<circle cx="-118.9" cy="479.7" r="1.5" class="m-pt"/>
+<circle cx="-111.6" cy="467.8" r="1.5" class="m-pt"/>
+<circle cx="-95.6" cy="454.7" r="1.5" class="m-pt"/>
+<circle cx="-81.9" cy="447.0" r="1.5" class="m-pt"/>
+<circle cx="-78.9" cy="447.4" r="1.5" class="m-pt"/>
+<circle cx="-72.6" cy="453.5" r="1.5" class="m-pt"/>
+<circle cx="-186.9" cy="530.1" r="1.5" class="m-pt"/>
+<circle cx="-169.4" cy="540.5" r="1.5" class="m-pt"/>
+<circle cx="-145.8" cy="532.0" r="1.5" class="m-pt"/>
+<circle cx="-129.3" cy="519.3" r="1.5" class="m-pt"/>
+<circle cx="-103.7" cy="508.3" r="1.5" class="m-pt"/>
+<circle cx="-93.2" cy="492.8" r="1.5" class="m-pt"/>
+<circle cx="-85.2" cy="478.0" r="1.5" class="m-pt"/>
+<circle cx="-64.6" cy="467.2" r="1.5" class="m-pt"/>
+<circle cx="-57.7" cy="460.1" r="1.5" class="m-pt"/>
+<circle cx="-51.3" cy="456.0" r="1.5" class="m-pt"/>
+<circle cx="-46.5" cy="464.2" r="2.4" class="m-pt s"/>
+<circle cx="-144.9" cy="560.3" r="1.5" class="m-pt"/>
+<circle cx="-107.6" cy="548.1" r="1.5" class="m-pt"/>
+<circle cx="-101.8" cy="545.8" r="1.5" class="m-pt"/>
+<circle cx="-88.1" cy="533.4" r="1.5" class="m-pt"/>
+<circle cx="-78.0" cy="517.1" r="1.5" class="m-pt"/>
+<circle cx="-65.0" cy="502.2" r="1.5" class="m-pt"/>
+<circle cx="-46.4" cy="489.4" r="1.5" class="m-pt"/>
+<circle cx="-42.5" cy="475.5" r="1.5" class="m-pt"/>
+<circle cx="-37.3" cy="473.8" r="1.5" class="m-pt"/>
+<circle cx="-25.9" cy="472.3" r="1.5" class="m-pt"/>
+<circle cx="-23.9" cy="467.1" r="1.5" class="m-pt"/>
+<circle cx="-92.5" cy="552.0" r="1.5" class="m-pt"/>
+<circle cx="-70.8" cy="547.0" r="1.5" class="m-pt"/>
+<circle cx="-63.2" cy="547.7" r="1.5" class="m-pt"/>
+<circle cx="-49.1" cy="539.6" r="1.5" class="m-pt"/>
+<circle cx="-42.0" cy="523.8" r="2.4" class="m-pt s"/>
+<circle cx="-23.6" cy="506.2" r="1.5" class="m-pt"/>
+<circle cx="-20.5" cy="493.1" r="1.5" class="m-pt"/>
+<circle cx="-12.9" cy="479.4" r="2.4" class="m-pt s"/>
+<circle cx="-8.2" cy="475.4" r="1.5" class="m-pt"/>
+<circle cx="-4.6" cy="471.9" r="1.5" class="m-pt"/>
+<circle cx="-1.6" cy="469.1" r="1.5" class="m-pt"/>
+<circle cx="-41.9" cy="548.3" r="1.5" class="m-pt"/>
+<circle cx="-23.5" cy="546.5" r="1.5" class="m-pt"/>
+<circle cx="-17.9" cy="539.7" r="1.5" class="m-pt"/>
+<circle cx="-13.1" cy="534.5" r="2.4" class="m-pt s"/>
+<circle cx="0.5" cy="518.9" r="1.5" class="m-pt"/>
+<circle cx="4.5" cy="502.8" r="1.5" class="m-pt"/>
+<circle cx="11.9" cy="488.0" r="1.5" class="m-pt"/>
+<circle cx="20.4" cy="472.9" r="1.5" class="m-pt"/>
+<circle cx="17.4" cy="470.7" r="1.5" class="m-pt"/>
+<circle cx="24.6" cy="465.3" r="1.5" class="m-pt"/>
+<circle cx="29.4" cy="467.5" r="1.5" class="m-pt"/>
+<circle cx="27.4" cy="529.9" r="1.5" class="m-pt"/>
+<circle cx="26.9" cy="524.8" r="1.5" class="m-pt"/>
+<circle cx="34.8" cy="519.6" r="1.5" class="m-pt"/>
+<circle cx="33.7" cy="523.9" r="1.5" class="m-pt"/>
+<circle cx="38.5" cy="505.8" r="1.5" class="m-pt"/>
+<circle cx="39.8" cy="496.8" r="1.5" class="m-pt"/>
+<circle cx="43.3" cy="478.2" r="1.5" class="m-pt"/>
+<circle cx="45.3" cy="471.1" r="1.5" class="m-pt"/>
+<circle cx="49.7" cy="464.9" r="1.5" class="m-pt"/>
+<circle cx="47.5" cy="459.0" r="1.5" class="m-pt"/>
+<circle cx="48.4" cy="464.0" r="1.5" class="m-pt"/>
+<circle cx="69.9" cy="507.6" r="1.5" class="m-pt"/>
+<circle cx="62.4" cy="500.3" r="1.5" class="m-pt"/>
+<circle cx="67.9" cy="508.2" r="1.5" class="m-pt"/>
+<circle cx="71.7" cy="501.6" r="1.5" class="m-pt"/>
+<circle cx="69.3" cy="488.6" r="1.5" class="m-pt"/>
+<circle cx="64.2" cy="477.0" r="1.5" class="m-pt"/>
+<circle cx="62.1" cy="469.8" r="1.5" class="m-pt"/>
+<circle cx="75.1" cy="452.0" r="1.5" class="m-pt"/>
+<circle cx="78.2" cy="451.9" r="2.4" class="m-pt s"/>
+<circle cx="75.2" cy="448.9" r="2.4" class="m-pt s"/>
+<circle cx="76.6" cy="450.0" r="2.4" class="m-pt s"/>
+<circle cx="115.6" cy="488.1" r="1.5" class="m-pt"/>
+<circle cx="104.1" cy="485.1" r="1.5" class="m-pt"/>
+<circle cx="100.6" cy="488.6" r="1.5" class="m-pt"/>
+<circle cx="102.9" cy="479.0" r="1.5" class="m-pt"/>
+<circle cx="93.9" cy="473.5" r="1.5" class="m-pt"/>
+<circle cx="102.9" cy="463.2" r="1.5" class="m-pt"/>
+<circle cx="101.3" cy="452.3" r="1.5" class="m-pt"/>
+<circle cx="101.4" cy="442.5" r="1.5" class="m-pt"/>
+<circle cx="99.6" cy="440.5" r="1.5" class="m-pt"/>
+<circle cx="102.3" cy="435.4" r="1.5" class="m-pt"/>
+<circle cx="98.4" cy="440.5" r="1.5" class="m-pt"/>
+<circle cx="153.7" cy="470.5" r="1.5" class="m-pt"/>
+<circle cx="150.4" cy="470.2" r="1.5" class="m-pt"/>
+<circle cx="138.6" cy="478.2" r="1.5" class="m-pt"/>
+<circle cx="137.9" cy="471.2" r="1.5" class="m-pt"/>
+<circle cx="133.1" cy="467.0" r="1.5" class="m-pt"/>
+<circle cx="130.5" cy="454.6" r="2.4" class="m-pt s"/>
+<circle cx="124.3" cy="443.2" r="1.5" class="m-pt"/>
+<circle cx="129.3" cy="437.7" r="1.5" class="m-pt"/>
+<circle cx="128.9" cy="430.5" r="1.5" class="m-pt"/>
+<circle cx="122.7" cy="433.1" r="1.5" class="m-pt"/>
+<circle cx="120.5" cy="437.0" r="1.5" class="m-pt"/>
+<circle cx="192.8" cy="466.4" r="1.5" class="m-pt"/>
+<circle cx="178.9" cy="470.8" r="1.5" class="m-pt"/>
+<circle cx="171.2" cy="468.5" r="1.5" class="m-pt"/>
+<circle cx="169.1" cy="464.3" r="1.5" class="m-pt"/>
+<circle cx="162.8" cy="455.7" r="1.5" class="m-pt"/>
+<circle cx="157.5" cy="453.9" r="1.5" class="m-pt"/>
+<circle cx="152.1" cy="438.7" r="1.5" class="m-pt"/>
+<circle cx="151.5" cy="434.6" r="1.5" class="m-pt"/>
+<circle cx="148.2" cy="429.3" r="1.5" class="m-pt"/>
+<circle cx="144.5" cy="430.1" r="1.5" class="m-pt"/>
+<circle cx="145.0" cy="432.3" r="1.5" class="m-pt"/>
+<circle cx="221.3" cy="470.3" r="1.5" class="m-pt"/>
+<circle cx="209.9" cy="482.7" r="1.5" class="m-pt"/>
+<circle cx="206.9" cy="475.7" r="1.5" class="m-pt"/>
+<circle cx="194.5" cy="474.2" r="1.5" class="m-pt"/>
+<circle cx="191.5" cy="459.0" r="1.5" class="m-pt"/>
+<circle cx="183.5" cy="457.7" r="1.5" class="m-pt"/>
+<circle cx="179.1" cy="447.6" r="1.5" class="m-pt"/>
+<circle cx="176.0" cy="434.7" r="1.5" class="m-pt"/>
+<circle cx="170.2" cy="434.4" r="2.4" class="m-pt s"/>
+<circle cx="164.1" cy="434.2" r="1.5" class="m-pt"/>
+<circle cx="162.0" cy="439.3" r="1.5" class="m-pt"/>
+<circle cx="269.1" cy="482.9" r="1.5" class="m-pt"/>
+<circle cx="248.4" cy="490.3" r="1.5" class="m-pt"/>
+<circle cx="239.1" cy="489.0" r="1.5" class="m-pt"/>
+<circle cx="221.3" cy="486.7" r="1.5" class="m-pt"/>
+<circle cx="209.4" cy="473.1" r="1.5" class="m-pt"/>
+<circle cx="212.5" cy="462.2" r="1.5" class="m-pt"/>
+<circle cx="197.0" cy="453.8" r="1.5" class="m-pt"/>
+<circle cx="199.8" cy="445.9" r="1.5" class="m-pt"/>
+<circle cx="185.8" cy="441.0" r="1.5" class="m-pt"/>
+<circle cx="181.2" cy="438.9" r="1.5" class="m-pt"/>
+<circle cx="177.3" cy="443.1" r="1.5" class="m-pt"/>
+<circle cx="296.5" cy="500.6" r="1.5" class="m-pt"/>
+<circle cx="279.3" cy="505.6" r="1.5" class="m-pt"/>
+<circle cx="263.5" cy="505.1" r="1.5" class="m-pt"/>
+<circle cx="252.8" cy="500.6" r="1.5" class="m-pt"/>
+<circle cx="244.4" cy="489.1" r="1.5" class="m-pt"/>
+<circle cx="229.9" cy="471.2" r="1.5" class="m-pt"/>
+<circle cx="221.6" cy="464.5" r="1.5" class="m-pt"/>
+<circle cx="218.3" cy="455.9" r="1.5" class="m-pt"/>
+<circle cx="209.7" cy="453.1" r="1.5" class="m-pt"/>
+<circle cx="201.9" cy="448.2" r="1.5" class="m-pt"/>
+<circle cx="199.7" cy="455.9" r="1.5" class="m-pt"/>
+<circle cx="325.9" cy="517.6" r="1.5" class="m-pt"/>
+<circle cx="306.4" cy="520.3" r="1.5" class="m-pt"/>
+<circle cx="295.1" cy="516.8" r="1.5" class="m-pt"/>
+<circle cx="281.3" cy="508.9" r="1.5" class="m-pt"/>
+<circle cx="264.7" cy="496.0" r="1.5" class="m-pt"/>
+<circle cx="260.9" cy="489.0" r="1.5" class="m-pt"/>
+<circle cx="246.0" cy="472.6" r="1.5" class="m-pt"/>
+<circle cx="243.1" cy="464.3" r="1.5" class="m-pt"/>
+<circle cx="228.3" cy="462.8" r="1.5" class="m-pt"/>
+<circle cx="225.4" cy="456.6" r="1.5" class="m-pt"/>
+<circle cx="214.7" cy="462.5" r="1.5" class="m-pt"/>
+<line x1="-166.9" y1="282.3" x2="-207.4" y2="325.8" class="m-fr"/>
+<line x1="-166.9" y1="282.3" x2="-133.2" y2="329.5" class="m-fr"/>
+<line x1="-166.9" y1="282.3" x2="-114.2" y2="337.6" class="m-fr"/>
+<line x1="-166.9" y1="282.3" x2="-180.7" y2="334.5" class="m-fr"/>
+<polygon class="m-fr" points="-207.4,325.8 -133.2,329.5 -114.2,337.6 -180.7,334.5"/>
+<circle cx="-166.9" cy="282.3" r="2.6" class="m-cam"/>
+<line x1="-39.2" y1="243.7" x2="-81.2" y2="289.8" class="m-fr"/>
+<line x1="-39.2" y1="243.7" x2="-7.7" y2="295.2" class="m-fr"/>
+<line x1="-39.2" y1="243.7" x2="0.6" y2="307.0" class="m-fr"/>
+<line x1="-39.2" y1="243.7" x2="-65.4" y2="302.5" class="m-fr"/>
+<polygon class="m-fr" points="-81.2,289.8 -7.7,295.2 0.6,307.0 -65.4,302.5"/>
+<circle cx="-39.2" cy="243.7" r="2.6" class="m-cam"/>
+<line x1="102.4" y1="232.4" x2="63.5" y2="276.4" class="m-fr"/>
+<line x1="102.4" y1="232.4" x2="128.2" y2="282.3" class="m-fr"/>
+<line x1="102.4" y1="232.4" x2="123.7" y2="294.8" class="m-fr"/>
+<line x1="102.4" y1="232.4" x2="65.0" y2="290.0" class="m-fr"/>
+<polygon class="m-fr" points="63.5,276.4 128.2,282.3 123.7,294.8 65.0,290.0"/>
+<circle cx="102.4" cy="232.4" r="2.6" class="m-cam"/>
+<line x1="216.7" y1="270.2" x2="183.2" y2="309.5" class="m-fr"/>
+<line x1="216.7" y1="270.2" x2="236.4" y2="313.4" class="m-fr"/>
+<line x1="216.7" y1="270.2" x2="223.5" y2="322.1" class="m-fr"/>
+<line x1="216.7" y1="270.2" x2="174.4" y2="318.8" class="m-fr"/>
+<polygon class="m-fr" points="183.2,309.5 236.4,313.4 223.5,322.1 174.4,318.8"/>
+<circle cx="216.7" cy="270.2" r="2.6" class="m-cam"/>
+<line x1="289.0" y1="316.5" x2="261.8" y2="349.3" class="m-fr"/>
+<line x1="289.0" y1="316.5" x2="303.7" y2="351.4" class="m-fr"/>
+<line x1="289.0" y1="316.5" x2="288.2" y2="356.1" class="m-fr"/>
+<line x1="289.0" y1="316.5" x2="248.8" y2="354.3" class="m-fr"/>
+<polygon class="m-fr" points="261.8,349.3 303.7,351.4 288.2,356.1 248.8,354.3"/>
+<circle cx="289.0" cy="316.5" r="2.6" class="m-cam"/>
+
+</svg>
 <div class="page">
   <nav class="top" aria-label="Sections">
+    <a href="#areas">Areas</a>
     <a href="#research">Research</a>
     <a href="#agenda">Next questions</a>
     <a href="#projects">Projects</a>
@@ -212,9 +458,9 @@ footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;back
       <div>
         <h1>Orville Rockwell Jr.</h1>
         <p class="role">Master's student in Applied Artificial Intelligence, Northeastern University<br>Research contributor, LEMS, Brown University</p>
-        <p class="focusline">Computer vision for autonomous systems and computational biology.</p>
+        <p class="focusline">Computer vision: perception, 3D geometry and visual-inertial state estimation, for autonomous systems and computational biology.</p>
         <div class="bio">
-          <p>I study how a machine turns noisy camera data into a decision, and how much it should trust what it sees. At Brown, in Prof. Benjamin Kimia's group, I own the multi-camera synchronization and calibration layer for GPS-denied drone navigation, working with the group in person here in Providence; at Northeastern I build perception software for the NUWave underwater ROV. I bring the same perceive-decide-act loop to computational biology, where an initial test in my first independent study showed that a common calibration step can hurt closed-loop molecular discovery. I am applying to <strong>CS PhD programs for Fall 2027</strong>, after a B.S. in Information Technology from Purdue University Global (Chancellor's List) and about five years as a software engineer.</p>
+          <p>I build vision systems that perceive, localize and act under uncertainty. At Brown, in Prof. Benjamin Kimia's group, I work on GPS-denied drone navigation and own the synchronized multi-camera sensing layer its visual pipeline depends on. At Northeastern I develop deep-learning detection and visual&ndash;IMU sensor fusion for the NUWave underwater ROV. I carry the same perception-to-decision loop into computational biology. I am applying to <strong>CS PhD programs for Fall 2027</strong>, after five years as a software engineer.</p>
         </div>
         <p class="links">
           <a href="mailto:Rockwell.o@northeastern.edu">Email</a>
@@ -230,12 +476,13 @@ footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;back
 <div class="page">
   <main>
 
-    <section id="focus">
-      <h2>Research focus</h2>
-      <ul class="threads">
-        <li><span class="mk cv" aria-hidden="true"></span><b>Computer vision</b><span class="d">The method: calibration, multiview geometry, visual localization and recognition, with uncertainty a downstream decision can rely on.</span></li>
-        <li><span class="mk auto" aria-hidden="true"></span><b>Autonomous systems</b><span class="d">Vision-based navigation for aerial and underwater vehicles, from camera hardware to the perception stack.</span></li>
-        <li><span class="mk bio" aria-hidden="true"></span><b>Computational biology</b><span class="d">Closed-loop discovery and molecular design now; vision on biological data, such as microscopy and organism tracking, next.</span></li>
+    <section id="areas">
+      <h2>Research areas</h2>
+      <p class="lead">My research aims to make visual perception reliable enough to act on: systems that recover geometry and semantics from imperfect sensors, know how far to trust their estimates, and turn them into decisions.</p>
+      <ul class="areas">
+        <li class="area" style="--ac:var(--cv)"><h3>Visual perception and 3D vision</h3><p>Recovering structure and meaning from images: multi-camera geometry and calibration, learned detection and recognition, and representations that hold up under blur, low texture and domain shift.</p><p class="methods">Multiview geometry, camera models, CNN detectors, representation learning</p></li>
+        <li class="area" style="--ac:var(--auto)"><h3>State estimation for autonomy</h3><p>Fusing vision with inertial and other cues so aerial and underwater vehicles stay localized where GPS fails and visual features are scarce.</p><p class="methods">Visual&ndash;inertial fusion, GPS-denied localization, embedded perception</p></li>
+        <li class="area" style="--ac:var(--bio)"><h3>Uncertainty and closed-loop discovery</h3><p>Calibrated uncertainty for sequential decisions, applied to self-driving-lab discovery today and, next, to vision on biological data such as microscopy and behavior.</p><p class="methods">Calibration, conformal prediction, active learning, Bayesian experimental design</p></li>
       </ul>
     </section>
 
@@ -243,8 +490,8 @@ footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;back
       <h2>News</h2>
       <ul class="news">
         <li><time>Oct 2026</time><p>Preliminary negative result: calibrating the scoring model does not make closed-loop molecular discovery more efficient. <a href="#loop">Details below.</a></p></li>
-        <li><time>Oct 2026</time><p>Joined Prof. Benjamin Kimia's GPS-denied navigation team at Brown (LEMS), working on multi-camera synchronization and calibration.</p></li>
-        <li><time>Fall 2026</time><p>Joined the software team of Northeastern Marine Robotics, building perception for the NUWave ROV.</p></li>
+        <li><time>Oct 2026</time><p>Joined Prof. Benjamin Kimia's group at Brown (LEMS) on GPS-denied drone navigation, starting with the multi-camera sensing layer.</p></li>
+        <li><time>Fall 2026</time><p>Joined Northeastern Marine Robotics, working on deep-learning detection and visual&ndash;IMU fusion for the NUWave ROV.</p></li>
         <li><time>Fall 2026</time><p>Started the MPS in Applied Artificial Intelligence at Northeastern University.</p></li>
       </ul>
     </section>
@@ -325,12 +572,12 @@ footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;back
             </svg>
           </div>
           <div>
-            <h3><span class="mk" style="background:var(--auto)" aria-hidden="true"></span>GPS-Denied Autonomous Drone Navigation</h3>
+            <h3><span class="mk" style="background:var(--auto)" aria-hidden="true"></span>GPS-Denied Visual Navigation for Drones</h3>
             <p class="where"><b>Prof. Benjamin Kimia's group</b>, LEMS, Brown University<br>Research contributor, 2026 to present</p>
             <span class="status live">Ongoing</span>
-            <p class="sum">Vision-based navigation for drones flying without GPS, where fast motion leaves single views blurry and short on features. The approach integrates many synchronized views from a multi-camera array, so every downstream estimate depends on knowing exactly where each camera is and when each frame was taken.</p>
-            <p class="key"><b>My part.</b> I own the multi-camera synchronization and calibration layer (B-CamSync): I brought up a synchronized camera array on a Raspberry&nbsp;Pi&nbsp;5, calibrated the cameras, and contribute calibration and test code to the group's repository.</p>
-            <p class="methods">Multi-camera arrays, camera calibration, multiview geometry, embedded vision</p>
+            <p class="sum">Localizing a fast-moving drone without satellite navigation, where motion blur and low texture starve any single view of features. The approach integrates many synchronized views with inertial cues, so every downstream estimate inherits the geometry and timing of the camera rig.</p>
+            <p class="key"><b>My part.</b> I own the multi-camera sensing layer the visual pipeline rests on: bring-up of a synchronized camera array on a Raspberry&nbsp;Pi&nbsp;5, camera calibration and frame-level time synchronization, with calibration and test code contributed to the group's repository.</p>
+            <p class="methods">Multi-camera systems, camera calibration, time synchronization, visual&ndash;inertial navigation</p>
           </div>
         </article>
 
@@ -421,9 +668,9 @@ footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;back
       <p class="sub">What I would like to work on in a PhD, each one grown out of the work above.</p>
       <div class="agenda">
         <ol class="qs">
-          <li style="--qc:var(--cv)"><span class="mk" aria-hidden="true"></span><div><q>How stable are multiview estimates when calibration is slightly off, and how should that error carry into the decisions built on them?</q><p>At Brown I calibrate a multi-camera array; in closed-loop discovery, a small calibration artifact changed which experiments got run. Both point to the same problem: small, invisible errors turning into confident downstream choices.</p></div></li>
-          <li style="--qc:var(--auto)"><span class="mk" aria-hidden="true"></span><div><q>Can a drone keep localizing from many synchronized cameras when GPS is gone and fast motion leaves each view blurry and feature-poor?</q><p>This is the setting my Brown work feeds into. The underwater ROV faces a cousin of it: murky water with little texture to track.</p></div></li>
-          <li style="--qc:var(--bio)"><span class="mk" aria-hidden="true"></span><div><q>Can a closed discovery loop observe biology through images, not only assay numbers?</q><p>Microscopy and organism tracking would let the same perceive-decide-act loop see the effect of each experiment directly.</p></div></li>
+          <li style="--qc:var(--cv)"><span class="mk" aria-hidden="true"></span><div><q>How should uncertainty in a perception system's geometry, from calibration to pose to depth, propagate into the decisions built on it?</q><p>Multi-camera estimates at Brown and score calibration in closed-loop discovery share a failure mode: small, invisible errors become confident downstream choices.</p></div></li>
+          <li style="--qc:var(--auto)"><span class="mk" aria-hidden="true"></span><div><q>How can visual&ndash;inertial estimation stay reliable when fast motion and low texture starve the visual front end?</q><p>The GPS-denied drone and the underwater ROV meet this from opposite ends: blur at speed in open air, and murky water with little to track.</p></div></li>
+          <li style="--qc:var(--bio)"><span class="mk" aria-hidden="true"></span><div><q>Can closed-loop scientific discovery observe biology through learned visual representations rather than assay numbers alone?</q><p>Microscopy and behavioral video would let an autonomous experiment loop see each intervention's effect directly.</p></div></li>
         </ol>
       </div>
     </section>
@@ -434,10 +681,11 @@ footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;back
         <article class="entry t-auto">
           <div class="thumb"><img src="assets/img/rov.jpg" alt="The NUWave remotely operated underwater vehicle during a pool run" loading="lazy"></div>
           <div>
-            <h3><span class="mk" style="background:var(--auto)" aria-hidden="true"></span>NUWave: Perception for a Semi-Autonomous Submersible</h3>
+            <h3><span class="mk" style="background:var(--auto)" aria-hidden="true"></span>NUWave: Deep Perception and Sensor Fusion Underwater</h3>
             <p class="where"><b>Northeastern Marine Robotics</b>, software and electrical divisions<br>MATE ROV competition team, 2026 to present</p>
-            <p class="sum">Onboard vision for the team's remotely operated underwater vehicle. I work on the object-recognition node that feeds the ROV's ROS perception stack and the automated tests behind it, and help with the camera and sensor interfaces.</p>
-            <p class="methods">ROS, OpenCV, object detection, I&sup2;C and UART</p>
+            <p class="sum">Underwater perception for a semi-autonomous ROV, where turbidity, refraction and changing light break assumptions that hold in air.</p>
+            <p class="key"><b>My part.</b> I develop deep-learning object detection and visual&ndash;IMU sensor fusion in the ROV's ROS perception stack, including the recognition node and its automated tests.</p>
+            <p class="methods">Deep object detection, visual&ndash;IMU fusion, ROS, OpenCV, I&sup2;C and UART</p>
           </div>
         </article>
       </div>
@@ -448,9 +696,19 @@ footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;back
       </ul>
     </section>
 
+    <section id="methods">
+      <h2>Methods and tools</h2>
+      <dl class="tools">
+        <div><dt>Vision and sensing</dt><dd>Camera calibration, multi-camera synchronization, CNN-based object detection, OpenCV, embedded vision on Raspberry&nbsp;Pi&nbsp;5</dd></div>
+        <div><dt>Estimation and robotics</dt><dd>Visual&ndash;IMU sensor fusion, ROS, I&sup2;C and UART interfaces, hardware bring-up</dd></div>
+        <div><dt>Learning</dt><dd>PyTorch, TensorFlow and TensorFlow Probability, sequence models, reinforcement learning (Stable-Baselines3, Isaac Gym, MuJoCo)</dd></div>
+        <div><dt>Uncertainty and evaluation</dt><dd>Isotonic recalibration, conformal prediction, active learning, scaffold-split and purged walk-forward validation, ChEMBL and RDKit</dd></div>
+      </dl>
+    </section>
+
     <section id="contact" class="contact">
       <h2>Contact</h2>
-      <p>I'm glad to hear about research collaborations and PhD openings in computer vision, autonomous systems and computational biology.</p>
+      <p>I'm glad to hear about research collaborations and PhD openings in computer vision, 3D perception, autonomous systems and computational biology.</p>
       <dl>
         <dt>Research and PhD</dt><dd><a href="mailto:Rockwell.o@northeastern.edu">Rockwell.o@northeastern.edu</a></dd>
         <dt>General</dt><dd><a href="mailto:Rockwellkorville@gmail.com">Rockwellkorville@gmail.com</a></dd>
