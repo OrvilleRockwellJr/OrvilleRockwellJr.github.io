@@ -130,6 +130,7 @@ h2::after{content:"";display:block;width:36px;height:3px;border-radius:2px;margi
 .area h3{font-size:1.12rem;font-weight:600;margin:0;color:var(--navy)}
 .area p{font-size:16px;margin-top:8px;color:var(--ink)}
 .area p.methods{margin-top:10px;font-family:var(--sans);font-size:13.5px;color:var(--faint)}
+.more{margin-top:10px;font-family:var(--sans);font-size:15px;font-weight:500}
 .lead{max-width:calc(var(--col) + 6rem);margin:-4px 0 22px;font-size:17.5px}
 
 /* methods and tools */
@@ -160,6 +161,7 @@ h2::after{content:"";display:block;width:36px;height:3px;border-radius:2px;margi
 .status.live{color:var(--auto);border-color:color-mix(in srgb,var(--auto) 30%,var(--rule));background:color-mix(in srgb,var(--auto) 6%,#fff)}
 .status.result{color:var(--bio);border-color:color-mix(in srgb,var(--bio) 30%,var(--rule));background:color-mix(in srgb,var(--bio) 6%,#fff)}
 .entry .sum{margin-top:10px;max-width:var(--col);font-size:17px}
+.more{margin-top:10px;font-family:var(--sans);font-size:15px;font-weight:500}
 .methods{font-family:var(--sans);font-size:13.5px;color:var(--faint);margin-top:8px}
 
 /* key line under each entry: the one sentence a skimmer should leave with */
@@ -455,13 +457,14 @@ footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;back
     <a href="#areas">Areas</a>
     <a href="#research">Research</a>
     <a href="#agenda">Next questions</a>
+    <a href="notes/calibration-ties.html">Notes</a>
     <a href="#methods">Methods</a>
     <a href="#contact">Contact</a>
     <a href="cv/Orville_Rockwell_CV.pdf" target="_blank" rel="noopener">CV</a>
   </nav>
 
     <header class="hero" id="main">
-      <img class="portrait" src="assets/img/profile.jpg" alt="Orville Rockwell Jr.">
+      <img class="portrait" src="assets/img/profile.jpg" alt="Orville Rockwell Jr." width="344" height="344" fetchpriority="high">
       <div>
         <h1>Orville Rockwell Jr.</h1>
         <p class="role">Research contributor, LEMS, Brown University<br>Master's student in Applied Artificial Intelligence, Northeastern University</p>
@@ -496,7 +499,7 @@ footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;back
     <section id="news">
       <h2>News</h2>
       <ul class="news">
-        <li><time>Oct 2026</time><p>Preliminary negative result: calibrating the scoring model does not make closed-loop molecular discovery more efficient. <a href="#loop">Details below.</a></p></li>
+        <li><time>Oct 2026</time><p>Preliminary negative result: calibrating the scoring model does not make closed-loop molecular discovery more efficient. <a href="notes/calibration-ties.html">Read the research note.</a></p></li>
         <li><time>Oct 2026</time><p>Joined Prof. Benjamin Kimia's group at Brown (LEMS) on GPS-denied drone navigation, starting with the multi-camera sensing layer.</p></li>
         <li><time>Fall 2026</time><p>Joined Northeastern Marine Robotics, working on deep-learning detection and visual&ndash;IMU fusion for the NUWave ROV.</p></li>
       </ul>
@@ -588,7 +591,7 @@ footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;back
         </article>
 
         <article class="entry t-auto">
-          <div class="thumb"><img src="assets/img/rov.jpg" alt="The NUWave remotely operated underwater vehicle during a pool run" loading="lazy"></div>
+          <div class="thumb"><img src="assets/img/rov.jpg" alt="The NUWave remotely operated underwater vehicle during a pool run" loading="lazy" width="477" height="298"></div>
           <div>
             <h3><span class="mk" style="background:var(--auto)" aria-hidden="true"></span>NUWave: Deep Perception and Sensor Fusion Underwater</h3>
             <p class="where"><b>Team research project</b>, Northeastern Marine Robotics<br>MATE ROV competition team, 2026 to present</p>
@@ -654,6 +657,7 @@ footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;back
             <p class="sum">A self-driving lab is a control loop: a model proposes candidates, a system tests a subset, and the results retrain the model. I simulated that loop over 2,311 PTP1B inhibitors from ChEMBL and asked whether <em>calibrating</em> the scoring model makes it more efficient.</p>
             <p class="key"><b>Result.</b> It does not: 35.5&nbsp;&plusmn;&nbsp;3.5 hits versus 35.3&nbsp;&plusmn;&nbsp;4.2 at a 360-experiment budget, and for single-objective selection it hurts. The mechanism is resolution loss: isotonic regression is monotone but piecewise constant, so it collapses 1,844 distinct scores into 74 and leaves 100 molecules tied at exactly 1.000, making batch selection arbitrary among them. One target and 8 seeds so far.</p>
             <p class="methods">Active learning, calibration, sequential decisions, ChEMBL, RDKit</p>
+            <p class="more"><a href="notes/calibration-ties.html">Read the research note: When calibration breaks the loop</a></p>
           </div>
         </article>
 

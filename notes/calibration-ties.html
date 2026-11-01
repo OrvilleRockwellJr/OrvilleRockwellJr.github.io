@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>When calibration breaks the loop | Orville Rockwell Jr.</title>
+<meta name="description" content="Research note: why isotonic calibration did not improve closed-loop molecular discovery, and how score ties make batch selection arbitrary.">
+<meta name="author" content="Orville Rockwell Jr.">
+<meta name="theme-color" content="#14305A">
+<link rel="canonical" href="https://OrvilleRockwellJr.github.io/notes/calibration-ties.html">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="article">
+<meta property="og:title" content="When calibration breaks the loop">
+<meta property="og:description" content="Research note: isotonic calibration, score ties, and closed-loop molecular discovery.">
+<meta property="og:url" content="https://OrvilleRockwellJr.github.io/notes/calibration-ties.html">
+<meta property="og:image" content="https://OrvilleRockwellJr.github.io/assets/img/og.jpg">
+<script type="application/ld+json">{
+  "@context":"https://schema.org","@type":"ScholarlyArticle",
+  "headline":"When calibration breaks the loop: isotonic ties in closed-loop molecular discovery",
+  "author":{"@type":"Person","name":"Orville Rockwell Jr.","url":"https://OrvilleRockwellJr.github.io/"},
+  "datePublished":"2026-11-01","inLanguage":"en"
+}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&display=swap">
+<style>
+:root{--paper:#fff;--ink:#1C2633;--muted:#5B6573;--faint:#66707D;--rule:#E2E6EB;--wash:#F4F6F9;--cv:#1F4E8C;--auto:#0F7A80;--bio:#B23A64;--navy:#14305A;--navy-2:#0F2547;
+  --serif:"Source Serif 4",Georgia,serif;--sans:"IBM Plex Sans","Helvetica Neue",Arial,sans-serif}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--serif);font-size:18.5px;line-height:1.68;-webkit-font-smoothing:antialiased}
+a{color:var(--cv);text-underline-offset:3px;text-decoration-thickness:1px;text-decoration-color:color-mix(in srgb,var(--cv) 40%,transparent)}
+a:hover{text-decoration-color:var(--cv)}
+a:focus-visible{outline:2px solid var(--cv);outline-offset:3px}
+.wrap{max-width:42rem;margin:0 auto;padding:0 22px}
+header.band{background:radial-gradient(120% 140% at 85% -10%,#1E4A85 0%,var(--navy) 45%,var(--navy-2) 100%);color:#fff;position:relative}
+header.band::after{content:"";position:absolute;left:0;right:0;bottom:0;height:5px;background:linear-gradient(90deg,#3E7BD0 0 33.3%,#1AA3AA 33.3% 66.6%,#D9568A 66.6%)}
+.crumb{font-family:var(--sans);font-size:14px;padding-top:22px}
+.crumb a{color:#BFD5F7}
+.kind{font-family:var(--sans);font-size:14px;color:#A9BDD9;margin:38px 0 8px}
+h1{font-size:clamp(2rem,4.6vw,2.7rem);line-height:1.12;letter-spacing:-.015em;margin:0;font-weight:700}
+.dek{font-size:1.18rem;font-style:italic;color:#D4DEEC;margin:14px 0 0;line-height:1.5}
+.byline{font-family:var(--sans);font-size:14.5px;color:#A9BDD9;padding:18px 0 46px}
+main{padding:34px 0 10px}
+h2{font-size:1.36rem;margin:38px 0 10px;color:var(--navy);font-weight:600}
+p{margin:0 0 16px}
+.tldr{background:color-mix(in srgb,var(--bio) 5%,#fff);border-left:3px solid var(--bio);padding:14px 18px;border-radius:0 4px 4px 0;margin:4px 0 8px}
+.tldr p:last-child{margin:0}
+figure{margin:24px 0}
+figure .box{background:var(--wash);border:1px solid var(--rule);border-radius:6px;padding:8px;max-width:30rem;margin:0 auto}
+figure svg{display:block;width:100%;height:auto}
+figcaption{font-family:var(--sans);font-size:14px;color:var(--muted);margin:10px auto 0;line-height:1.5;max-width:30rem}
+.eq{font-family:var(--serif);font-style:italic;text-align:center;margin:14px 0 18px;font-size:1.08rem;overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-family:var(--sans);font-size:15px;margin:6px 0 18px}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--rule)}
+th{color:var(--navy);font-weight:600}
+td.n{font-variant-numeric:tabular-nums}
+ol,ul{padding-left:1.3em;margin:0 0 16px} li{margin-bottom:8px}
+.limits{font-family:var(--sans);font-size:15px;color:var(--muted);background:var(--wash);border-radius:6px;padding:14px 18px}
+.fig text{font-family:var(--sans);font-size:11.5px;fill:var(--muted)}
+.fig .lbl{fill:var(--ink);font-weight:500}
+.st{fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.st-faint{stroke:#C9D0D8}.st-cv{stroke:var(--cv)}.st-bio{stroke:var(--bio)}.st-mute{stroke:var(--faint)}
+.fl-cv{fill:var(--cv)}.fl-bio{fill:var(--bio)}
+footer{margin-top:48px;background:var(--navy-2);color:#A9BDD9;font-family:var(--sans);font-size:13.5px;position:relative}
+footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;background:linear-gradient(90deg,#3E7BD0 0 33.3%,#1AA3AA 33.3% 66.6%,#D9568A 66.6%)}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;padding-top:24px;padding-bottom:34px}
+footer a{color:#BFD5F7}
+@media print{header.band{background:none;color:#000}header.band::after,footer::before{display:none}.dek,.kind,.byline,.crumb a{color:#333}footer{background:none;color:#333}}
+</style>
+</head>
+<body>
+<header class="band">
+  <div class="wrap">
+    <p class="crumb"><a href="../">&larr; Orville Rockwell Jr.</a></p>
+    <p class="kind">Research note, preliminary</p>
+    <h1>When calibration breaks the loop</h1>
+    <p class="dek">Isotonic calibration made a closed-loop discovery system no better, and in one setting worse. The reason is a loss of resolution exactly where selection looks.</p>
+    <p class="byline">Orville Rockwell Jr., November 2026</p>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="tldr">
+    <p><b>Summary.</b> In a simulated self-driving lab over 2,311 PTP1B inhibitors from ChEMBL, calibrating the scoring model with isotonic regression left hit recovery unchanged at a 360-experiment budget (35.5&nbsp;&plusmn;&nbsp;3.5 versus 35.3&nbsp;&plusmn;&nbsp;4.2 hits over 8 seeds) and hurt single-objective selection. Isotonic regression collapsed 1,844 distinct scores into 74 levels and placed 100 molecules at exactly 1.000, so the top of the ranking, where each batch is chosen, became a tie.</p>
+  </div>
+
+  <h2>The question</h2>
+  <p>A closed-loop discovery system is a control loop. A model scores a pool of candidates, the system tests a batch, and the results retrain the model. The common intuition is that better-calibrated probabilities should make this loop more efficient, since the acquisition step consumes those probabilities as if they were true.</p>
+  <p>I tested that intuition directly: run the same loop with and without isotonic calibration of the scoring model, and count how many actives each recovers within a fixed experimental budget.</p>
+
+  <h2>What happened</h2>
+  <table>
+    <thead><tr><th>Scoring</th><th>Hits at 360 experiments</th><th>Distinct scores</th></tr></thead>
+    <tbody>
+      <tr><td>Raw model scores</td><td class="n">35.3 &plusmn; 4.2</td><td class="n">1,844</td></tr>
+      <tr><td>Isotonic-calibrated</td><td class="n">35.5 &plusmn; 3.5</td><td class="n">74 (100 tied at 1.000)</td></tr>
+    </tbody>
+  </table>
+  <p>The difference in hits is well inside seed-to-seed variation, so calibration bought nothing on average. In the single-objective setting it did worse. The more informative number is the last column.</p>
+
+  <h2>Why: calibration can trade away resolution</h2>
+  <p>Isotonic regression fits the monotone function that best maps scores to observed outcomes:</p>
+  <p class="eq">f* = argmin<sub>f non-decreasing</sub> &sum;<sub>i</sub> (y<sub>i</sub> &minus; f(s<sub>i</sub>))<sup>2</sup></p>
+  <p>On finite data the solution, found by the pool-adjacent-violators algorithm, is a step function. Adjacent candidates whose labels disagree with their order are pooled into a single level. That never reverses two candidates, but it can merge them, and merged candidates cannot be ranked against each other.</p>
+  <figure>
+    <div class="box">
+      <svg class="fig" viewBox="0 0 320 200" role="img" aria-label="Schematic: a smooth raw score curve and an isotonic step function whose top level is a wide flat plateau of tied candidates">
+<line x1="30" y1="172" x2="292" y2="172" class="st st-faint"/>
+<line x1="30" y1="34" x2="30" y2="172" class="st st-faint"/>
+<polyline class="st st-cv" points="30.0,167.7 34.4,167.3 38.8,166.9 43.2,166.4 47.6,165.9 52.0,165.3 56.4,164.6 60.8,163.8 65.3,162.9 69.7,161.8 74.1,160.7 78.5,159.3 82.9,157.8 87.3,156.2 91.7,154.3 96.1,152.2 100.5,149.8 104.9,147.3 109.3,144.4 113.7,141.3 118.1,138.0 122.5,134.4 126.9,130.5 131.4,126.5 135.8,122.2 140.2,117.8 144.6,113.2 149.0,108.6 153.4,103.9 157.8,99.2 162.2,94.6 166.6,90.1 171.0,85.8 175.4,81.6 179.8,77.6 184.2,73.9 188.6,70.4 193.1,67.2 197.5,64.2 201.9,61.5 206.3,59.0 210.7,56.8 215.1,54.8 219.5,53.0 223.9,51.4 228.3,50.0 232.7,48.8 237.1,47.7 241.5,46.7 245.9,45.8 250.3,45.1 254.7,44.4 259.2,43.8 263.6,43.3 268.0,42.9 272.4,42.5 276.8,42.2 281.2,41.9 285.6,41.6 290.0,41.4"/>
+<polyline class="st st-bio" stroke-width="2.2" points="30.0,164.8 91.7,164.8 91.7,146.6 144.6,146.6 144.6,123.2 184.2,123.2 184.2,98.5 215.1,98.5 215.1,73.8 237.1,73.8 237.1,40.0 290.0,40.0"/>
+<rect x="237.1" y="36" width="52.9" height="12" rx="3" class="fl-bio" opacity=".14"/>
+<text x="263.6" y="30" text-anchor="middle" class="lbl">tied at 1.000</text>
+<text x="34" y="190">candidates, ordered by raw score &#8594;</text>
+<text x="38" y="48" class="lbl" style="fill:var(--cv)">raw score</text>
+<text x="218" y="160" class="lbl" style="fill:var(--bio)">isotonic fit</text>
+
+      </svg>
+    </div>
+    <figcaption>Schematic. Raw scores rise smoothly with rank; the isotonic fit is a staircase. Selection draws its batch from the top step, so a wide top plateau turns batch choice into a coin flip among tied candidates.</figcaption>
+  </figure>
+  <p>The acquisition step only reads the top of the ranking. When 100 molecules share the maximum score and the batch is smaller than that, the model's remaining ordering information is discarded at the one place it mattered. Calibration improved how well the scores matched outcome frequencies, while destroying the fine ordering the decision depended on.</p>
+
+  <h2>Why it matters beyond this experiment</h2>
+  <p>The failure is general: a pipeline that calibrates and then ranks can lose discrimination at the decision boundary while every calibration metric improves. The same pattern applies wherever confidence scores are post-processed before a top-k or thresholded decision, in perception as much as in discovery. The metric that matters is the one the decision consumes.</p>
+
+  <h2>Remedies worth testing</h2>
+  <ol>
+    <li><b>Break ties with the raw score.</b> Rank by calibrated probability first and raw score second, keeping calibration where it is useful without discarding order.</li>
+    <li><b>Use strictly monotone calibrators.</b> Platt scaling and temperature scaling are strictly increasing, so they preserve the full ranking while still correcting overconfidence.</li>
+    <li><b>Evaluate the decision, not the probability.</b> Report hits at budget and enrichment at the top of the ranking alongside calibration error, since the two can move in opposite directions.</li>
+  </ol>
+
+  <h2>Limitations</h2>
+  <p class="limits">This is a preliminary result: one target (PTP1B), one dataset source (ChEMBL), and 8 random seeds. The no-gain result needs confirmation across more targets and scoring models before it generalizes, and the remedies above are hypotheses, not yet tested.</p>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span><a href="../">Orville Rockwell Jr.</a></span>
+    <span>Research note, November 2026</span>
+  </div>
+</footer>
+</body>
+</html>
