@@ -188,7 +188,7 @@ footer{margin-top:48px;border-top:1px solid var(--rule);padding:20px 0 40px;font
         <p class="role">Master's student in Applied Artificial Intelligence, Northeastern University<br>Research contributor, LEMS, Brown University</p>
         <p class="focusline">Computer vision for autonomous systems and computational biology.</p>
         <div class="bio">
-          <p>I study how a machine turns noisy camera data into a decision, and how much it should trust what it sees. At Brown, in Prof. Benjamin Kimia's group, I own the multi-camera synchronization and calibration layer for GPS-denied drone navigation. At Northeastern I build perception software for the NUWave underwater ROV.</p>
+          <p>I study how a machine turns noisy camera data into a decision, and how much it should trust what it sees. At Brown, in Prof. Benjamin Kimia's group, I own the multi-camera synchronization and calibration layer for GPS-denied drone navigation. I live in Providence and work with the group in person. At Northeastern I build perception software for the NUWave underwater ROV.</p>
           <p>I bring the same perceive-decide-act loop to computational biology, where my first independent study found, in an initial test, that a common calibration step can hurt closed-loop molecular discovery by creating ties among candidate scores. I am applying to <strong>CS PhD programs for Fall 2027</strong>. Before graduate school I earned a B.S. in Information Technology from Purdue University Global (Chancellor's List) and worked for about five years as a software engineer.</p>
         </div>
         <p class="links">
@@ -204,7 +204,7 @@ footer{margin-top:48px;border-top:1px solid var(--rule);padding:20px 0 40px;font
     <section id="focus">
       <h2>Research focus</h2>
       <ul class="threads">
-        <li><span class="mk cv" aria-hidden="true"></span><b>Computer vision</b><span class="d">The method: calibration, visual localization and recognition, with uncertainty a downstream decision can rely on.</span></li>
+        <li><span class="mk cv" aria-hidden="true"></span><b>Computer vision</b><span class="d">The method: calibration, multiview geometry, visual localization and recognition, with uncertainty a downstream decision can rely on.</span></li>
         <li><span class="mk auto" aria-hidden="true"></span><b>Autonomous systems</b><span class="d">Vision-based navigation for aerial and underwater vehicles, from camera hardware to the perception stack.</span></li>
         <li><span class="mk bio" aria-hidden="true"></span><b>Computational biology</b><span class="d">Closed-loop discovery and molecular design now; vision on biological data, such as microscopy and organism tracking, next.</span></li>
       </ul>
@@ -299,9 +299,9 @@ footer{margin-top:48px;border-top:1px solid var(--rule);padding:20px 0 40px;font
             <h3><span class="mk" style="background:var(--auto)" aria-hidden="true"></span>GPS-Denied Autonomous Drone Navigation</h3>
             <p class="where"><b>Prof. Benjamin Kimia's group</b>, LEMS, Brown University<br>Research contributor, 2026 to present</p>
             <span class="status live">Ongoing</span>
-            <p class="sum">Vision-based navigation for drones flying where GPS is unavailable. Every downstream estimate depends on knowing exactly where each camera is and when each frame was taken.</p>
+            <p class="sum">Vision-based navigation for drones flying without GPS, where fast motion leaves single views blurry and short on features. The approach integrates many synchronized views from a multi-camera array, so every downstream estimate depends on knowing exactly where each camera is and when each frame was taken.</p>
             <p class="key"><b>My part.</b> I own the multi-camera synchronization and calibration layer (B-CamSync): I brought up a synchronized camera array on a Raspberry&nbsp;Pi&nbsp;5, calibrated the cameras, and contribute calibration and test code to the group's repository.</p>
-            <p class="methods">Camera calibration, multi-camera synchronization, embedded vision, sensor fusion</p>
+            <p class="methods">Multi-camera arrays, camera calibration, multiview geometry, embedded vision</p>
           </div>
         </article>
 
@@ -392,8 +392,8 @@ footer{margin-top:48px;border-top:1px solid var(--rule);padding:20px 0 40px;font
       <p class="sub">What I would like to work on in a PhD, each one grown out of the work above.</p>
       <div class="agenda">
         <ol class="qs">
-          <li><span class="mk" style="background:var(--cv)" aria-hidden="true"></span><div><q>How should a vision system's calibration error carry into the decisions built on top of it?</q><p>Camera calibration at Brown and score calibration in closed-loop discovery may fail the same way: small, invisible errors turn into confident downstream choices.</p></div></li>
-          <li><span class="mk" style="background:var(--auto)" aria-hidden="true"></span><div><q>Can a vehicle keep localizing from cameras alone when GPS and clean visual features both disappear?</q><p>The GPS-denied drone and the underwater ROV both face this, from opposite ends: open sky with no satellites, and murky water with little texture.</p></div></li>
+          <li><span class="mk" style="background:var(--cv)" aria-hidden="true"></span><div><q>How stable are multiview estimates when calibration is slightly off, and how should that error carry into the decisions built on them?</q><p>At Brown I calibrate a multi-camera array; in closed-loop discovery, a small calibration artifact changed which experiments got run. Both point to the same problem: small, invisible errors turning into confident downstream choices.</p></div></li>
+          <li><span class="mk" style="background:var(--auto)" aria-hidden="true"></span><div><q>Can a drone keep localizing from many synchronized cameras when GPS is gone and fast motion leaves each view blurry and feature-poor?</q><p>This is the setting my Brown work feeds into. The underwater ROV faces a cousin of it: murky water with little texture to track.</p></div></li>
           <li><span class="mk" style="background:var(--bio)" aria-hidden="true"></span><div><q>Can a closed discovery loop observe biology through images, not only assay numbers?</q><p>Microscopy and organism tracking would let the same perceive-decide-act loop see the effect of each experiment directly.</p></div></li>
         </ol>
       </div>
