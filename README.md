@@ -15,7 +15,7 @@ assets/img/profile.jpg         portrait
 assets/img/camera-array.jpg    research card photo (Brown / B-CamSync)
 assets/img/rov.jpg             NUWave ROV photo
 assets/img/cv-preview.jpg      CV page rendered for the in-page viewer
-assets/img/og.png              1200x630 link-preview card
+assets/img/og.jpg              1200x630 link-preview card
 assets/img/apple-touch-icon.png
 cv/Orville_Rockwell_CV.pdf     CV, linked from the nav, hero and footer
 ```

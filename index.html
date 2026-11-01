@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Orville Rockwell Jr.</title>
-<meta name="description" content="Orville Rockwell Jr. is a Master's student in Applied Artificial Intelligence at Northeastern University, working on machine learning, autonomous systems, and computational biology.">
+<meta name="description" content="Orville Rockwell Jr. is a Master's student in Applied Artificial Intelligence at Northeastern University, working on computer vision for autonomous systems and computational biology.">
 <meta name="author" content="Orville Rockwell Jr.">
 <meta name="theme-color" content="#0A0C11">
 <link rel="canonical" href="https://OrvilleRockwellJr.github.io/">
@@ -13,7 +13,7 @@
 <meta property="og:type" content="profile">
 <meta property="og:site_name" content="Orville Rockwell Jr.">
 <meta property="og:title" content="Orville Rockwell Jr.">
-<meta property="og:description" content="Orville Rockwell Jr. is a Master's student in Applied Artificial Intelligence at Northeastern University, working on machine learning, autonomous systems, and computational biology.">
+<meta property="og:description" content="Orville Rockwell Jr. is a Master's student in Applied Artificial Intelligence at Northeastern University, working on computer vision for autonomous systems and computational biology.">
 <meta property="og:url" content="https://OrvilleRockwellJr.github.io/">
 <meta property="og:image" content="https://OrvilleRockwellJr.github.io/assets/img/og.jpg">
 <meta property="og:image:type" content="image/jpeg">
@@ -21,7 +21,7 @@
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Orville Rockwell Jr.">
-<meta name="twitter:description" content="Orville Rockwell Jr. is a Master's student in Applied Artificial Intelligence at Northeastern University, working on machine learning, autonomous systems, and computational biology.">
+<meta name="twitter:description" content="Orville Rockwell Jr. is a Master's student in Applied Artificial Intelligence at Northeastern University, working on computer vision for autonomous systems and computational biology.">
 <meta name="twitter:image" content="https://OrvilleRockwellJr.github.io/assets/img/og.jpg">
 <script type="application/ld+json">{
   "@context": "https://schema.org",
@@ -31,11 +31,11 @@
   "image": "https://OrvilleRockwellJr.github.io/assets/img/profile.jpg",
   "email": "mailto:Rockwell.o@northeastern.edu",
   "jobTitle": "Master's Student in Applied Artificial Intelligence",
-  "description": "Orville Rockwell Jr. is a Master's student in Applied Artificial Intelligence at Northeastern University, working on machine learning, autonomous systems, and computational biology.",
+  "description": "Orville Rockwell Jr. is a Master's student in Applied Artificial Intelligence at Northeastern University, working on computer vision for autonomous systems and computational biology.",
   "address": {"@type": "PostalAddress", "addressLocality": "Providence", "addressRegion": "RI", "addressCountry": "US"},
   "affiliation": {"@type": "CollegeOrUniversity", "name": "Northeastern University"},
   "alumniOf": {"@type": "CollegeOrUniversity", "name": "Purdue University Global"},
-  "knowsAbout": ["Machine Learning", "Autonomous Systems", "Computer Vision", "Computational Biology", "Sensor Fusion"],
+  "knowsAbout": ["Computer Vision", "Autonomous Systems", "Computational Biology", "Machine Learning", "Camera Calibration", "Active Learning"],
   "sameAs": ["https://github.com/OrvilleRockwellJr", "https://www.linkedin.com/in/orville-rockwell-jr-92806528a", "https://orcid.org/0009-0008-2864-4912"]
 }</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -88,6 +88,9 @@ nav.primary a.active{color:var(--fg);background:var(--card-2)}
 .hero h1{font-size:clamp(34px,5vw,48px);font-weight:800;letter-spacing:-.025em;line-height:1.1;background:linear-gradient(120deg,var(--fg) 30%,var(--ml) 68%,var(--auto));-webkit-background-clip:text;background-clip:text;color:transparent}
 .subtitle{font-size:18px;font-weight:600;color:var(--ml);margin-top:8px}
 .affil{font-size:15px;color:var(--faint);margin-top:2px}
+.tagline{font-size:16px;font-weight:600;color:var(--fg);margin-top:14px;letter-spacing:-.005em}
+.tagline .t-auto{color:var(--auto)}
+.tagline .t-bio{color:var(--bio)}
 .about{margin-top:22px;max-width:66ch;color:#CDD3DC;line-height:1.8;text-align:left}
 .about strong{color:var(--fg);font-weight:600}
 .buttons{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px;justify-content:center}
@@ -117,6 +120,9 @@ section.block h2{font-size:clamp(26px,3.4vw,32px);font-weight:800;letter-spacing
 .area h3{font-size:18px;font-weight:700;letter-spacing:-.01em}
 .area .focus{align-self:flex-start;font-size:10.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:3px 9px;border-radius:999px;background:var(--auto-bg);color:var(--auto);border:1px solid color-mix(in srgb,var(--auto) 32%,transparent)}
 .area.primary{border-color:color-mix(in srgb,var(--auto) 34%,var(--line))}
+.area.ml .focus{background:var(--ml-bg);color:var(--ml);border-color:color-mix(in srgb,var(--ml) 32%,transparent)}
+.area.ml.primary{border-color:color-mix(in srgb,var(--ml) 40%,var(--line))}
+.area .tag{font-size:11.5px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--faint)}
 .area .q{font-size:15px;font-weight:600;line-height:1.45}
 .area.auto .q{color:var(--auto)}
 .area.ml .q{color:var(--ml)}
@@ -222,7 +228,8 @@ body.locked{overflow:hidden}
         <h1>Orville Rockwell Jr.</h1>
         <p class="subtitle">Master's Student in Applied Artificial Intelligence</p>
         <p class="affil">Northeastern University &middot; Providence, RI</p>
-        <p class="about">I'm a Master's student in Applied Artificial Intelligence at <strong>Northeastern University</strong>, concentrating in Machine Learning for Cybersecurity. My main work is perception for systems that have to localize without clean signals: I contribute to GPS-denied drone navigation research in <strong>Prof. Benjamin Kimia's</strong> computer vision group at <strong>Brown</strong>, and build perception software for Northeastern's NUWave underwater ROV. The same calibration and uncertainty methods carry into my work on probabilistic forecasting and generative molecular design. Before graduate school I earned a B.S. in Information Technology from Purdue University Global (Chancellor's List) and spent roughly five years as a software engineer across iTribe, RICI and MySudra.</p>
+        <p class="tagline">Computer vision for <span class="t-auto">autonomous systems</span> and <span class="t-bio">computational biology</span></p>
+        <p class="about">I'm a Master's student in Applied Artificial Intelligence at <strong>Northeastern University</strong>. I work on <strong>computer vision</strong>: how a machine turns noisy camera data into something it can act on, and how much it should trust what it sees. At <strong>Brown</strong>, I contribute to GPS-denied drone navigation research in <strong>Prof. Benjamin Kimia's</strong> group at LEMS, where I work on multi-camera synchronization and calibration. At Northeastern I build perception software for the NUWave underwater ROV. I carry the same perception-and-decision loop into computational biology, through closed-loop experiment selection and classifier-guided molecular design. I'm applying to <strong>CS PhD programs for Fall 2027</strong>. Before graduate school I earned a B.S. in Information Technology from Purdue University Global (Chancellor's List) and spent roughly five years as a software engineer.</p>
         <div class="buttons">
           <a class="btn primary" href="mailto:Rockwell.o@northeastern.edu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>Email</a>
           <a class="btn" href="https://github.com/OrvilleRockwellJr" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.58 2 12.25c0 4.52 2.87 8.35 6.84 9.7.5.1.68-.22.68-.49l-.01-1.9c-2.78.62-3.37-1.21-3.37-1.21-.46-1.18-1.11-1.49-1.11-1.49-.9-.63.07-.62.07-.62 1 .07 1.53 1.05 1.53 1.05.89 1.56 2.34 1.11 2.91.85.09-.66.35-1.11.63-1.37-2.22-.26-4.56-1.14-4.56-5.07 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.71 0 0 .84-.28 2.75 1.05a9.4 9.4 0 0 1 5 0c1.91-1.33 2.75-1.05 2.75-1.05.55 1.41.2 2.45.1 2.71.64.72 1.03 1.63 1.03 2.75 0 3.94-2.34 4.81-4.57 5.06.36.32.68.94.68 1.9l-.01 2.82c0 .27.18.59.69.49A10.26 10.26 0 0 0 22 12.25C22 6.58 17.52 2 12 2Z"/></svg>GitHub</a>
@@ -237,29 +244,31 @@ body.locked{overflow:hidden}
     <div class="wrap">
       <h2>Research Interests</h2>
       <div class="overview">
-        <p class="lead">My research asks how learning systems can <strong>act reliably when the world doesn't hand them clean signals</strong>. My primary focus is <strong>perception and localization for autonomous systems</strong>; the two threads beside it share its methodology rather than competing with it.</p>
+        <p class="lead">I work on <strong>computer vision for autonomous systems and computational biology</strong>. Vision is the method; robots and biology are where I apply it. Both rest on one question: <strong>how a system should act on what it sees when it can't be certain</strong>.</p>
         <div class="areas">
-          <div class="area auto primary">
+          <div class="area ml primary">
+            <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg></span>
+            <span class="focus">Primary focus &middot; the method</span>
+            <h3>Computer Vision</h3>
+            <p class="q">How does a machine see reliably, and know how far to trust what it sees?</p>
+            <p class="d">Multi-camera synchronization and calibration, visual localization, and object recognition, with uncertainty estimates that a downstream decision can actually rely on.</p>
+          </div>
+          <div class="area auto">
             <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="5.5" r="2.5"/><circle cx="18.5" cy="5.5" r="2.5"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/><path d="M7.5 7.5 10 10M16.5 7.5 14 10M7.5 16.5 10 14M16.5 16.5 14 14"/><rect x="10" y="10" width="4" height="4" rx="1"/></svg></span>
-            <span class="focus">Primary focus</span>
+            <span class="tag">Domain 1</span>
             <h3>Autonomous Systems</h3>
             <p class="q">How does a robot know where it is when GPS disappears?</p>
-            <p class="d">Vision-based localization, multi-camera synchronization and calibration, and sensor fusion for aerial and underwater vehicles, down to the electronics that feed them.</p>
-          </div>
-          <div class="area ml">
-            <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20h18"/><path d="M3 19c3 0 4-13 9-13s6 13 9 13"/><path d="M16 12v8"/></svg></span>
-            <h3>Machine Learning</h3>
-            <p class="q">Can a model tell you how much to trust it?</p>
-            <p class="d">Architectures with domain structure built into their layers, full predictive distributions in place of point estimates, calibration, and evaluation that survives distribution shift.</p>
+            <p class="d">Vision-based navigation for aerial and underwater vehicles: GPS-denied drone localization at Brown and underwater perception on NUWave, from the camera hardware up to the perception stack.</p>
           </div>
           <div class="area bio">
             <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 19 7v8l-7 4-7-4V7z"/><path d="M12 3v4M19 15l3 2M5 15l-3 2"/><circle cx="12" cy="11" r="2"/></svg></span>
+            <span class="tag">Domain 2</span>
             <h3>Computational Biology</h3>
-            <p class="q">Can a lab run its own search for a therapy?</p>
-            <p class="d">Generative design guided by learned property classifiers, and closed-loop experiment selection &mdash; autonomy applied to discovery rather than to vehicles.</p>
+            <p class="q">Can the same perceive-decide-act loop run a search for a therapy?</p>
+            <p class="d">Closed-loop experiment selection and classifier-guided molecular design, including image-based views of molecules. The direction I'm building toward is vision on biological data itself: microscopy and quantitative tracking of organisms.</p>
           </div>
         </div>
-        <p class="close">All three rest on the same question: <em>how a model should behave when it cannot be certain</em>. I work on that in vision and localization first, and carry the same calibration and evaluation methods into forecasting and molecular design.</p>
+        <p class="close">Underneath both domains is the same problem: <em>a model turning noisy observations into a decision it has to commit to</em>. I work on it in camera calibration and localization first, and carry the same calibration and evaluation habits into discovery.</p>
       </div>
     </div>
   </section>
@@ -267,7 +276,7 @@ body.locked{overflow:hidden}
   <section class="block" id="research">
     <div class="wrap">
       <h2>Research</h2>
-      <p class="lede">Lab research, independent studies, and graduate research projects.</p>
+      <p class="lede">Lab research, independent research, and graduate course projects, each labeled by status.</p>
       <div class="grid">
 
         <article class="card auto">
@@ -278,6 +287,35 @@ body.locked{overflow:hidden}
             <p class="meta"><b>Prof. Benjamin Kimia's group</b> &middot; LEMS, Brown University</p>
             <p class="sum">Vision-based navigation for drones flying where GPS is unavailable. I work on the multi-camera synchronization and calibration layer (B-CamSync): bringing up a synchronized camera array on a Raspberry&nbsp;Pi&nbsp;5, calibrating the cameras, and contributing calibration and test code to the group's repository.</p>
             <div class="chips"><span>Computer vision</span><span>Camera calibration</span><span>Sensor fusion</span><span>Embedded systems</span></div>
+          </div>
+        </article>
+
+        <article class="card bio">
+          <div class="media fig">
+            <svg viewBox="0 0 320 200" role="img" aria-label="A closed loop: a model proposes candidates, a subset is tested, results return and retrain the model">
+              <defs><marker id="lp" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="fl-bio"/></marker></defs>
+              <rect x="22" y="40" width="104" height="38" rx="9" class="fl-card" stroke="var(--line-2)" stroke-width="1"/>
+              <text x="74" y="63" text-anchor="middle" class="lbl">propose</text>
+              <rect x="194" y="40" width="104" height="38" rx="9" class="fl-card" stroke="var(--line-2)" stroke-width="1"/>
+              <text x="246" y="63" text-anchor="middle" class="lbl">select batch</text>
+              <rect x="194" y="122" width="104" height="38" rx="9" class="fl-card" stroke="var(--line-2)" stroke-width="1"/>
+              <text x="246" y="145" text-anchor="middle" class="lbl">test</text>
+              <rect x="22" y="122" width="104" height="38" rx="9" class="fl-card" stroke="var(--line-2)" stroke-width="1"/>
+              <text x="74" y="145" text-anchor="middle" class="lbl">retrain</text>
+              <path d="M126 59 L188 59" class="st st-bio" marker-end="url(#lp)"/>
+              <path d="M246 78 L246 118" class="st st-bio" marker-end="url(#lp)"/>
+              <path d="M194 141 L132 141" class="st st-bio" marker-end="url(#lp)"/>
+              <path d="M74 122 L74 82" class="st st-bio" marker-end="url(#lp)"/>
+              <text x="160" y="104" text-anchor="middle">uncertainty picks batch</text>
+              <text x="160" y="186" text-anchor="middle">experiments to recover N actives</text>
+            </svg>
+          </div>
+          <div class="body">
+            <span class="kicker">Independent research &bull; preliminary result</span>
+            <h3>Calibration-Aware Active Learning for Closed-Loop Discovery</h3>
+            <p class="meta">Self-directed &middot;&nbsp;<em>bridges autonomous decision-making and computational biology</em></p>
+            <p class="sum">A self-driving lab is a control loop: a model proposes candidates, a system tests a subset, and the results retrain the model. Choosing what to test next under uncertainty is the same problem as locating a robot from noisy signals. I simulated the loop over 2,311 PTP1B inhibitors from ChEMBL and asked whether <em>calibrating</em> the scoring models makes it more efficient. It does not &mdash; 35.5 &plusmn; 3.5 hits versus 35.3 &plusmn; 4.2 at a 360-experiment budget &mdash; and for single-objective selection it actively hurts. The cause is tie-creation: isotonic regression collapses 1,844 distinct scores into 74, leaving 100 molecules tied at exactly 1.000, so the next batch is picked arbitrarily among them. One target, 8 seeds; reported as the negative result it is.</p>
+            <div class="chips"><span>Active learning</span><span>Calibration</span><span>Sequential decisions</span><span>ChEMBL / RDKit</span></div>
           </div>
         </article>
 
@@ -299,11 +337,11 @@ body.locked{overflow:hidden}
             </svg>
           </div>
           <div class="body">
-            <span class="kicker">Independent research &bull; 2026</span>
+            <span class="kicker">Course project &bull; in progress</span>
             <h3>Generative Drug Design for Post-Stroke Repair</h3>
             <p class="meta"><b>Applied AI (AAI 6600)</b> &middot; Northeastern University</p>
-            <p class="sum">Most stroke survivors miss the treatment window and keep lasting disability, because scar tissue blocks nerve regrowth. A fully computational pipeline proposes candidate compounds and scores each for barrier crossing, target activity and safety; the combined score is the reinforcement-learning reward that retrains the generator. Scaffold-split validation and a held-out judging classifier prevent circular scoring. Outputs are predictions for the lab to test, not findings.</p>
-            <div class="chips"><span>Generative models</span><span>Reinforcement learning</span><span>Scaffold-split eval</span></div>
+            <p class="sum">Most stroke survivors miss the treatment window and keep lasting disability, because scar tissue blocks nerve regrowth. A fully computational pipeline proposes candidate compounds and scores each for barrier crossing, target activity and safety; the combined score is the reinforcement-learning reward that retrains the generator. Scaffold-split validation and a held-out judging classifier prevent circular scoring. A planned vision branch renders each molecule as a 2D image for a CNN and fuses it with the graph features; it stays only if an ablation shows it helps. Outputs are predictions for a lab to test, not findings.</p>
+            <div class="chips"><span>Generative models</span><span>Reinforcement learning</span><span>Scaffold-split eval</span><span>Graph + image fusion</span></div>
           </div>
         </article>
 
@@ -316,70 +354,15 @@ body.locked{overflow:hidden}
               <line x1="204.2" y1="34" x2="204.2" y2="160" class="st st-bio" stroke-dasharray="4 3" stroke-width="1.3"/>
               <text x="210" y="44" class="lbl">k</text>
               <text x="236" y="98" class="lbl">P(X &gt; k)</text>
-              <text x="160" y="180" text-anchor="middle">one forecast prices every strike</text>
+              <text x="160" y="180" text-anchor="middle">one forecast answers every threshold</text>
             </svg>
           </div>
           <div class="body">
-            <span class="kicker">Graduate research &bull; 2026</span>
+            <span class="kicker">Course project &bull; 2026</span>
             <h3>VAD-LSTM: Volatility-Aware Distributional Forecasting</h3>
             <p class="meta"><b>Applied Deep Learning (AAI 6640)</b> &middot; Northeastern University &middot; team lead, 4 members</p>
             <p class="sum">A recurrent network that forecasts a full probability distribution rather than a point estimate, so any threshold question is read straight off the model. It extends the GARCH&ndash;LSTM equivalence of Zhao et al. (2024) with an in-cell variance recursion and a Student-t output head, validated with purged walk-forward splits, isotonic recalibration and conformal coverage. I led the team and owned the ten-year dataset.</p>
             <div class="chips"><span>TensorFlow Probability</span><span>Sequence models</span><span>Calibration</span><span>Pinned envs &amp; fixed seeds</span></div>
-          </div>
-        </article>
-
-        <article class="card ml">
-          <div class="media fig">
-            <svg viewBox="0 0 320 200" role="img" aria-label="Walk-forward validation folds with purged gaps, and a locked holdout block at the end">
-              <text x="22" y="34">walk-forward folds</text>
-              <rect x="22" y="46" width="96" height="14" rx="4" class="fl-ml" opacity=".55"/><rect x="124" y="46" width="34" height="14" rx="4" class="fl-ml"/>
-              <rect x="22" y="74" width="130" height="14" rx="4" class="fl-ml" opacity=".55"/><rect x="158" y="74" width="34" height="14" rx="4" class="fl-ml"/>
-              <rect x="22" y="102" width="164" height="14" rx="4" class="fl-ml" opacity=".55"/><rect x="192" y="102" width="34" height="14" rx="4" class="fl-ml"/>
-              <rect x="118" y="46" width="6" height="14" class="fl-bio" opacity=".8"/>
-              <rect x="152" y="74" width="6" height="14" class="fl-bio" opacity=".8"/>
-              <rect x="186" y="102" width="6" height="14" class="fl-bio" opacity=".8"/>
-              <text x="236" y="57" class="lbl">test</text>
-              <text x="236" y="113" class="fl-bio" style="fill:var(--bio)">purge</text>
-              <rect x="22" y="132" width="204" height="14" rx="4" class="fl-track"/>
-              <rect x="232" y="132" width="66" height="14" rx="4" class="fl-auto" opacity=".75"/>
-              <text x="22" y="166">locked holdout, opened once</text>
-            </svg>
-          </div>
-          <div class="body">
-            <span class="kicker">Graduate research &bull; 2026</span>
-            <h3>Market-Neutral Signal Discovery</h3>
-            <p class="meta"><b>Applied Machine Learning (AAI 6610)</b> &middot; Northeastern University</p>
-            <p class="sum">A pilot study asking whether machine-learning signals survive risk adjustment, multiple-testing correction, and realistic costs. Tree and deep models are compared against a regularized linear baseline under purged, embargoed cross-validation, with every hyperparameter trial logged and the result scored by a deflated Sharpe ratio, so apparent skill is separated from selection bias. A null result is treated as a valid answer.</p>
-            <div class="chips"><span>XGBoost</span><span>LSTM / Transformer</span><span>Deflated Sharpe</span><span>Leakage-safe CV</span></div>
-          </div>
-        </article>
-
-        <article class="card bio">
-          <div class="media fig">
-            <svg viewBox="0 0 320 200" role="img" aria-label="A closed loop: a model proposes candidates, a subset is tested, results return and retrain the model">
-              <defs><marker id="lp" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="fl-bio"/></marker></defs>
-              <rect x="22" y="40" width="104" height="38" rx="9" class="fl-card" stroke="var(--line-2)" stroke-width="1"/>
-              <text x="74" y="63" text-anchor="middle" class="lbl">propose</text>
-              <rect x="194" y="40" width="104" height="38" rx="9" class="fl-card" stroke="var(--line-2)" stroke-width="1"/>
-              <text x="246" y="63" text-anchor="middle" class="lbl">select batch</text>
-              <rect x="194" y="122" width="104" height="38" rx="9" class="fl-card" stroke="var(--line-2)" stroke-width="1"/>
-              <text x="246" y="145" text-anchor="middle" class="lbl">test</text>
-              <rect x="22" y="122" width="104" height="38" rx="9" class="fl-card" stroke="var(--line-2)" stroke-width="1"/>
-              <text x="74" y="145" text-anchor="middle" class="lbl">retrain</text>
-              <path d="M126 59 L188 59" class="st st-bio" marker-end="url(#lp)"/>
-              <path d="M246 78 L246 118" class="st st-bio" marker-end="url(#lp)"/>
-              <path d="M194 141 L132 141" class="st st-bio" marker-end="url(#lp)"/>
-              <path d="M74 122 L74 82" class="st st-bio" marker-end="url(#lp)"/>
-              <text x="160" y="104" text-anchor="middle">calibrated uncertainty picks the batch</text>
-              <text x="160" y="186" text-anchor="middle">experiments to recover N actives</text>
-            </svg>
-          </div>
-          <div class="body">
-            <span class="kicker">Independent research &bull; preliminary result</span>
-            <h3>Calibration-Aware Active Learning for Closed-Loop Discovery</h3>
-            <p class="meta">Self-directed &middot;&nbsp;<em>bridges autonomous decision-making and computational biology</em></p>
-            <p class="sum">A self-driving lab is a control loop: a model proposes candidates, a system tests a subset, and the results retrain the model. Choosing what to test next under uncertainty is the same problem as locating a robot from noisy signals. I simulated the loop over 2,311 PTP1B inhibitors from ChEMBL and asked whether <em>calibrating</em> the scoring models makes it more efficient. It does not &mdash; 35.5 &plusmn; 3.5 hits versus 35.3 &plusmn; 4.2 at a 360-experiment budget &mdash; and for single-objective selection it actively hurts. The cause is tie-creation: isotonic regression collapses 1,844 distinct scores into 74, leaving 100 molecules tied at exactly 1.000, so the next batch is picked arbitrarily among them. One target, 8 seeds; reported as the negative result it is.</p>
-            <div class="chips"><span>Active learning</span><span>Calibration</span><span>Sequential decisions</span><span>ChEMBL / RDKit</span></div>
           </div>
         </article>
 
@@ -390,7 +373,7 @@ body.locked{overflow:hidden}
   <section class="block" id="projects">
     <div class="wrap">
       <h2>Projects</h2>
-      <p class="lede">Engineering work: team robotics and independent software platforms.</p>
+      <p class="lede">Engineering work: team robotics, software platforms, and other coursework.</p>
       <div class="grid">
 
         <article class="card auto">
@@ -457,6 +440,32 @@ body.locked{overflow:hidden}
           </div>
         </article>
 
+        <article class="card ml">
+          <div class="media fig">
+            <svg viewBox="0 0 320 200" role="img" aria-label="Walk-forward validation folds with purged gaps, and a locked holdout block at the end">
+              <text x="22" y="34">walk-forward folds</text>
+              <rect x="22" y="46" width="96" height="14" rx="4" class="fl-ml" opacity=".55"/><rect x="124" y="46" width="34" height="14" rx="4" class="fl-ml"/>
+              <rect x="22" y="74" width="130" height="14" rx="4" class="fl-ml" opacity=".55"/><rect x="158" y="74" width="34" height="14" rx="4" class="fl-ml"/>
+              <rect x="22" y="102" width="164" height="14" rx="4" class="fl-ml" opacity=".55"/><rect x="192" y="102" width="34" height="14" rx="4" class="fl-ml"/>
+              <rect x="118" y="46" width="6" height="14" class="fl-bio" opacity=".8"/>
+              <rect x="152" y="74" width="6" height="14" class="fl-bio" opacity=".8"/>
+              <rect x="186" y="102" width="6" height="14" class="fl-bio" opacity=".8"/>
+              <text x="236" y="57" class="lbl">test</text>
+              <text x="236" y="113" class="fl-bio" style="fill:var(--bio)">purge</text>
+              <rect x="22" y="132" width="204" height="14" rx="4" class="fl-track"/>
+              <rect x="232" y="132" width="66" height="14" rx="4" class="fl-auto" opacity=".75"/>
+              <text x="22" y="166">locked holdout, opened once</text>
+            </svg>
+          </div>
+          <div class="body">
+            <span class="kicker">Course project &bull; 2026</span>
+            <h3>Leakage-Safe Evaluation of Learned Signals</h3>
+            <p class="meta"><b>Applied Machine Learning (AAI 6610)</b> &middot; Northeastern University</p>
+            <p class="sum">An evaluation-methodology study on noisy time series: do learned signals survive purged, embargoed cross-validation and multiple-testing correction once every trial is logged? A null result counts as an answer.</p>
+            <div class="chips"><span>XGBoost</span><span>Leakage-safe CV</span><span>Multiple-testing correction</span></div>
+          </div>
+        </article>
+
       </div>
     </div>
   </section>
@@ -465,7 +474,7 @@ body.locked{overflow:hidden}
     <div class="wrap">
       <h2>Get In Touch</h2>
       <div class="contact-card">
-        <p class="intro">I'm glad to hear about research collaborations, PhD openings, and work across machine learning, autonomous systems, and computational biology.</p>
+        <p class="intro">I'm glad to hear about research collaborations, PhD openings, and work across computer vision, autonomous systems, and computational biology.</p>
         <div class="mails">
           <div class="mail">
             <div><span class="who">Research &amp; PhD</span><span class="addr">Rockwell.o@northeastern.edu</span></div>
