@@ -140,6 +140,15 @@ h2::after{content:"";display:block;width:36px;height:3px;border-radius:2px;margi
 .tools dt{font-weight:600;color:var(--navy)}
 .tools dd{margin:3px 0 0;font-family:var(--sans);font-size:14.5px;color:var(--muted);line-height:1.55}
 
+/* outside the lab */
+.extra{list-style:none;margin:0;padding:0;display:grid;gap:12px;max-width:calc(var(--col) + 4rem)}
+.extra li{display:grid;grid-template-columns:9.5rem minmax(0,1fr);gap:0 18px;align-items:baseline;padding:10px 0;border-top:1px solid var(--rule)}
+.extra li:first-child{border-top:0;padding-top:0}
+.extra .k{font-family:var(--sans);font-size:14px;font-weight:500;color:var(--faint)}
+.extra p{font-size:16.5px}
+.extra cite{font-style:italic}
+@media (max-width:540px){.extra li{grid-template-columns:1fr;gap:2px}}
+
 /* news */
 .news{list-style:none;margin:0;padding:0;max-width:calc(var(--col) + 7rem)}
 .news li{display:grid;grid-template-columns:6.5rem minmax(0,1fr);gap:16px;padding:7px 0}
@@ -803,6 +812,15 @@ footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;back
         <div><dt>Learning</dt><dd>PyTorch, TensorFlow and TensorFlow Probability, sequence models, reinforcement learning (Stable-Baselines3, Isaac Gym, MuJoCo)</dd></div>
         <div><dt>Uncertainty and evaluation</dt><dd>Isotonic recalibration, conformal prediction, active learning, scaffold-split and purged walk-forward validation, ChEMBL and RDKit</dd></div>
       </dl>
+    </section>
+
+    <section id="outside">
+      <h2>Outside the lab</h2>
+      <ul class="extra">
+        <li><span class="k">Writing</span><p>Co-author, with Orville Rockwell Sr., of the children's book <a href="https://www.amazon.com/Adventures-Sonny-Shane-Cheetah-Friends-ebook/dp/B0FZ7FLQ1J" target="_blank" rel="noopener"><cite>The Adventures of Sonny and Shane: How a Mighty Lion of the Sahara and a Cheetah Became Friends</cite></a>. A sequel is in progress.</p></li>
+        <li><span class="k">Side projects</span><p><a href="https://github.com/OrvilleRockwellJr/CadLLM" target="_blank" rel="noopener">CAD-LLM</a>, which turns natural-language part specifications into structured CAD parameters, and <a href="https://github.com/OrvilleRockwellJr/Analytical-Predictive-ML-Platform" target="_blank" rel="noopener">APML</a>, a predictive pipeline that benchmarks models on both accuracy and inference latency.</p></li>
+        <li><span class="k">Games</span><p>Chess.</p></li>
+      </ul>
     </section>
 
     <section id="contact" class="contact">
