@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="14" fill="#0A0C11"/>
-  <rect x="2" y="2" width="60" height="60" rx="12" fill="none" stroke="#929FFF" stroke-width="2.5"/>
-  <text x="32" y="43" text-anchor="middle" font-family="Inter,Helvetica,Arial,sans-serif" font-size="30" font-weight="700" fill="#ECEFF4">OR</text>
+  <rect width="64" height="64" rx="12" fill="#14305A"/>
+  <rect x="0" y="56" width="21.3" height="8" fill="#3E7BD0"/><rect x="21.3" y="56" width="21.4" height="8" fill="#1AA3AA"/><rect x="42.7" y="56" width="21.3" height="8" fill="#D9568A"/>
+  <text x="32" y="40" text-anchor="middle" font-family="Georgia,'Times New Roman',serif" font-size="27" font-weight="700" fill="#FFFFFF">OR</text>
 </svg>

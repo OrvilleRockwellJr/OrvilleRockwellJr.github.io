@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Orville Rockwell Jr.</title>
+<title>Orville Rockwell Jr. | Computer vision research</title>
 <meta name="description" content="Orville Rockwell Jr. is a Master's student in Applied Artificial Intelligence at Northeastern University, working on computer vision for autonomous systems and computational biology.">
 <meta name="author" content="Orville Rockwell Jr.">
 <meta name="theme-color" content="#14305A">
@@ -46,7 +46,7 @@
    Three thread colors mark each entry's domain: method (cobalt), autonomous systems (teal), computational biology (rose).
    One deliberate moment: the calibration board on the Brown entry detects its corners once when it scrolls into view. */
 :root{
-  --paper:#FFFFFF; --ink:#1C2633; --muted:#5B6573; --faint:#7B8592; --rule:#E2E6EB; --wash:#F4F6F9;
+  --paper:#FFFFFF; --ink:#1C2633; --muted:#5B6573; --faint:#66707D; --rule:#E2E6EB; --wash:#F4F6F9;
   --cv:#1F4E8C; --auto:#0F7A80; --bio:#B23A64;
   --serif:"Source Serif 4",Georgia,"Times New Roman",serif;
   --sans:"IBM Plex Sans","Helvetica Neue",Arial,sans-serif;
@@ -219,6 +219,13 @@ h2::after{content:"";display:block;width:36px;height:3px;border-radius:2px;margi
 footer{margin-top:56px;background:var(--navy-2);color:var(--on-3);font-family:var(--sans);font-size:13.5px;position:relative}
 footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;background:linear-gradient(90deg,#3E7BD0 0 33.3%,#1AA3AA 33.3% 66.6%,#D9568A 66.6%)}
 .foot{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-top:26px;padding-bottom:36px}
+@media print{
+  .mast{background:none!important;color:#000}.mast::after,.mvg,.top,footer::before{display:none}
+  .mast h1,.mast .focusline,.mast .bio,.mast .bio strong{color:#000}.mast .role{color:#333}.mast a{color:#000}
+  .portrait{box-shadow:none}.agenda{background:none;padding:0}.qs li{box-shadow:none;border:1px solid #ccc}
+  footer{background:none;color:#333}.entry{break-inside:avoid}a{text-decoration:none}
+  .board .b-pt{opacity:1!important;animation:none!important}.board .b-line{stroke-dashoffset:0!important;animation:none!important}
+}
 </style>
 </head>
 <body>
@@ -457,7 +464,7 @@ footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;back
       <img class="portrait" src="assets/img/profile.jpg" alt="Orville Rockwell Jr.">
       <div>
         <h1>Orville Rockwell Jr.</h1>
-        <p class="role">Master's student in Applied Artificial Intelligence, Northeastern University<br>Research contributor, LEMS, Brown University</p>
+        <p class="role">Research contributor, LEMS, Brown University<br>Master's student in Applied Artificial Intelligence, Northeastern University</p>
         <p class="focusline">Computer vision: perception, 3D geometry and visual-inertial state estimation, for autonomous systems and computational biology.</p>
         <div class="bio">
           <p>I build vision systems that perceive, localize and act under uncertainty. At Brown, in Prof. Benjamin Kimia's group, I work on GPS-denied drone navigation and own the synchronized multi-camera sensing layer its visual pipeline depends on. At Northeastern I develop deep-learning detection and visual&ndash;IMU sensor fusion for the NUWave underwater ROV. I carry the same perception-to-decision loop into computational biology. I am applying to <strong>CS PhD programs for Fall 2027</strong>, after five years as a software engineer.</p>
@@ -575,7 +582,7 @@ footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;back
             <p class="where"><b>Prof. Benjamin Kimia's group</b>, LEMS, Brown University<br>Research contributor, 2026 to present</p>
             <span class="status live">Ongoing</span>
             <p class="sum">Localizing a fast-moving drone without satellite navigation, where motion blur and low texture starve any single view of features. The approach integrates many synchronized views with inertial cues, so every downstream estimate inherits the geometry and timing of the camera rig.</p>
-            <p class="key"><b>My part.</b> I own the multi-camera sensing layer the visual pipeline rests on: bring-up of a synchronized camera array on a Raspberry&nbsp;Pi&nbsp;5, camera calibration and frame-level time synchronization, with calibration and test code contributed to the group's repository.</p>
+            <p class="key"><b>My part.</b> I own the multi-camera sensing layer the visual pipeline rests on: hardware bring-up of a synchronized camera array on a Raspberry&nbsp;Pi&nbsp;5, camera calibration, and frame-level time synchronization, with calibration and test code contributed to the group's repository.</p>
             <p class="methods">Multi-camera systems, camera calibration, time synchronization, visual&ndash;inertial navigation</p>
           </div>
         </article>
@@ -594,22 +601,50 @@ footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;back
 
         <article class="entry t-bio" id="loop">
           <div class="thumb">
-            <svg class="fig" viewBox="0 0 320 200" role="img" aria-label="A closed loop: a model proposes candidates, a batch is selected and tested, and results retrain the model">
-              <defs><marker id="lp" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="fl-bio"/></marker></defs>
-              <rect x="22" y="40" width="104" height="38" rx="6" class="fl-box" stroke="#C9D0D8"/>
-              <text x="74" y="63" text-anchor="middle" class="lbl">propose</text>
-              <rect x="194" y="40" width="104" height="38" rx="6" class="fl-box" stroke="#C9D0D8"/>
-              <text x="246" y="63" text-anchor="middle" class="lbl">select batch</text>
-              <rect x="194" y="122" width="104" height="38" rx="6" class="fl-box" stroke="#C9D0D8"/>
-              <text x="246" y="145" text-anchor="middle" class="lbl">test</text>
-              <rect x="22" y="122" width="104" height="38" rx="6" class="fl-box" stroke="#C9D0D8"/>
-              <text x="74" y="145" text-anchor="middle" class="lbl">retrain</text>
-              <path d="M126 59 L188 59" class="st st-bio" marker-end="url(#lp)"/>
-              <path d="M246 78 L246 118" class="st st-bio" marker-end="url(#lp)"/>
-              <path d="M194 141 L132 141" class="st st-bio" marker-end="url(#lp)"/>
-              <path d="M74 122 L74 82" class="st st-bio" marker-end="url(#lp)"/>
-              <text x="160" y="104" text-anchor="middle">uncertainty picks batch</text>
-              <text x="160" y="186" text-anchor="middle">experiments needed to recover actives</text>
+            <svg class="fig" viewBox="0 0 320 200" role="img" aria-label="Results: hits at a 360-experiment budget are 35.3 plus or minus 4.2 for raw scores and 35.5 plus or minus 3.5 after calibration; calibration collapses 1,844 distinct scores to 74, leaving 100 molecules tied at 1.000">
+<text x="20" y="24" class="lbl">hits at 360 experiments</text>
+<line x1="30" y1="148.0" x2="140" y2="148.0" class="st st-faint" stroke-width="1"/>
+<text x="26" y="152.0" text-anchor="end">25</text>
+<line x1="30" y1="96.0" x2="140" y2="96.0" class="st st-faint" stroke-width="1"/>
+<text x="26" y="100.0" text-anchor="end">35</text>
+<line x1="30" y1="44.0" x2="140" y2="44.0" class="st st-faint" stroke-width="1"/>
+<text x="26" y="48.0" text-anchor="end">45</text>
+<line x1="62" y1="72.6" x2="62" y2="116.3" class="st st-cv" stroke-width="1.6"/>
+<line x1="56" y1="72.6" x2="68" y2="72.6" class="st st-cv"/><line x1="56" y1="116.3" x2="68" y2="116.3" class="st st-cv"/>
+<circle cx="62" cy="94.4" r="4.2" class="fl-cv"/>
+<text x="62" y="166" text-anchor="middle">raw</text>
+<line x1="110" y1="75.2" x2="110" y2="111.6" class="st st-bio" stroke-width="1.6"/>
+<line x1="104" y1="75.2" x2="116" y2="75.2" class="st st-bio"/><line x1="104" y1="111.6" x2="116" y2="111.6" class="st st-bio"/>
+<circle cx="110" cy="93.4" r="4.2" class="fl-bio"/>
+<text x="110" y="166" text-anchor="middle">calibrated</text>
+<text x="170" y="24" class="lbl">distinct scores</text>
+<rect x="170" y="40" width="126" height="14" rx="3" class="fl-cv" opacity=".75"/>
+<text x="170" y="68">raw: 1,844</text>
+<rect x="170" y="80" width="5.1" height="14" rx="2" class="fl-bio"/>
+<text x="170" y="108">calibrated: 74</text>
+<circle cx="174.0" cy="124.0" r="2.2" class="fl-bio" opacity=".8"/>
+<circle cx="174.0" cy="130.4" r="2.2" class="fl-bio" opacity=".8"/>
+<circle cx="180.4" cy="124.0" r="2.2" class="fl-bio" opacity=".8"/>
+<circle cx="180.4" cy="130.4" r="2.2" class="fl-bio" opacity=".8"/>
+<circle cx="186.8" cy="124.0" r="2.2" class="fl-bio" opacity=".8"/>
+<circle cx="186.8" cy="130.4" r="2.2" class="fl-bio" opacity=".8"/>
+<circle cx="193.2" cy="124.0" r="2.2" class="fl-bio" opacity=".8"/>
+<circle cx="193.2" cy="130.4" r="2.2" class="fl-bio" opacity=".8"/>
+<circle cx="199.6" cy="124.0" r="2.2" class="fl-bio" opacity=".8"/>
+<circle cx="199.6" cy="130.4" r="2.2" class="fl-bio" opacity=".8"/>
+<circle cx="206.0" cy="124.0" r="2.2" class="fl-bio" opacity=".8"/>
+<circle cx="206.0" cy="130.4" r="2.2" class="fl-bio" opacity=".8"/>
+<circle cx="212.4" cy="124.0" r="2.2" class="fl-bio" opacity=".8"/>
+<circle cx="212.4" cy="130.4" r="2.2" class="fl-bio" opacity=".8"/>
+<circle cx="218.8" cy="124.0" r="2.2" class="fl-bio" opacity=".8"/>
+<circle cx="218.8" cy="130.4" r="2.2" class="fl-bio" opacity=".8"/>
+<circle cx="225.2" cy="124.0" r="2.2" class="fl-bio" opacity=".8"/>
+<circle cx="225.2" cy="130.4" r="2.2" class="fl-bio" opacity=".8"/>
+<circle cx="231.6" cy="124.0" r="2.2" class="fl-bio" opacity=".8"/>
+<circle cx="231.6" cy="130.4" r="2.2" class="fl-bio" opacity=".8"/>
+<text x="240" y="132">100 tied</text><text x="240" y="145">at 1.000</text>
+<text x="160" y="190" text-anchor="middle">same hit rate, far fewer distinct scores to rank</text>
+
             </svg>
           </div>
           <div>
@@ -617,7 +652,7 @@ footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;back
             <p class="where"><b>Independent research</b>, self-directed<br>Bridges autonomous decision-making and computational biology</p>
             <span class="status result">Preliminary result</span>
             <p class="sum">A self-driving lab is a control loop: a model proposes candidates, a system tests a subset, and the results retrain the model. I simulated that loop over 2,311 PTP1B inhibitors from ChEMBL and asked whether <em>calibrating</em> the scoring model makes it more efficient.</p>
-            <p class="key"><b>Result.</b> It does not: 35.5&nbsp;&plusmn;&nbsp;3.5 hits versus 35.3&nbsp;&plusmn;&nbsp;4.2 at a 360-experiment budget, and for single-objective selection it hurts. Isotonic regression collapses 1,844 distinct scores into 74, leaving 100 molecules tied at exactly 1.000, so the next batch is picked arbitrarily among them. One target and 8 seeds so far.</p>
+            <p class="key"><b>Result.</b> It does not: 35.5&nbsp;&plusmn;&nbsp;3.5 hits versus 35.3&nbsp;&plusmn;&nbsp;4.2 at a 360-experiment budget, and for single-objective selection it hurts. The mechanism is resolution loss: isotonic regression is monotone but piecewise constant, so it collapses 1,844 distinct scores into 74 and leaves 100 molecules tied at exactly 1.000, making batch selection arbitrary among them. One target and 8 seeds so far.</p>
             <p class="methods">Active learning, calibration, sequential decisions, ChEMBL, RDKit</p>
           </div>
         </article>
