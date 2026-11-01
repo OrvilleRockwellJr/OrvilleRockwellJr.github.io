@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://OrvilleRockwellJr.github.io/sitemap.xml
+Sitemap: https://orvillerockwelljr.com/sitemap.xml
