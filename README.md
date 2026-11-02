@@ -12,6 +12,7 @@ favicon.svg                    tab icon
 robots.txt                     crawler rules
 sitemap.xml                    search-engine sitemap
 assets/img/profile.jpg         portrait
+assets/img/brown-rig.jpg       Brown multi-camera rig photo
 assets/img/rov.jpg             NUWave ROV photo
 assets/img/cv-preview.jpg      CV page rendered for the in-page viewer
 assets/img/og.jpg              1200x630 link-preview card
