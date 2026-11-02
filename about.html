@@ -241,6 +241,8 @@ footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;back
 .mast .hero.small{display:block;padding:40px 0 44px}
 .mast .hero.small h1{font-size:clamp(2rem,4.6vw,2.7rem)}
 .crumb{font-family:var(--sans);font-size:14.5px;margin:0 0 10px}
+@media (min-width:900px){.qs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:26px}.qs q{font-size:1.08rem}.qs p{font-size:15px}}
+.page{max-width:calc(var(--col) + 26rem)}
 </style>
 </head>
 <body>
@@ -249,6 +251,7 @@ footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;back
 <div class="page">
   <nav class="top" aria-label="Sections">
     <a href="./">Home</a>
+    <a href="#agenda">Next questions</a>
     <a href="#news">News</a>
     <a href="#education">Education</a>
     <a href="#experience">Experience</a>
@@ -259,12 +262,24 @@ footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;back
   <header class="hero small" id="main">
     <p class="crumb"><a href="./">&larr; Orville Rockwell Jr.</a></p>
     <h1>About</h1>
-    <p class="role">News, education, industry experience, methods and life outside the lab.</p>
+    <p class="role">Research questions, news, education, experience, methods and life outside the lab.</p>
   </header>
 </div>
 </div>
 <div class="page">
   <main>
+
+    <section id="agenda">
+      <h2>Questions I want to pursue</h2>
+      <p class="sub">What I would like to work on in a PhD, each one grown out of my research.</p>
+      <div class="agenda">
+        <ol class="qs">
+          <li style="--qc:var(--cv)"><span class="mk" aria-hidden="true"></span><div><q>How should uncertainty in a perception system's geometry, from calibration to pose to depth, propagate into the decisions built on it?</q><p>Multi-camera estimates at Brown and score calibration in closed-loop discovery share a failure mode: small, invisible errors become confident downstream choices.</p></div></li>
+          <li style="--qc:var(--auto)"><span class="mk" aria-hidden="true"></span><div><q>How can visual&ndash;inertial estimation stay reliable when fast motion and low texture starve the visual front end?</q><p>The GPS-denied drone and the underwater ROV meet this from opposite ends: blur at speed in open air, and murky water with little to track.</p></div></li>
+          <li style="--qc:var(--bio)"><span class="mk" aria-hidden="true"></span><div><q>Can the diffusion and 3D reconstruction tools of computer vision recover and design biological structure, and know when their outputs deserve an experiment?</q><p>Cryo-EM is 3D reconstruction from projections with unknown pose, and AlphaFold&nbsp;3 and RFdiffusion are diffusion over coordinates instead of pixels. My closed-loop result suggests the last step, deciding which outputs to trust, deserves as much attention as generation itself.</p></div></li>
+        </ol>
+      </div>
+    </section>
 
     <section id="news">
       <h2>News</h2>

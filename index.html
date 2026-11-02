@@ -518,7 +518,6 @@ footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;back
   <nav class="top" aria-label="Sections">
     <a href="#research">Research</a>
     <a href="#projects">Projects</a>
-    <a href="#agenda">Next questions</a>
     <a href="notes/calibration-ties.html">Notes</a>
     <a href="about.html">About</a>
   </nav>
@@ -846,18 +845,6 @@ footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;back
           </div>
         </article>
 
-      </div>
-    </section>
-
-    <section id="agenda">
-      <h2>Questions I want to pursue</h2>
-      <p class="sub">What I would like to work on in a PhD, each one grown out of the work above.</p>
-      <div class="agenda">
-        <ol class="qs">
-          <li style="--qc:var(--cv)"><span class="mk" aria-hidden="true"></span><div><q>How should uncertainty in a perception system's geometry, from calibration to pose to depth, propagate into the decisions built on it?</q><p>Multi-camera estimates at Brown and score calibration in closed-loop discovery share a failure mode: small, invisible errors become confident downstream choices.</p></div></li>
-          <li style="--qc:var(--auto)"><span class="mk" aria-hidden="true"></span><div><q>How can visual&ndash;inertial estimation stay reliable when fast motion and low texture starve the visual front end?</q><p>The GPS-denied drone and the underwater ROV meet this from opposite ends: blur at speed in open air, and murky water with little to track.</p></div></li>
-          <li style="--qc:var(--bio)"><span class="mk" aria-hidden="true"></span><div><q>Can the diffusion and 3D reconstruction tools of computer vision recover and design biological structure, and know when their outputs deserve an experiment?</q><p>Cryo-EM is 3D reconstruction from projections with unknown pose, and AlphaFold&nbsp;3 and RFdiffusion are diffusion over coordinates instead of pixels. My closed-loop result suggests the last step, deciding which outputs to trust, deserves as much attention as generation itself.</p></div></li>
-        </ol>
       </div>
     </section>
 
