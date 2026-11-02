@@ -280,6 +280,16 @@ footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;back
   .qs q{font-size:1.08rem}
   .qs p{font-size:15px}
 }
+/* expandable detail ("My part", "Result", "Design") */
+.js .entry .key{display:none}
+.js .entry.open .key{display:block}
+.more-btn{display:inline-flex;align-items:center;gap:4px;margin-left:6px;vertical-align:1px;font-family:var(--sans);font-size:12.5px;font-weight:600;line-height:1;padding:5px 9px;border-radius:999px;cursor:pointer;color:var(--t,var(--cv));background:color-mix(in srgb,var(--t,var(--cv)) 8%,#fff);border:1px solid color-mix(in srgb,var(--t,var(--cv)) 30%,#fff)}
+.more-btn:hover{background:color-mix(in srgb,var(--t,var(--cv)) 15%,#fff)}
+.more-btn:focus-visible{outline:2px solid var(--t,var(--cv));outline-offset:2px}
+.entry.open .sum .more-btn{display:none}
+.less-btn[hidden]{display:none}
+.less-btn{display:block;margin-top:8px;padding:0;border:0;background:none;cursor:pointer;font-family:var(--sans);font-size:13.5px;font-weight:500;color:var(--t,var(--cv));text-decoration:underline;text-underline-offset:3px}
+@media print{.js .entry .key{display:block}.more-btn,.less-btn{display:none!important}}
 </style>
 </head>
 <body>
@@ -879,6 +889,27 @@ footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;back
     es.forEach(function(e){if(e.isIntersecting){b.classList.add('go');io.disconnect();}});
   },{threshold:.5});
   io.observe(b);
+})();
+</script>
+<script>
+(function(){
+  document.documentElement.classList.add('js');
+  var n=0;
+  document.querySelectorAll('.entry').forEach(function(en){
+    var key=en.querySelector('.key'), sum=en.querySelector('.sum');
+    if(!key||!sum)return;
+    var b=key.querySelector('b'), label=b?b.textContent.replace(/\.\s*$/,''):'More';
+    var id='detail-'+(++n); key.id=id;
+    var more=document.createElement('button');
+    more.type='button'; more.className='more-btn'; more.setAttribute('aria-expanded','false'); more.setAttribute('aria-controls',id);
+    more.innerHTML=label+' <span aria-hidden="true">+</span>';
+    sum.appendChild(more);
+    var less=document.createElement('button');
+    less.type='button'; less.className='less-btn'; less.setAttribute('aria-controls',id); less.textContent='Show less';
+    key.insertAdjacentElement('afterend',less); less.hidden=true;
+    more.addEventListener('click',function(){en.classList.add('open');more.setAttribute('aria-expanded','true');less.hidden=false;less.focus({preventScroll:true});});
+    less.addEventListener('click',function(){en.classList.remove('open');more.setAttribute('aria-expanded','false');less.hidden=true;more.focus({preventScroll:true});});
+  });
 })();
 </script>
 </body>
