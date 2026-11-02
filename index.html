@@ -266,6 +266,20 @@ footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;back
   footer{background:none;color:#333}.entry{break-inside:avoid}a{text-decoration:none}
   .board .b-pt{opacity:1!important;animation:none!important}.board .b-line{stroke-dashoffset:0!important;animation:none!important}
 }
+/* side-by-side layout for research, projects and questions */
+@media (min-width:900px){
+  .entries.cols3,.entries.cols2{display:grid;gap:30px;align-items:start}
+  .entries.cols3{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .entries.cols2{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .entries.cols3 .entry,.entries.cols2 .entry{grid-template-columns:1fr;gap:14px}
+  .entries.cols3 .thumb,.entries.cols2 .thumb{max-width:none}
+  .entries.cols3 .sum,.entries.cols3 .key{font-size:15.5px}
+  .entries.cols2 .sum,.entries.cols2 .key{font-size:16px}
+  .entries.cols3 h3,.entries.cols2 h3{font-size:1.08rem}
+  .qs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+  .qs q{font-size:1.08rem}
+  .qs p{font-size:15px}
+}
 </style>
 </head>
 <body>
@@ -541,7 +555,7 @@ footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;back
 
     <section id="research">
       <h2>Research</h2>
-      <div class="entries">
+      <div class="entries cols3">
 
         <article class="entry t-auto">
           <div class="thumb">
@@ -786,7 +800,7 @@ footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;back
     <section id="projects">
       <h2>Projects</h2>
       <p class="sub">Team and course work in perception and probabilistic forecasting.</p>
-      <div class="entries">
+      <div class="entries cols2">
 
         <article class="entry t-auto">
           <div class="thumb"><img src="assets/img/rov.jpg" alt="The NUWave remotely operated underwater vehicle during a pool run" loading="lazy" width="477" height="298"></div>
