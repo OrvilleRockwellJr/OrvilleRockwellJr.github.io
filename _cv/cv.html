@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Orville Rockwell Jr. — CV</title>
+<style>
+@page{size:letter;margin:0.38in 0.5in 0.32in}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Liberation Serif","Times New Roman",serif;font-size:10.1pt;line-height:1.21;color:#111}
+a{color:inherit;text-decoration:none}
+h1{text-align:center;font-size:19pt;letter-spacing:.02em;margin:0}
+.contact{text-align:center;font-size:9.6pt;color:#555;margin-top:3px}
+.contact b{font-weight:normal;color:#111}
+h2{font-size:11pt;color:#1F3F73;letter-spacing:.06em;text-transform:uppercase;border-bottom:1px solid #1F3F73;margin:7px 0 3px;padding-bottom:1px}
+.row{display:flex;justify-content:space-between;gap:12px;margin-top:4px}
+.row .r{font-style:italic;color:#555;white-space:nowrap}
+.sub{font-style:italic;color:#555}
+ul{margin:1px 0 0;padding-left:17px}
+li{margin:0}
+.pub{margin-top:3px}
+</style>
+</head>
+<body>
+<h1>ORVILLE ROCKWELL Jr.</h1>
+<div class="contact">Providence, RI | <b>Rockwell.o@northeastern.edu</b> | <b>401-574-6797</b> | <b><a href="https://www.linkedin.com/in/orville-rockwell-jr-92806528a">LinkedIn</a></b> | <b><a href="https://github.com/OrvilleRockwellJr">github.com/OrvilleRockwellJr</a></b> | <b><a href="https://orvillerockwelljr.com">orvillerockwelljr.com</a></b><br><b><a href="https://orcid.org/0009-0008-2864-4912">ORCID 0009-0008-2864-4912</a></b> | <b><a href="https://openreview.net/profile?id=~Orville_Rockwell_Jr.1">OpenReview</a></b></div>
+
+<h2>Education</h2>
+<div class="row"><span><b>Master's in Applied Artificial Intelligence</b> | Northeastern University</span><span class="r">Expected 2027</span></div>
+<div class="sub">Research Interests: Computer Vision (Perception, 3D Geometry, Visual–Inertial Estimation); Generative Models for Biology</div>
+<div class="row"><span><b>Bachelor of Science – Information Technology</b> | Purdue University Global</span><span class="r">March 2026</span></div>
+<div class="sub">Chancellor's List 2026 · Asst. Dean's Honors Student Advisory Council · NSLS Honor Society</div>
+
+<h2>Research Experience</h2>
+<div class="row"><span><b>Research Contributor – GPS-Denied Visual Navigation</b> | Brown University, Prof. Benjamin Kimia</span><span class="r">2026 – Pres.</span></div>
+<ul>
+<li>Contributing to a research team developing GPS-denied drone localization, combining visual-inertial sensor fusion with RF-beacon triangulation to maintain positioning accuracy without satellite navigation.</li>
+<li>Own the multi-camera sensing layer: hardware bring-up of a synchronized camera array (Raspberry Pi 5, Arducam Camarray HAT), camera calibration and frame-level time synchronization, with calibration routines and tests contributed to the group's repository.</li>
+</ul>
+<div class="row"><span><b>Independent Research – Calibration-Aware Active Learning for Closed-Loop Discovery</b></span><span class="r">Preliminary result</span></div>
+<ul>
+<li>Simulated a closed-loop (“self-driving lab”) discovery cycle over 2,311 PTP1B inhibitors from ChEMBL to test whether calibrating the scoring model reduces the experiments needed.</li>
+<li>Negative result over 8 seeds (35.5 ± 3.5 vs. 35.3 ± 4.2 hits at a 360-experiment budget); traced to resolution loss: isotonic regression collapses 1,844 distinct scores into 74, making batch selection arbitrary among ties.</li>
+</ul>
+<div class="row"><span><b>Independent Research – Classifier-Guided Diffusion for Post-Stroke Drug Design</b> | Northeastern University</span><span class="r">In progress</span></div>
+<ul>
+<li>Designing a diffusion-based molecular generator whose denoising steps are steered by property-classifier gradients for blood-brain-barrier penetration, target activity and toxicity, aimed at post-stroke glial scar repair.</li>
+<li>Guidance classifiers trained on noised inputs plus a separate held-out judge keep the generator from exploiting its own guide; all scorers to be evaluated on scaffold splits.</li>
+</ul>
+
+<h2>Manuscripts in Preparation</h2>
+<div class="pub"><b>Rockwell Jr., O.</b> When calibration breaks the loop: Score resolution and batch selection in closed-loop molecular discovery. <i>Manuscript in preparation; targeting a 2027 machine learning workshop.</i></div>
+
+<h2>Work Experience</h2>
+<div class="row"><span><b>Software Onboard Engineer</b> | iTribe (B2C Blockchain &amp; Fintech)</span><span class="r">2023 – 2026</span></div>
+<ul>
+<li>Built and shipped full-stack features across product rollouts spanning the Middle East, Africa, and North America.</li>
+<li>Led QA smoke and regression testing, sustaining a 90%+ release-readiness rate.</li>
+</ul>
+
+<h2>Projects</h2>
+<div class="row"><span><b>Deep Perception &amp; Sensor Fusion, NUWave ROV</b> | Northeastern Marine Robotics (team)</span><span class="r">2026 – Pres.</span></div>
+<ul>
+<li>Developing deep-learning object detection and visual–IMU sensor fusion for the ROV's ROS perception stack, including the recognition node and its automated tests, for the MATE ROV competition.</li>
+</ul>
+<div class="row"><span><b>Team Lead – Volatility-Aware Distributional Forecasting (VAD-LSTM)</b> | AAI 6640, Prof. Behnaz Merikhi</span><span class="r">2026 – Pres.</span></div>
+<ul>
+<li>Leading a four-person team building a recurrent network that forecasts a full probability distribution, extending the GARCH–LSTM equivalence of Zhao et al. (2024) with an in-cell variance recursion and a Student-t output head; own the ten-year dataset and evaluation (purged walk-forward splits, isotonic recalibration, conformal coverage).</li>
+</ul>
+<div class="row"><span><b>Leakage-Safe Evaluation of Learned Signals</b> | AAI 6610</span><span class="r">2026</span></div>
+<ul>
+<li>Evaluation study on noisy time series using purged, embargoed cross-validation and multiple-testing correction, with every trial logged.</li>
+</ul>
+<div class="row"><span><b>CAD-LLM Platform</b> | github.com/OrvilleRockwellJr/CadLLM &nbsp;·&nbsp; <b>APML</b> | github.com/OrvilleRockwellJr/Analytical-Predictive-ML-Platform</span></div>
+<ul>
+<li>CAD-LLM: LLM-backed REST pipeline converting natural-language specifications into structured CAD parameters. APML: end-to-end predictive pipeline benchmarking TensorFlow architectures on accuracy and inference latency.</li>
+</ul>
+
+<h2>Technical Skills</h2>
+<div><b>Languages:</b> Python, C++, Rust, SQL, JavaScript, HTML, R, Ruby</div>
+<div><b>ML/AI:</b> PyTorch, TensorFlow, Keras, scikit-learn, XGBoost, OpenCV, ROS, RDKit, Isaac Gym, MuJoCo, Stable-Baselines3</div>
+<div><b>Tools/Infra:</b> Docker, AWS, Linux, Git, REST APIs, Jira, Raspberry Pi, Wireshark</div>
+</body>
+</html>

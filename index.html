@@ -149,6 +149,20 @@ h2::after{content:"";display:block;width:36px;height:3px;border-radius:2px;margi
 .extra cite{font-style:italic}
 @media (max-width:540px){.extra li{grid-template-columns:1fr;gap:2px}}
 
+/* education and experience */
+.edu{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:16px;max-width:calc(var(--col) + 7rem)}
+.edu li{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 18px;align-items:baseline}
+.edu b{font-weight:600}
+.edu .when{font-family:var(--sans);font-size:14.5px;color:var(--muted);white-space:nowrap;font-variant-numeric:tabular-nums}
+.edu .det{grid-column:1/-1;font-family:var(--sans);font-size:14.5px;color:var(--muted);line-height:1.5}
+@media (max-width:540px){.edu li{grid-template-columns:1fr}.edu .when{grid-row:2}}
+
+/* publications */
+.pubs{list-style:none;margin:0;padding:0;max-width:calc(var(--col) + 7rem);display:flex;flex-direction:column;gap:14px}
+.pubs li{padding-left:14px;border-left:3px solid var(--bio)}
+.pubs .tt{font-weight:600}
+.pubs .vn{font-family:var(--sans);font-size:14.5px;color:var(--muted);margin-top:3px}
+
 /* news */
 .news{list-style:none;margin:0;padding:0;max-width:calc(var(--col) + 7rem)}
 .news li{display:grid;grid-template-columns:6.5rem minmax(0,1fr);gap:16px;padding:7px 0}
@@ -463,11 +477,12 @@ footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;back
 </svg>
 <div class="page">
   <nav class="top" aria-label="Sections">
-    <a href="#areas">Areas</a>
+    <a href="#education">Education</a>
     <a href="#research">Research</a>
+    <a href="#publications">Publications</a>
+    <a href="#projects">Projects</a>
     <a href="#agenda">Next questions</a>
     <a href="notes/calibration-ties.html">Notes</a>
-    <a href="#methods">Methods</a>
     <a href="#contact">Contact</a>
     <a href="cv/Orville_Rockwell_CV.pdf" target="_blank" rel="noopener">CV</a>
   </nav>
@@ -476,7 +491,7 @@ footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;back
       <img class="portrait" src="assets/img/profile.jpg" alt="Orville Rockwell Jr." width="440" height="550" fetchpriority="high">
       <div>
         <h1>Orville Rockwell Jr.</h1>
-        <p class="role">Research contributor, LEMS, Brown University<br>Master's student in Applied Artificial Intelligence, Northeastern University</p>
+        <p class="role">Master's student in Applied Artificial Intelligence, Northeastern University<br>Research contributor, LEMS, Brown University</p>
         <p class="focusline">Computer vision: perception, 3D geometry and visual-inertial state estimation, for autonomous systems and computational biology.</p>
         <div class="bio">
           <p>I build vision systems that perceive, localize and act under uncertainty. At Brown, in Prof. Benjamin Kimia's group, I work on GPS-denied drone navigation and own the synchronized multi-camera sensing layer its visual pipeline depends on. At Northeastern I develop deep-learning detection and visual&ndash;IMU sensor fusion for the NUWave underwater ROV. I carry the same perception-to-decision loop into computational biology. I am applying to <strong>CS PhD programs for Fall 2027</strong>, after five years as a software engineer.</p>
@@ -512,6 +527,14 @@ footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;back
         <li><time>Oct 2026</time><p>Preliminary negative result: calibrating the scoring model does not make closed-loop molecular discovery more efficient. <a href="notes/calibration-ties.html">Read the research note.</a></p></li>
         <li><time>Oct 2026</time><p>Joined Prof. Benjamin Kimia's group at Brown (LEMS) on GPS-denied drone navigation, starting with the multi-camera sensing layer.</p></li>
         <li><time>Fall 2026</time><p>Joined Northeastern Marine Robotics, working on deep-learning detection and visual&ndash;IMU fusion for the NUWave ROV.</p></li>
+      </ul>
+    </section>
+
+    <section id="education">
+      <h2>Education</h2>
+      <ul class="edu">
+        <li><span><b>Master's in Applied Artificial Intelligence</b>, Northeastern University</span><span class="when">Expected 2027</span><span class="det">Coursework in applied deep learning, machine learning and AI systems</span></li>
+        <li><span><b>B.S. in Information Technology</b>, Purdue University Global</span><span class="when">March 2026</span><span class="det">Chancellor's List &middot; Assistant Dean's Honors Student Advisory Council &middot; NSLS Honor Society</span></li>
       </ul>
     </section>
 
@@ -597,18 +620,6 @@ footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;back
             <p class="sum">Localizing a fast-moving drone without satellite navigation, where motion blur and low texture starve any single view of features. The approach integrates many synchronized views with inertial cues, so every downstream estimate inherits the geometry and timing of the camera rig.</p>
             <p class="key"><b>My part.</b> I own the multi-camera sensing layer the visual pipeline rests on: hardware bring-up of a synchronized camera array on a Raspberry&nbsp;Pi&nbsp;5, camera calibration, and frame-level time synchronization, with calibration and test code contributed to the group's repository.</p>
             <p class="methods">Multi-camera systems, camera calibration, time synchronization, visual&ndash;inertial navigation</p>
-          </div>
-        </article>
-
-        <article class="entry t-auto">
-          <div class="thumb"><img src="assets/img/rov.jpg" alt="The NUWave remotely operated underwater vehicle during a pool run" loading="lazy" width="477" height="298"></div>
-          <div>
-            <h3><span class="mk" style="background:var(--auto)" aria-hidden="true"></span>NUWave: Deep Perception and Sensor Fusion Underwater</h3>
-            <p class="where"><b>Team research project</b>, Northeastern Marine Robotics<br>MATE ROV competition team, 2026 to present</p>
-            <span class="status live">Ongoing</span>
-            <p class="sum">Underwater perception for a semi-autonomous ROV, where turbidity, refraction and changing light break assumptions that hold in air.</p>
-            <p class="key"><b>My part.</b> I develop deep-learning object detection and visual&ndash;IMU sensor fusion in the ROV's ROS perception stack, including the recognition node and its automated tests.</p>
-            <p class="methods">Deep object detection, visual&ndash;IMU fusion, ROS, OpenCV, I&sup2;C and UART</p>
           </div>
         </article>
 
@@ -760,11 +771,38 @@ footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;back
           </div>
           <div>
             <h3><span class="mk" style="background:var(--bio)" aria-hidden="true"></span>Classifier-Guided Diffusion for Post-Stroke Drug Design</h3>
-            <p class="where"><b>Course project</b>, Applied AI (AAI 6600), Northeastern University</p>
+            <p class="where"><b>Independent research</b>, Northeastern University<br>Began as a project in Applied AI (AAI 6600), 2026 to present</p>
             <span class="status">In progress</span>
-            <p class="sum">Most stroke survivors miss the treatment window and keep lasting disability, partly because scar tissue blocks nerve regrowth. The pipeline generates candidate molecules with a diffusion model and steers every denoising step with the gradients of property classifiers for blood&ndash;brain-barrier crossing, target activity and toxicity, the same guidance mechanism used to condition image diffusion.</p>
-            <p class="key"><b>Design.</b> Guidance classifiers are trained on noised inputs, and a separate held-out classifier judges the final candidates, so the generator cannot succeed by exploiting its own guide. All scorers are validated on scaffold splits, so reported performance reflects new chemistry rather than memorized analogs.</p>
+            <p class="sum">Acute stroke treatments work only within hours of onset, and recovery afterward is limited in part by the glial scar, which blocks axon regrowth; there is still no effective treatment for post-stroke glial scarring. This project generates candidate small molecules with a diffusion model and steers every denoising step with the gradients of property classifiers for blood&ndash;brain-barrier penetration, target activity and toxicity, the same guidance mechanism used to condition image diffusion.</p>
+            <p class="key"><b>Design.</b> Guidance classifiers are trained on noised inputs, and a separate held-out classifier judges the final candidates, so the generator cannot succeed by exploiting its own guide. Every scorer will be evaluated on scaffold splits, so reported performance reflects new chemistry rather than memorized analogs. Fully in silico; no results are claimed yet.</p>
             <p class="methods">Diffusion models, classifier guidance, graph neural networks, scaffold-split evaluation</p>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <section id="publications">
+      <h2>Publications and manuscripts</h2>
+      <ul class="pubs">
+        <li><p class="tt">When calibration breaks the loop: score resolution and batch selection in closed-loop molecular discovery</p><p class="vn"><b>O. Rockwell Jr.</b> &middot; Manuscript in preparation, targeting a 2027 machine learning workshop &middot; <a href="notes/calibration-ties.html">Research note</a></p></li>
+      </ul>
+    </section>
+
+    <section id="projects">
+      <h2>Projects</h2>
+      <p class="sub">Team and course work in perception and probabilistic forecasting.</p>
+      <div class="entries">
+
+        <article class="entry t-auto">
+          <div class="thumb"><img src="assets/img/rov.jpg" alt="The NUWave remotely operated underwater vehicle during a pool run" loading="lazy" width="477" height="298"></div>
+          <div>
+            <h3><span class="mk" style="background:var(--auto)" aria-hidden="true"></span>NUWave: Deep Perception and Sensor Fusion Underwater</h3>
+            <p class="where"><b>Team project</b>, Northeastern Marine Robotics (student club)<br>MATE ROV competition team, 2026 to present</p>
+            <span class="status live">Ongoing</span>
+            <p class="sum">Underwater perception for a semi-autonomous ROV, where turbidity, refraction and changing light break assumptions that hold in air.</p>
+            <p class="key"><b>My part.</b> I develop deep-learning object detection and visual&ndash;IMU sensor fusion in the ROV's ROS perception stack, including the recognition node and its automated tests.</p>
+            <p class="methods">Deep object detection, visual&ndash;IMU fusion, ROS, OpenCV, I&sup2;C and UART</p>
           </div>
         </article>
 
@@ -791,6 +829,14 @@ footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;back
         </article>
 
       </div>
+    </section>
+
+    <section id="experience">
+      <h2>Industry experience</h2>
+      <ul class="edu">
+        <li><span><b>Software Onboard Engineer</b>, iTribe (blockchain and fintech)</span><span class="when">2023 to 2026</span><span class="det">Built and shipped full-stack features for product rollouts across the Middle East, Africa and North America; led QA smoke and regression testing.</span></li>
+        <li><span><b>Software engineering</b>, RICI and MySudra</span><span class="when">Earlier</span></li>
+      </ul>
     </section>
 
     <section id="agenda">
