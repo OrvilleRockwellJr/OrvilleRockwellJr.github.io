@@ -142,6 +142,12 @@ h2::after{content:"";display:block;width:36px;height:3px;border-radius:2px;margi
 .more{margin-top:10px;font-family:var(--sans);font-size:15px;font-weight:500}
 .lead{max-width:calc(var(--col) + 6rem);margin:-4px 0 22px;font-size:17.5px}
 
+/* area icons and tags */
+.area .ic{display:inline-flex;width:40px;height:40px;border-radius:50%;align-items:center;justify-content:center;background:color-mix(in srgb,var(--ac) 12%,#fff);margin-bottom:10px}
+.area .ic svg{width:22px;height:22px;fill:none;stroke:var(--ac);stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.area .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.area .tags span{font-family:var(--sans);font-size:12.5px;color:var(--ac);background:color-mix(in srgb,var(--ac) 8%,#fff);border:1px solid color-mix(in srgb,var(--ac) 25%,#fff);border-radius:999px;padding:2px 9px;line-height:1.5}
+
 /* methods and tools */
 .tools{display:grid;grid-template-columns:1fr;gap:14px 28px;margin:0}
 @media (min-width:760px){.tools{grid-template-columns:repeat(2,minmax(0,1fr))}}
@@ -525,11 +531,11 @@ footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;back
 
     <section id="areas">
       <h2>Research areas</h2>
-      <p class="lead">My research aims to make visual perception reliable enough to act on: systems that recover geometry and semantics from imperfect sensors, generate plausible structure where data is missing, and know how far to trust what they produce.</p>
+      <p class="lead">Making visual perception reliable enough to act on.</p>
       <ul class="areas">
-        <li class="area" style="--ac:var(--cv)"><h3>Visual perception and 3D vision</h3><p>Recovering structure and meaning from images: multi-camera geometry and calibration, learned detection and recognition, and representations that hold up under blur, low texture and domain shift.</p><p class="methods">Multiview geometry, camera models, CNN detectors, diffusion models, representation learning</p></li>
-        <li class="area" style="--ac:var(--auto)"><h3>State estimation for autonomy</h3><p>Fusing vision with inertial and other cues so aerial and underwater vehicles stay localized where GPS fails and visual features are scarce.</p><p class="methods">Visual&ndash;inertial fusion, GPS-denied localization, embedded perception</p></li>
-        <li class="area" style="--ac:var(--bio)"><h3>Generative vision for structural biology</h3><p>The diffusion and 3D reconstruction machinery of computer vision, turned on molecules: generating structures under learned constraints, recovering them from cryo-EM images, and deciding which predictions are trustworthy enough to test.</p><p class="methods">Diffusion and flow matching, classifier guidance, cryo-EM reconstruction, calibrated active learning</p></li>
+        <li class="area" style="--ac:var(--cv)"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12z"/><circle cx="12" cy="12" r="3.2"/></svg></span><h3>Perception and 3D vision</h3><p>Recovering geometry and meaning from imperfect images.</p><p class="tags"><span>Multiview geometry</span><span>Calibration</span><span>Detection</span><span>Diffusion</span></p></li>
+        <li class="area" style="--ac:var(--auto)"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="6" r="2.6"/><circle cx="19" cy="6" r="2.6"/><circle cx="5" cy="18" r="2.6"/><circle cx="19" cy="18" r="2.6"/><path d="M7 8l3 3m4 0l3-3M7 16l3-3m4 0l3 3"/><rect x="10" y="10" width="4" height="4" rx="1"/></svg></span><h3>State estimation for autonomy</h3><p>Keeping drones and underwater robots localized without GPS.</p><p class="tags"><span>Visual&ndash;inertial fusion</span><span>GPS-denied</span><span>Embedded</span></p></li>
+        <li class="area" style="--ac:var(--bio)"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 4v8l-7 4-7-4V7z"/><circle cx="12" cy="3" r="1.6"/><circle cx="19" cy="7" r="1.6"/><circle cx="19" cy="15" r="1.6"/><circle cx="12" cy="19" r="1.6"/><circle cx="5" cy="15" r="1.6"/><circle cx="5" cy="7" r="1.6"/><path d="M19 15l2.5 2"/></svg></span><h3>Generative vision for biology</h3><p>Generating molecules and deciding which predictions to trust.</p><p class="tags"><span>Diffusion</span><span>Classifier guidance</span><span>Active learning</span></p></li>
       </ul>
     </section>
 
