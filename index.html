@@ -761,17 +761,7 @@ footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;back
         </article>
 
         <article class="entry t-cv">
-          <div class="thumb">
-            <svg class="fig" viewBox="0 0 320 200" role="img" aria-label="A heavy-tailed predictive distribution with the probability mass above a threshold shaded">
-              <line x1="24" y1="160" x2="296" y2="160" class="st st-faint"/>
-              <path d="M204.2,160 L204.2,108.7 L211.1,119.6 L218.0,128.4 L224.9,135.4 L231.7,140.9 L238.6,145.2 L245.5,148.4 L252.4,150.9 L259.3,152.9 L266.2,154.3 L273.1,155.5 L279.9,156.4 L286.8,157.1 L296.0,157.8 L296.0,160 Z" class="fl-cv" opacity=".18"/>
-              <path d="M24.0,157.8 L37.6,156.7 L51.2,154.8 L64.8,151.8 L75.0,148.2 L85.2,142.9 L95.4,135.2 L105.6,124.1 L115.8,108.7 L126.0,89.1 L136.2,67.3 L146.4,47.8 L156.6,37.0 L160.0,36.2 L163.4,37.0 L173.6,47.8 L183.8,67.3 L194.0,89.1 L204.2,108.7 L214.4,124.1 L224.6,135.2 L234.8,142.9 L245.0,148.2 L255.2,151.8 L268.8,154.8 L282.4,156.7 L296.0,157.8" class="st st-cv"/>
-              <line x1="204.2" y1="34" x2="204.2" y2="160" class="st st-mute" stroke-dasharray="4 3" stroke-width="1.2"/>
-              <text x="210" y="44" class="lbl">k</text>
-              <text x="234" y="98" class="lbl">P(X &gt; k)</text>
-              <text x="160" y="182" text-anchor="middle">one forecast answers every threshold</text>
-            </svg>
-          </div>
+          <a class="thumb" href="gaslab/" style="display:block" aria-label="Open the GasLab forecasting demo"><img src="assets/img/gaslab.jpg" alt="GasLab demo: a probability curve for tomorrow's U.S. gas price with a slider to pick any price threshold" loading="lazy" width="960" height="602"></a>
           <div>
             <h3><span class="mk" style="background:var(--cv)" aria-hidden="true"></span>VAD-LSTM: Volatility-Aware Distributional Forecasting</h3>
             <p class="where"><b>Course project</b>, Applied Deep Learning (AAI 6640), Northeastern University<br>Team lead of four</p>
@@ -779,6 +769,7 @@ footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;back
             <p class="sum">A recurrent network that forecasts a full probability distribution rather than a point estimate, so any threshold question is read straight off the model. It extends the GARCH&ndash;LSTM equivalence of Zhao et al. (2024) with an in-cell variance recursion and a Student-t output head.</p>
             <p class="key"><b>My part.</b> I lead the team and own the ten-year dataset and the evaluation: purged walk-forward splits, isotonic recalibration and conformal coverage.</p>
             <p class="methods">TensorFlow Probability, sequence models, calibration, conformal prediction</p>
+            <p class="more"><a href="gaslab/">Try the model: GasLab demo</a></p>
           </div>
         </article>
 
