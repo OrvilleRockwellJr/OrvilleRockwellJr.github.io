@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>About | Orville Rockwell Jr.</title>
+<meta name="description" content="News, education, industry experience, methods and life outside the lab for Orville Rockwell Jr.">
+<meta name="author" content="Orville Rockwell Jr.">
+<meta name="theme-color" content="#14305A">
+<link rel="canonical" href="https://orvillerockwelljr.com/about.html">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+<meta property="og:type" content="profile">
+<meta property="og:site_name" content="Orville Rockwell Jr.">
+<meta property="og:title" content="Orville Rockwell Jr.">
+<meta property="og:description" content="Orville Rockwell Jr. is a Master's student in Applied Artificial Intelligence at Northeastern University, working on computer vision for autonomous systems and computational biology.">
+<meta property="og:url" content="https://orvillerockwelljr.com/about.html">
+<meta property="og:image" content="https://orvillerockwelljr.com/assets/img/og.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Orville Rockwell Jr.">
+<meta name="twitter:description" content="Orville Rockwell Jr. is a Master's student in Applied Artificial Intelligence at Northeastern University, working on computer vision for autonomous systems and computational biology.">
+<meta name="twitter:image" content="https://orvillerockwelljr.com/assets/img/og.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&display=swap">
+<style>
+/* Academic homepage: white paper, slate-blue ink, Source Serif 4 for reading, IBM Plex Sans for dates and metadata.
+   Three thread colors mark each entry's domain: method (cobalt), autonomous systems (teal), computational biology (rose).
+   One deliberate moment: the calibration board on the Brown entry detects its corners once when it scrolls into view. */
+:root{
+  --paper:#FFFFFF; --ink:#1C2633; --muted:#5B6573; --faint:#66707D; --rule:#E2E6EB; --wash:#F4F6F9;
+  --cv:#1F4E8C; --auto:#0F7A80; --bio:#B23A64;
+  --serif:"Source Serif 4",Georgia,"Times New Roman",serif;
+  --sans:"IBM Plex Sans","Helvetica Neue",Arial,sans-serif;
+  --col:46rem;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--serif);font-size:18px;line-height:1.62;font-optical-sizing:auto;-webkit-font-smoothing:antialiased}
+a{color:var(--cv);text-decoration:underline;text-decoration-color:color-mix(in srgb,var(--cv) 35%,transparent);text-underline-offset:3px;text-decoration-thickness:1px}
+a:hover{text-decoration-color:var(--cv)}
+a:focus-visible{outline:2px solid var(--cv);outline-offset:3px;border-radius:2px}
+p{margin:0}
+.skip{position:absolute;left:-9999px;top:0;background:var(--cv);color:#fff;padding:8px 14px;font-family:var(--sans);font-size:14px}
+.skip:focus{left:0}
+.page{max-width:calc(var(--col) + 14rem);margin:0 auto;padding:0 max(22px,env(safe-area-inset-left,0px)) 0 max(22px,env(safe-area-inset-right,0px))}
+
+/* masthead: deep cobalt band with the three thread colors along its lower edge */
+:root{--navy:#14305A;--navy-2:#0F2547;--on:#FFFFFF;--on-2:#D4DEEC;--on-3:#A9BDD9;--cv-bg:#EAF0F8;--auto-bg:#E6F3F3;--bio-bg:#F8E9EF}
+.mast{overflow:hidden;background:radial-gradient(120% 140% at 85% -10%,#1E4A85 0%,var(--navy) 45%,var(--navy-2) 100%);color:var(--on);position:relative}
+.mast::after{content:"";position:absolute;left:0;right:0;bottom:0;height:5px;background:linear-gradient(90deg,#3E7BD0 0 33.3%,#1AA3AA 33.3% 66.6%,#D9568A 66.6%)}
+.mast a{color:#BFD5F7;text-decoration-color:rgba(191,213,247,.45)}
+.mast a:hover{text-decoration-color:#BFD5F7}
+.mast a:focus-visible{outline-color:#fff}
+.mast .top a{color:var(--on-3)}
+.mast .top a:hover{color:#fff}
+.mast .hero{border-bottom:0;padding-bottom:56px}
+.mast h1{color:#fff}
+.mast .role{color:var(--on-3)}
+.mast .focusline{color:#fff}
+.mast .bio{color:var(--on-2)}
+.mast .bio strong{color:#fff}
+.mast .portrait{box-shadow:0 0 0 5px rgba(255,255,255,.16),0 18px 40px rgba(4,12,28,.45)}
+
+/* masthead illustration: cameras on a flight path observing a sparse 3D point cloud */
+.mvg{position:absolute;right:-90px;top:30px;width:min(470px,38vw);height:auto;pointer-events:none;opacity:.42;z-index:0;-webkit-mask-image:linear-gradient(100deg,transparent 8%,#000 45%),linear-gradient(180deg,#000 55%,transparent 92%);-webkit-mask-composite:source-in;mask-image:linear-gradient(100deg,transparent 8%,#000 45%),linear-gradient(180deg,#000 55%,transparent 92%);mask-composite:intersect}
+.m-pt{fill:#7FA6E6}.m-pt.s{fill:#C9DBFA}
+.m-ray{stroke:#D9568A;stroke-width:.8;opacity:.55}
+.m-traj{fill:none;stroke:#1AA3AA;stroke-width:1.4;stroke-dasharray:3 4}
+.m-fr{fill:none;stroke:#5CC8CF;stroke-width:1}
+.m-cam{fill:#5CC8CF}
+.mast .page{position:relative;z-index:1}
+@media (max-width:900px){.mvg{display:none}}
+
+/* top line */
+.top{display:flex;justify-content:flex-end;gap:22px;padding:22px 0 0;font-family:var(--sans);font-size:14px}
+.top a{color:var(--muted);text-decoration:none;white-space:nowrap}
+@media (max-width:540px){.top{justify-content:flex-start;flex-wrap:wrap;gap:6px 18px;font-size:13.5px}}
+.top a:hover{color:var(--ink)}
+
+/* hero */
+.hero{display:grid;grid-template-columns:1fr;gap:26px;padding:44px 0 40px;border-bottom:1px solid var(--rule)}
+@media (min-width:760px){.hero{grid-template-columns:13.5rem minmax(0,1fr);gap:44px;align-items:start;padding-top:64px}}
+.portrait{width:13.5rem;height:auto;max-width:62vw;aspect-ratio:1/1;object-fit:cover;object-position:50% 30%;border-radius:50%;display:block;background:var(--wash)}
+h1{font-size:clamp(2.4rem,5.6vw,3.4rem);font-weight:700;letter-spacing:-.015em;line-height:1.05;margin:0}
+.role{font-family:var(--sans);font-size:15.5px;color:var(--muted);margin-top:10px;line-height:1.5}
+.focusline{font-size:1.32rem;font-style:italic;margin-top:18px;line-height:1.4;color:var(--ink)}
+.bio{margin-top:16px;max-width:var(--col)}
+.bio p+p{margin-top:12px}
+.links{display:flex;flex-wrap:wrap;gap:6px 20px;margin-top:20px;font-family:var(--sans);font-size:15px;font-weight:500}
+
+/* sections */
+section{padding:40px 0 8px}
+main section[id]{scroll-margin-top:16px}
+h2{font-size:1.5rem;font-weight:600;letter-spacing:-.01em;margin:0 0 20px;color:var(--navy)}
+h2::after{content:"";display:block;width:36px;height:3px;border-radius:2px;margin-top:8px;background:linear-gradient(90deg,var(--cv) 0 33.3%,var(--auto) 33.3% 66.6%,var(--bio) 66.6%)}
+.sub{font-family:var(--sans);font-size:14.5px;color:var(--muted);margin:-12px 0 22px;max-width:var(--col)}
+
+/* research focus */
+.threads{display:grid;gap:14px;max-width:calc(var(--col) + 7rem);margin:0;padding:0;list-style:none}
+.threads li{display:grid;grid-template-columns:12px 13rem minmax(0,1fr);gap:0 14px;align-items:start}
+.threads .mk{width:10px;height:10px;border-radius:50%;margin-top:.62em}
+.threads b{font-weight:600}
+.threads span.d{color:var(--muted)}
+@media (max-width:640px){.threads li{grid-template-columns:12px minmax(0,1fr)}.threads span.d{grid-column:2}}
+.mk.cv{background:var(--cv)} .mk.auto{background:var(--auto)} .mk.bio{background:var(--bio)}
+
+/* research areas */
+.areas{display:grid;grid-template-columns:1fr;gap:16px;margin:0;padding:0;list-style:none}
+@media (min-width:860px){.areas{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.area{border-top:3px solid var(--ac);background:linear-gradient(180deg,color-mix(in srgb,var(--ac) 7%,#fff),#fff 70%);border-radius:0 0 6px 6px;padding:18px 18px 20px;box-shadow:0 1px 0 var(--rule),inset 0 0 0 1px var(--rule)}
+.area h3{font-size:1.12rem;font-weight:600;margin:0;color:var(--navy)}
+.area p{font-size:16px;margin-top:8px;color:var(--ink)}
+.area p.methods{margin-top:10px;font-family:var(--sans);font-size:13.5px;color:var(--faint)}
+.more{margin-top:10px;font-family:var(--sans);font-size:15px;font-weight:500}
+.lead{max-width:calc(var(--col) + 6rem);margin:-4px 0 22px;font-size:17.5px}
+
+/* methods and tools */
+.tools{display:grid;grid-template-columns:1fr;gap:14px 28px;margin:0}
+@media (min-width:760px){.tools{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.tools div{border-left:2px solid var(--rule);padding-left:14px}
+.tools dt{font-weight:600;color:var(--navy)}
+.tools dd{margin:3px 0 0;font-family:var(--sans);font-size:14.5px;color:var(--muted);line-height:1.55}
+
+/* outside the lab */
+.extra{list-style:none;margin:0;padding:0;display:grid;gap:12px;max-width:calc(var(--col) + 4rem)}
+.extra li{display:grid;grid-template-columns:9.5rem minmax(0,1fr);gap:0 18px;align-items:baseline;padding:10px 0;border-top:1px solid var(--rule)}
+.extra li:first-child{border-top:0;padding-top:0}
+.extra .k{font-family:var(--sans);font-size:14px;font-weight:500;color:var(--faint)}
+.extra p{font-size:16.5px}
+.extra cite{font-style:italic}
+@media (max-width:540px){.extra li{grid-template-columns:1fr;gap:2px}}
+
+/* education and experience */
+.edu{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:16px;max-width:calc(var(--col) + 7rem)}
+.edu li{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 18px;align-items:baseline}
+.edu b{font-weight:600}
+.edu .when{font-family:var(--sans);font-size:14.5px;color:var(--muted);white-space:nowrap;font-variant-numeric:tabular-nums}
+.edu .det{grid-column:1/-1;font-family:var(--sans);font-size:14.5px;color:var(--muted);line-height:1.5}
+@media (max-width:540px){.edu li{grid-template-columns:1fr}.edu .when{grid-row:2}}
+
+/* publications */
+.pubs{list-style:none;margin:0;padding:0;max-width:calc(var(--col) + 7rem);display:flex;flex-direction:column;gap:14px}
+.pubs li{padding-left:14px;border-left:3px solid var(--bio)}
+.pubs .tt{font-weight:600}
+.pubs .vn{font-family:var(--sans);font-size:14.5px;color:var(--muted);margin-top:3px}
+
+/* news */
+.news{list-style:none;margin:0;padding:0;max-width:calc(var(--col) + 7rem)}
+.news li{display:grid;grid-template-columns:6.5rem minmax(0,1fr);gap:16px;padding:7px 0}
+.news time{font-family:var(--sans);font-size:14.5px;font-weight:500;color:var(--cv);padding-top:2px;font-variant-numeric:tabular-nums}
+@media (max-width:540px){.news li{grid-template-columns:1fr;gap:0}}
+
+/* entries */
+.entries{display:flex;flex-direction:column;gap:34px}
+.entry{display:grid;grid-template-columns:1fr;gap:14px}
+@media (min-width:760px){.entry{grid-template-columns:16.5rem minmax(0,1fr);gap:30px}}
+.thumb{position:relative;aspect-ratio:16/10;background:var(--tbg,var(--wash));border:1px solid color-mix(in srgb,var(--t,var(--cv)) 22%,#fff);border-radius:4px;overflow:hidden;max-width:24rem}
+.thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.thumb svg{position:absolute;inset:0;width:100%;height:100%}
+.entry h3{font-size:1.18rem;font-weight:600;line-height:1.3;margin:0;display:flex;gap:10px;align-items:baseline}
+.entry h3 .mk{flex:none;width:9px;height:9px;border-radius:50%;transform:translateY(-2px)}
+.where{font-family:var(--sans);font-size:14.5px;color:var(--muted);margin-top:4px;line-height:1.5}
+.where b{color:var(--ink);font-weight:500}
+.status{display:inline-block;font-family:var(--sans);font-size:12.5px;font-weight:500;line-height:1;padding:5px 8px;border-radius:3px;margin-top:9px;background:var(--wash);color:var(--muted);border:1px solid var(--rule)}
+.status.live{color:var(--auto);border-color:color-mix(in srgb,var(--auto) 30%,var(--rule));background:color-mix(in srgb,var(--auto) 6%,#fff)}
+.status.result{color:var(--bio);border-color:color-mix(in srgb,var(--bio) 30%,var(--rule));background:color-mix(in srgb,var(--bio) 6%,#fff)}
+.entry .sum{margin-top:10px;max-width:var(--col);font-size:17px}
+.more{margin-top:10px;font-family:var(--sans);font-size:15px;font-weight:500}
+.methods{font-family:var(--sans);font-size:13.5px;color:var(--faint);margin-top:8px}
+
+/* key line under each entry: the one sentence a skimmer should leave with */
+.key{margin-top:12px;padding:2px 0 2px 14px;border-left:3px solid var(--t,var(--cv));font-size:17px;max-width:var(--col)}
+.key b{font-weight:600}
+.entry.t-auto{--t:var(--auto);--tbg:var(--auto-bg)} .entry.t-bio{--t:var(--bio);--tbg:var(--bio-bg)} .entry.t-cv{--t:var(--cv);--tbg:var(--cv-bg)}
+.entry h3{color:var(--ink)}
+.key{background:color-mix(in srgb,var(--t,var(--cv)) 5%,#fff);padding:10px 14px 10px 16px;border-radius:0 4px 4px 0}
+
+/* questions I want to pursue */
+.qs{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:14px}
+.qs li{display:grid;grid-template-columns:12px minmax(0,1fr);gap:0 16px}
+.qs .mk{width:10px;height:10px;border-radius:50%;margin-top:.7em}
+.qs q{display:block;font-size:1.24rem;font-style:italic;line-height:1.4;quotes:none}
+.qs p{color:var(--muted);margin-top:6px;font-size:16.5px}
+.agenda{background:linear-gradient(135deg,var(--cv-bg),#F1F4FA 55%,var(--bio-bg));border-radius:8px;padding:26px;margin-top:8px}
+.qs li{background:#fff;border-radius:6px;padding:18px 20px 18px 18px;box-shadow:0 1px 2px rgba(20,48,90,.06);border-left:4px solid var(--qc)}
+.qs li .mk{display:none}
+.qs li{grid-template-columns:minmax(0,1fr)!important}
+@media (max-width:540px){.agenda{padding:22px 18px 24px;margin-left:-6px;margin-right:-6px}}
+
+/* compact projects */
+.compact{list-style:none;margin:0;padding:0;max-width:var(--col);display:flex;flex-direction:column;gap:18px}
+.compact h3{font-size:1.08rem;font-weight:600;margin:0}
+.compact p.sum{font-size:16.5px;margin-top:4px}
+
+/* figures */
+.fig text{font-family:var(--sans);font-size:12.5px;fill:var(--muted)}
+.fig .lbl{fill:var(--ink);font-weight:500}
+.st{fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.st-faint{stroke:#C9D0D8} .st-mute{stroke:var(--faint)}
+.st-cv{stroke:var(--cv)} .st-auto{stroke:var(--auto)} .st-bio{stroke:var(--bio)}
+.fl-cv{fill:var(--cv)} .fl-auto{fill:var(--auto)} .fl-bio{fill:var(--bio)}
+.fl-box{fill:#fff} .fl-track{fill:#E3E7EC}
+
+/* calibration board */
+.b-paper{fill:#fff;stroke:#C9D0D8;stroke-width:1}
+.b-sq{fill:#2A3340}
+.b-line{fill:none;stroke-width:1.5;stroke-linejoin:round}
+.b-pt{fill:#fff;stroke-width:1.8}
+.c-auto{stroke:var(--auto)} .c-ml{stroke:var(--cv)} .c-bio{stroke:var(--bio)}
+.board .b-pt{opacity:0;transform-box:fill-box;transform-origin:center}
+.board .b-line{stroke-dasharray:240;stroke-dashoffset:240}
+.board.go .b-pt{animation:pt .32s cubic-bezier(.2,.7,.3,1.4) forwards;animation-delay:calc(var(--i) * 28ms + 120ms)}
+.board.go .b-line{animation:ln .5s ease-out forwards;animation-delay:calc(var(--r) * 196ms + 260ms)}
+@keyframes pt{from{opacity:0;transform:scale(.2)}to{opacity:1;transform:scale(1)}}
+@keyframes ln{to{stroke-dashoffset:0}}
+.board .cap{font-family:var(--sans);font-size:10.5px;fill:var(--muted)}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.board .b-pt{opacity:1}.board .b-line{stroke-dashoffset:0}.board.go .b-pt,.board.go .b-line{animation:none}}
+
+/* contact + footer */
+.contact p{max-width:var(--col)}
+.contact dl{display:grid;grid-template-columns:9rem minmax(0,1fr);gap:6px 16px;margin:16px 0 0;font-family:var(--sans);font-size:15px}
+.contact dt{color:var(--faint)}
+.contact dd{margin:0;word-break:break-word}
+@media (max-width:540px){.contact dl{grid-template-columns:1fr;gap:0}.contact dd{margin-bottom:8px}}
+footer{margin-top:56px;background:var(--navy-2);color:var(--on-3);font-family:var(--sans);font-size:13.5px;position:relative}
+footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;background:linear-gradient(90deg,#3E7BD0 0 33.3%,#1AA3AA 33.3% 66.6%,#D9568A 66.6%)}
+.foot{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-top:26px;padding-bottom:36px}
+@media print{
+  .mast{background:none!important;color:#000}.mast::after,.mvg,.top,footer::before{display:none}
+  .mast h1,.mast .focusline,.mast .bio,.mast .bio strong{color:#000}.mast .role{color:#333}.mast a{color:#000}
+  .portrait{box-shadow:none}.agenda{background:none;padding:0}.qs li{box-shadow:none;border:1px solid #ccc}
+  footer{background:none;color:#333}.entry{break-inside:avoid}a{text-decoration:none}
+  .board .b-pt{opacity:1!important;animation:none!important}.board .b-line{stroke-dashoffset:0!important;animation:none!important}
+}
+</style>
+<style>
+.mast .hero.small{display:block;padding:40px 0 44px}
+.mast .hero.small h1{font-size:clamp(2rem,4.6vw,2.7rem)}
+.crumb{font-family:var(--sans);font-size:14.5px;margin:0 0 10px}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="mast">
+<div class="page">
+  <nav class="top" aria-label="Sections">
+    <a href="./">Home</a>
+    <a href="#news">News</a>
+    <a href="#education">Education</a>
+    <a href="#experience">Experience</a>
+    <a href="#methods">Methods</a>
+    <a href="#outside">Outside the lab</a>
+    <a href="cv/Orville_Rockwell_CV.pdf" target="_blank" rel="noopener">CV</a>
+  </nav>
+  <header class="hero small" id="main">
+    <p class="crumb"><a href="./">&larr; Orville Rockwell Jr.</a></p>
+    <h1>About</h1>
+    <p class="role">News, education, industry experience, methods and life outside the lab.</p>
+  </header>
+</div>
+</div>
+<div class="page">
+  <main>
+
+    <section id="news">
+      <h2>News</h2>
+      <ul class="news">
+        <li><time>Oct 2026</time><p>Preliminary negative result: calibrating the scoring model does not make closed-loop molecular discovery more efficient. <a href="notes/calibration-ties.html">Read the research note.</a></p></li>
+        <li><time>Oct 2026</time><p>Joined Prof. Benjamin Kimia's group at Brown (LEMS) on GPS-denied drone navigation, starting with the multi-camera sensing layer.</p></li>
+        <li><time>Fall 2026</time><p>Joined Northeastern Marine Robotics, working on deep-learning detection and visual&ndash;IMU fusion for the NUWave ROV.</p></li>
+      </ul>
+    </section>
+
+    <section id="education">
+      <h2>Education</h2>
+      <ul class="edu">
+        <li><span><b>Master's in Applied Artificial Intelligence</b>, Northeastern University</span><span class="when">Expected 2027</span><span class="det">Coursework in applied deep learning, machine learning and AI systems</span></li>
+        <li><span><b>B.S. in Information Technology</b>, Purdue University Global</span><span class="when">March 2026</span><span class="det">Chancellor's List &middot; Assistant Dean's Honors Student Advisory Council &middot; NSLS Honor Society</span></li>
+      </ul>
+    </section>
+
+    <section id="experience">
+      <h2>Industry experience</h2>
+      <ul class="edu">
+        <li><span><b>Software Onboard Engineer</b>, iTribe (blockchain and fintech)</span><span class="when">2023 to 2026</span><span class="det">Built and shipped full-stack features for product rollouts across the Middle East, Africa and North America; led QA smoke and regression testing.</span></li>
+        <li><span><b>Software engineering</b>, RICI and MySudra</span><span class="when">Earlier</span></li>
+      </ul>
+    </section>
+
+    <section id="methods">
+      <h2>Methods and tools</h2>
+      <dl class="tools">
+        <div><dt>Vision and sensing</dt><dd>Camera calibration, multi-camera synchronization, CNN-based object detection, OpenCV, embedded vision on Raspberry&nbsp;Pi&nbsp;5</dd></div>
+        <div><dt>Estimation and robotics</dt><dd>Visual&ndash;IMU sensor fusion, ROS perception stacks, embedded camera hardware bring-up</dd></div>
+        <div><dt>Learning</dt><dd>PyTorch, TensorFlow and TensorFlow Probability, sequence models, reinforcement learning (Stable-Baselines3, Isaac Gym, MuJoCo)</dd></div>
+        <div><dt>Uncertainty and evaluation</dt><dd>Isotonic recalibration, conformal prediction, active learning, scaffold-split and purged walk-forward validation, ChEMBL and RDKit</dd></div>
+      </dl>
+    </section>
+
+    <section id="outside">
+      <h2>Outside the lab</h2>
+      <ul class="extra">
+        <li><span class="k">Writing</span><p>Co-author, with Orville Rockwell Sr., of the children's book <a href="https://www.amazon.com/Adventures-Sonny-Shane-Cheetah-Friends-ebook/dp/B0FZ7FLQ1J" target="_blank" rel="noopener"><cite>The Adventures of Sonny and Shane: How a Mighty Lion of the Sahara and a Cheetah Became Friends</cite></a>. A sequel is in progress.</p></li>
+        <li><span class="k">Side projects</span><p><a href="https://github.com/OrvilleRockwellJr/CadLLM" target="_blank" rel="noopener">CAD-LLM</a>, which turns natural-language part specifications into structured CAD parameters, and <a href="https://github.com/OrvilleRockwellJr/Analytical-Predictive-ML-Platform" target="_blank" rel="noopener">APML</a>, a predictive pipeline that benchmarks models on both accuracy and inference latency.</p></li>
+        <li><span class="k">Chess</span><p>Member of the Northeastern University Chess Club.</p></li>
+      </ul>
+    </section>
+
+  </main>
+</div>
+<footer>
+  <div class="page foot">
+    <span>&copy; 2026 Orville Rockwell Jr.</span>
+    <span>Last updated November 2026</span>
+  </div>
+</footer>
+</body>
+</html>

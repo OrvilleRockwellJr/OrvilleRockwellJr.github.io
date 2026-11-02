@@ -28,7 +28,7 @@
   "@type": "Person",
   "name": "Orville Rockwell Jr.",
   "url": "https://orvillerockwelljr.com/",
-  "image": "https://orvillerockwelljr.com/assets/img/profile.jpg",
+  "image": "https://orvillerockwelljr.com/assets/img/profile-square.jpg",
   "email": "mailto:Rockwell.o@northeastern.edu",
   "jobTitle": "Master's Student in Applied Artificial Intelligence",
   "description": "Orville Rockwell Jr. is a Master's student in Applied Artificial Intelligence at Northeastern University, working on computer vision for autonomous systems and computational biology.",
@@ -78,7 +78,7 @@ p{margin:0}
 .mast .focusline{color:#fff}
 .mast .bio{color:var(--on-2)}
 .mast .bio strong{color:#fff}
-.mast .portrait{box-shadow:0 0 0 4px rgba(255,255,255,.12),0 18px 40px rgba(4,12,28,.45)}
+.mast .portrait{box-shadow:0 0 0 5px rgba(255,255,255,.16),0 18px 40px rgba(4,12,28,.45)}
 
 /* masthead illustration: cameras on a flight path observing a sparse 3D point cloud */
 .mvg{position:absolute;right:-90px;top:30px;width:min(470px,38vw);height:auto;pointer-events:none;opacity:.42;z-index:0;-webkit-mask-image:linear-gradient(100deg,transparent 8%,#000 45%),linear-gradient(180deg,#000 55%,transparent 92%);-webkit-mask-composite:source-in;mask-image:linear-gradient(100deg,transparent 8%,#000 45%),linear-gradient(180deg,#000 55%,transparent 92%);mask-composite:intersect}
@@ -98,8 +98,8 @@ p{margin:0}
 
 /* hero */
 .hero{display:grid;grid-template-columns:1fr;gap:26px;padding:44px 0 40px;border-bottom:1px solid var(--rule)}
-@media (min-width:760px){.hero{grid-template-columns:11.5rem minmax(0,1fr);gap:42px;align-items:start;padding-top:64px}}
-.portrait{width:11.5rem;height:auto;max-width:58vw;aspect-ratio:4/5;object-fit:cover;object-position:50% 20%;border-radius:4px;display:block;background:var(--wash)}
+@media (min-width:760px){.hero{grid-template-columns:13.5rem minmax(0,1fr);gap:44px;align-items:start;padding-top:64px}}
+.portrait{width:13.5rem;height:auto;max-width:62vw;aspect-ratio:1/1;object-fit:cover;object-position:50% 30%;border-radius:50%;display:block;background:var(--wash)}
 h1{font-size:clamp(2.4rem,5.6vw,3.4rem);font-weight:700;letter-spacing:-.015em;line-height:1.05;margin:0}
 .role{font-family:var(--sans);font-size:15.5px;color:var(--muted);margin-top:10px;line-height:1.5}
 .focusline{font-size:1.32rem;font-style:italic;margin-top:18px;line-height:1.4;color:var(--ink)}
@@ -477,18 +477,17 @@ footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;back
 </svg>
 <div class="page">
   <nav class="top" aria-label="Sections">
-    <a href="#education">Education</a>
     <a href="#research">Research</a>
-    <a href="#publications">Publications</a>
     <a href="#projects">Projects</a>
     <a href="#agenda">Next questions</a>
     <a href="notes/calibration-ties.html">Notes</a>
+    <a href="about.html">About</a>
     <a href="#contact">Contact</a>
     <a href="cv/Orville_Rockwell_CV.pdf" target="_blank" rel="noopener">CV</a>
   </nav>
 
     <header class="hero" id="main">
-      <img class="portrait" src="assets/img/profile.jpg" alt="Orville Rockwell Jr." width="440" height="550" fetchpriority="high">
+      <img class="portrait" src="assets/img/profile-square.jpg" alt="Orville Rockwell Jr." width="400" height="400" fetchpriority="high">
       <div>
         <h1>Orville Rockwell Jr.</h1>
         <p class="role">Master's student in Applied Artificial Intelligence, Northeastern University<br>Research contributor, LEMS, Brown University</p>
@@ -518,23 +517,6 @@ footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;back
         <li class="area" style="--ac:var(--cv)"><h3>Visual perception and 3D vision</h3><p>Recovering structure and meaning from images: multi-camera geometry and calibration, learned detection and recognition, and representations that hold up under blur, low texture and domain shift.</p><p class="methods">Multiview geometry, camera models, CNN detectors, diffusion models, representation learning</p></li>
         <li class="area" style="--ac:var(--auto)"><h3>State estimation for autonomy</h3><p>Fusing vision with inertial and other cues so aerial and underwater vehicles stay localized where GPS fails and visual features are scarce.</p><p class="methods">Visual&ndash;inertial fusion, GPS-denied localization, embedded perception</p></li>
         <li class="area" style="--ac:var(--bio)"><h3>Generative vision for structural biology</h3><p>The diffusion and 3D reconstruction machinery of computer vision, turned on molecules: generating structures under learned constraints, recovering them from cryo-EM images, and deciding which predictions are trustworthy enough to test.</p><p class="methods">Diffusion and flow matching, classifier guidance, cryo-EM reconstruction, calibrated active learning</p></li>
-      </ul>
-    </section>
-
-    <section id="news">
-      <h2>News</h2>
-      <ul class="news">
-        <li><time>Oct 2026</time><p>Preliminary negative result: calibrating the scoring model does not make closed-loop molecular discovery more efficient. <a href="notes/calibration-ties.html">Read the research note.</a></p></li>
-        <li><time>Oct 2026</time><p>Joined Prof. Benjamin Kimia's group at Brown (LEMS) on GPS-denied drone navigation, starting with the multi-camera sensing layer.</p></li>
-        <li><time>Fall 2026</time><p>Joined Northeastern Marine Robotics, working on deep-learning detection and visual&ndash;IMU fusion for the NUWave ROV.</p></li>
-      </ul>
-    </section>
-
-    <section id="education">
-      <h2>Education</h2>
-      <ul class="edu">
-        <li><span><b>Master's in Applied Artificial Intelligence</b>, Northeastern University</span><span class="when">Expected 2027</span><span class="det">Coursework in applied deep learning, machine learning and AI systems</span></li>
-        <li><span><b>B.S. in Information Technology</b>, Purdue University Global</span><span class="when">March 2026</span><span class="det">Chancellor's List &middot; Assistant Dean's Honors Student Advisory Council &middot; NSLS Honor Society</span></li>
       </ul>
     </section>
 
@@ -782,13 +764,6 @@ footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;back
       </div>
     </section>
 
-    <section id="publications">
-      <h2>Publications and manuscripts</h2>
-      <ul class="pubs">
-        <li><p class="tt">When calibration breaks the loop: score resolution and batch selection in closed-loop molecular discovery</p><p class="vn"><b>O. Rockwell Jr.</b> &middot; Manuscript in preparation, targeting a 2027 machine learning workshop &middot; <a href="notes/calibration-ties.html">Research note</a></p></li>
-      </ul>
-    </section>
-
     <section id="projects">
       <h2>Projects</h2>
       <p class="sub">Team and course work in perception and probabilistic forecasting.</p>
@@ -831,14 +806,6 @@ footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;back
       </div>
     </section>
 
-    <section id="experience">
-      <h2>Industry experience</h2>
-      <ul class="edu">
-        <li><span><b>Software Onboard Engineer</b>, iTribe (blockchain and fintech)</span><span class="when">2023 to 2026</span><span class="det">Built and shipped full-stack features for product rollouts across the Middle East, Africa and North America; led QA smoke and regression testing.</span></li>
-        <li><span><b>Software engineering</b>, RICI and MySudra</span><span class="when">Earlier</span></li>
-      </ul>
-    </section>
-
     <section id="agenda">
       <h2>Questions I want to pursue</h2>
       <p class="sub">What I would like to work on in a PhD, each one grown out of the work above.</p>
@@ -849,25 +816,6 @@ footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;back
           <li style="--qc:var(--bio)"><span class="mk" aria-hidden="true"></span><div><q>Can the diffusion and 3D reconstruction tools of computer vision recover and design biological structure, and know when their outputs deserve an experiment?</q><p>Cryo-EM is 3D reconstruction from projections with unknown pose, and AlphaFold&nbsp;3 and RFdiffusion are diffusion over coordinates instead of pixels. My closed-loop result suggests the last step, deciding which outputs to trust, deserves as much attention as generation itself.</p></div></li>
         </ol>
       </div>
-    </section>
-
-    <section id="methods">
-      <h2>Methods and tools</h2>
-      <dl class="tools">
-        <div><dt>Vision and sensing</dt><dd>Camera calibration, multi-camera synchronization, CNN-based object detection, OpenCV, embedded vision on Raspberry&nbsp;Pi&nbsp;5</dd></div>
-        <div><dt>Estimation and robotics</dt><dd>Visual&ndash;IMU sensor fusion, ROS perception stacks, embedded camera hardware bring-up</dd></div>
-        <div><dt>Learning</dt><dd>PyTorch, TensorFlow and TensorFlow Probability, sequence models, reinforcement learning (Stable-Baselines3, Isaac Gym, MuJoCo)</dd></div>
-        <div><dt>Uncertainty and evaluation</dt><dd>Isotonic recalibration, conformal prediction, active learning, scaffold-split and purged walk-forward validation, ChEMBL and RDKit</dd></div>
-      </dl>
-    </section>
-
-    <section id="outside">
-      <h2>Outside the lab</h2>
-      <ul class="extra">
-        <li><span class="k">Writing</span><p>Co-author, with Orville Rockwell Sr., of the children's book <a href="https://www.amazon.com/Adventures-Sonny-Shane-Cheetah-Friends-ebook/dp/B0FZ7FLQ1J" target="_blank" rel="noopener"><cite>The Adventures of Sonny and Shane: How a Mighty Lion of the Sahara and a Cheetah Became Friends</cite></a>. A sequel is in progress.</p></li>
-        <li><span class="k">Side projects</span><p><a href="https://github.com/OrvilleRockwellJr/CadLLM" target="_blank" rel="noopener">CAD-LLM</a>, which turns natural-language part specifications into structured CAD parameters, and <a href="https://github.com/OrvilleRockwellJr/Analytical-Predictive-ML-Platform" target="_blank" rel="noopener">APML</a>, a predictive pipeline that benchmarks models on both accuracy and inference latency.</p></li>
-        <li><span class="k">Chess</span><p>Member of the Northeastern University Chess Club.</p></li>
-      </ul>
     </section>
 
     <section id="contact" class="contact">
