@@ -61,7 +61,7 @@ a:focus-visible{outline:2px solid var(--cv);outline-offset:3px;border-radius:2px
 p{margin:0}
 .skip{position:absolute;left:-9999px;top:0;background:var(--cv);color:#fff;padding:8px 14px;font-family:var(--sans);font-size:14px}
 .skip:focus{left:0}
-.page{max-width:calc(var(--col) + 14rem);margin:0 auto;padding:0 max(22px,env(safe-area-inset-left,0px)) 0 max(22px,env(safe-area-inset-right,0px))}
+.page{max-width:calc(var(--col) + 26rem);margin:0 auto;padding:0 max(22px,env(safe-area-inset-left,0px)) 0 max(22px,env(safe-area-inset-right,0px))}
 
 /* masthead: deep cobalt band with the three thread colors along its lower edge */
 :root{--navy:#14305A;--navy-2:#0F2547;--on:#FFFFFF;--on-2:#D4DEEC;--on-3:#A9BDD9;--cv-bg:#EAF0F8;--auto-bg:#E6F3F3;--bio-bg:#F8E9EF}
@@ -134,7 +134,7 @@ h2::after{content:"";display:block;width:36px;height:3px;border-radius:2px;margi
 
 /* research areas */
 .areas{display:grid;grid-template-columns:1fr;gap:16px;margin:0;padding:0;list-style:none}
-@media (min-width:860px){.areas{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (min-width:860px){.areas{grid-template-columns:repeat(3,minmax(0,1fr));gap:26px}}
 .area{border-top:3px solid var(--ac);background:linear-gradient(180deg,color-mix(in srgb,var(--ac) 7%,#fff),#fff 70%);border-radius:0 0 6px 6px;padding:18px 18px 20px;box-shadow:0 1px 0 var(--rule),inset 0 0 0 1px var(--rule)}
 .area h3{font-size:1.12rem;font-weight:600;margin:0;color:var(--navy)}
 .area p{font-size:16px;margin-top:8px;color:var(--ink)}
@@ -268,7 +268,7 @@ footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;back
 }
 /* side-by-side layout for research, projects and questions */
 @media (min-width:900px){
-  .entries.cols3,.entries.cols2{display:grid;gap:30px;align-items:start}
+  .entries.cols3,.entries.cols2{display:grid;gap:56px 52px;align-items:start}
   .entries.cols3{grid-template-columns:repeat(3,minmax(0,1fr))}
   .entries.cols2{grid-template-columns:repeat(2,minmax(0,1fr))}
   .entries.cols3 .entry,.entries.cols2 .entry{grid-template-columns:1fr;gap:14px}
@@ -276,7 +276,7 @@ footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;back
   .entries.cols3 .sum,.entries.cols3 .key{font-size:15.5px}
   .entries.cols2 .sum,.entries.cols2 .key{font-size:16px}
   .entries.cols3 h3,.entries.cols2 h3{font-size:1.08rem}
-  .qs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+  .qs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:26px}
   .qs q{font-size:1.08rem}
   .qs p{font-size:15px}
 }
