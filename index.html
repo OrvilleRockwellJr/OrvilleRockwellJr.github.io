@@ -107,6 +107,15 @@ h1{font-size:clamp(2.4rem,5.6vw,3.4rem);font-weight:700;letter-spacing:-.015em;l
 .bio p+p{margin-top:12px}
 .links{display:flex;flex-wrap:wrap;gap:6px 20px;margin-top:20px;font-family:var(--sans);font-size:15px;font-weight:500}
 
+/* research focus chips */
+.focus{display:flex;flex-wrap:wrap;align-items:center;gap:10px 8px;margin-top:20px}
+.chip{display:inline-flex;align-items:center;gap:8px;font-family:var(--sans);font-size:14.5px;font-weight:600;color:#fff;padding:7px 13px 7px 10px;border-radius:999px;background:rgba(255,255,255,.07);border:1.5px solid var(--cc)}
+.chip svg{width:20px;height:20px;fill:none;stroke:var(--cc);stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.chip.c1{--cc:#6FA3EE}.chip.c2{--cc:#3CC4CB}.chip.c3{--cc:#EE7AA7}
+.join{font-family:var(--serif);font-style:italic;color:var(--on-3);font-size:17px}
+@media (max-width:540px){.chip{font-size:14.5px}}
+@media print{.chip{color:#000;background:none}.join{color:#333}}
+
 /* sections */
 section{padding:40px 0 8px}
 main section[id]{scroll-margin-top:16px}
@@ -491,7 +500,13 @@ footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;back
       <div>
         <h1>Orville Rockwell Jr.</h1>
         <p class="role">Master's student in Applied Artificial Intelligence, Northeastern University<br>Research contributor, LEMS, Brown University</p>
-        <p class="focusline">Computer vision: perception, 3D geometry and visual-inertial state estimation, for autonomous systems and computational biology.</p>
+        <div class="focus" role="img" aria-label="Computer vision for autonomous systems and computational biology">
+          <span class="chip c1"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12z"/><circle cx="12" cy="12" r="3.2"/></svg>Computer Vision</span>
+          <span class="join">for</span>
+          <span class="chip c2"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="6" r="2.6"/><circle cx="19" cy="6" r="2.6"/><circle cx="5" cy="18" r="2.6"/><circle cx="19" cy="18" r="2.6"/><path d="M7 8l3 3m4 0l3-3M7 16l3-3m4 0l3 3"/><rect x="10" y="10" width="4" height="4" rx="1"/></svg>Autonomous Systems</span>
+          <span class="join">&amp;</span>
+          <span class="chip c3"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 4v8l-7 4-7-4V7z"/><circle cx="12" cy="3" r="1.6"/><circle cx="19" cy="7" r="1.6"/><circle cx="19" cy="15" r="1.6"/><circle cx="12" cy="19" r="1.6"/><circle cx="5" cy="15" r="1.6"/><circle cx="5" cy="7" r="1.6"/><path d="M19 15l2.5 2"/></svg>Computational Biology</span>
+        </div>
         <div class="bio">
           <p>I build vision systems that perceive, localize and act under uncertainty. At Brown, in Prof. Benjamin Kimia's group, I work on GPS-denied drone navigation and own the synchronized multi-camera sensing layer its visual pipeline depends on. At Northeastern I develop deep-learning detection and visual&ndash;IMU sensor fusion for the NUWave underwater ROV. I carry the same perception-to-decision loop into computational biology. I am applying to <strong>CS PhD programs for Fall 2027</strong>, after five years as a software engineer.</p>
         </div>
