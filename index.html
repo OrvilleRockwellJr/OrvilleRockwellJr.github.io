@@ -562,8 +562,8 @@ footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;back
       <h2>Research areas</h2>
       <p class="lead">Making visual perception reliable enough to act on.</p>
       <ul class="areas">
-        <li class="area" style="--ac:var(--cv)"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12z"/><circle cx="12" cy="12" r="3.2"/></svg></span><h3>Perception and 3D vision</h3><p>Recovering geometry and meaning from imperfect images. The focus is on estimates that stay reliable as texture, lighting and resolution degrade.</p><p class="tags"><span>Multiview geometry</span><span>Calibration</span><span>Detection</span><span>Diffusion</span></p></li>
-        <li class="area" style="--ac:var(--auto)"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="6" r="2.6"/><circle cx="19" cy="6" r="2.6"/><circle cx="5" cy="18" r="2.6"/><circle cx="19" cy="18" r="2.6"/><path d="M7 8l3 3m4 0l3-3M7 16l3-3m4 0l3 3"/><rect x="10" y="10" width="4" height="4" rx="1"/></svg></span><h3>State estimation for autonomy</h3><p>Keeping drones and underwater robots localized without GPS. Fusing vision with inertial cues so pose holds when visual features run out.</p><p class="tags"><span>Visual&ndash;inertial fusion</span><span>GPS-denied</span><span>Embedded</span></p></li>
+        <li class="area" style="--ac:var(--cv)"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12z"/><circle cx="12" cy="12" r="3.2"/></svg></span><h3>Perception and 3D vision</h3><p>Recovering 3D structure and semantics from imperfect imagery, where multi-view geometry meets learned models that must stay accurate under blur, low texture and domain shift.</p><p class="tags"><span>Multi-view geometry</span><span>Calibration</span><span>Deep detection</span><span>Representation learning</span></p></li>
+        <li class="area" style="--ac:var(--auto)"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="6" r="2.6"/><circle cx="19" cy="6" r="2.6"/><circle cx="5" cy="18" r="2.6"/><circle cx="19" cy="18" r="2.6"/><path d="M7 8l3 3m4 0l3-3M7 16l3-3m4 0l3 3"/><rect x="10" y="10" width="4" height="4" rx="1"/></svg></span><h3>State estimation for autonomy</h3><p>Keeping drones and underwater robots localized without GPS. Learned fusion of camera, LiDAR and IMU so pose holds when any one sensor drops out.</p><p class="tags"><span>Multi-sensor fusion</span><span>LiDAR &amp; IMU</span><span>GPS-denied</span><span>Embedded</span></p></li>
         <li class="area" style="--ac:var(--bio)"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 4v8l-7 4-7-4V7z"/><circle cx="12" cy="3" r="1.6"/><circle cx="19" cy="7" r="1.6"/><circle cx="19" cy="15" r="1.6"/><circle cx="12" cy="19" r="1.6"/><circle cx="5" cy="15" r="1.6"/><circle cx="5" cy="7" r="1.6"/><path d="M19 15l2.5 2"/></svg></span><h3>Generative vision for biology</h3><p>Diffusion models that design new drug molecules under learned constraints, and deep networks that predict biomolecular structure.</p><p class="tags"><span>Generative drug design</span><span>Diffusion</span><span>Structure prediction</span></p></li>
       </ul>
     </section>
@@ -734,7 +734,7 @@ footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;back
             <h3><span class="mk" style="background:var(--bio)" aria-hidden="true"></span>Classifier-Guided Diffusion for Post-Stroke Drug Design</h3>
             <p class="where"><b>Independent research</b>, Northeastern University<br>Began as a project in Applied AI (AAI 6600), 2026 to present</p>
             <span class="status">In progress</span>
-            <p class="sum">No effective treatment exists for the glial scar that blocks axon regrowth after stroke. This project designs candidate small molecules with a diffusion model whose every denoising step is steered by property classifiers for brain penetration, target activity and toxicity.</p>
+            <p class="sum">No effective treatment exists for the glial scar that blocks axon regrowth after stroke. This project adapts the diffusion-and-classifier machinery of computer vision to drug design: a diffusion model generates candidate small molecules, while machine-learned property classifiers predict brain penetration, target activity and toxicity and steer every denoising step.</p>
             <p class="key"><b>Design.</b> Guidance classifiers are trained on noised inputs, and a separate held-out classifier judges the final candidates, so the generator cannot succeed by exploiting its own guide. Every scorer will be evaluated on scaffold splits, so reported performance reflects new chemistry rather than memorized analogs. Fully in silico; no results are claimed yet.</p>
             <p class="methods">Diffusion models, classifier guidance, graph neural networks, scaffold-split evaluation</p>
           </div>
@@ -778,7 +778,7 @@ footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;back
 
     <section id="contact" class="contact">
       <h2>Contact</h2>
-      <p>I'm glad to hear about research collaborations and PhD openings in computer vision, 3D perception, autonomous systems and computational biology.</p>
+      <p>I'm glad to hear about research collaborations and PhD openings in computer vision, machine learning, autonomous systems and computational biology.</p>
       <dl>
         <dt>Research and PhD</dt><dd><a href="mailto:Rockwell.o@northeastern.edu">Rockwell.o@northeastern.edu</a></dd>
         <dt>General</dt><dd><a href="mailto:Rockwellkorville@gmail.com">Rockwellkorville@gmail.com</a></dd>
