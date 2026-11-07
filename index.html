@@ -35,7 +35,7 @@
   "address": {"@type": "PostalAddress", "addressLocality": "Providence", "addressRegion": "RI", "addressCountry": "US"},
   "affiliation": {"@type": "CollegeOrUniversity", "name": "Northeastern University"},
   "alumniOf": {"@type": "CollegeOrUniversity", "name": "Purdue University Global"},
-  "knowsAbout": ["Computer Vision", "Generative Modeling", "Machine Learning", "Computational Biology", "Autonomous Systems", "Active Learning"],
+  "knowsAbout": ["Computer Vision", "Generative Modeling", "Machine Learning", "Computational Biology", "Autonomous Systems", "Active Learning", "Diffusion Models", "Drug Discovery"],
   "sameAs": ["https://github.com/OrvilleRockwellJr", "https://www.linkedin.com/in/orville-rockwell-jr-92806528a", "https://orcid.org/0009-0008-2864-4912", "https://openreview.net/profile?id=~Orville_Rockwell_Jr.1"]
 }</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -642,6 +642,7 @@ footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;back
             <span class="status result">Preliminary result</span>
             <p class="sum">A self-driving lab is a control loop: a model proposes candidates, a system tests a subset, and the results retrain the model. I simulated that loop over 2,311 PTP1B inhibitors from ChEMBL and asked whether <em>calibrating</em> the scoring model makes it more efficient.</p>
             <p class="key"><b>Result.</b> It does not: 35.5&nbsp;&plusmn;&nbsp;3.5 hits versus 35.3&nbsp;&plusmn;&nbsp;4.2 at a 360-experiment budget, and for single-objective selection it hurts. The mechanism is resolution loss: isotonic regression is monotone but piecewise constant, so it collapses 1,844 distinct scores into 74 and leaves 100 molecules tied at exactly 1.000, making batch selection arbitrary among them. One target and 8 seeds so far.</p>
+            <p class="sum"><b>Next (planned).</b> Test whether the finding holds on a second target and on protein-variant fitness data, extending the loop beyond small molecules.</p>
             <p class="methods">Active learning, calibration, sequential decisions, ChEMBL, RDKit</p>
             <p class="more"><a href="notes/calibration-ties.html">Read the research note: When calibration breaks the loop</a></p>
           </div>
