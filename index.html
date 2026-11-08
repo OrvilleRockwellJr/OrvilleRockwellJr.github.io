@@ -749,8 +749,21 @@ footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;back
 
     <section id="projects">
       <h2>Projects</h2>
-      <p class="sub">Team and course work in perception and probabilistic forecasting.</p>
+      <p class="sub">Independent, team and course work in perception, calibration and probabilistic forecasting.</p>
       <div class="entries cols2">
+
+        <article class="entry t-cv">
+          <a class="thumb" href="https://github.com/OrvilleRockwellJr/OrvilleRockwellJr.github.io/blob/main/projects/human-alignment-calibration/REPORT.md" target="_blank" rel="noopener" style="display:block" aria-label="Read the short paper on human alignment and confidence"><img src="assets/img/alignment-calibration.jpg" alt="Scatter plot of eight pretrained networks: higher top-1 accuracy goes with lower alignment to human importance maps" loading="lazy" width="960" height="600"></a>
+          <div>
+            <h3><span class="mk" style="background:var(--cv)" aria-hidden="true"></span>Does Human Alignment Make a Network's Confidence More Reliable?</h3>
+            <p class="where"><b>Independent project</b>, Northeastern University<br>November 2026</p>
+            <span class="status">Completed</span>
+            <p class="sum">Networks that rely on the image regions humans mark as diagnostic are not obviously better at knowing when they are wrong. I tested this on 1,500 ClickMe images with eight pretrained ImageNet networks, with the hypotheses and tests written down before any model was run.</p>
+            <p class="key"><b>Result.</b> The published trade-off between accuracy and human alignment reproduced (Spearman &minus;0.74 across models), but image-level alignment added no information about errors beyond confidence in any of the eight models. A secondary measure of reliance on human-marked regions showed only a weak, non-robust signal in the newest architectures.</p>
+            <p class="methods">Gradient attribution, Spearman alignment, calibration (ECE), within-bin permutation tests, Holm correction</p>
+            <p class="more"><a href="https://github.com/OrvilleRockwellJr/OrvilleRockwellJr.github.io/blob/main/projects/human-alignment-calibration/REPORT.md" target="_blank" rel="noopener">Short paper</a> &middot; <a href="https://github.com/OrvilleRockwellJr/OrvilleRockwellJr.github.io/tree/main/projects/human-alignment-calibration" target="_blank" rel="noopener">Code and data</a></p>
+          </div>
+        </article>
 
         <article class="entry t-auto">
           <a class="thumb" href="https://nurobotics.org/marine-robotics/" target="_blank" rel="noopener" style="display:block" aria-label="Northeastern Marine Robotics project page"><img src="assets/img/rov.jpg" alt="The NUWave remotely operated underwater vehicle during a pool run" loading="lazy" width="477" height="298"></a>
