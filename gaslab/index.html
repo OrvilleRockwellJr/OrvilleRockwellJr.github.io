@@ -5,8 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>GasLab: forecasting tomorrow's gas price | Orville Rockwell Jr.</title>
 <meta name="description" content="Interactive demo of a GARCH-LSTM-t model that forecasts the U.S. average gas price as a full probability distribution and prices Kalshi contracts. Includes an honest scorecard against the market.">
-<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="icon" href="https://orvillerockwelljr.com/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&display=swap">
+<script>
+/* Data comes from the class repo so the daily GitHub Actions update shows up here; the bundled copy is the fallback. */
+window.fetchData=function(name){
+  var base="https://raw.githubusercontent.com/OrvilleRockwellJr/aai6640-team5/";
+  var urls=[base+"main/docs/"+name,base+"orville/gaslab-calendar/docs/"+name,name];
+  return urls.reduce(function(p,u){return p.catch(function(){return fetch(u,{cache:"no-store"}).then(function(r){if(!r.ok)throw 0;return r})})},Promise.reject());
+};
+</script>
 <style>
 :root{--ink:#1C2633;--muted:#5B6573;--faint:#66707D;--rule:#E2E6EB;--wash:#F4F6F9;--cv:#1F4E8C;--auto:#0F7A80;--bio:#B23A64;--navy:#14305A;--navy2:#0F2547;
 --serif:"Source Serif 4",Georgia,serif;--sans:"IBM Plex Sans","Helvetica Neue",Arial,sans-serif}
@@ -61,13 +69,50 @@ tr.hi td{background:#EAF0F8}
 footer{margin-top:56px;background:var(--navy2);color:#A9BDD9;font-family:var(--sans);font-size:13.5px}
 footer .page{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-top:24px;padding-bottom:30px}
 footer a{color:#BFD5F7}
+.cal-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px;font-family:var(--sans)}
+.cal-head b{font-size:1.1rem;color:var(--navy);min-width:9.5rem;text-align:center}
+.cal-head button,.act button,.act a.btn{font:inherit;font-family:var(--sans);font-size:14px;font-weight:500;padding:7px 14px;border:1px solid #C9D0D8;border-radius:6px;background:#fff;color:var(--navy);cursor:pointer;text-decoration:none;display:inline-block}
+.cal-head button:hover:not(:disabled),.act button:hover,.act a.btn:hover{background:var(--wash)}
+.cal-head button:disabled{opacity:.4;cursor:default}
+.act a.btn.pri{background:var(--cv);border-color:var(--cv);color:#fff}
+.act a.btn.pri:hover{background:var(--navy)}
+.cal{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;font-family:var(--sans)}
+.cal .dow{font-size:12px;font-weight:600;color:var(--muted);text-align:center;letter-spacing:.04em;text-transform:uppercase;padding-bottom:2px}
+.cal .day{min-height:62px;border-radius:6px;border:1px solid var(--rule);background:#fff;padding:5px 7px;text-align:left;font:inherit;font-family:var(--sans);color:var(--ink);display:flex;flex-direction:column;justify-content:space-between}
+.cal .day .n{font-size:12px;color:var(--muted)}
+.cal .day .e{font-size:13px;font-weight:600;font-variant-numeric:tabular-nums}
+.cal .day.none{background:var(--wash);color:#9AA3AD;border-color:transparent}
+button.day{cursor:pointer}
+button.day:hover{box-shadow:0 0 0 2px var(--cv)}
+button.day:focus-visible{outline:3px solid var(--cv);outline-offset:1px}
+.day.g{background:color-mix(in srgb,var(--auto) 14%,#fff);border-color:color-mix(in srgb,var(--auto) 45%,#fff)}
+.day.m{background:color-mix(in srgb,#F2B14C 24%,#fff);border-color:#E7C27C}
+.day.b{background:color-mix(in srgb,var(--bio) 13%,#fff);border-color:color-mix(in srgb,var(--bio) 40%,#fff)}
+.day.p{border:2px dashed var(--cv);background:color-mix(in srgb,var(--cv) 6%,#fff)}
+.day.sel{box-shadow:0 0 0 3px var(--navy)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 18px;font-family:var(--sans);font-size:13px;color:var(--muted);margin-top:14px}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:-1px;margin-right:6px;border:1px solid var(--rule)}
+.detail{margin-top:20px;border-top:1px solid var(--rule);padding-top:18px}
+.detail h3{margin:0 0 10px;font-size:1.15rem;color:var(--navy)}
+.detail .grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px 22px}
+.detail .grid div{font-family:var(--sans)}
+.detail .grid span{display:block;font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+.detail .grid b{font-size:1.35rem;color:var(--navy);font-variant-numeric:tabular-nums}
+.detail .grid small{display:block;color:var(--muted);font-size:13px}
+.msum{display:flex;flex-wrap:wrap;gap:8px 26px;font-family:var(--sans);font-size:14px;color:var(--muted);margin:0 0 16px}
+.msum b{color:var(--navy)}
+.act{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0 6px}
+.live{list-style:none;padding:0;margin:0;font-family:var(--sans);font-size:14.5px;color:var(--muted)}
+.live li{padding:4px 0}.live b{color:var(--navy)}
+@media (max-width:900px){.detail .grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:520px){.cal{gap:3px}.cal .day{min-height:50px;padding:4px}.cal .day .e{font-size:11px}}
 @media (max-width:900px){.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}.two{grid-template-columns:1fr}.how{grid-template-columns:1fr}}
 @media (max-width:480px){.tiles{grid-template-columns:1fr}.panel{padding:18px}}
 </style>
 </head>
 <body>
 <div class="mast"><div class="page">
-  <p class="crumb"><a href="../">&larr; Orville Rockwell Jr.</a></p>
+  <p class="crumb"><a href="https://orvillerockwelljr.com/">&larr; Orville Rockwell Jr.</a></p>
   <h1>GasLab: forecasting tomorrow's gas price</h1>
   <p class="dek">A GARCH&ndash;LSTM model that predicts the U.S. average gas price as a full probability distribution, so any price threshold can be answered directly. Move the slider to ask it a question.</p>
   <span class="pill" id="status"><i></i><span>Loading&hellip;</span></span>
@@ -98,6 +143,28 @@ footer a{color:#BFD5F7}
 </section>
 
 <section>
+  <h2>Past forecasts, day by day</h2>
+  <p class="sub">Pick any day to see what the model predicted for it, what the price turned out to be, and how close it was. Every day shown was forecast before its price was known; none comes from data the model was trained on.</p>
+  <div class="panel">
+    <div class="cal-head">
+      <button id="cprev" type="button" aria-label="Previous month">&larr; Prev</button>
+      <b id="cmonth" aria-live="polite"></b>
+      <button id="cnext" type="button" aria-label="Next month">Next &rarr;</button>
+    </div>
+    <p class="msum" id="msum"></p>
+    <div class="cal" id="cal" role="group" aria-label="Calendar of forecasts"></div>
+    <div class="legend">
+      <span><i style="background:color-mix(in srgb,var(--auto) 14%,#fff)"></i>within 1&cent;</span>
+      <span><i style="background:color-mix(in srgb,#F2B14C 24%,#fff)"></i>1&ndash;2&cent; off</span>
+      <span><i style="background:color-mix(in srgb,var(--bio) 13%,#fff)"></i>more than 2&cent; off</span>
+      <span><i style="border:2px dashed var(--cv)"></i>forecast, price not yet published</span>
+    </div>
+    <div class="detail" id="detail" aria-live="polite"></div>
+  </div>
+  <p class="note" id="calnote"></p>
+</section>
+
+<section>
   <h2>Contract by contract</h2>
   <p class="sub" id="ladder-sub"></p>
   <div class="panel tw"><table id="ladder"></table></div>
@@ -116,6 +183,20 @@ footer a{color:#BFD5F7}
   <div class="panel tw">
     <table class="score" id="score"></table>
     <div class="verdict" id="verdict"></div>
+  </div>
+</section>
+
+<section>
+  <h2>Keeping it current</h2>
+  <p class="sub">The page is static, so it cannot change itself. A scheduled job in the project repository does the updating and republishes these files.</p>
+  <div class="panel">
+    <ul class="live" id="live"></ul>
+    <div class="act">
+      <a class="btn pri" id="adddata" target="_blank" rel="noopener" href="https://github.com/OrvilleRockwellJr/aai6640-team5/issues/new?template=add-data.yml">Add a data point</a>
+      <a class="btn" target="_blank" rel="noopener" href="https://github.com/OrvilleRockwellJr/aai6640-team5/actions/workflows/daily-update.yml">Run the update now</a>
+      <a class="btn" target="_blank" rel="noopener" href="https://github.com/OrvilleRockwellJr/aai6640-team5/tree/orville/integrate-all-parts">View the code</a>
+    </div>
+    <p class="note">Every morning the job pulls new wholesale and crude prices from FRED and the AAA national average, scores yesterday's forecast, and locks in tomorrow's so it can never be edited afterwards. Every Sunday it refits the model on everything collected. &ldquo;Add a data point&rdquo; opens a short form on GitHub; entries from project members are added automatically, anyone else's wait for review. &ldquo;Run the update now&rdquo; needs a GitHub account with access to the project.</p>
   </div>
 </section>
 
@@ -149,7 +230,7 @@ function usd(x,d){return "$"+x.toFixed(d==null?3:d)}
 function pc(x,d){return (100*x).toFixed(d==null?0:d)+"%"}
 function dstr(s){var d=new Date(s+"T12:00:00");return d.toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric",year:"numeric"})}
 
-fetch("forecast.json",{cache:"no-store"}).then(function(r){return r.json()}).then(init).catch(function(e){$("status").lastChild.textContent="Could not load forecast.json";console.error(e)});
+fetchData("forecast.json",{cache:"no-store"}).then(function(r){return r.json()}).then(init).catch(function(e){$("status").lastChild.textContent="Could not load forecast.json";console.error(e)});
 
 function init(D){
   var A=D.last_aaa,mu=D.dist.mu_pct,sc=D.dist.scale_pct,nu=D.dist.df;
@@ -236,6 +317,107 @@ function init(D){
   $("verdict").textContent=S.verdict;
   if($("repo"))$("repo").href=D.repo;
   $("gen").textContent="Snapshot generated "+D.generated_utc+" UTC";
+}
+})();
+</script>
+
+<script>
+(function(){
+"use strict";
+var $=function(id){return document.getElementById(id)};
+var MON=["January","February","March","April","May","June","July","August","September","October","November","December"];
+var DOW=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+var SRC={heldout:"Held-out day: the model was fitted only on data through June 30, 2026.",oos:"Out-of-sample day: the shipped model (trained through Nov 3), using only data from the day before.",live:"Live forecast: locked in before the price was published."};
+function usd(x){return "$"+x.toFixed(3)}
+function esc(t){return String(t).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function ymd(y,m,d){return y+"-"+("0"+(m+1)).slice(-2)+"-"+("0"+d).slice(-2)}
+function longDate(s){return new Date(s+"T12:00:00").toLocaleDateString("en-US",{weekday:"long",month:"long",day:"numeric",year:"numeric"})}
+function errC(r){return r.actual==null?null:(r.actual-r.pred)*100}
+function dirOK(r){var a=r.actual-r.prev;if(r.actual==null||Math.abs(a)<1e-9)return null;return ((r.pred-r.prev)>0)===(a>0)}
+
+Promise.all([
+  fetchData("history.json",{cache:"no-store"}).then(function(r){return r.json()}),
+  fetchData("forecast.json",{cache:"no-store"}).then(function(r){return r.json()}).catch(function(){return null})
+]).then(function(a){start(a[0],a[1])}).catch(function(e){$("calnote").textContent="Could not load history.json.";console.error(e)});
+
+function start(H,F){
+  var rows=H.days.slice(),by={};
+  rows.forEach(function(r){by[r.date]=r});
+  if(F&&!by[F.target_date]){
+    var p={date:F.target_date,prev:F.last_aaa,pred:F.forecast,lo80:F.interval80[0],hi80:F.interval80[1],lo95:F.interval95[0],hi95:F.interval95[1],prob_up:F.prob_up,actual:null,source:"live"};
+    rows.push(p);by[p.date]=p;
+  }
+  rows.sort(function(x,y){return x.date<y.date?-1:1});
+  var first=rows[0].date,last=rows[rows.length-1].date;
+  var cy=+last.slice(0,4),cm=+last.slice(5,7)-1,sel=null;
+  var graded=rows.filter(function(r){return r.actual!=null});
+  sel=graded.length?graded[graded.length-1].date:last;
+  function monthKey(y,m){return y*12+m}
+  var minK=monthKey(+first.slice(0,4),+first.slice(5,7)-1),maxK=monthKey(+last.slice(0,4),+last.slice(5,7)-1);
+
+  function render(){
+    $("cmonth").textContent=MON[cm]+" "+cy;
+    $("cprev").disabled=monthKey(cy,cm)<=minK;$("cnext").disabled=monthKey(cy,cm)>=maxK;
+    var cal=$("cal");cal.innerHTML="";
+    DOW.forEach(function(d){var e=document.createElement("div");e.className="dow";e.textContent=d;cal.appendChild(e)});
+    var f=new Date(cy,cm,1).getDay(),n=new Date(cy,cm+1,0).getDate(),i,mrows=[];
+    for(i=0;i<f;i++)cal.appendChild(document.createElement("div"));
+    for(i=1;i<=n;i++){
+      var ds=ymd(cy,cm,i),r=by[ds],el;
+      if(!r){el=document.createElement("div");el.className="day none";el.innerHTML='<span class="n">'+i+'</span>';cal.appendChild(el);continue}
+      mrows.push(r);
+      el=document.createElement("button");el.type="button";
+      var e=errC(r),cls=e==null?"p":(Math.abs(e)<=1?"g":Math.abs(e)<=2?"m":"b");
+      el.className="day "+cls+(ds===sel?" sel":"");
+      el.setAttribute("aria-label",longDate(ds)+": "+(e==null?"forecast "+usd(r.pred)+", price not yet published":"forecast "+usd(r.pred)+", actual "+usd(r.actual)+", off by "+Math.abs(e).toFixed(1)+" cents"));
+      el.innerHTML='<span class="n">'+i+'</span><span class="e">'+(e==null?"pending":Math.abs(e).toFixed(1)+"¢")+'</span>';
+      el.addEventListener("click",(function(d){return function(){sel=d;render()}})(ds));
+      cal.appendChild(el);
+    }
+    summary(mrows);detail();
+  }
+  function summary(m){
+    var g=m.filter(function(r){return r.actual!=null}),s=$("msum");
+    if(!g.length){s.innerHTML="No graded days this month yet.";return}
+    var mae=g.reduce(function(t,r){return t+Math.abs(errC(r))},0)/g.length;
+    var nv=g.reduce(function(t,r){return t+Math.abs((r.actual-r.prev)*100)},0)/g.length;
+    var h=g.filter(function(r){return r.actual>=r.lo80&&r.actual<=r.hi80}).length;
+    var d=g.map(dirOK).filter(function(x){return x!==null}),dc=d.filter(Boolean).length;
+    s.innerHTML='<span><b>'+g.length+'</b> graded days</span><span>Average miss <b>'+mae.toFixed(2)+'¢</b> (guessing &ldquo;same as yesterday&rdquo;: '+nv.toFixed(2)+'¢)</span><span>Inside the 80% range <b>'+h+' of '+g.length+'</b></span><span>Right direction <b>'+dc+' of '+d.length+'</b></span>';
+  }
+  function detail(){
+    var r=by[sel],d=$("detail");
+    if(!r){d.innerHTML="";return}
+    var e=errC(r),h='<h3>'+esc(longDate(r.date))+'</h3><div class="grid">';
+    h+='<div><span>Predicted price</span><b>'+usd(r.pred)+'</b><small>80% range '+usd(r.lo80)+' to '+usd(r.hi80)+'</small></div>';
+    if(e==null){
+      h+='<div><span>Actual price</span><b>Not yet</b><small>AAA has not published this day</small></div>';
+      h+='<div><span>Day before</span><b>'+usd(r.prev)+'</b><small>starting point</small></div>';
+      h+='<div><span>Chance it rises</span><b>'+Math.round(r.prob_up*100)+'%</b><small>vs. the day before</small></div>';
+    }else{
+      var acc=100*(1-Math.abs(r.actual-r.pred)/r.actual),dk=dirOK(r);
+      h+='<div><span>Actual price</span><b>'+usd(r.actual)+'</b><small>AAA national average, regular</small></div>';
+      h+='<div><span>Miss</span><b>'+Math.abs(e).toFixed(2)+'¢</b><small>actual was '+(e>=0?"above":"below")+' the forecast</small></div>';
+      h+='<div><span>Accuracy</span><b>'+acc.toFixed(2)+'%</b><small>100% minus the miss as a share of the price</small></div>';
+      h+='<div><span>Day before</span><b>'+usd(r.prev)+'</b><small>&ldquo;same as yesterday&rdquo; missed by '+Math.abs((r.actual-r.prev)*100).toFixed(2)+'¢</small></div>';
+      h+='<div><span>Direction</span><b>'+(dk===null?"Flat":dk?"Right":"Wrong")+'</b><small>model said '+(r.pred>=r.prev?"up":"down")+' ('+Math.round(Math.max(r.prob_up,1-r.prob_up)*100)+'% sure); price went '+(r.actual>r.prev?"up":r.actual<r.prev?"down":"nowhere")+'</small></div>';
+      h+='<div><span>Inside 80% range</span><b>'+(r.actual>=r.lo80&&r.actual<=r.hi80?"Yes":"No")+'</b><small>'+usd(r.lo80)+' to '+usd(r.hi80)+'</small></div>';
+      h+='<div><span>Inside 95% range</span><b>'+(r.actual>=r.lo95&&r.actual<=r.hi95?"Yes":"No")+'</b><small>'+usd(r.lo95)+' to '+usd(r.hi95)+'</small></div>';
+    }
+    h+='</div><p class="note">'+esc(SRC[r.source]||"")+'</p>';
+    d.innerHTML=h;
+  }
+  $("cprev").onclick=function(){cm--;if(cm<0){cm=11;cy--}render()};
+  $("cnext").onclick=function(){cm++;if(cm>11){cm=0;cy++}render()};
+  var nh=rows.filter(function(r){return r.source==="heldout"}).length,no=rows.filter(function(r){return r.source==="oos"}).length,nl=rows.filter(function(r){return r.source==="live"}).length;
+  $("calnote").textContent="Shown: "+nh+" held-out days, "+no+" out-of-sample days and "+nl+" live forecasts. Training days are left out on purpose, because a model always looks accurate on prices it has already seen. Accuracy here is 100% minus the miss as a share of the price, so a few cents off always reads as 99%+; the cents miss and the comparison with &ldquo;same as yesterday&rdquo; are the honest measures.".replace(/&ldquo;|&rdquo;/g,'"');
+  var L=[],liveRows=rows.filter(function(r){return r.source==="live"}),lg=liveRows.filter(function(r){return r.actual!=null});
+  if(F){L.push("Prices through <b>"+F.last_aaa_date+"</b>; wholesale and crude through about "+F.wholesale_stale_days+" days before the forecast date.");L.push("Model trained through <b>"+F.trained_through+"</b>.")}
+  L.push("Live forecasts locked in so far: <b>"+liveRows.length+"</b>, of which <b>"+lg.length+"</b> already scored.");
+  var up=(H.meta&&H.meta.updated_utc)||(F&&F.generated_utc);
+  if(up)L.push("Last refreshed <b>"+up+" UTC</b>.");
+  $("live").innerHTML=L.map(function(x){return "<li>"+x+"</li>"}).join("");
+  render();
 }
 })();
 </script>
