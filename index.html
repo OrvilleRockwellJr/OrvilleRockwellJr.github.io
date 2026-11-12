@@ -108,9 +108,9 @@ h1{font-size:clamp(2.4rem,5.6vw,3.4rem);font-weight:700;letter-spacing:-.015em;l
 .links{display:flex;flex-wrap:wrap;gap:6px 20px;margin-top:20px;font-family:var(--sans);font-size:15px;font-weight:500}
 
 /* research focus chips */
-.focus{display:flex;flex-wrap:wrap;align-items:center;gap:10px 8px;margin-top:20px}
-.chip{display:inline-flex;align-items:center;gap:8px;font-family:var(--sans);font-size:14.5px;font-weight:600;color:#fff;padding:8px 14px 8px 11px;border-radius:3px;background:rgba(255,255,255,.06);border:1px solid color-mix(in srgb,var(--cc) 55%,transparent);border-left:3px solid var(--cc)}
-.chip svg{width:20px;height:20px;fill:none;stroke:var(--cc);stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.focus{display:flex;flex-wrap:wrap;align-items:center;gap:12px 26px;margin-top:22px}
+.chip{display:inline-flex;align-items:center;gap:8px;font-family:var(--sans);font-size:15.5px;font-weight:600;color:#fff;padding:0;border:0;background:none}
+.chip svg{width:22px;height:22px;fill:none;stroke:var(--cc);stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex:none}
 .chip.c1{--cc:#6FA3EE}.chip.c2{--cc:#3CC4CB}.chip.c3{--cc:#EE7AA7}
 .brk{flex-basis:100%;height:0}
 .join{font-family:var(--serif);font-style:italic;color:var(--on-3);font-size:17px}
@@ -216,6 +216,8 @@ h2::after{content:"";display:block;width:36px;height:3px;border-radius:2px;margi
 /* key line under each entry: the one sentence a skimmer should leave with */
 .key{margin-top:12px;padding:2px 0 2px 14px;border-left:3px solid var(--t,var(--cv));font-size:17px;max-width:var(--col)}
 .key b{font-weight:600}
+.cur{margin-top:12px;padding:10px 14px 10px 16px;border-left:3px solid var(--t,var(--cv));background:color-mix(in srgb,var(--t,var(--cv)) 5%,#fff);border-radius:0 4px 4px 0;font-size:17px;max-width:var(--col)}
+.cur b{font-weight:600}
 .entry.t-auto{--t:var(--auto);--tbg:var(--auto-bg)} .entry.t-bio{--t:var(--bio);--tbg:var(--bio-bg)} .entry.t-cv{--t:var(--cv);--tbg:var(--cv-bg)}
 .entry h3{color:var(--ink)}
 .key{background:color-mix(in srgb,var(--t,var(--cv)) 5%,#fff);padding:10px 14px 10px 16px;border-radius:0 4px 4px 0}
@@ -284,7 +286,7 @@ footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;back
   .entries.cols2{grid-template-columns:repeat(2,minmax(0,1fr))}
   .entries.cols3 .entry,.entries.cols2 .entry{grid-template-columns:1fr;gap:14px}
   .entries.cols3 .thumb,.entries.cols2 .thumb{max-width:none}
-  .entries.cols3 .sum,.entries.cols3 .key{font-size:15.5px}
+  .entries.cols3 .sum,.entries.cols3 .key,.entries.cols3 .cur{font-size:15.5px}
   .entries.cols2 .sum,.entries.cols2 .key{font-size:16px}
   .entries.cols3 h3,.entries.cols2 h3{font-size:1.08rem}
   .entries.cols3{align-items:stretch}
@@ -308,7 +310,7 @@ footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;back
 @media print{.js .entry .key{display:block}.more-btn,.less-btn{display:none!important}}
 /* hero spacing */
 .mast .role{margin-top:14px;line-height:1.75}
-.mast .focus{margin-top:26px;gap:12px 12px}
+.mast .focus{margin-top:26px;gap:14px 26px}
 .mast .bio{margin-top:28px;line-height:1.75}
 .mast .links{margin-top:30px;gap:10px 28px}
 @media (min-width:760px){.mast .hero{padding-top:76px;padding-bottom:68px}}
@@ -599,6 +601,7 @@ footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;back
             <p class="where"><b>Prof. Benjamin Kimia's group</b>, LEMS, Brown University<br>Research contributor, 2026 to present</p>
             <span class="status live">Ongoing</span>
             <p class="sum">Localizing a fast-moving drone without satellite navigation, where motion blur and low texture starve any single view of features. The approach integrates many synchronized views with inertial cues, so every downstream estimate inherits the geometry and timing of the camera rig.</p>
+            <p class="cur"><b>Now.</b> Extending the group's 8-camera capture code to 16 cameras on two Raspberry&nbsp;Pi&nbsp;5s, with latency tests along the way. No 16-camera results yet.</p>
             <p class="key"><b>My part.</b> I own the multi-camera sensing layer the visual pipeline rests on: hardware bring-up of a synchronized camera array on a Raspberry&nbsp;Pi&nbsp;5, camera calibration, and frame-level time synchronization, with calibration and test code contributed to the group's repository.</p>
             <p class="methods">Multi-camera systems, camera calibration, time synchronization, visual&ndash;inertial navigation</p>
           </div>
@@ -788,6 +791,7 @@ footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;back
             <p class="where"><b>Team project</b>, Northeastern Marine Robotics (student club)<br>MATE ROV competition team, 2026 to present</p>
             <span class="status live">Ongoing</span>
             <p class="sum">Underwater perception for a semi-autonomous ROV, where turbidity, refraction and changing light break assumptions that hold in air.</p>
+            <p class="cur"><b>Recent.</b> Wrote mocked unit tests for the crab-recognition node and the IMU node, with a draft pull request open for the IMU tests. The crab tests surfaced three real bugs.</p>
             <p class="key"><b>My part.</b> I develop deep-learning object detection and visual&ndash;IMU sensor fusion in the ROV's ROS perception stack, including the recognition node and its automated tests.</p>
             <p class="methods">Deep object detection, visual&ndash;IMU fusion, ROS, OpenCV, I&sup2;C and UART</p>
           </div>
