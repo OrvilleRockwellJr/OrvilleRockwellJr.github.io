@@ -136,15 +136,18 @@ h2::after{content:"";display:block;width:36px;height:3px;border-radius:2px;margi
 /* research areas: three method cards + shared strip */
 .venn-legend{display:flex;flex-wrap:wrap;gap:6px 20px;margin:0 0 16px;font-family:var(--sans);font-size:13.5px;color:var(--muted)}
 .venn-legend span{display:inline-flex;align-items:center;gap:7px}
-.venn-legend i{display:inline-block}
-.venn-legend i,.vp::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;background:var(--d)}
-.d-auto{--d:var(--auto)}.d-bio{--d:var(--bio)}.d-both{--d:linear-gradient(90deg,var(--auto) 0 50%,var(--bio) 50%)}
+.venn-legend i,.vp::before{content:"";display:inline-block;flex:none;width:15px;height:15px;background:#46546A;-webkit-mask:var(--ic) center/contain no-repeat;mask:var(--ic) center/contain no-repeat}
+.d-auto{--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='5' cy='6' r='2.6'/%3E%3Ccircle cx='19' cy='6' r='2.6'/%3E%3Ccircle cx='5' cy='18' r='2.6'/%3E%3Ccircle cx='19' cy='18' r='2.6'/%3E%3Cpath d='M7 8l3 3m4 0l3-3M7 16l3-3m4 0l3 3'/%3E%3Crect x='10' y='10' width='4' height='4' rx='1'/%3E%3C/svg%3E")}.d-bio{--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 3l7 4v8l-7 4-7-4V7z'/%3E%3Ccircle cx='12' cy='3' r='1.6'/%3E%3Ccircle cx='19' cy='7' r='1.6'/%3E%3Ccircle cx='19' cy='15' r='1.6'/%3E%3Ccircle cx='12' cy='19' r='1.6'/%3E%3Ccircle cx='5' cy='15' r='1.6'/%3E%3Ccircle cx='5' cy='7' r='1.6'/%3E%3Cpath d='M19 15l2.5 2'/%3E%3C/svg%3E")}.d-both{--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 50 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='5' cy='6' r='2.6'/%3E%3Ccircle cx='19' cy='6' r='2.6'/%3E%3Ccircle cx='5' cy='18' r='2.6'/%3E%3Ccircle cx='19' cy='18' r='2.6'/%3E%3Cpath d='M7 8l3 3m4 0l3-3M7 16l3-3m4 0l3 3'/%3E%3Crect x='10' y='10' width='4' height='4' rx='1'/%3E%3Cg transform='translate%2826 0%29'%3E%3Cpath d='M12 3l7 4v8l-7 4-7-4V7z'/%3E%3Ccircle cx='12' cy='3' r='1.6'/%3E%3Ccircle cx='19' cy='7' r='1.6'/%3E%3Ccircle cx='19' cy='15' r='1.6'/%3E%3Ccircle cx='12' cy='19' r='1.6'/%3E%3Ccircle cx='5' cy='15' r='1.6'/%3E%3Ccircle cx='5' cy='7' r='1.6'/%3E%3Cpath d='M19 15l2.5 2'/%3E%3C/g%3E%3C/svg%3E")}
+.d-both.vp::before,.venn-legend i.d-both{width:31px}
+.d-cv{--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12z'/%3E%3Ccircle cx='12' cy='12' r='3.2'/%3E%3C/svg%3E")}.d-ml{--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='5' cy='6' r='2'/%3E%3Ccircle cx='5' cy='18' r='2'/%3E%3Ccircle cx='12' cy='12' r='2'/%3E%3Ccircle cx='19' cy='6' r='2'/%3E%3Ccircle cx='19' cy='18' r='2'/%3E%3Cpath d='M7 6l3.5 5M7 18l3.5-5M13.5 11l4-4M13.5 13l4 4'/%3E%3C/svg%3E")}
+.entry h3 .mk.ic{width:18px;height:18px;border-radius:0;background:#46546A;-webkit-mask:var(--ic) center/contain no-repeat;mask:var(--ic) center/contain no-repeat;transform:translateY(3px)}
+.entry h3 .mk.ic.d-both{width:38px}
 .mcards{display:grid;grid-template-columns:1fr;gap:14px;margin:0;padding:0;list-style:none}
 @media (min-width:860px){.mcards{grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}}
 .mcard{border-top:3px solid var(--navy);background:var(--wash);border-radius:0 0 6px 6px;padding:14px 16px 16px;box-shadow:inset 0 0 0 1px var(--rule)}
 .mcard h3{font-size:1.05rem;font-weight:600;margin:0 0 10px;color:var(--navy)}
 .pg{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
-.vp{display:inline-flex;align-items:center;gap:6px;font-family:var(--sans);font-size:13px;line-height:1.3;color:var(--ink);background:#fff;border:1px solid var(--rule);border-radius:999px;padding:3px 10px 3px 8px}
+.vp{display:inline-flex;align-items:center;gap:7px;font-family:var(--sans);font-size:13px;line-height:1.3;color:var(--ink);background:#fff;border:1px solid var(--rule);border-radius:999px;padding:3px 10px 3px 8px}
 .meet{margin-top:14px;display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;padding:12px 16px;border-radius:6px;background:linear-gradient(90deg,color-mix(in srgb,var(--auto) 8%,#fff),color-mix(in srgb,var(--bio) 8%,#fff));box-shadow:inset 0 0 0 1px var(--rule)}
 .meet b{font-family:var(--sans);font-size:13px;font-weight:600;color:var(--navy);margin-right:4px}
 .more{margin-top:10px;font-family:var(--sans);font-size:15px;font-weight:500}
@@ -587,7 +590,7 @@ footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;back
         <article class="entry t-auto">
           <div class="thumb"><img src="assets/img/brown-rig.jpg" alt="Multi-camera rig: cameras mounted on a 3D-printed spherical frame, wired through an Arducam Camarray HAT to a Raspberry Pi 5, in front of a checkerboard calibration target" loading="lazy" width="960" height="600"></div>
           <div>
-            <h3><span class="mk" style="background:var(--auto)" aria-hidden="true"></span>GPS-Denied Visual Navigation for Drones</h3>
+            <h3><span class="mk ic d-auto" aria-hidden="true"></span>GPS-Denied Visual Navigation for Drones</h3>
             <p class="where"><b>Prof. Benjamin Kimia's group</b>, LEMS, Brown University<br>Research contributor, 2026 to present</p>
             <span class="status live">Ongoing</span>
             <p class="sum">Localizing a fast-moving drone without satellite navigation, where motion blur and low texture starve any single view of features. The approach integrates many synchronized views with inertial cues, so every downstream estimate inherits the geometry and timing of the camera rig.</p>
@@ -645,7 +648,7 @@ footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;back
             </svg>
           </div>
           <div>
-            <h3><span class="mk" style="background:var(--bio)" aria-hidden="true"></span>Calibration-Aware Active Learning for Closed-Loop Discovery</h3>
+            <h3><span class="mk ic d-both" aria-hidden="true"></span>Calibration-Aware Active Learning for Closed-Loop Discovery</h3>
             <p class="where"><b>Independent research</b>, self-directed<br>Bridges autonomous decision-making and computational biology</p>
             <span class="status result">Preliminary result</span>
             <p class="sum">A self-driving lab is a control loop: a model proposes candidates, a system tests a subset, and the results retrain the model. I simulated that loop over 2,311 PTP1B inhibitors from ChEMBL and asked whether <em>calibrating</em> the scoring model makes it more efficient.</p>
@@ -743,11 +746,11 @@ footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;back
             </svg>
           </div>
           <div>
-            <h3><span class="mk" style="background:var(--bio)" aria-hidden="true"></span>Classifier-Guided Diffusion for Post-Stroke Drug Design</h3>
+            <h3><span class="mk ic d-bio" aria-hidden="true"></span>Classifier-Guided Diffusion for Post-Stroke Drug Design</h3>
             <p class="where"><b>Independent research</b>, Northeastern University<br>Began as a project in Applied AI (AAI 6600, Prof. Elena Izotova), 2026 to present</p>
             <span class="status">In progress</span>
-            <p class="sum">No effective treatment exists for the glial scar that blocks axon regrowth after stroke. This project adapts the diffusion-and-classifier machinery of computer vision to drug design: a diffusion model generates candidate small molecules, while machine-learned property classifiers predict brain penetration, target activity and toxicity and steer every denoising step. The same guided-diffusion framework is designed to carry over from small molecules to peptide and protein binders and, in a later stage, to generative genomics, steering sequence generators toward gene-regulatory and gene-editing designs that could support repair of injured neural tissue. These extensions are planned and not yet started.</p>
-            <p class="key"><b>Design.</b> Guidance classifiers are trained on noised inputs, and a separate held-out classifier judges the final candidates, so the generator cannot succeed by exploiting its own guide. Every scorer will be evaluated on scaffold splits, so reported performance reflects new chemistry rather than memorized analogs. PTP&sigma; has only 34 usable activity labels, so related phosphatases serve as labeled neighbors. Fully in silico; no model results yet.</p>
+            <p class="sum">No effective treatment exists for the glial scar that blocks axon regrowth after stroke. This project adapts the diffusion-and-classifier machinery of computer vision to drug design: a diffusion model generates candidate small molecules, while machine-learned property classifiers predict brain penetration, target activity and toxicity and steer every denoising step.</p>
+            <p class="key"><b>Design.</b> Guidance classifiers are trained on noised inputs, and a separate held-out classifier judges the final candidates, so the generator cannot succeed by exploiting its own guide. Every scorer will be evaluated on scaffold splits, so reported performance reflects new chemistry rather than memorized analogs. PTP&sigma; has only 34 usable activity labels, so related phosphatases serve as labeled neighbors. Fully in silico; no model results yet. <b>Planned extensions.</b> The same guided-diffusion framework is designed to carry over to peptide and protein binders and, in a later stage, to generative genomics, steering sequence generators toward gene-regulatory and gene-editing designs that could support repair of injured neural tissue; none of this has been started.</p>
             <p class="methods">Diffusion models, classifier guidance, graph neural networks, scaffold-split evaluation, generative genomics (planned)</p>
           </div>
         </article>
@@ -763,7 +766,7 @@ footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;back
         <article class="entry t-cv">
           <a class="thumb" href="https://github.com/OrvilleRockwellJr/OrvilleRockwellJr.github.io/blob/main/projects/human-alignment-calibration/REPORT.md" target="_blank" rel="noopener" style="display:block" aria-label="Read the short paper on human alignment and confidence"><img src="assets/img/alignment-calibration.jpg" alt="Scatter plot of eight pretrained networks: higher top-1 accuracy goes with lower alignment to human importance maps" loading="lazy" width="960" height="600"></a>
           <div>
-            <h3><span class="mk" style="background:var(--cv)" aria-hidden="true"></span>Does Human Alignment Make a Network's Confidence More Reliable?</h3>
+            <h3><span class="mk ic d-cv" aria-hidden="true"></span>Does Human Alignment Make a Network's Confidence More Reliable?</h3>
             <p class="where"><b>Independent project</b>, Northeastern University<br>November 2026</p>
             <span class="status">Completed</span>
             <p class="sum">Networks that rely on the image regions humans mark as diagnostic are not obviously better at knowing when they are wrong. I tested this on 1,500 ClickMe images with eight pretrained ImageNet networks, with the hypotheses and tests written down before any model was run.</p>
@@ -776,7 +779,7 @@ footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;back
         <article class="entry t-auto">
           <a class="thumb" href="https://nurobotics.org/marine-robotics/" target="_blank" rel="noopener" style="display:block" aria-label="Northeastern Marine Robotics project page"><img src="assets/img/rov.jpg" alt="The NUWave remotely operated underwater vehicle during a pool run" loading="lazy" width="477" height="298"></a>
           <div>
-            <h3><span class="mk" style="background:var(--auto)" aria-hidden="true"></span>NUWave: Deep Perception and Sensor Fusion Underwater</h3>
+            <h3><span class="mk ic d-auto" aria-hidden="true"></span>NUWave: Deep Perception and Sensor Fusion Underwater</h3>
             <p class="where"><b>Team project</b>, Northeastern Marine Robotics (student club)<br>MATE ROV competition team, 2026 to present</p>
             <span class="status live">Ongoing</span>
             <p class="sum">Underwater perception for a semi-autonomous ROV, where turbidity, refraction and changing light break assumptions that hold in air.</p>
@@ -788,7 +791,7 @@ footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;back
         <article class="entry t-cv">
           <a class="thumb" href="https://orvillerockwelljr.com/aai6640-team5/" style="display:block" aria-label="Open Juroom, the forecasting model"><img src="assets/img/gaslab-calendar.jpg" alt="GasLab demo: a calendar of past gas price forecasts, each day colored by how close the model was to the actual price" loading="lazy" width="960" height="602"></a>
           <div>
-            <h3><span class="mk" style="background:var(--cv)" aria-hidden="true"></span>VAD-LSTM: Volatility-Aware Distributional Forecasting</h3>
+            <h3><span class="mk ic d-ml" aria-hidden="true"></span>VAD-LSTM: Volatility-Aware Distributional Forecasting</h3>
             <p class="where"><b>Course project</b>, Applied Deep Learning (AAI 6640), Northeastern University<br>Team lead of four</p>
             <span class="status">In progress</span>
             <p class="sum">A recurrent network that forecasts a full probability distribution rather than a point estimate, so any threshold question is read straight off the model. It extends the GARCH&ndash;LSTM equivalence of Zhao et al. (2024) with an in-cell variance recursion and a Student-t output head.</p>
