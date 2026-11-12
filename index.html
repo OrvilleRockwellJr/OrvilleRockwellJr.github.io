@@ -601,7 +601,7 @@ footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;back
             <p class="where"><b>Prof. Benjamin Kimia's group</b>, LEMS, Brown University<br>Research contributor, 2026 to present</p>
             <span class="status live">Ongoing</span>
             <p class="sum">Localizing a fast-moving drone without satellite navigation, where motion blur and low texture starve any single view of features. The approach integrates many synchronized views with inertial cues, so every downstream estimate inherits the geometry and timing of the camera rig.</p>
-            <p class="cur"><b>Now.</b> Extending the group's 8-camera capture code to 16 cameras on two Raspberry&nbsp;Pi&nbsp;5s, with latency tests along the way. No 16-camera results yet.</p>
+            <p class="cur"><b>Now.</b> Scaling to 16 cameras on two Raspberry&nbsp;Pi&nbsp;5s, with latency tests.</p>
             <p class="key"><b>My part.</b> I own the multi-camera sensing layer the visual pipeline rests on: hardware bring-up of a synchronized camera array on a Raspberry&nbsp;Pi&nbsp;5, camera calibration, and frame-level time synchronization, with calibration and test code contributed to the group's repository.</p>
             <p class="methods">Multi-camera systems, camera calibration, time synchronization, visual&ndash;inertial navigation</p>
           </div>
@@ -659,7 +659,7 @@ footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;back
             <h3><span class="mk ic d-both" aria-hidden="true"></span>Calibration-Aware Active Learning for Closed-Loop Discovery</h3>
             <p class="where"><b>Independent research</b>, self-directed<br>Bridges autonomous decision-making and computational biology</p>
             <span class="status result">Preliminary result</span>
-            <p class="sum">A self-driving lab is a control loop: a model proposes candidates, a system tests a subset, and the results retrain the model. I simulated that loop over 2,311 PTP1B inhibitors from ChEMBL and asked whether <em>calibrating</em> the scoring model makes it more efficient. The intuition is that better-calibrated probabilities should make the choice between exploring and exploiting more reliable, so a negative result shows where that intuition breaks.</p>
+            <p class="sum">A self-driving lab is a control loop: a model proposes candidates, a system tests a subset, and the results retrain the model. I simulated that loop over 2,311 PTP1B inhibitors from ChEMBL and asked whether <em>calibrating</em> the scoring model makes it more efficient.</p>
             <p class="key"><b>Result.</b> It does not: 35.5&nbsp;&plusmn;&nbsp;3.5 hits versus 35.3&nbsp;&plusmn;&nbsp;4.2 at a 360-experiment budget, and for single-objective selection it hurts. The mechanism is resolution loss: isotonic regression is monotone but piecewise constant, so it collapses 1,844 distinct scores into 74 and leaves 100 molecules tied at exactly 1.000, making batch selection arbitrary among them. One target and 8 seeds so far.</p>
             <p class="methods">Active learning, calibration, sequential decisions, ChEMBL, RDKit</p>
             <p class="more"><a href="notes/calibration-ties.html">Read the research note: When calibration breaks the loop</a></p>
