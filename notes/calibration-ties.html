@@ -74,29 +74,32 @@ footer a{color:#BFD5F7}
     <p class="crumb"><a href="../">&larr; Orville Rockwell Jr.</a></p>
     <p class="kind">Research note, preliminary</p>
     <h1>When calibration breaks the loop</h1>
-    <p class="dek">Isotonic calibration made a closed-loop discovery system no better, and in one setting worse. The reason is a loss of resolution exactly where selection looks.</p>
+    <p class="dek">Isotonic calibration made a closed-loop discovery system no better, and on two of five targets worse. The reason is a loss of resolution exactly where selection looks.</p>
     <p class="byline">Orville Rockwell Jr., November 2026</p>
   </div>
 </header>
 
 <main class="wrap">
   <div class="tldr">
-    <p><b>Summary.</b> In a simulated self-driving lab over 2,311 PTP1B inhibitors from ChEMBL, calibrating the scoring model with isotonic regression left hit recovery unchanged at a 360-experiment budget (35.5&nbsp;&plusmn;&nbsp;3.5 versus 35.3&nbsp;&plusmn;&nbsp;4.2 hits over 8 seeds) and hurt single-objective selection. Isotonic regression collapsed 1,844 distinct scores into 74 levels and placed 100 molecules at exactly 1.000, so the top of the ranking, where each batch is chosen, became a tie.</p>
+    <p><b>Summary.</b> In a retrospective simulation of a self-driving lab over five ChEMBL targets (20 seeds each), calibrating the scoring model with isotonic regression never significantly improved greedy hit recovery and significantly hurt it on 2 of 5 targets, while lowering calibration error on all five. Isotonic regression is a step function, so it left a plateau of tied scores at the top of the ranking, from 88 molecules on PTP1B to 2,212 on JAK2, and each batch was drawn almost at random from it. Breaking ties with the raw score, or using a strictly monotone calibrator, recovered the loss.</p>
   </div>
 
   <h2>The question</h2>
   <p>A closed-loop discovery system is a control loop. A model scores a pool of candidates, the system tests a batch, and the results retrain the model. The common intuition is that better-calibrated probabilities should make this loop more efficient, since the acquisition step consumes those probabilities as if they were true.</p>
-  <p>I tested that intuition directly: run the same loop with and without isotonic calibration of the scoring model, and count how many actives each recovers within a fixed experimental budget.</p>
+  <p>I tested that intuition directly: run the same loop with and without isotonic calibration of the scoring model, and count how many actives each recovers within a fixed experimental budget, on five ChEMBL targets spanning a wide range of active prevalence (PTP1B, AChE, HDAC1, EGFR, JAK2), 20 random seeds each, with a 400-experiment budget.</p>
 
   <h2>What happened</h2>
   <table>
-    <thead><tr><th>Scoring</th><th>Hits at 360 experiments</th><th>Distinct scores</th></tr></thead>
+    <thead><tr><th>Target (active prevalence)</th><th>Raw hits</th><th>Isotonic hits</th><th>Iso + tie-break</th><th>Top tied plateau</th></tr></thead>
     <tbody>
-      <tr><td>Raw model scores</td><td class="n">35.3 &plusmn; 4.2</td><td class="n">1,844</td></tr>
-      <tr><td>Isotonic-calibrated</td><td class="n">35.5 &plusmn; 3.5</td><td class="n">74 (100 tied at 1.000)</td></tr>
+      <tr><td>PTP1B (0.24)</td><td class="n">263.9</td><td class="n">267.1</td><td class="n">263.0</td><td class="n">88</td></tr>
+      <tr><td>AChE (0.50)</td><td class="n">333.6</td><td class="n">327.9 (p&nbsp;&lt;&nbsp;0.01)</td><td class="n">331.7</td><td class="n">412</td></tr>
+      <tr><td>HDAC1 (0.69)</td><td class="n">342.5</td><td class="n">339.4</td><td class="n">341.6</td><td class="n">418</td></tr>
+      <tr><td>EGFR (0.75)</td><td class="n">362.8</td><td class="n">359.8</td><td class="n">363.1</td><td class="n">1,660</td></tr>
+      <tr><td>JAK2 (0.87)</td><td class="n">384.3</td><td class="n">375.0 (p&nbsp;&lt;&nbsp;0.01)</td><td class="n">383.9</td><td class="n">2,212</td></tr>
     </tbody>
   </table>
-  <p>The difference in hits is well inside seed-to-seed variation, so calibration bought nothing on average. In the single-objective setting it did worse. The more informative number is the last column.</p>
+  <p>Mean hits over 20 seeds (paired t-tests against raw). Isotonic never significantly helped, and it significantly hurt on AChE and JAK2. Platt and beta calibration, which are strictly monotone, made exactly the raw selections. The more informative number is the last column: the plateau grows with active prevalence, and the hit loss grows with the plateau (correlation &minus;0.70). Isotonic also lowered ROC-AUC on every target (mean drop 0.030) even as it lowered calibration error.</p>
 
   <h2>Why: calibration can trade away resolution</h2>
   <p>Isotonic regression fits the monotone function that best maps scores to observed outcomes:</p>
@@ -119,20 +122,20 @@ footer a{color:#BFD5F7}
     </div>
     <figcaption>Schematic. Raw scores rise smoothly with rank; the isotonic fit is a staircase. Selection draws its batch from the top step, so a wide top plateau turns batch choice into a coin flip among tied candidates.</figcaption>
   </figure>
-  <p>The acquisition step only reads the top of the ranking. When 100 molecules share the maximum score and the batch is smaller than that, the model's remaining ordering information is discarded at the one place it mattered. Calibration improved how well the scores matched outcome frequencies, while destroying the fine ordering the decision depended on.</p>
+  <p>The acquisition step only reads the top of the ranking. When hundreds or thousands of molecules share the maximum score and the batch is smaller than that, the model's remaining ordering information is discarded at the one place it mattered. Calibration improved how well the scores matched outcome frequencies, while destroying the fine ordering the decision depended on.</p>
 
   <h2>Why it matters beyond this experiment</h2>
   <p>The failure is general: a pipeline that calibrates and then ranks can lose discrimination at the decision boundary while every calibration metric improves. The same pattern applies wherever confidence scores are post-processed before a top-k or thresholded decision, in perception as much as in discovery. The metric that matters is the one the decision consumes.</p>
 
-  <h2>Remedies worth testing</h2>
+  <h2>Remedies that recover the loss</h2>
   <ol>
-    <li><b>Break ties with the raw score.</b> Rank by calibrated probability first and raw score second, keeping calibration where it is useful without discarding order.</li>
-    <li><b>Use strictly monotone calibrators.</b> Platt scaling and temperature scaling are strictly increasing, so they preserve the full ranking while still correcting overconfidence.</li>
+    <li><b>Break ties with the raw score.</b> Rank by calibrated probability first and raw score second. This returned greedy selection to raw-score levels on every target (JAK2: 383.9 versus raw 384.3), a direct causal test, since the only thing added back is the order that was lost.</li>
+    <li><b>Use strictly monotone calibrators.</b> Platt and beta calibration are strictly increasing, so they preserve the full ranking while still correcting overconfidence.</li>
     <li><b>Evaluate the decision, not the probability.</b> Report hits at budget and enrichment at the top of the ranking alongside calibration error, since the two can move in opposite directions.</li>
   </ol>
 
   <h2>Limitations</h2>
-  <p class="limits">This is a preliminary result: one target (PTP1B), one dataset source (ChEMBL), and 8 random seeds. The no-gain result needs confirmation across more targets and scoring models before it generalizes, and the remedies above are hypotheses, not yet tested.</p>
+  <p class="limits">This is a retrospective simulation on curated ChEMBL actives (active at pChEMBL &ge; 6), not a wet-lab campaign, and assay noise is abstracted away. It studies one scorer family (logistic regression on ECFP4 fingerprints) so the calibrator is the only variable; a non-linear scorer may behave differently, though the step-function argument does not depend on the model. Diversity-aware acquisition and a bound on plateau size versus hit loss are future work, and ECE is a coarse metric that should be checked with proper scoring rules.</p>
 </main>
 
 <footer>

@@ -39,8 +39,8 @@ li{margin:0}
 </ul>
 <div class="row"><span><b>Independent Research – Calibration-Aware Active Learning for Closed-Loop Discovery</b></span><span class="r">Preliminary result</span></div>
 <ul>
-<li>Simulated a closed-loop (“self-driving lab”) discovery cycle over 2,311 PTP1B inhibitors from ChEMBL to test whether calibrating the scoring model reduces the experiments needed.</li>
-<li>Negative result over 8 seeds (35.5 ± 3.5 vs. 35.3 ± 4.2 hits at a 360-experiment budget); traced to resolution loss: isotonic regression collapses 1,844 distinct scores into 74, making batch selection arbitrary among ties.</li>
+<li>Simulated a closed-loop (“self-driving lab”) discovery cycle over five ChEMBL targets (20 seeds each) to test whether calibrating the scoring model reduces the experiments needed.</li>
+<li>Isotonic calibration never significantly improved greedy hit recovery and significantly hurt it on 2 of 5 targets (e.g., JAK2: 375.0 vs. 384.3 hits at a 400-experiment budget) while lowering calibration error; traced to a tied-score plateau (88 to 2,212 molecules) at the top of the ranking, and recovered by raw-score tie-breaking or strictly monotone calibrators.</li>
 </ul>
 <div class="row"><span><b>Independent Research – Classifier-Guided Diffusion for Post-Stroke Drug Design</b> | Northeastern University</span><span class="r">In progress</span></div>
 <ul>
