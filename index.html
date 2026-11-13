@@ -608,41 +608,7 @@ footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;back
         </article>
 
         <article class="entry t-bio" id="loop">
-          <div class="thumb">
-            <svg class="fig" viewBox="0 0 320 200" role="img" aria-label="Results on five ChEMBL targets: on JAK2, greedy hits at a 400-experiment budget are 384.3 for raw scores, 375.0 after isotonic calibration and 383.9 when isotonic ties are broken by the raw score; the top tied plateau grows from 88 molecules on PTP1B to 2,212 on JAK2">
-<text x="20" y="24" class="lbl">JAK2 hits at 400</text>
-<line x1="30" y1="147.0" x2="148" y2="147.0" class="st st-faint" stroke-width="1"/>
-<text x="26" y="151.0" text-anchor="end">370</text>
-<line x1="30" y1="101.0" x2="148" y2="101.0" class="st st-faint" stroke-width="1"/>
-<text x="26" y="105.0" text-anchor="end">380</text>
-<line x1="30" y1="55.0" x2="148" y2="55.0" class="st st-faint" stroke-width="1"/>
-<text x="26" y="59.0" text-anchor="end">390</text>
-<line x1="46" y1="60.5" x2="46" y2="101.9" class="st st-cv" stroke-width="1.6"/>
-<line x1="40" y1="60.5" x2="52" y2="60.5" class="st st-cv"/><line x1="40" y1="101.9" x2="52" y2="101.9" class="st st-cv"/>
-<circle cx="46" cy="81.2" r="4.2" class="fl-cv"/>
-<text x="46" y="188" text-anchor="middle">raw</text>
-<line x1="90" y1="104.2" x2="90" y2="143.8" class="st st-bio" stroke-width="1.6"/>
-<line x1="84" y1="104.2" x2="96" y2="104.2" class="st st-bio"/><line x1="84" y1="143.8" x2="96" y2="143.8" class="st st-bio"/>
-<circle cx="90" cy="124.0" r="4.2" class="fl-bio"/>
-<text x="90" y="188" text-anchor="middle">isotonic</text>
-<line x1="134" y1="63.7" x2="134" y2="102.4" class="st st-cv" stroke-width="1.6"/>
-<line x1="128" y1="63.7" x2="140" y2="63.7" class="st st-cv"/><line x1="128" y1="102.4" x2="140" y2="102.4" class="st st-cv"/>
-<circle cx="134" cy="83.1" r="4.2" class="fl-cv"/>
-<text x="134" y="180" text-anchor="middle">iso +</text><text x="134" y="193" text-anchor="middle">tie-break</text>
-<text x="178" y="24" class="lbl">top tie size (mols)</text>
-<rect x="178" y="40" width="2.6" height="12" rx="2" class="fl-bio"/>
-<text x="185.6" y="50">PTP1B 88</text>
-<rect x="178" y="62" width="12.3" height="12" rx="2" class="fl-bio"/>
-<text x="195.3" y="72">AChE 412</text>
-<rect x="178" y="84" width="12.5" height="12" rx="2" class="fl-bio"/>
-<text x="195.5" y="94">HDAC1 418</text>
-<rect x="178" y="106" width="49.5" height="12" rx="2" class="fl-bio"/>
-<text x="232.5" y="116">EGFR 1,660</text>
-<rect x="178" y="128" width="66.0" height="12" rx="2" class="fl-bio"/>
-<text x="249.0" y="138">JAK2 2,212</text>
-<text x="178" y="165" class="lbl" style="fill:var(--ink-2,currentColor)">bigger tie, bigger loss</text>
-</svg>
-          </div>
+          <a class="thumb" href="https://urirock-closed-loop-demo.hf.space/app/home" style="display:block" aria-label="Open the closed-loop discovery demo, which runs on real ChEMBL data"><img src="assets/img/closed-loop-demo.jpg" alt="Closed-loop discovery demo: hits found versus experiments on JAK2 for raw scores, isotonic calibration and isotonic with a raw-score tie-break" loading="lazy" width="960" height="600"></a>
           <div>
             <h3><span class="mk ic d-both" aria-hidden="true"></span>Calibration-Aware Active Learning for Closed-Loop Discovery</h3>
             <p class="where"><b>Independent research</b>, self-directed<br>Bridges autonomous decision-making and computational biology</p>
@@ -650,7 +616,7 @@ footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;back
             <p class="sum">A self-driving lab is a control loop: a model proposes candidates, a system tests a subset, and the results retrain the model. I simulated that loop over five ChEMBL targets, 20 seeds each, and asked whether <em>calibrating</em> the scoring model makes it more efficient.</p>
             <p class="key"><b>Result.</b> Not for greedy selection. Isotonic calibration never significantly improved hit recovery and significantly hurt it on 2 of 5 targets (JAK2: 375.0 versus 384.3 hits at a 400-experiment budget, p&nbsp;&lt;&nbsp;0.01), even as it lowered calibration error on all five. The mechanism is resolution loss: isotonic regression is monotone but piecewise constant, so it leaves a plateau of tied scores at the top of the ranking (88 to 2,212 molecules) and the batch is drawn almost at random from it. Breaking ties with the raw score, or using strictly monotone calibrators (Platt, beta), recovers the loss. A retrospective simulation, not a wet-lab campaign.</p>
             <p class="methods">Active learning, calibration, sequential decisions, ChEMBL, RDKit</p>
-            <p class="more"><a href="notes/calibration-ties.html">Read the research note: When calibration breaks the loop</a></p>
+            <p class="more"><a href="https://urirock-closed-loop-demo.hf.space/app/home">Try the demo on real ChEMBL data</a> &middot; <a href="notes/calibration-ties.html">Read the research note: When calibration breaks the loop</a></p>
           </div>
         </article>
 
