@@ -315,6 +315,7 @@ footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;back
 .mast .links{margin-top:30px;gap:10px 28px}
 @media (min-width:760px){.mast .hero{padding-top:76px;padding-bottom:68px}}
 </style>
+<style>.phd-line{color:transparent;-webkit-text-fill-color:transparent;user-select:none;-webkit-user-select:none;cursor:default}.phd-line strong{color:transparent;-webkit-text-fill-color:transparent}.phd-line.show{color:inherit;-webkit-text-fill-color:currentColor;user-select:text;-webkit-user-select:text}.phd-line.show strong{color:inherit;-webkit-text-fill-color:currentColor}</style>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -562,7 +563,7 @@ footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;back
           <span class="chip c2"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="6" r="2.6"/><circle cx="19" cy="6" r="2.6"/><circle cx="5" cy="18" r="2.6"/><circle cx="19" cy="18" r="2.6"/><path d="M7 8l3 3m4 0l3-3M7 16l3-3m4 0l3 3"/><rect x="10" y="10" width="4" height="4" rx="1"/></svg>Autonomous Systems</span>
         </div>
         <div class="bio">
-          <p>Welcome! I'm a Master's student in Applied Artificial Intelligence at Northeastern University. Before this, I received my B.S. in Information Technology from Purdue University Global. I am currently applying to <strong>PhD programs for Fall 2027</strong>.</p>
+          <p>Welcome! I'm a Master's student in Applied Artificial Intelligence at Northeastern University. Before this, I received my B.S. in Information Technology from Purdue University Global. <span id="phd-line" class="phd-line" aria-hidden="true">I am currently applying to <strong>PhD programs for Fall 2027</strong>.</span></p>
         </div>
         <p class="links">
           <a href="mailto:Rockwell.o@northeastern.edu">Email</a>
@@ -818,5 +819,6 @@ footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;back
   });
 })();
 </script>
+<script>(function(){var e=document.getElementById("phd-line");if(!e)return;e.addEventListener("click",function(){var on=e.classList.toggle("show");e.setAttribute("aria-hidden",on?"false":"true")})})();</script>
 </body>
 </html>
