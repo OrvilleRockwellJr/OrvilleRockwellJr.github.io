@@ -1,0 +1,65 @@
+/* Evidence + method page. Reads the saved results files and draws the tables and charts. */
+(function(){
+"use strict";
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const BASE=new URL("./",document.currentScript.src).href;
+const S={};
+const C={}; function paintColors(){ const cs=getComputedStyle(document.documentElement); C.on=cs.getPropertyValue("--cv").trim()||"#6B4FBB"; C.off=cs.getPropertyValue("--faint").trim()||"#71708A"; }
+paintColors();
+async function getJSON(rel){ let last=null; for(let k=0;k<3;k++){ const u=BASE+rel+(k?"?r="+Date.now():""); try{ const r=await fetch(u,k?{cache:"reload"}:{}); const t=await r.text(); if(!r.ok||/^\s*</.test(t)) throw new Error("HTTP "+r.status+(/^\s*</.test(t)?" (got a web page instead of data)":"")); return JSON.parse(t); }catch(e){ last=e; await new Promise(r=>setTimeout(r,400*(k+1))); } } throw new Error(rel+": "+(last&&last.message||last)); }
+/* ---------- evidence + method (built from saved result files) ---------- */
+async function loadEvidence(){
+  try{
+    const [mt,dt,me,de,le]=await Promise.all(["mol_train_metrics","dna_train_metrics","mol_experiments","dna_experiments","locus_experiments"].map(n=>getJSON("results/"+n+".json")));
+    S.locusRes=le; S.args=[mt,dt,me,de]; renderEvidence(mt,dt,me,de);
+  }catch(err){ $("#ev-body").innerHTML='<div class="err">Results files not found: '+esc(err)+'</div>'; }
+  renderMethod();
+}
+const f2=v=>Number.isFinite(v)?v.toFixed(2):"–", f3=v=>Number.isFinite(v)?v.toFixed(3):"–", ms=a=>a[0].toFixed(2)+" ± "+a[1].toFixed(2);
+function lineChart(title,series,yl,xl,opts){
+  const W=420,H=240,P={l:42,r:12,t:12,b:36}; const xs=opts.xs; const xmax=Math.max(...xs),xmin=Math.min(...xs); const ymax=opts.ymax, ymin=opts.ymin||0;
+  const X=x=>P.l+(x-xmin)/(xmax-xmin||1)*(W-P.l-P.r), Y=y=>H-P.b-(y-ymin)/(ymax-ymin)*(H-P.t-P.b);
+  let g=""; for(let i=0;i<=4;i++){ const v=ymin+(ymax-ymin)*i/4; g+='<line x1="'+P.l+'" x2="'+(W-P.r)+'" y1="'+Y(v)+'" y2="'+Y(v)+'" class="gl"/><text x="'+(P.l-6)+'" y="'+(Y(v)+4)+'" text-anchor="end" fill="currentColor" font-size="10">'+v.toFixed(opts.d||2)+'</text>'; }
+  xs.forEach(x=>g+='<text x="'+X(x)+'" y="'+(H-P.b+14)+'" text-anchor="middle" fill="currentColor" font-size="10">'+x+'</text>');
+  g+='<text x="'+(W/2)+'" y="'+(H-4)+'" text-anchor="middle" fill="currentColor" font-size="11">'+xl+'</text><text transform="translate(11,'+(H/2)+') rotate(-90)" text-anchor="middle" fill="currentColor" font-size="11">'+yl+'</text>';
+  series.forEach(s=>{ if(s.hline!=null){ g+='<line x1="'+P.l+'" x2="'+(W-P.r)+'" y1="'+Y(s.hline)+'" y2="'+Y(s.hline)+'" stroke="'+s.c+'" stroke-dasharray="5 4"/><text x="'+(W-P.r)+'" y="'+(Y(s.hline)-4)+'" text-anchor="end" fill="'+s.c+'" font-size="10">'+s.n+'</text>'; return; }
+    const pts=s.pts.map(p=>[X(p[0]),Y(p[1]),p[2]]); g+='<polyline fill="none" stroke="'+s.c+'" stroke-width="2" points="'+pts.map(p=>p[0]+","+p[1]).join(" ")+'"/>';
+    pts.forEach((p,i)=>{ if(s.pts[i][2]!=null){ g+='<line x1="'+p[0]+'" x2="'+p[0]+'" y1="'+Y(s.pts[i][1]-s.pts[i][2])+'" y2="'+Y(s.pts[i][1]+s.pts[i][2])+'" stroke="'+s.c+'" opacity=".5"/>'; } g+='<circle cx="'+p[0]+'" cy="'+p[1]+'" r="3.5" fill="'+s.c+'"/>'; }); });
+  const leg=series.filter(s=>!s.hline).map((s,i)=>'<span style="margin-right:14px"><i style="display:inline-block;width:10px;height:10px;border-radius:50%;background:'+s.c+';vertical-align:middle;margin-right:4px"></i>'+s.n+'</span>').join("");
+  return '<div class="chart"><h4>'+title+'</h4><svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="'+esc(title)+'">'+g+'</svg><div style="margin-top:4px">'+leg+'</div></div>';
+}
+function renderEvidence(mt,dt,me,de){
+  const find=(R,g,gate)=>R.results.find(r=>r.gamma===g&&r.gate===gate), base=find(me,0,"none").metrics, baseD=find(de,0,"none").metrics;
+  const gs=[1,2,4,8], gD=[1,2,4,8,16];
+  const ser=(R,key,gl,gate,c,n)=>({n,c,pts:[[0,find(R,0,"none").metrics[key][0],find(R,0,"none").metrics[key][1]]].concat(gl.map(g=>[g,find(R,g,gate).metrics[key][0],find(R,g,gate).metrics[key][1]]))});
+  const cls=(k)=>mt[k];
+  let h='<h3>1. Do the classifiers work on chemistry they have not seen?</h3><p class="small">Scaffold split: test molecules share no Bemis–Murcko scaffold with training molecules. The steering critic is a small network on the latent code (ensemble mean); the held-out judge is logistic regression on ECFP4 fingerprints trained on <b>different data</b>, so each model is also scored on the other&rsquo;s test set. A model that only works on its own data would drop there.</p>'+
+   '<div class="tw"><table class="t"><thead><tr><th>Property</th><th>Critic data / judge data</th><th class="n">Critic train / test</th><th class="n">Critic AUC (clean)</th><th class="n">Critic AUC (noised, t=100)</th><th class="n">Judge AUC (own test)</th><th class="n">Critic AUC on judge&rsquo;s test</th><th class="n">Judge AUC on critic&rsquo;s test</th></tr></thead><tbody>'+
+   [["bbb","Brain penetration","B3DB (minus BBBP) / BBBP"],["act","PTP-family activity","ChEMBL / ChEMBL (same source, not independent)"],["tox","Toxicity","Tox21 / ToxCast non-Tox21 assays"]].map(([k,n,src])=>'<tr><td>'+n+'</td><td class="small">'+src+'</td><td class="n">'+cls(k).n_train+' / '+cls(k).n_test+'</td><td class="n">'+f3(cls(k).critic_auc_t0)+'</td><td class="n">'+f3(cls(k).critic_auc_t100)+'</td><td class="n">'+f3(cls(k).judge_auc_test)+'</td><td class="n">'+(cls(k).judge_independent?f3(cls(k).critic_auc_on_judge_test):"–")+'</td><td class="n">'+(cls(k).judge_independent?f3(cls(k).judge_auc_on_critic_test):"–")+'</td></tr>').join("")+'</tbody></table></div>';
+  const px=mt.ptpsigma_external; h+='<p class="small" style="margin-top:8px"><b>PTP&sigma; check (n = '+px.n+' molecules, '+px.n_active+' active; too few to rank on).</b> Critic AUC '+f2(px.critic_auc)+' (95% bootstrap CI '+f2(px.critic_ci[0])+'–'+f2(px.critic_ci[1])+'), judge AUC '+f2(px.judge_auc)+' ('+f2(px.judge_ci[0])+'–'+f2(px.judge_ci[1])+'). ChEMBL holds 30 distinct PTP&sigma; molecules with exact potencies; the activity classifier learns from the wider phosphatase family and is only a weak proxy for PTP&sigma; itself.</p>';
+  h+='<h3 style="margin-top:26px">2. Does guidance move generated molecules, and does the held-out judge agree?</h3><p class="small">'+me.N+' molecules per setting × '+me.seeds.length+' seeds ('+(me.N*me.seeds.length)+' per row), '+me.steps+' denoising steps, identical starting noise across rows. &ldquo;All three&rdquo; = valid, and the judge calls brain-penetrant, active and non-toxic. Top-10% = the best tenth ranked by the critics, the fair baseline for &ldquo;generate then filter&rdquo;.</p>';
+  h+='<div class="tw"><table class="t"><thead><tr><th>&gamma;</th><th>Trust gate</th><th class="n">Valid</th><th class="n">Novel</th><th class="n">Critic P(brain / active / toxic)</th><th class="n">Judge P(brain / active / toxic)</th><th class="n">Judge: all three</th><th class="n">Top-10%: all three</th></tr></thead><tbody>'+
+   me.results.map(r=>{ const m=r.metrics; return '<tr><td>'+r.gamma+'</td><td>'+(r.gamma===0?"–":r.gate==="ens"?"on":"off")+'</td><td class="n">'+f2(m.valid[0])+'</td><td class="n">'+f2(m.novel_of_unique[0])+'</td><td class="n">'+f2(m.critic_p_bbb[0])+' / '+f2(m.critic_p_act[0])+' / '+f2(m.critic_p_tox[0])+'</td><td class="n">'+f2(m.judge_p_bbb[0])+' / '+f2(m.judge_p_act[0])+' / '+f2(m.judge_p_tox[0])+'</td><td class="n">'+ms(m.judge_success_all3)+'</td><td class="n">'+ms(m.topk_judge_success_all3)+'</td></tr>'; }).join("")+
+   '<tr><td colspan="6"><i>Random ZINC molecules (reference)</i></td><td class="n">'+f2(me.reference.zinc_random.judge_success_all3)+'</td><td></td></tr></tbody></table></div>';
+  h+='<div class="charts" style="margin-top:16px">'+
+   lineChart("Held-out judge: all three pass",[ser(me,"judge_success_all3",gs,"none",C.off,"gate off"),ser(me,"judge_success_all3",gs,"ens",C.on,"gate on")],"fraction of samples","guidance strength γ",{xs:[0,1,2,4,8],ymax:Math.max(0.05,...me.results.map(r=>r.metrics.judge_success_all3[0]))*1.25,d:2})+
+   lineChart("Critic–judge gap, P(brain)",[ser(me,"gap_bbb",gs,"none",C.off,"gate off"),ser(me,"gap_bbb",gs,"ens",C.on,"gate on")],"critic − judge","guidance strength γ",{xs:[0,1,2,4,8],ymin:Math.min(0,...me.results.map(r=>r.metrics.gap_bbb[0]))*1.25,ymax:Math.max(0.1,...me.results.map(r=>r.metrics.gap_bbb[0]))*1.25,d:2})+'</div>';
+  h+='<h3 style="margin-top:26px">3. Gene-editing guide sequences</h3><p class="small">The critic learned from one lab&rsquo;s SpCas9 library (Kim 2019, '+dt.n_train+' guides) and the judge from a different one (CRISPRon 2021, '+dt.judge_n_train+' guides), with no guide in both. Each model is scored on three held-out sets: the critic&rsquo;s own lab, the judge&rsquo;s lab, and the Doench screens (a third assay; genes CD13, CD45, NF2, THY1, CD28). The prior is a diffusion model trained on '+(de.prior_n||"~110,000")+' NGG-bearing sites from the coding sequence of 419 random human genes.</p>'+
+   '<div class="tw"><table class="t"><thead><tr><th>Held-out set</th><th class="n">Guides</th><th class="n">Critic AUC</th><th class="n">Judge AUC</th></tr></thead><tbody>'+
+   [["kim_test","Kim 2019 test (critic&rsquo;s lab)"],["luo_test","CRISPRon 2021 test (judge&rsquo;s lab)"],["azimuth_test","Doench genes (third assay)"]].map(([k,n])=>'<tr><td>'+n+'</td><td class="n">'+dt.eval["critic@"+k].n+'</td><td class="n">'+f3(dt.eval["critic@"+k].auc)+'</td><td class="n">'+f3(dt.eval["judge@"+k].auc)+'</td></tr>').join("")+'</tbody></table></div>';
+  h+='<div class="tw" style="margin-top:12px"><table class="t"><thead><tr><th>&gamma;</th><th>Gate</th><th class="n">Valid PAM</th><th class="n">Novel</th><th class="n">Critic P</th><th class="n">Judge P</th><th class="n">Usable &amp; judge-efficient</th><th class="n">Top-10%</th></tr></thead><tbody>'+
+   de.results.map(r=>{ const m=r.metrics; return '<tr><td>'+r.gamma+'</td><td>'+(r.gamma===0?"–":r.gate==="ens"?"on":"off")+'</td><td class="n">'+f2(m.pam_valid[0])+'</td><td class="n">'+f2(m.novel_of_unique[0])+'</td><td class="n">'+f2(m.critic_p[0])+'</td><td class="n">'+f2(m.judge_p[0])+'</td><td class="n">'+ms(m.judge_success)+'</td><td class="n">'+ms(m.topk_judge_success)+'</td></tr>'; }).join("")+
+   '<tr><td colspan="6"><i>Real held-out Doench guides (reference) / natural genomic sites</i></td><td class="n">'+f2(de.reference.doench_test_guides.judge_success)+' / '+f2(de.reference.genomic_prior_sites.judge_success)+'</td><td></td></tr></tbody></table></div>';
+  h+='<div class="charts" style="margin-top:16px">'+lineChart("Guides: judge-efficient and usable",[ser(de,"judge_success",gD,"none",C.off,"gate off"),ser(de,"judge_success",gD,"ens",C.on,"gate on")],"fraction of samples","guidance strength γ",{xs:[0,1,2,4,8,16],ymax:Math.max(0.05,...de.results.map(r=>r.metrics.judge_success[0]))*1.25})+lineChart("Guides: critic–judge gap",[ser(de,"gap",gD,"none",C.off,"gate off"),ser(de,"gap",gD,"ens",C.on,"gate on")],"critic − judge","guidance strength γ",{xs:[0,1,2,4,8,16],ymin:Math.min(0,...de.results.map(r=>r.metrics.gap[0])),ymax:Math.max(0.1,...de.results.map(r=>r.metrics.gap[0]))*1.25})+'</div>';
+  const note=(me.notes||"")+" "; h+='<div class="callout" id="ev-read"></div>';
+  if(S.locusRes){ const L=S.locusRes, f=(v,d)=>v?(v[0]*100).toFixed(0)+"% \u00b1 "+(v[1]*100).toFixed(0):"\u2013"; h+='<h3 style="margin-top:26px">4. Aiming guides at a locus (PTPRS exons)</h3><p class="small" style="margin:6px 0 10px">Library: '+L.library_size+' unique NGG sites whose cut falls inside a PTPRS exon. '+L.N+' guides per row \u00d7 '+L.seeds.length+' seeds, '+L.steps+' steps, guidance \u03b3 = '+L.gamma+'. "Success" = exact PTPRS site, judge P &gt; 0.5, passes the usability checks.</p><div class="tw"><table class="t"><thead><tr><th>Setting</th><th class="n">Exact PTPRS site</th><th class="n">Distinct sites</th><th class="n">Success</th></tr></thead><tbody>'+L.results.map(r=>"<tr><td>"+r.setting+"</td><td class=\"n\">"+f(r.exact)+"</td><td class=\"n\">"+f(r.distinct)+"</td><td class=\"n\">"+f(r.success)+"</td></tr>").join("")+"<tr><td><i>Baseline: random draw from the library</i></td><td class=\"n\">100%</td><td class=\"n\">\u2013</td><td class=\"n\">"+f(L.baselines.random_library_draw.success)+"</td></tr><tr><td><i>Baseline: scan and rank (top by critic)</i></td><td class=\"n\">100%</td><td class=\"n\">100%</td><td class=\"n\">"+(L.baselines.scan_and_rank_top_by_critic.success*100).toFixed(0)+"% (deterministic)</td></tr></tbody></table></div>"; }
+  $("#ev-body").innerHTML=h; fetch(BASE+"results/READING.html").then(r=>r.ok?r.text():"").then(t=>{ if(t) $("#ev-read").innerHTML=t; else $("#ev-read").remove(); }).catch(()=>$("#ev-read").remove());
+}
+function renderMethod(){
+  fetch(BASE+"results/METHOD.html").then(r=>r.text()).then(t=>$("#me-body").innerHTML=t).catch(()=>{});
+}
+
+document.addEventListener("ptp:theme",()=>{ paintColors(); if(S.args) renderEvidence(...S.args); });
+loadEvidence();
+})();

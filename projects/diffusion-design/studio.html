@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Studio: PTP&sigma; Studio</title>
+<meta name="description" content="Generate and audit candidate small molecules and CRISPR guides against PTP&sigma;, in your browser.">
+<meta name="theme-color" content="#FAF9FD">
+<script>(function(){var t=null;try{t=localStorage.getItem("ptp-theme");}catch(e){}if(!t)t=window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";document.documentElement.dataset.theme=t;})();</script>
+<link rel="canonical" href="https://orvillerockwelljr.com/projects/diffusion-design/studio.html">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="site.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top"><div class="page"><nav class="nav" aria-label="Page"><button type="button" class="sidebtn" id="sidebtn" aria-label="Show chats" aria-expanded="false"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg></button><a class="wm" href="./"><span class="wmk"><svg class="logo" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M24 4.5 40.9 14.25v19.5L24 43.5 7.1 33.75v-19.5z"/><path d="M17.5 12.5C30 16.5 30.5 21.5 24 24s-6 7.5 6.5 11.5"/><path d="M30.5 12.5C18 16.5 17.5 21.5 24 24s6 7.5-6.5 11.5"/><path d="M19.6 16h8.8M19.6 32h8.8" stroke-width="1.6"/></svg></span>PTP&sigma; Studio</a><span class="navr"><a href="studio.html">Studio</a><a href="evidence.html">Evidence</a><a href="evidence.html#method">Method</a><a href="https://github.com/OrvilleRockwellJr/orvillerockwelljr.github.io/tree/main/projects/diffusion-design">Code</a><button type="button" class="themebtn" id="theme" aria-pressed="false" aria-label="Toggle dark theme" title="Switch to dark theme"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5a8.5 8.5 0 1 0 10.7 10.7z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/></svg></button><a class="pill" href="../../">Orville Rockwell Jr. &rarr;</a></span></nav></div></header>
+<div class="shell studio" id="studio">
+ <aside class="side" id="side" aria-label="Chats">
+  <button type="button" class="newchat" id="newchat"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>New chat</button>
+  <div class="sidelabel">Chats</div>
+  <ul id="chatlist" class="chatlist"></ul>
+  <p class="small nochats" id="nochats">Your chats appear here. They save automatically.</p>
+  <div class="sidefoot"><button type="button" class="linkbtn" id="dl-all">Download all chats (.json)</button><p class="small">Saved in this browser only. No account, nothing is uploaded.</p></div>
+ </aside>
+ <main class="stage" id="main">
+  <div class="tabs" role="tablist" id="design" aria-label="Studio sections">
+   <button role="tab" aria-selected="true" aria-controls="p-go" id="t-go">Design</button>
+   <button role="tab" aria-selected="false" aria-controls="p-mol" id="t-mol">Molecules</button>
+   <button role="tab" aria-selected="false" aria-controls="p-dna" id="t-dna">Guides</button>
+   <button role="tab" aria-selected="false" aria-controls="p-scan" id="t-scan">Scan a gene</button>
+  </div>
+  <div id="loadmsg" class="status" style="margin-top:14px">Loading models&hellip;</div>
+  <section class="panel home" id="p-go" role="tabpanel" aria-labelledby="t-go">
+  <div class="homehead" id="home"><span class="homemark"><svg class="logo" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M24 4.5 40.9 14.25v19.5L24 43.5 7.1 33.75v-19.5z"/><path d="M17.5 12.5C30 16.5 30.5 21.5 24 24s-6 7.5 6.5 11.5"/><path d="M30.5 12.5C18 16.5 17.5 21.5 24 24s6 7.5-6.5 11.5"/><path d="M19.6 16h8.8M19.6 32h8.8" stroke-width="1.6"/></svg></span><h1>Start generating your designs</h1><p>Describe the molecule or CRISPR guide you want, and what it is for. Every candidate is audited by a model that never saw the steering.</p></div>
+  <div class="chathead" id="chathead" hidden><b id="ct"></b><span><button type="button" class="linkbtn" id="ct-md">Download .md</button><button type="button" class="linkbtn" id="ct-json">.json</button></span></div>
+  <div id="thread" aria-live="polite"></div>
+  <div class="modes" id="go-modes">
+   <button type="button" class="mode on" id="mode-gen" data-m="gen"><span class="mi"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M7 3c0 6 10 6 10 12s-10 6-10 6M17 3c0 6-10 6-10 12s10 6 10 6M8.5 7.5h7M8.5 16.5h7"/></svg></span><b>Generate designs</b><span>Say what you want and what it is for. Get molecule and guide shortlists for PTP&sigma;, steered and audited.</span></button>
+   <button type="button" class="mode" id="mode-score" data-m="score"><span class="mi"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 20V10M12 20V4M19 20v-7"/></svg></span><b>Score a candidate</b><span>Paste a guide, DNA (up to 500 bases) or a SMILES. See critic and judge scores and the effect of every single-base change.</span></button>
+  </div>
+
+  <div id="go-gen">
+   <div class="composer" id="cmp-gen">
+   <div id="g-plan" hidden>
+    <h3 class="h3s">How I read it</h3>
+    <div class="grid4">
+     <label>Make<select id="g-make"><option value="both">Molecules and guides</option><option value="mol">Molecules only</option><option value="dna">Guides only</option></select></label>
+     <label>Candidates each<select id="g-n"><option>6</option><option>8</option><option selected>12</option><option>16</option><option>24</option></select></label>
+     <label>Push<select id="g-push"><option value="gentle">Gentle (diverse)</option><option value="std" selected>Standard</option><option value="hard">Hard</option></select></label>
+     <label>Brain penetration<select id="g-wb"><option value="0">Off</option><option value="1" selected>Normal</option><option value="2">High</option></select></label>
+     <label>Target activity<select id="g-wa"><option value="0">Off</option><option value="1" selected>Normal</option><option value="2">High</option></select></label>
+     <label>Low toxicity<select id="g-wt"><option value="0">Off</option><option value="1" selected>Normal</option><option value="2">High</option></select></label>
+     <label>Uncertainty gate (molecules)<select id="g-gate"><option value="on" selected>On (recommended)</option><option value="off">Off, to see the critic get exploited</option></select></label>
+     <label>Seed<input type="number" id="g-seed" value="21" min="0"></label>
+    </div>
+    <ul class="small" id="g-notes"></ul>
+   </div>
+   <div class="dock">
+    <textarea id="g-prompt" rows="3" class="prompt" placeholder="Describe what you want made and what it is for, e.g. brain-penetrant, non-toxic PTP inhibitors for stroke recovery, plus Cas9 guides to knock out PTPRS. 12 of each. Paste DNA here to aim guides at your own sequence."></textarea>
+    <div class="dockbar">
+     <label class="dsel">Target <select id="g-lib"><option value="ptprs">PTPRS exons</option><option value="paste">DNA I pasted</option><option value="none">No locus</option></select></label>
+     <span class="live" id="g-live">Waiting for your request.</span>
+     <button type="button" class="iconbtn" id="g-gear" aria-expanded="false" title="Settings"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/></svg></button>
+     <button class="gen" id="g-make-go" disabled>Generate <span aria-hidden="true">&uarr;</span></button><button class="btn alt" id="g-stop" hidden>Stop</button>
+    </div>
+   </div>
+   <div class="chips" id="g-chips"><button type="button" data-p="Brain-penetrant, non-toxic PTP&sigma; inhibitors and Cas9 guides to knock out PTPRS, for stroke recovery. Give me 12 of each.">Both, for stroke recovery</button><button type="button" data-p="Potent small molecules for PTPRS, I don't care about toxicity yet. Strong guidance, 16 candidates. Molecules only.">Potent molecules only</button><button type="button" data-p="Diverse, gentle exploration of CRISPR guides for PTPRS. Guides only, 16 candidates.">Diverse guides only</button></div>
+   <p class="small" id="g-ruleline">The text is read by a small rule-based reader in your browser (no language model, no API). The gear shows exactly what it understood, and you can change any setting.</p>
+   <button class="btn" id="g-read" hidden disabled>Read</button><span id="g-readmsg" hidden></span>
+   </div>
+   <div class="status" id="g-status" style="margin-top:12px"></div><div class="bar"><i id="g-bar"></i></div>
+   <div id="g-out"></div>
+     </div>
+
+  <div id="go-score" hidden>
+   <div class="composer" id="cmp-score">
+   <div class="dock">
+    <textarea id="sc-in" rows="3" class="prompt" placeholder="Paste a 30-nt guide context, any DNA up to 500 bases (every NGG site is scored), or a SMILES string."></textarea>
+    <div class="dockbar"><span class="live" id="sc-live">0 letters</span><span style="flex:1"></span><button class="gen" id="sc-go" disabled>Score <span aria-hidden="true">&uarr;</span></button></div>
+   </div>
+   <div class="chips" id="sc-chips"></div>
+   </div>
+   <div class="status" id="sc-status" style="margin-top:12px"></div>
+   <div id="sc-out"></div>
+  </div>
+  </section>
+<!-- MOLECULES -->
+ <section class="panel" id="p-mol" role="tabpanel" aria-labelledby="t-mol" hidden>
+  <h2>Design small molecules</h2>
+  <p class="sub">A diffusion model denoises a molecular latent code into a structure. Three classifiers, trained on <i>noised</i> codes, steer every denoising step toward brain penetration, PTP-family activity and low toxicity. A separate held-out judge, built on different features and trained on different data (for brain penetration and toxicity), scores the result.</p>
+  <div class="grid2"><div class="ctrl">
+   <label>Candidates <output id="m-n-o">16</output></label><input type="range" id="m-n" min="4" max="24" step="4" value="16">
+   <label>Guidance strength &gamma; <output id="m-g-o">4</output></label><input type="range" id="m-g" min="0" max="8" step="0.5" value="4">
+   <div class="hint">0 = unguided diffusion. Higher pushes harder on the classifiers.</div>
+   <hr><label>Brain penetration <output id="m-wb-o">1</output></label><input type="range" id="m-wb" min="0" max="2" step="0.25" value="1">
+   <label>PTP-family activity <output id="m-wa-o">1</output></label><input type="range" id="m-wa" min="0" max="2" step="0.25" value="1">
+   <label>Low toxicity <output id="m-wt-o">1</output></label><input type="range" id="m-wt" min="0" max="2" step="0.25" value="1">
+   <hr><label class="chk"><input type="checkbox" id="m-gate" checked><span><b>Trust gate</b><br><span class="hint">Shrinks a classifier's push when its five ensemble heads disagree.</span></span></label>
+   <label>Gate threshold &tau; <output id="m-tau-o">1.0</output></label><input type="range" id="m-tau" min="0.25" max="3" step="0.25" value="1">
+   <label class="chk"><input type="checkbox" id="m-cmp" checked><span><b>Compare with unguided</b><br><span class="hint">Same starting noise, &gamma; = 0. Doubles the time.</span></span></label>
+   <label>Denoising steps<select id="m-steps"><option>30</option><option selected>60</option><option>100</option></select></label>
+   <label>Seed<input type="number" id="m-seed" value="7" min="0"></label>
+   <button class="btn" id="m-go" disabled>Generate molecules</button><button class="btn alt" id="m-stop" hidden>Stop</button>
+  </div>
+  <div class="stage"><div class="status" id="m-status">Ready.</div><div class="bar"><i id="m-bar"></i></div>
+   <div id="m-traceh" class="small" hidden>Watch candidate 1 denoise (decoded at checkpoints; grey = not yet a valid molecule):</div><div class="trace" id="m-trace"></div>
+   <div class="strip" id="m-strip"></div>
+   <div class="legendline" id="m-leg" hidden>Bars show P(favourable): <i style="background:#8BA6C9"></i>critic (the classifier that steered) <i style="background:var(--cv)"></i>judge (held-out, different features). A gap means the generator is leaning on the critic's blind spots.</div>
+   <div id="m-sort" class="small" hidden>Sort by <select id="m-sortby" style="font:inherit"><option value="judge">held-out judge</option><option value="critic">critic</option><option value="qed">drug-likeness (rule of five)</option></select> &nbsp; <button class="btn alt" id="m-csv" style="width:auto;margin:0 0 0 8px;padding:5px 10px;font-size:13px">Download CSV</button></div>
+   <div class="cards" id="m-cards" style="margin-top:10px"></div></div></div>
+ </section>
+
+ <!-- DNA -->
+ <section class="panel" id="p-dna" role="tabpanel" aria-labelledby="t-dna" hidden>
+  <h2>Design gene-editing guide sequences</h2>
+  <p class="sub">The same engine, a different alphabet. It generates 30-nucleotide SpCas9 guide contexts (4 nt, a 20-nt protospacer, the NGG PAM, 3 nt). A classifier ensemble trained on noised sequences steers toward high cutting efficiency; a held-out logistic model trained on a different lab&rsquo;s library scores the result. This is the proof of mechanism for sequence design; to target PTPRS itself, use the scanner.</p>
+  <div class="grid2"><div class="ctrl">
+   <label>Candidates <output id="d-n-o">12</output></label><input type="range" id="d-n" min="6" max="48" step="6" value="12">
+   <label>Guidance strength &gamma; <output id="d-g-o">4</output></label><input type="range" id="d-g" min="0" max="16" step="1" value="4">
+   <hr><label>Guide target<select id="d-lib"><option value="none">No locus (generic efficient guides)</option><option value="ptprs">PTPRS exons (cut inside an exon)</option><option value="paste">DNA pasted below</option></select></label>
+   <textarea id="d-paste" rows="4" style="display:none;width:100%;margin-top:6px;font:12px ui-monospace,Menlo,monospace;border:1px solid var(--rule);border-radius:6px;padding:6px" placeholder="Paste DNA (A, C, G, T), up to 20,000 letters"></textarea>
+   <label>Locus strength <output id="d-wl-o">1</output></label><input type="range" id="d-wl" min="0" max="4" step="0.25" value="1">
+   <label class="chk"><input type="checkbox" id="d-tilt" checked><span><b>Favor efficient sites</b><br><span class="hint">Weights the target sites by the efficiency critic, so steering picks good sites inside the locus.</span></span></label>
+   <hr><label class="chk"><input type="checkbox" id="d-gate" checked><span><b>Trust gate</b><br><span class="hint">Shrinks the push when ensemble heads disagree.</span></span></label>
+   <label>Gate threshold &tau; <output id="d-tau-o">1.0</output></label><input type="range" id="d-tau" min="0.25" max="3" step="0.25" value="1">
+   <label class="chk"><input type="checkbox" id="d-cmp" checked><span><b>Compare with unguided</b><br><span class="hint">Same starting noise, &gamma; = 0.</span></span></label>
+   <label>Denoising steps<select id="d-steps"><option>25</option><option selected>50</option><option>100</option></select></label>
+   <label>Seed<input type="number" id="d-seed" value="11" min="0"></label>
+   <button class="btn" id="d-go" disabled>Generate guides</button>
+  </div>
+  <div class="stage"><div class="status" id="d-status">Ready.</div><div class="bar"><i id="d-bar"></i></div>
+   <div id="d-trace" class="seq" style="margin-bottom:6px"></div><div class="seqkey" id="d-tracek" hidden>Candidate 1 resolving: letters fade in as the model commits to them. Outlined = PAM; faded = flanking context.</div>
+   <div class="strip" id="d-strip"></div><div class="dna" id="d-rows" style="margin-top:10px"></div></div></div>
+ </section>
+
+ <!-- SCAN -->
+ <section class="panel" id="p-scan" role="tabpanel" aria-labelledby="t-scan" hidden>
+  <h2>Scan the PTPRS gene</h2>
+  <p class="sub">Every NGG site on both strands of PTPRS's 38 exons (Ensembl, GRCh38, transcript ENST00000262963), scored by the same critic ensemble and the held-out judge. You can also paste any DNA of your own.</p>
+  <div class="grid2"><div class="ctrl">
+   <label>Sequence<select id="s-src"><option value="ptprs" selected>PTPRS exons (built in)</option><option value="paste">Paste my own DNA</option></select></label>
+   <textarea id="s-paste" rows="6" style="display:none;width:100%;margin-top:8px;font:12px ui-monospace,Menlo,monospace;border:1px solid var(--rule);border-radius:6px;padding:6px" placeholder="Paste DNA (A, C, G, T), up to 20,000 letters"></textarea>
+   <label>Show top <output id="s-k-o">15</output></label><input type="range" id="s-k" min="5" max="40" step="5" value="15">
+   <label class="chk"><input type="checkbox" id="s-req" checked><span>Only sites whose cut falls inside the exon<br><span class="hint">Cut is 3 bp upstream of the PAM.</span></span></label>
+   <label class="chk"><input type="checkbox" id="s-use" checked><span>Only guides passing design checks<br><span class="hint">GC 40&ndash;70%, no TTTT run.</span></span></label>
+   <button class="btn" id="s-go" disabled>Scan</button>
+  </div><div class="stage"><div class="status" id="s-status">Ready.</div><div class="strip" id="s-strip"></div><div class="tw" id="s-tab" hidden></div></div></div>
+ </section>
+
+  <p class="notice"><b>Research prototype, in silico only.</b> Every score is a prediction from small models trained on public data (ChEMBL, B3DB, BBBP, Tox21, ToxCast, and SpCas9 guide-efficacy screens from three labs). Nothing here is lab-validated, and nothing here is medical advice. See the <a href="evidence.html">Evidence page</a> for how often the held-out judge agrees with the steering classifiers, including where it does not.</p>
+ </main>
+</div>
+<script src="site.js"></script>
+<script src="vendor/RDKit_minimal.js"></script>
+<script src="engine.js"></script>
+<script src="app.js"></script>
+<script src="chats.js"></script>
+</body></html>
