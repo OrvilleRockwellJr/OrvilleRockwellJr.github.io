@@ -271,12 +271,7 @@ table.t th{background:var(--wash);color:var(--ink)}
    </div>
    <div class="status" id="g-status" style="margin-top:12px"></div><div class="bar"><i id="g-bar"></i></div>
    <div id="g-out"></div>
-   <details class="lane" id="g-lane"><summary>What lane this is, and the open gap</summary>
-    <p><b>Not Evo 2.</b> Evo 2 is a billion-parameter genome model. This studio uses small models trained on public data, so it is a testbed for one question, not a competitor.</p>
-    <p><b>The lane.</b> Evo 2 is steered by generating many sequences and keeping the ones an outside predictor scores well (search and filter). Here the predictor's gradient steers every denoising step, and a second model that never saw the steering checks the result. The report on each guide shows where those two models agree.</p>
-    <p><b>The gap.</b> When can a steering predictor be trusted, and when does gradient guidance beat generating more and filtering? Our evidence is mixed. For molecules, guidance without the uncertainty gate made the critic-ranked shortlist worse than no guidance (9% vs 49% pass the held-out judge, so the critic was being exploited); with the gate, 81% pass (guidance 4). For guides, filtering unguided samples already reaches 90%, guidance lifts that to about 100%, and the gate did not help. The Evidence tab has the tables and error bars.</p>
-   </details>
-  </div>
+     </div>
 
   <div id="go-score" hidden>
    <div class="dock">
