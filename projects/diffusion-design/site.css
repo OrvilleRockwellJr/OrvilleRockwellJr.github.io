@@ -358,3 +358,9 @@ details.how summary::-webkit-details-marker{display:none}details.how>p{margin:6p
 .imgcard .btn{padding:5px 10px;font-size:12.5px}
 img.thumb{width:28px;height:28px;object-fit:cover;border-radius:6px;vertical-align:middle;margin-right:6px}
 .imgcard .btn,.imgcard .row2 button{width:auto;flex:none;display:inline-block}
+
+.cact{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0 2px}
+.cact .chip{font:inherit;font-size:11.5px;padding:3px 9px;border-radius:999px;border:1px solid var(--rule,#ddd);background:transparent;color:inherit;cursor:pointer}
+.cact .chip:hover{background:rgba(107,79,187,.12);border-color:var(--cv,#6B4FBB)}
+.notice{background:transparent!important;border:0!important;text-align:center;margin-top:14px;padding:4px}
+.att[hidden]{display:none!important}

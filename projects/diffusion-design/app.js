@@ -101,7 +101,7 @@ function molCard(o,idx,un){
    (o.pass?'<span class="tag ok">judge: passes all three</span>':'<span class="tag no">judge: fails ≥1</span>')+auditTag(auditMol(o))+(cns?'<span class="tag ok">CNS-like physchem</span>':'<span class="tag">outside CNS physchem</span>')+'</div>'+
    pair("brain",o.cp.bbb,o.jp.bbb,true)+pair("activity",o.cp.act,o.jp.act,true)+pair("low tox",o.cp.tox,o.jp.tox,false)+
    '<div class="small" style="font-size:11.5px">MW '+fmt(a.mw,0)+' · cLogP '+fmt(a.logp,1)+' · TPSA '+fmt(a.tpsa,0)+' · HBD '+fmt(a.hbd,0)+' · Ro5 violations '+a.ro5+'</div>'+
-   '<div class="small" style="font-size:11.5px">Nearest known compound: Tanimoto '+fmt(o.nn.t)+(o.nn.t>=0.99?' (known)':o.nn.t<0.4?' (new scaffold)':'')+'</div>'+(o.simSeed!=null?'<div class="small" style="font-size:11.5px">Similarity to your seed: Tanimoto '+fmt(o.simSeed)+(o.simSeed>=0.99?' (same molecule)':'')+'</div>':'')+'</div>';
+   '<div class="cact"><button type="button" class="chip" data-seedsmi="'+esc(a.canon)+'">Design analogs</button><button type="button" class="chip" data-scoresmi="'+esc(a.canon)+'">Score with critics</button></div>'+'<div class="small" style="font-size:11.5px">Nearest known compound: Tanimoto '+fmt(o.nn.t)+(o.nn.t>=0.99?' (known)':o.nn.t<0.4?' (new scaffold)':'')+'</div>'+(o.simSeed!=null?'<div class="small" style="font-size:11.5px">Similarity to your seed: Tanimoto '+fmt(o.simSeed)+(o.simSeed>=0.99?' (same molecule)':'')+'</div>':'')+'</div>';
 }
 function tani(a,b){ let i=0; for(const x of a.fp) if(b.fpset.has(x)) i++; return i/(a.fp.length+b.fp.length-i||1); }
 function stripHtml(items,key,labels){
@@ -221,8 +221,8 @@ function readPrompt(raw){
 $("#g-chips").addEventListener("click",e=>{ const b=e.target.closest("button"); if(!b) return; $("#g-prompt").value=b.dataset.p.replace(/&sigma;/g,"σ"); doRead(); });
 $("#g-read").addEventListener("click",doRead);
 function doRead(){
-  const raw=$("#g-prompt").value.trim(); if(!raw){ $("#g-live").textContent="Waiting for your request."; $("#g-make-go").disabled=true; S.go=null; return; } $("#g-readmsg").textContent="";
-  const {cfg,notes}=readPrompt(raw); S.go={cfg,raw}; $("#g-make").value=cfg.make; $("#g-n").value=String(cfg.n); $("#g-push").value=cfg.push; $("#g-lib").value=cfg.lib; $("#g-wb").value=String(cfg.w[0]); $("#g-wa").value=String(cfg.w[1]); $("#g-wt").value=String(cfg.w[2]);
+  const raw=$("#g-prompt").value.trim(); if(!raw){ $("#g-live").textContent=S.go&&S.go.run&&!S.go.run.finished?"Working…":"Waiting for your request."; $("#g-make-go").disabled=true; if(!(S.go&&S.go.run&&!S.go.run.finished)) S.go=null; return; } $("#g-readmsg").textContent="";
+  const {cfg,notes}=readPrompt(raw); const prevRun=S.go&&S.go.run; S.go={cfg,raw}; if(prevRun&&!prevRun.finished) S.go.run=prevRun; $("#g-make").value=cfg.make; $("#g-n").value=String(cfg.n); $("#g-push").value=cfg.push; $("#g-lib").value=cfg.lib; $("#g-wb").value=String(cfg.w[0]); $("#g-wa").value=String(cfg.w[1]); $("#g-wt").value=String(cfg.w[2]);
   $("#g-notes").innerHTML=notes.map(n=>"<li>"+esc(n)+"</li>").join(""); $("#g-make-go").disabled=!S.ready; liveLine(cfg);
 }
 $("#g-make-go").addEventListener("click",()=>{
@@ -235,8 +235,9 @@ $("#g-make-go").addEventListener("click",()=>{
   if(seedSmi&&make!=="dna"){ const sa=analyse(seedSmi); if(!sa){ $("#g-status").textContent="The seed molecule is not a valid SMILES string."; return; } seedInfo={smiles:sa.canon,a:sa,strength:+$("#g-str").value}; }
   const stages=[]; if(make!=="dna") stages.push({kind:"mol",job:seedInfo?{cmd:"genAnalog",id:0,n:Math.min(48,n*2),seed,steps:60,gamma:gam.mol[push],w,gate:$("#g-gate").value==="on",tau:1,smiles:seedInfo.smiles,strength:seedInfo.strength}:{cmd:"genMol",id:0,n:Math.min(48,n*2),seed,steps:60,gamma:gam.mol[push],w,gate:$("#g-gate").value==="on",tau:1,compare:false}});
   if(make!=="mol") stages.push({kind:"dna",job:dnaJob({n,seed:seed+1,steps:50,gamma:gam.dna[push],gate:false,tau:1,compare:false,wl:1,tilt:2},lib)});
-  S.go.run={seedInfo,photo:S.photo||null,stages,i:0,make,n,mol:[],dna:[],lib,libk,use:g.cfg.use,push,w,t0:performance.now(),stopped:false}; $("#g-out").innerHTML=""; $("#g-make-go").disabled=true; $("#g-stop").hidden=false; $("#g-bar").style.width="0"; startStage();
+  S.go.run={seedInfo,photo:S.photo||null,stages,i:0,make,n,mol:[],dna:[],lib,libk,use:g.cfg.use,push,w,t0:performance.now(),stopped:false}; $("#g-out").innerHTML=""; $("#g-make-go").disabled=true; $("#g-stop").hidden=false; $("#g-bar").style.width="0"; startStage(); clearComposer();
 });
+function clearComposer(){ const P=$("#g-prompt"); P.value=""; $("#g-smi").value=""; S.photo=null; S.photoCtx=null; const att=$("#g-att"); att.hidden=true; att.innerHTML=""; $("#g-img").innerHTML=""; $("#g-notes").innerHTML=""; const pl=$("#g-plan"); if(pl&&!pl.hidden){ $("#g-gear").click(); } $("#g-live").textContent="Ask a follow-up, or describe something new."; $("#g-make-go").disabled=true; }
 $("#g-stop").addEventListener("click",()=>{ const r=S.go&&S.go.run; if(!r) return; r.stopped=true; if(S.cur) S.worker.postMessage({cmd:"cancel",id:S.cur.job.id}); });
 function startStage(){
   const r=S.go.run, st=r.stages[r.i]; st.job.id=++S.job; S.cur={kind:st.kind,job:st.job,got:0,t0:performance.now(),chain:true};
@@ -247,7 +248,7 @@ function chainItem(m){ const r=S.go&&S.go.run; if(!r) return; let done=S.cur.got
 function chainDone(m){
   const r=S.go.run, st=r.stages[r.i]; if(st.kind==="mol"){ r.mol=S.mol.items.map(x=>x.g); if(r.seedInfo) r.mol.forEach(o=>{ if(o.valid) o.simSeed=tani(o.a,r.seedInfo.a); }); } else r.dna=S.dna.items.map(x=>x.g);
   r.i++; if(r.i<r.stages.length&&!m.cancelled&&!r.stopped){ startStage(); return; }
-  $("#g-make-go").disabled=false; $("#g-stop").hidden=true; $("#g-bar").style.width="100%"; const sec=(performance.now()-r.t0)/1000; $("#g-status").textContent=(r.stopped?"Stopped. ":"Done. ")+"Took "+sec.toFixed(1)+" s on your device."; renderShortlist();
+  $("#g-make-go").disabled=!$("#g-prompt").value.trim(); $("#g-stop").hidden=true; $("#g-bar").style.width="100%"; const sec=(performance.now()-r.t0)/1000; $("#g-status").textContent=(r.stopped?"Stopped. ":"Done. ")+"Took "+sec.toFixed(1)+" s on your device."; r.finished=true; renderShortlist();
 }
 /* ---------- Two-key pairs: a reversible molecule and a permanent guide designed as one matched experiment ---------- */
 function trustW(k){ return k==="ok"?1:k==="mid"?0.7:0.3; }
@@ -348,6 +349,9 @@ function onScScores(m){ const R=S.sc.rows; $("#sc-go").disabled=false; const O=R
   $("#sc-status").textContent="Done. Scored "+O.length+" site"+(O.length>1?"s":"")+" on your device.";
   $("#sc-out").innerHTML='<div class="metrics"><div><span>Sites scored</span><b>'+O.length+'</b><small>NGG with 30-nt context, both strands</small></div><div><span>Pass judge and checks</span><b>'+O.filter(o=>o.pass).length+'</b><small>of '+O.length+'</small></div><div><span>Best critic / judge</span><b>'+fmt(top[0].cp)+' / '+fmt(top[0].jp)+'</b><small>top-ranked site</small></div><div><span>Mean critic&ndash;judge gap</span><b>'+fmt(gap)+'</b><small>how far the two models differ</small></div></div>'+(R.length>1?'<p class="small">Top '+top.length+' by average of critic and judge. Open any row for its per-base report.</p>':'')+'<div class="dna">'+top.map((o,i)=>dnaRow(o,R.length>1?"Rank "+(i+1)+" · "+(o.strand>0?"sense":"antisense")+" strand":"",false)).join("")+'</div>'; if(O.length===1||top.length===1){ const b=$("#sc-out .repbtn"); if(b) b.click(); } turn("score",$("#sc-in").value,"#sc-out"); }
 
+document.addEventListener("click",e=>{ const b=e.target.closest("button[data-seedsmi],button[data-scoresmi]"); if(!b) return;
+  if(b.dataset.seedsmi){ const modeBtn=document.querySelector('#go-modes .mode[data-m="gen"]'); if(modeBtn) modeBtn.click(); $("#g-smi").value=b.dataset.seedsmi; const P=$("#g-prompt"); if(!P.value.trim()) P.value="Analogs of this molecule that are brain-penetrant and non-toxic. 12 candidates."; P.dispatchEvent(new Event("input")); doRead(); P.focus(); $("#g-live").textContent="Seed set: "+b.dataset.seedsmi.slice(0,28)+(b.dataset.seedsmi.length>28?"…":"")+". Press Generate."; }
+  else { const m=document.querySelector('#go-modes .mode[data-m="score"]'); if(m) m.click(); $("#sc-in").value=b.dataset.scoresmi; scUpdate(); $("#sc-go").click(); } });
 function onMolScores(m){ const c=S.msc; if(!c||c.id!==m.id) return; const r=m.scores[0], box=$("#sc-crit");
   if(box){ if(r&&r.ok){ const cp={bbb:sig(r.crit.bbb.mean),act:sig(r.crit.act.mean),tox:sig(r.crit.tox.mean)}; const sdv=Math.max(r.crit.bbb.sd,r.crit.act.sd,r.crit.tox.sd);
       box.innerHTML='<div class="card" style="max-width:420px"><b style="font-size:13px">Steering critics (read from the encoded molecule)</b>'+pair("brain",cp.bbb,c.jp.bbb,true)+pair("activity",cp.act,c.jp.act,true)+pair("low tox",cp.tox,c.jp.tox,false)+'<div class="small" style="font-size:11.5px">Largest disagreement between the five critic heads: '+fmt(sdv,2)+' logits'+(sdv>1?' (high: treat the critic numbers as unreliable)':'')+'. Bars compare the critic with the held-out judge.</div></div><p class="small" style="margin-top:8px">The critics read the molecule through the model\'s own encoder, so a molecule far from the training set is scored less reliably. Per-atom effects are not available.</p>'; }
