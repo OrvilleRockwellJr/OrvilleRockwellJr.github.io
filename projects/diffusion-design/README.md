@@ -13,3 +13,8 @@ Honest limits: small public datasets; guides are not locus-targeted; the PTP-fam
 
 - `studio.html`, `app.js`, `chats.js`: the studio. Chats are auto-saved in the browser (IndexedDB) and can be downloaded as Markdown or JSON; there is no account or server.
 - `site.css`, `site.js`, `evidence.js`, `logo.svg`, `favicon.svg`: shared styles, theme toggle, evidence page, and logo.
+
+## Photo upload, analogs, two-key pairs
+- `photo.js` reads an uploaded image on device (local Tesseract in `vendor/tess/`, nothing uploaded) and offers the SMILES, DNA and gene names it finds.
+- The AE encoder is in `models/mol.bin` (`enc.*` tensors), so any SMILES can be scored by the critics and used as a seed for analog design (`genAnalog` in `worker.js`).
+- `fusion.js` maps each guide's cut site onto PTPσ protein domains; the studio ranks molecule + guide pairs as a matched chemical-genetic experiment.

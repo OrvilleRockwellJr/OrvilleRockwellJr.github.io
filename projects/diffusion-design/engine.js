@@ -91,7 +91,7 @@ function rng(seed){ let a=seed>>>0; const u=()=>{a|=0;a=a+0x6D2B79F5|0;let t=Mat
    opts: den, objectives:[{ens,want,weight}], gamma, tau, gate('ens'|'none'), eta, steps, clip, x (Float32Array D, initial noise), rnd, onStep(si,nsteps,x0hat,info) */
 function timeSeq(steps){ const ts=new Set(); for(let i=0;i<steps;i++){ const v=Math.round((T-1)+(0-(T-1))*(steps>1?i/(steps-1):0)); ts.add(v);} return Array.from(ts).sort((a,b)=>b-a); }
 function sample(o){
-  const D=o.den.D, x=Float32Array.from(o.x), eps=new Float32Array(D), gs=new Float32Array(D), x0=new Float32Array(D); const ts=timeSeq(o.steps);
+  const D=o.den.D, x=Float32Array.from(o.x), eps=new Float32Array(D), gs=new Float32Array(D), x0=new Float32Array(D); const ts=timeSeq(o.steps).filter(v=>o.tStart==null||v<=o.tStart);
   const info={scores:[],gates:[]};
   for(let si=0;si<ts.length;si++){
     const ti=ts[si], ab=AB[ti], abp=si+1<ts.length?AB[ts[si+1]]:1.0;
@@ -127,6 +127,27 @@ class MolDecoder{
     let s=""; for(const i of out){ if(i===2) break; if(i>2) s+=this.vocab[i]; } return {tokens:out,smiles:s};
   }
 }
+/* ---------- molecule encoder (mirror of train_ae.AE.encode, mean only) ---------- */
+const SMI_TOK=/(\[[^\]]+]|Br|Cl|%\d\d|[A-Za-z]|\d|\(|\)|\.|=|#|-|\+|\\|\/|:|~|@|\?|>|\*|\$)/g;
+class MolEncoder{
+  constructor(W,vocab,L){ this.L=L||48; this.idx={}; vocab.forEach((t,i)=>{this.idx[t]=i;});
+    this.emb=W.get("enc.emb"); this.E=W.shape("enc.emb")[1];
+    this.c=[1,2,3].map(k=>({w:W.get("enc.c"+k+".w"),b:W.get("enc.c"+k+".b"),sh:W.shape("enc.c"+k+".w")}));
+    this.fcw=W.get("enc.fc.w"); this.fcb=W.get("enc.fc.b"); this.muw=W.get("enc.mu.w"); this.mub=W.get("enc.mu.b");
+    this.H=W.shape("enc.fc.w")[0]; this.Z=W.shape("enc.mu.w")[0]; }
+  tokenize(smi){ const t=smi.match(SMI_TOK)||[]; if(t.join("")!==smi) return {ok:false,why:"unsupported characters"};
+    const ids=[]; for(const x of t){ if(!(x in this.idx)) return {ok:false,why:"token "+x+" not in the model vocabulary"}; ids.push(this.idx[x]); }
+    ids.push(2); if(ids.length>this.L) return {ok:false,why:"longer than "+(this.L-1)+" tokens"};
+    while(ids.length<this.L) ids.push(0); return {ok:true,ids}; }
+  conv(x,Tin,Cin,l,stride){ const [Co,Ci,K]=l.sh, Tout=Math.floor((Tin+4-K)/stride)+1, y=new Float32Array(Co*Tout);
+    for(let o=0;o<Co;o++){ for(let t=0;t<Tout;t++){ let s=l.b[o]; for(let i=0;i<Ci;i++){ const wb=(o*Ci+i)*K, xb=i*Tin; for(let k=0;k<K;k++){ const p=t*stride+k-2; if(p>=0&&p<Tin) s+=l.w[wb+k]*x[xb+p]; } } y[o*Tout+t]=s>0?s:0; } }
+    return {y,T:Tout}; }
+  encode(smi){ const tk=this.tokenize(smi); if(!tk.ok) return tk; const L=this.L,E=this.E; let x=new Float32Array(E*L);
+    for(let t=0;t<L;t++){ const id=tk.ids[t]; for(let e=0;e<E;e++) x[e*L+t]=this.emb[id*E+e]; }
+    let T=L, C=E; const strides=[1,2,2]; for(let k=0;k<3;k++){ const r=this.conv(x,T,C,this.c[k],strides[k]); x=r.y; T=r.T; C=this.c[k].sh[0]; }
+    const h=new Float32Array(this.H); lin(this.fcw,this.fcb,x,h,this.H,C*T); for(let i=0;i<this.H;i++) if(h[i]<0) h[i]=0;
+    const mu=new Float32Array(this.Z); lin(this.muw,this.mub,h,mu,this.Z,this.H); return {ok:true,mu}; }
+}
 /* ---------- DNA helpers ---------- */
 const NT="ACGT";
 function dnaFromX(x0){ let s=""; for(let i=0;i<30;i++){ let b=0; for(let j=1;j<4;j++) if(x0[i*4+j]>x0[i*4+b]) b=j; s+=NT[b]; } return s; }
@@ -156,6 +177,6 @@ function findSites(seq,label,exonLo,exonHi,rows){
   for(const strand of [1,-1]){ const s=strand===1?seq:rc(seq); const lo=strand===1?exonLo:seq.length-exonHi, hi=strand===1?exonHi:seq.length-exonLo;
     for(let w=0;w+30<=s.length;w++){ const win=s.slice(w,w+30); if(win[25]!=="G"||win[26]!=="G"||/[^ACGT]/.test(win)) continue; const cut=w+4+17; rows.push({win,label,strand,cutIn:cut>=lo&&cut<hi}); } }
 }
-const API={LibCritic,findSites,rc,T,AB,Weights,Denoiser,Critic,Ensemble,rng,sample,timeSeq,MolDecoder,dnaFromX,dnaToX,dnaConf,dnaJudge,sigmoid};
+const API={LibCritic,findSites,rc,T,AB,Weights,Denoiser,Critic,Ensemble,rng,sample,timeSeq,MolDecoder,MolEncoder,dnaFromX,dnaToX,dnaConf,dnaJudge,sigmoid};
 if(typeof module!=="undefined"&&module.exports) module.exports=API; else root.GDEngine=API;
 })(typeof self!=="undefined"?self:globalThis);
