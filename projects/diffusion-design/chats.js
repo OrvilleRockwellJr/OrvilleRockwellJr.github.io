@@ -23,7 +23,7 @@ const title=p=>{ const t=String(p||"").replace(/\s+/g," ").trim(); return t?(t.l
 function slim(d){
   const mol=(d.mol||[]).filter(o=>o&&o.valid).map(o=>({smiles:(o.a&&o.a.canon)||o.smiles||"",pass:!!o.pass,critic:o.cp||null,judge:o.jp||null,mw:o.a&&o.a.mw,logp:o.a&&o.a.logp,tpsa:o.a&&o.a.tpsa,ro5:o.a&&o.a.ro5}));
   const dna=(d.dna||[]).map(o=>({guide:o.seq,pass:!!o.pass,onTarget:o.hit?(typeof o.hit==="string"?o.hit:true):false,critic:o.cp,judge:o.jp,usable:o.ck?!!o.ck.usable:null}));
-  return {mol,dna};
+  return {mol,dna,pairs:d.pairs||[]};
 }
 const textOf=h=>{ const t=document.createElement("div"); t.innerHTML=h; t.querySelectorAll("svg,button,script,style").forEach(n=>n.remove()); return t.textContent.replace(/\s+\n/g,"\n").replace(/[ \t]+/g," ").trim(); };
 function dl(name,mime,text){ const a=document.createElement("a"); a.href=URL.createObjectURL(new Blob([text],{type:mime})); a.download=name; document.body.appendChild(a); a.click(); setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); },500); }
@@ -35,13 +35,14 @@ function toMarkdown(c){
     m+="\n## Turn "+(i+1)+" · "+fdate(t.t)+"\n\n**Request:** "+(t.prompt||"(none)")+"\n";
     if(t.kind==="gen"){
       m+="\n**Settings:** "+[t.meta&&t.meta.make,t.meta&&t.meta.n&&(t.meta.n+" each"),t.meta&&t.meta.push&&(t.meta.push+" push")].filter(Boolean).join(", ")+"\n";
+      if(t.pairs&&t.pairs.length){ m+="\n### Two-key pairs (matched experiment: vehicle, molecule, guide knockout, molecule in knockout cells)\n\n| Pair | Molecule (SMILES) | Guide context (30 nt) | PTPσ site | Pair score |\n|---|---|---|---|---|\n"; t.pairs.forEach((q,k)=>{ m+="| "+(k+1)+" | `"+q.smiles+"` | `"+q.guide+"` | "+(q.site||"")+" | "+q.score+" |\n"; }); }
       if(t.mol&&t.mol.length){ m+="\n### Small molecules\n\n| # | SMILES | Passes audit | Critic P(brain / active / tox) | Judge P(brain / active / tox) |\n|---|---|---|---|---|\n"; t.mol.forEach((o,k)=>{ const c3=o.critic?[o.critic.bbb,o.critic.act,o.critic.tox].map(prob).join(" / "):"", j3=o.judge?[o.judge.bbb,o.judge.act,o.judge.tox].map(prob).join(" / "):""; m+="| "+(k+1)+" | `"+o.smiles+"` | "+(o.pass?"yes":"no")+" | "+c3+" | "+j3+" |\n"; }); }
       if(t.dna&&t.dna.length){ m+="\n### Gene-editing guides\n\n| # | Guide context (30 nt) | Passes judge and checks | On target | Critic P | Judge P |\n|---|---|---|---|---|---|\n"; t.dna.forEach((o,k)=>{ m+="| "+(k+1)+" | `"+o.guide+"` | "+(o.pass?"yes":"no")+" | "+(o.onTarget?"yes":"")+" | "+prob(o.critic)+" | "+prob(o.judge)+" |\n"; }); }
     } else { m+="\n"+(t.text||textOf(t.html||""))+"\n"; }
   });
   return m;
 }
-const toJSON=c=>JSON.stringify({app:"PTPσ Studio",exported:new Date().toISOString(),note:"In-silico predictions only; not lab-validated.",chat:{id:c.id,title:c.title,created:c.created,updated:c.updated,turns:c.turns.map(t=>({time:t.t,kind:t.kind,request:t.prompt,settings:t.meta||null,molecules:t.mol||undefined,guides:t.dna||undefined,text:t.kind==="gen"?undefined:(t.text||textOf(t.html||""))}))}},null,2);
+const toJSON=c=>JSON.stringify({app:"PTPσ Studio",exported:new Date().toISOString(),note:"In-silico predictions only; not lab-validated.",chat:{id:c.id,title:c.title,created:c.created,updated:c.updated,turns:c.turns.map(t=>({time:t.t,kind:t.kind,request:t.prompt,settings:t.meta||null,molecules:t.mol||undefined,guides:t.dna||undefined,twoKeyPairs:t.pairs&&t.pairs.length?t.pairs:undefined,text:t.kind==="gen"?undefined:(t.text||textOf(t.html||""))}))}},null,2);
 
 /* ---------- UI ---------- */
 const p=$("#p-go");
@@ -61,7 +62,7 @@ async function onTurn(e){
   const d=e.detail; if(!d||!d.html) return;
   if(!cur){ cur={id:uid(),title:title(d.prompt),created:Date.now(),updated:Date.now(),turns:[]}; list.push(cur); }
   const s=d.kind==="gen"?slim(d):{};
-  const t={t:Date.now(),kind:d.kind,prompt:d.prompt||"",html:d.html,meta:d.kind==="gen"?{make:d.make,n:d.n,push:d.push,use:d.use}:null,mol:s.mol,dna:s.dna,text:d.kind==="gen"?undefined:textOf(d.html)};
+  const t={t:Date.now(),kind:d.kind,prompt:d.prompt||"",html:d.html,meta:d.kind==="gen"?{make:d.make,n:d.n,push:d.push,use:d.use}:null,mol:s.mol,dna:s.dna,pairs:s.pairs,text:d.kind==="gen"?undefined:textOf(d.html)};
   cur.turns.push(t); cur.updated=Date.now(); await dbPut(cur);
   $("#thread").insertAdjacentHTML("beforeend",turnHTML(t)); ["#g-out","#sc-out"].forEach(s2=>$(s2).innerHTML="");
   setHome(false); renderList(); const last=$("#thread").lastElementChild; if(last) last.scrollIntoView({block:"start",behavior:"smooth"});

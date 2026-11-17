@@ -331,3 +331,16 @@ details.how summary::-webkit-details-marker{display:none}details.how>p{margin:6p
 #p-go:not(.busy) #go-gen .bar{display:none}
 .status:empty{display:none}
 #go-gen .status{font-size:12.5px;color:var(--faint)}
+/* two-key pairs */
+.twokey{margin:6px 0 20px;padding:14px 16px;border:1px solid var(--rule);border-radius:16px;background:linear-gradient(180deg,color-mix(in srgb,var(--cv) 5%,var(--surf)),var(--surf))}
+.twokey h3{margin:0 0 4px!important;color:var(--cv)}
+.pairs{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));margin-top:10px}
+.pr{border:1px solid var(--rule);border-radius:12px;background:var(--surf);padding:10px 12px;display:flex;flex-direction:column;gap:8px}
+.pr header{display:flex;justify-content:space-between;align-items:center}
+.pr2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pr .k{min-width:0;font-size:12px}.pr .k small{display:block;font:600 10.5px var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--cv);margin-bottom:4px}
+.pr .sv{height:84px;display:flex;align-items:center;justify-content:center;background:#fff;border-radius:8px}.pr .sv svg{max-height:84px;max-width:100%}
+.pr .smi{font-family:var(--mono);font-size:10.5px;word-break:break-all;margin:4px 0}
+.pr .seq{font-size:11px}
+.arms{margin:0;padding-left:18px;font-size:12px;color:var(--muted);display:grid;gap:2px}.arms b{color:var(--ink);font-weight:500}
+@media(max-width:560px){.pr2{grid-template-columns:1fr}.pairs{grid-template-columns:1fr}}
