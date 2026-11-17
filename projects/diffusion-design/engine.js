@@ -115,16 +115,41 @@ function sample(o){
 class MolDecoder{
   constructor(W,vocab,L){ this.vocab=vocab; this.L=L||48; this.zh=W.get("dec.zh.w"); this.zhb=W.get("dec.zh.b"); this.demb=W.get("dec.demb"); this.wih=W.get("dec.gru.wih"); this.whh=W.get("dec.gru.whh"); this.bih=W.get("dec.gru.bih"); this.bhh=W.get("dec.gru.bhh"); this.ow=W.get("dec.out.w"); this.ob=W.get("dec.out.b");
     this.Z=W.shape("dec.zh.w")[1]; this.H=W.shape("dec.zh.w")[0]; this.E=W.shape("dec.demb")[1]; this.V=W.shape("dec.demb")[0]; }
-  decode(z){
+  /* constrained decode of z, then of K slightly jittered copies; returns candidates in order of preference */
+  decodeMulti(z,K,sigma,rnd){ const outs=[this.decode(z,{constrain:true}).smiles]; for(let j=0;j<K;j++){ const zz=Float32Array.from(z,v=>v+sigma*rnd.n()); outs.push(this.decode(zz,{constrain:true}).smiles); } return outs; }
+  classify(){ if(this.cls) return this.cls; const c=this.vocab.map((t,i)=>{ if(i<3) return i===2?"eos":"x"; if(/^(Cl|Br|[BCNOPSFI]|[cnops]|\[[^\]]+\])$/.test(t)) return "atom"; if(/^\d$/.test(t)) return "ring"; if(t==="(") return "open"; if(t===")") return "close"; if(/^[=#\-\/\\]$/.test(t)) return "bond"; return "x"; }); return (this.cls=c); }
+  /* greedy GRU decode; opts.constrain masks tokens that would break SMILES syntax (parentheses, ring-closure digits, dangling bonds) */
+  decode(z,opts){
+    const o=opts||{}, con=!!o.constrain, cls=con?this.classify():null;
     const {Z,H,E,V,L}=this; const h=new Float32Array(H), nh=new Float32Array(H), xin=new Float32Array(E+Z), gi=new Float32Array(3*H), gh=new Float32Array(3*H), lg=new Float32Array(V);
     lin(this.zh,this.zhb,z,h,H,Z); for(let i=0;i<H;i++) h[i]=Math.tanh(h[i]);
-    let tok=1; const out=[]; const IN=E+Z;
+    let tok=1; const out=[]; const IN=E+Z; let depth=0, last="start", atoms=0; const openAt={}, openIdx={}; const rem=[], stack=[]; let cur=-1, bo=1, arom=0, runC=0;
+    const CAP={C:4,N:3,O:2,S:6,P:5,F:1,Cl:1,Br:1,I:1,B:3,c:3,n:3,o:2,s:2}; const ORD={"=":2,"#":3,"-":1,"/":1,"\\":1};
     for(let t=0;t<L;t++){
       for(let i=0;i<E;i++) xin[i]=this.demb[tok*E+i]; for(let i=0;i<Z;i++) xin[E+i]=z[i];
       lin(this.wih,this.bih,xin,gi,3*H,IN); lin(this.whh,this.bhh,h,gh,3*H,H);
       for(let i=0;i<H;i++){ const r=sigmoid(gi[i]+gh[i]), zz=sigmoid(gi[H+i]+gh[H+i]), n=Math.tanh(gi[2*H+i]+r*gh[2*H+i]); nh[i]=(1-zz)*n+zz*h[i]; }
-      h.set(nh); lin(this.ow,this.ob,h,lg,V,H); let b=0; for(let i=1;i<V;i++) if(lg[i]>lg[b]) b=i; tok=b; out.push(b); }
-    let s=""; for(const i of out){ if(i===2) break; if(i>2) s+=this.vocab[i]; } return {tokens:out,smiles:s};
+      h.set(nh); lin(this.ow,this.ob,h,lg,V,H);
+      let b=-1;
+      if(!con){ b=0; for(let i=1;i<V;i++) if(lg[i]>lg[b]) b=i; }
+      else{ const nOpen=Object.keys(openAt).length; let bv=-Infinity; const rc=cur>=0?rem[cur]:0;
+        for(let i=1;i<V;i++){ const k=cls[i]; if(k==="x") continue; const tk=this.vocab[i]; let okk=false;
+          if(k==="atom"){ const cap=tk[0]==="["?9:CAP[tk]; okk=cap!=null&&(cur<0||(rc>=bo&&cap>=bo)); if(okk&&/^[cnos]$/.test(tk)&&arom>=(nOpen?9:6)) okk=false; if(okk&&tk==="C"&&runC>=7) okk=false; }
+          else if(k==="bond") okk=(last==="atom"||last==="ring"||last==="close")&&rc>=ORD[tk];
+          else if(k==="open") okk=(last==="atom"||last==="ring"||last==="close")&&rc>=2;
+          else if(k==="close") okk=depth>0&&(last==="atom"||last==="ring"||last==="close");
+          else if(k==="ring"){ if(!(last==="atom"||last==="ring")) okk=false; else if(tk in openAt) okk=atoms-openAt[tk]>=2&&rc>=1; else okk=nOpen<3&&rc>=2; }
+          else if(k==="eos") okk=depth===0&&nOpen===0&&(last==="atom"||last==="ring"||last==="close");
+          if(okk&&lg[i]>bv){ bv=lg[i]; b=i; } }
+        if(b<0) break;
+        const k=cls[b], tk=this.vocab[b];
+        if(k==="atom"){ const cap=tk[0]==="["?9:CAP[tk]; if(cur>=0) rem[cur]-=bo; rem.push(cap-(cur>=0?bo:0)); cur=rem.length-1; bo=1; atoms++; last="atom"; arom=/^[cnos]$/.test(tk)?arom+1:0; runC=tk==="C"?runC+1:0; }
+        else if(k==="bond"){ bo=ORD[tk]; last="bond"; }
+        else if(k==="open"){ stack.push(cur); depth++; last="open"; }
+        else if(k==="close"){ cur=stack.pop(); depth--; bo=1; last="close"; }
+        else if(k==="ring"){ if(tk in openAt){ delete openAt[tk]; rem[cur]-=1; arom=0; } else { openAt[tk]=atoms; rem[cur]-=1; } last="ring"; } }
+      tok=b; out.push(b); if(b===2) break; }
+    let s=""; for(const i of out){ if(i===2) break; if(i>2) s+=this.vocab[i]; } return {tokens:out,smiles:s,closed:out[out.length-1]===2};
   }
 }
 /* ---------- molecule encoder (mirror of train_ae.AE.encode, mean only) ---------- */

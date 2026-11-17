@@ -82,7 +82,7 @@ function onItem(m){
 }
 function sane(a){ return a.tpsa>=10&&/[0-9]/.test(a.canon)&&!/C{8,}/.test(a.canon); }
 function procMol(r){
-  const a=analyse(r.smiles); const o={smiles:r.smiles,valid:!!a,crit:r.crit};
+  let a=analyse(r.smiles), used=r.smiles, repaired=false; if(!a&&r.alts){ for(const alt of r.alts){ const aa=analyse(alt); if(aa){ a=aa; used=alt; repaired=true; break; } } } const o={smiles:used,valid:!!a,crit:r.crit,repaired};
   o.cp={bbb:sig(r.crit.bbb.mean),act:sig(r.crit.act.mean),tox:sig(r.crit.tox.mean)};   // P(brain-penetrant), P(active), P(toxic)
   if(a){ Object.assign(o,{a}); const j=judgeMol(a); o.jz=j; o.jp={bbb:sig(j.bbb),act:sig(j.act),tox:sig(j.tox)}; o.jscore=j.bbb+j.act-j.tox; o.pass=j.bbb>0&&j.act>0&&j.tox<0; o.nn=nearest(a); }
   o.cscore=r.crit.bbb.mean+r.crit.act.mean-r.crit.tox.mean; return o;
@@ -98,7 +98,7 @@ function molCard(o,idx,un){
   if(!o.valid) return '<div class="card'+(un?" un":"")+'"><div class="sv small">invalid structure</div><div class="smi">'+esc(o.smiles||"(empty)")+'</div><span class="tag no">not a valid molecule</span></div>';
   const a=o.a, cns=a.tpsa<90&&a.mw<450&&a.hbd<=3;
   return '<div class="card'+(un?" un":"")+'"><div class="sv">'+a.svg+'</div><div class="smi" title="Click to copy" data-smi="'+esc(a.canon)+'">'+esc(a.canon)+'</div><div>'+
-   (o.pass?'<span class="tag ok">judge: passes all three</span>':'<span class="tag no">judge: fails ≥1</span>')+auditTag(auditMol(o))+(cns?'<span class="tag ok">CNS-like physchem</span>':'<span class="tag">outside CNS physchem</span>')+'</div>'+
+   (o.pass?'<span class="tag ok">judge: passes all three</span>':'<span class="tag no">judge: fails ≥1</span>')+auditTag(auditMol(o))+(o.repaired?'<span class="tag" title="The first decode was not a valid molecule; a tiny perturbation of the same latent code decoded to this one.">repaired decode</span>':'')+(cns?'<span class="tag ok">CNS-like physchem</span>':'<span class="tag">outside CNS physchem</span>')+'</div>'+
    pair("brain",o.cp.bbb,o.jp.bbb,true)+pair("activity",o.cp.act,o.jp.act,true)+pair("low tox",o.cp.tox,o.jp.tox,false)+
    '<div class="small" style="font-size:11.5px">MW '+fmt(a.mw,0)+' · cLogP '+fmt(a.logp,1)+' · TPSA '+fmt(a.tpsa,0)+' · HBD '+fmt(a.hbd,0)+' · Ro5 violations '+a.ro5+'</div>'+
    '<div class="cact"><button type="button" class="chip" data-seedsmi="'+esc(a.canon)+'">Design analogs</button><button type="button" class="chip" data-scoresmi="'+esc(a.canon)+'">Score with critics</button></div>'+'<div class="small" style="font-size:11.5px">Nearest known compound: Tanimoto '+fmt(o.nn.t)+(o.nn.t>=0.99?' (known)':o.nn.t<0.4?' (new scaffold)':'')+'</div>'+(o.simSeed!=null?'<div class="small" style="font-size:11.5px">Similarity to your seed: Tanimoto '+fmt(o.simSeed)+(o.simSeed>=0.99?' (same molecule)':'')+'</div>':'')+'</div>';
