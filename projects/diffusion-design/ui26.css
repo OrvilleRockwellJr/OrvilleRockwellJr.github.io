@@ -170,3 +170,10 @@ header nav a,.hdr nav a,.topnav a,.site-nav a{padding:6px 2px}
 .evpage table.t{font-size:13px}
 .ld{display:inline-block;width:120px;height:4px;border-radius:99px;background:var(--hair);vertical-align:middle;margin-right:8px;overflow:hidden}
 .ld i{display:block;height:100%;background:var(--grad);transition:width .2s}
+
+/* tighter metric rows */
+.studio .pair{line-height:1.1!important;min-height:10px}
+.studio .pair span,.studio .pair b{line-height:1.1!important}
+.studio .pair.c{margin-top:9px!important}.studio .pair.j{margin-top:2px!important}
+.studio .card .small{line-height:1.35}
+.studio .card .btn,.studio .card .chip{padding:5px 11px;font-size:12px}
