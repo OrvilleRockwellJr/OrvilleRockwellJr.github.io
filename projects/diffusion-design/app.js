@@ -33,6 +33,7 @@ async function boot(){
 function fail(msg){ $("#loadmsg").innerHTML='<div class="err">'+esc(msg)+'</div>'; }
 function onWorker(ev){
   const m=ev.data;
+  if(m.evt==="prog"){ $("#loadmsg").innerHTML='<span class="ld"><i style="width:'+m.pct+'%"></i></span> Loading models on your device '+m.pct+'%'; return; }
   if(m.evt==="ready"){ S.ready=true; $("#loadmsg").textContent="Models loaded ("+m.info.molHeads+"-head critic ensembles; runs on your device)."; ["m-go","d-go","s-go","g-read"].forEach(i=>$("#"+i).disabled=false); scInit(); if($("#g-prompt").value.trim()) doRead(); setTimeout(()=>{ if(S.ready) $("#loadmsg").style.display="none"; },2500); }
   else if(m.evt==="trace") onTrace(m);
   else if(m.evt==="item") onItem(m);

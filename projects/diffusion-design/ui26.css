@@ -124,7 +124,7 @@ details[open].how summary::before,details[open].armsd summary::before{content:"â
 .repbtn{border-radius:999px!important;border:0!important;background:color-mix(in srgb,var(--cv) 12%,transparent)!important;font-size:11.5px!important;padding:4px 11px!important}
 
 /* bars: thin, rounded */
-.pair .bar,.bars i,.b2{height:5px!important;border-radius:99px!important}
+.pair .bar,.bars i,.bars .b2{height:5px!important;border-radius:99px!important}
 .bar{height:3px!important;border-radius:99px!important;background:var(--hair)!important;margin:6px 0 14px!important}
 .bar i{background:var(--grad)!important;box-shadow:0 0 12px var(--glow)}
 
@@ -160,3 +160,13 @@ header nav,.hdr nav,.topnav,.site-nav{gap:22px!important}
 header nav a,.hdr nav a,.topnav a,.site-nav a{padding:6px 2px}
 .navr{display:flex!important;align-items:center;gap:22px!important}
 .navr a:not(.pill){padding:6px 2px;font-weight:500}
+
+/* landing CTA + evidence */
+.cta a{display:inline-flex!important;align-items:center;justify-content:center;line-height:1!important;height:48px;padding:0 24px!important;border-radius:14px!important;transition:transform .2s var(--ease),background .2s,border-color .2s}
+.cta .b2,[data-theme=dark] .cta .b2{border:1px solid var(--hair)!important;background:var(--glass)!important}
+.cta .b2:hover{border-color:var(--cv)!important;transform:translateY(-1px)}
+.evpage{max-width:1080px}
+.evpage .prose,.evpage .sub,.evpage p{max-width:760px}
+.evpage table.t{font-size:13px}
+.ld{display:inline-block;width:120px;height:4px;border-radius:99px;background:var(--hair);vertical-align:middle;margin-right:8px;overflow:hidden}
+.ld i{display:block;height:100%;background:var(--grad);transition:width .2s}

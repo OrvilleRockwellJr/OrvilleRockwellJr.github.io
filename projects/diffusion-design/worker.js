@@ -2,7 +2,8 @@
 importScripts("engine.js");
 const E=self.GDEngine; let M=null, Dn=null, cancelled=new Set();
 const tick=()=>new Promise(r=>setTimeout(r,0));
-async function load(name){ const rj=await fetch("models/"+name+".json"); if(!rj.ok) throw new Error("models/"+name+".json: HTTP "+rj.status); const J=JSON.parse(await rj.text()); const rb=await fetch("models/"+name+".bin"); if(!rb.ok) throw new Error("models/"+name+".bin: HTTP "+rb.status); const buf=await rb.arrayBuffer(); return {J,W:new E.Weights(J.manifest,buf)}; }
+const PG={};
+async function load(name){ const rj=await fetch("models/"+name+".json"); if(!rj.ok) throw new Error("models/"+name+".json: HTTP "+rj.status); const J=JSON.parse(await rj.text()); const rb=await fetch("models/"+name+".bin"); if(!rb.ok) throw new Error("models/"+name+".bin: HTTP "+rb.status); const tot=+rb.headers.get("content-length")||{mol:13772624,dna:5369844}[name]||0; let buf; if(rb.body&&rb.body.getReader){ const rd=rb.body.getReader(), parts=[]; let got=0; for(;;){ const {done,value}=await rd.read(); if(done) break; parts.push(value); got+=value.length; PG[name]=[got,tot]; let g=0,t=0; for(const k in PG){ g+=PG[k][0]; t+=PG[k][1]; } postMessage({evt:"prog",pct:t?Math.min(99,Math.round(100*g/t)):0}); } const u=new Uint8Array(got); let o=0; for(const p of parts){ u.set(p,o); o+=p.length; } buf=u.buffer; } else buf=await rb.arrayBuffer(); return {J,W:new E.Weights(J.manifest,buf)}; }
 async function init(){
   const m=await load("mol"), d=await load("dna");
   M={J:m.J,W:m.W,den:new E.Denoiser(m.W,"den."),ens:{bbb:new E.Ensemble(m.W,"bbb."),act:new E.Ensemble(m.W,"act."),tox:new E.Ensemble(m.W,"tox.")},dec:new E.MolDecoder(m.W,m.J.vocab,m.J.L),enc:m.W.has("enc.emb")?new E.MolEncoder(m.W,m.J.vocab,m.J.L):null,mean:m.W.get("stat.mean"),std:m.W.get("stat.std")};
