@@ -311,3 +311,23 @@ a{color:var(--cv)}
 .studio .dna .row{min-width:0}
 .stage .tabs{overflow-x:auto;flex-wrap:nowrap;white-space:nowrap;scrollbar-width:none}.stage .tabs::-webkit-scrollbar{display:none}.stage .tabs button{flex:none}
 @media(max-width:900px){.side{box-shadow:none}body.sideopen .side{box-shadow:0 0 40px rgba(0,0,0,.25)}}
+/* v3.1: calmer results */
+details.how{margin:0 0 10px}details.how summary{cursor:pointer;color:var(--muted);font-size:13px;list-style:none;padding:2px 0}
+details.how summary::before{content:"▸";display:inline-block;margin-right:6px;color:var(--faint);transition:transform .15s}details.how[open] summary::before{transform:rotate(90deg)}
+details.how summary::-webkit-details-marker{display:none}details.how>p{margin:6px 0 0}
+.legend{display:flex;gap:14px;align-items:center;margin:0 0 8px;color:var(--muted)}
+.lg{display:inline-block;width:18px;height:6px;border-radius:3px;margin-right:6px;vertical-align:middle}.lg.c{background:var(--faint)}.lg.j{background:var(--cv)}
+.studio .metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(128px,1fr));gap:8px;margin-bottom:12px}
+.studio .metrics div{padding:9px 12px}.studio .metrics b{font-size:19px}.studio .metrics small{font-size:11px;line-height:1.35}
+.studio .cards{grid-template-columns:repeat(auto-fill,minmax(205px,1fr));gap:10px}
+.studio .card{padding:8px 10px 10px;gap:4px}.studio .card .sv{height:92px}.studio .card .sv svg{max-height:92px}
+.studio .card .tag{font-size:11px;padding:1px 7px}
+.studio .pair{margin:0}
+.studio .dna .row{padding:8px 12px;margin-bottom:6px;gap:6px}
+.studio .repbtn{font-size:12px;padding:3px 10px}
+.studio h3{font-size:1.02rem;margin:14px 0 6px}
+#p-go:not(.home) #go-modes{order:-1;justify-content:flex-start;margin:8px 0 6px}
+#p-go:not(.home) #go-modes .mode{padding:4px 12px}
+#p-go:not(.busy) #go-gen .bar{display:none}
+.status:empty{display:none}
+#go-gen .status{font-size:12.5px;color:var(--faint)}

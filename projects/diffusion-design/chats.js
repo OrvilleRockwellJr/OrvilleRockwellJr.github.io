@@ -45,6 +45,7 @@ const toJSON=c=>JSON.stringify({app:"PTPσ Studio",exported:new Date().toISOStri
 
 /* ---------- UI ---------- */
 const p=$("#p-go");
+const stopB=$("#g-stop"); if(stopB) new MutationObserver(()=>p.classList.toggle("busy",!stopB.hidden)).observe(stopB,{attributes:true,attributeFilter:["hidden"]});
 function setHome(on){ p.classList.toggle("home",on); $("#home").hidden=!on; $("#chathead").hidden=on||!cur; }
 function renderList(){
   const ul=$("#chatlist"); list.sort((a,b)=>b.updated-a.updated);
