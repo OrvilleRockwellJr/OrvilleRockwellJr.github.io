@@ -18,7 +18,7 @@ function molRun(job,i,gamma,trace){
   const snaps=new Set(); if(trace) for(let s=0;s<8;s++) snaps.add(Math.round((job.steps-1)*s/7));
   const xf=E.sample({den:M.den,objectives:objs,gamma,tau:job.tau,gate,eta:0,steps:job.steps,x,rnd,
     onStep:(si,n,x0,info)=>{ if(trace&&snaps.has(si)){ const dec=M.dec.decode(unstd(x0)); self.postMessage({evt:"trace",id:job.id,kind:"mol",si,n,smiles:dec.smiles,gate:info.gate}); } }});
-  const alts=M.dec.decodeMulti(unstd(xf),8,0.06,rnd); const c=molCrit(xf);
+  const zz=unstd(xf), base=M.dec.decode(zz).smiles, alts=[base].concat(M.dec.decodeMulti(zz,8,0.06,rnd)); const c=molCrit(xf);
   return {smiles:alts[0],alts:alts.slice(1),crit:{bbb:c.bbb,act:c.act,tox:c.tox}};
 }
 function stdz(mu){ const z=new Float32Array(mu.length); for(let i=0;i<mu.length;i++) z[i]=(mu[i]-M.mean[i])/M.std[i]; return z; }
@@ -29,7 +29,7 @@ function analogRun(job,i){
   const x=new Float32Array(D); for(let k=0;k<D;k++) x[k]=Math.sqrt(ab)*z0[k]+Math.sqrt(1-ab)*rnd.n();
   const objs=[{ens:M.ens.bbb,want:1,weight:job.w[0]},{ens:M.ens.act,want:1,weight:job.w[1]},{ens:M.ens.tox,want:0,weight:job.w[2]}];
   const xf=E.sample({den:M.den,objectives:objs,gamma:job.gamma,tau:job.tau,gate:job.gate?"ens":"none",eta:0,steps:job.steps,x,rnd,tStart:tS});
-  const alts=M.dec.decodeMulti(unstd(xf),8,0.06,rnd); const c=molCrit(xf); return {smiles:alts[0],alts:alts.slice(1),crit:{bbb:c.bbb,act:c.act,tox:c.tox}}; }
+  const zz=unstd(xf), base=M.dec.decode(zz).smiles, alts=[base].concat(M.dec.decodeMulti(zz,8,0.06,rnd)); const c=molCrit(xf); return {smiles:alts[0],alts:alts.slice(1),crit:{bbb:c.bbb,act:c.act,tox:c.tox}}; }
 const libCache={};
 function getLib(job){ if(libCache.key===job.libKey) return libCache.crit;
   const lsig=z=>-Math.log(1+Math.exp(-z)); const lw=Float64Array.from(job.lib,s=>(job.tilt||0)*lsig(Dn.ens.eval(E.dnaToX(s),0,1,false).mean));
