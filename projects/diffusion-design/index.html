@@ -9,7 +9,7 @@
 <link rel="canonical" href="https://orvillerockwelljr.com/projects/diffusion-design/">
 <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
 <style>
 :root{--paper:#fff;--ink:#1C2633;--muted:#5B6573;--faint:#66707D;--rule:#E2E6EB;--wash:#F4F6F9;--cv:#1F4E8C;--auto:#0F7A80;--bio:#B23A64;--navy:#14305A;--navy-2:#0F2547;
  --good:#0F7A80;--bad:#B23A64;--serif:"Source Serif 4",Georgia,"Times New Roman",serif;--sans:"IBM Plex Sans","Helvetica Neue",Arial,sans-serif;--col:46rem}
@@ -111,13 +111,62 @@ footer{border-top:1px solid var(--rule);margin-top:40px;padding:22px 0 40px;font
 .rep .rk i{display:inline-block;width:12px;height:9px;border-radius:2px}
 .repbtn{font:12px var(--sans);border:1px solid var(--rule);background:var(--wash);color:var(--navy);border-radius:6px;padding:3px 9px;cursor:pointer;margin-top:6px}
 .metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:12px 0}.metrics div{border:1px solid var(--rule);border-radius:8px;padding:9px 12px;background:var(--wash);font-family:var(--sans)}.metrics span{display:block;font-size:11.5px;color:var(--muted)}.metrics b{font-size:20px;color:var(--navy);font-weight:600}.metrics small{display:block;font-size:11px;color:var(--muted)}
-.lane{margin-top:22px;border:1px solid var(--rule);border-radius:8px;padding:10px 16px;background:var(--wash);font-family:var(--sans);font-size:13.5px;line-height:1.55}.lane summary{cursor:pointer;font-weight:600;color:var(--navy)}.lane p{margin:8px 0}</style>
+.lane{margin-top:22px;border:1px solid var(--rule);border-radius:8px;padding:10px 16px;background:var(--wash);font-family:var(--sans);font-size:13.5px;line-height:1.55}.lane summary{cursor:pointer;font-weight:600;color:var(--navy)}.lane p{margin:8px 0}
+/* ===== startup skin ===== */
+:root{--ink:#0B1220;--muted:#566176;--faint:#6B7587;--rule:#E6E9F0;--wash:#F6F7FB;--cv:#2F5BEA;--navy:#0B1220;--auto:#0E9F8E;--bio:#D6336C;--sans:"Inter",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;--serif:var(--sans);--mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace}
+body{font-family:var(--sans);font-size:15.5px;line-height:1.6;background:#fff;color:var(--ink);letter-spacing:-.003em}
+.top{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.82);backdrop-filter:saturate(1.4) blur(12px);-webkit-backdrop-filter:saturate(1.4) blur(12px);border-bottom:1px solid rgba(15,23,42,.06)}
+.top .nav{display:flex;justify-content:space-between;align-items:center;padding:12px 0;font-size:14px}
+.top .wm{display:inline-flex;align-items:center;gap:10px;color:var(--ink);font-weight:650;font-size:16px;text-decoration:none;letter-spacing:-.01em}
+.wmk{width:24px;height:24px;border-radius:8px;background:conic-gradient(from 210deg,#2F5BEA,#0E9F8E,#D6336C,#2F5BEA);display:inline-block;box-shadow:0 2px 8px rgba(47,91,234,.35)}
+.navr{display:flex;align-items:center;gap:22px}.navr a{color:var(--muted);text-decoration:none;font-weight:500}.navr a:hover{color:var(--ink)}
+.navr a.pill{color:#fff;background:var(--ink);padding:7px 14px;border-radius:999px;font-weight:550}.navr a.pill:hover{background:#1c2740;color:#fff}
+@media(max-width:640px){.navr a:not(.pill){display:none}}
+.hero{position:relative;overflow:hidden;background:radial-gradient(60% 80% at 15% 0%,rgba(47,91,234,.13),transparent 60%),radial-gradient(50% 70% at 90% 10%,rgba(214,51,108,.10),transparent 60%),radial-gradient(50% 60% at 60% 100%,rgba(14,159,142,.10),transparent 60%),#fff;padding:64px 0 56px;border-bottom:1px solid var(--rule)}
+.hero::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(15,23,42,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(15,23,42,.045) 1px,transparent 1px);background-size:44px 44px;-webkit-mask-image:radial-gradient(70% 90% at 50% 0%,#000,transparent 75%);mask-image:radial-gradient(70% 90% at 50% 0%,#000,transparent 75%);pointer-events:none}
+.hero .page{position:relative}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:550;color:#27408B;background:#EEF2FF;border:1px solid #D9E2FF;border-radius:999px;padding:5px 12px}.eyebrow i{width:7px;height:7px;border-radius:50%;background:var(--auto);box-shadow:0 0 0 3px rgba(14,159,142,.2)}
+.hero h1{font-size:clamp(2.3rem,5.6vw,4rem);line-height:1.04;letter-spacing:-.035em;font-weight:700;margin:20px 0 18px;max-width:52rem;color:var(--ink)}
+.hero h1 em{font-style:normal;background:linear-gradient(95deg,#2F5BEA,#0E9F8E 55%,#D6336C);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero .lede{font-size:1.14rem;line-height:1.6;color:var(--muted);max-width:44rem;margin:0}.hero .lede b{color:var(--ink);font-weight:600}
+.cta{display:flex;gap:12px;flex-wrap:wrap;margin:28px 0 0}
+.cta a{font-weight:600;font-size:15px;text-decoration:none;border-radius:999px;padding:12px 22px}.cta .b1{background:var(--ink);color:#fff;box-shadow:0 6px 18px rgba(11,18,32,.25)}.cta .b1:hover{background:#1c2740}.cta .b2{background:#fff;color:var(--ink);border:1px solid var(--rule)}.cta .b2:hover{border-color:#c9cfdb}
+.proof{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));margin-top:44px}
+.proof div{background:rgba(255,255,255,.8);border:1px solid var(--rule);border-radius:16px;padding:16px 18px;box-shadow:0 1px 2px rgba(15,23,42,.04)}
+.proof b{display:block;font-size:1.45rem;letter-spacing:-.02em;font-weight:700}.proof span{display:block;margin-top:4px;font-size:13px;color:var(--muted);line-height:1.5}
+.notice{font-size:12.5px;background:#fff;border:1px solid var(--rule);color:var(--muted);border-radius:12px;padding:10px 14px;margin:26px 0 0}.notice b{color:var(--ink)}
+h2{font-size:1.5rem;letter-spacing:-.02em;color:var(--ink);font-weight:650}h2::after{display:none}h3{color:var(--ink);font-weight:650;letter-spacing:-.01em}
+.tabs{border:0;margin-top:22px;padding:6px;background:var(--wash);border:1px solid var(--rule);border-radius:14px;display:inline-flex;gap:2px;position:sticky;top:58px;z-index:10}
+.tabs button{border:0!important;border-radius:10px;padding:8px 14px;font-weight:550;font-size:14px;color:var(--muted)}.tabs button[aria-selected=true]{background:#fff;color:var(--ink);box-shadow:0 1px 3px rgba(15,23,42,.12)}
+.mode{border-radius:16px;box-shadow:0 1px 2px rgba(15,23,42,.04);transition:border-color .15s,box-shadow .15s}.mode:hover{border-color:#BFCBF5;box-shadow:0 6px 18px rgba(47,91,234,.08)}.mode.on{background:#F3F6FF;border-color:#B8C7F7}.mode.on b{color:var(--cv)}.mode .mi{border-radius:10px;background:#EEF2FF;color:var(--cv)}
+.dock{border-radius:22px;border:1px solid #D5DCEC;box-shadow:0 14px 40px rgba(15,23,42,.09),0 2px 6px rgba(15,23,42,.05);transition:box-shadow .15s,border-color .15s}.dock:focus-within{border-color:#9FB4F2;box-shadow:0 14px 40px rgba(47,91,234,.14),0 0 0 4px rgba(47,91,234,.10)}
+.gen{background:var(--ink)}.gen:hover{background:#1c2740}
+.chips button{font-family:var(--sans);font-weight:500}
+.btn{background:var(--ink);border-radius:999px}.btn:hover{background:#1c2740}.btn.alt{color:var(--ink);border-color:var(--rule)}
+.card,.chart,.tw,.dna .row,.ctrl,.strip div,.metrics div,.lane,.proof div{border-radius:14px}
+.card{box-shadow:0 1px 2px rgba(15,23,42,.04);transition:box-shadow .15s,transform .15s}.card:hover{box-shadow:0 8px 24px rgba(15,23,42,.08)}
+.metrics div,.strip div{background:#fff;box-shadow:0 1px 2px rgba(15,23,42,.04)}.metrics b,.strip b{color:var(--ink);letter-spacing:-.02em}
+.seq,.card .smi,.seqkey{font-family:var(--mono)}.seq{font-size:14px}
+.tag{border-radius:999px;font-weight:500}.tag.ok{background:#E8F7F4;border-color:#BDE5DE;color:#0A6B5F}.tag.no{background:#FDECF2;border-color:#F4C3D4;color:#A3204F}
+.lane{background:#fff;box-shadow:0 1px 2px rgba(15,23,42,.04)}.lane summary{color:var(--ink)}
+.status{color:var(--muted)}.bar{height:4px}.bar i{background:linear-gradient(90deg,var(--cv),var(--auto))}
+table.t th{background:var(--wash);color:var(--ink)}
+.tw{box-shadow:0 1px 2px rgba(15,23,42,.04)}
+.foot{border-top:1px solid var(--rule);margin-top:56px;padding:26px 0 40px;font-size:13px;color:var(--muted)}.foot a{color:var(--muted)}
+</style>
 </head>
 <body>
-<div class="mast"><div class="page">
- <nav class="nav" aria-label="Page"><a class="wm" href="./"><span class="wmk" aria-hidden="true"></span>PTP&sigma; Design Studio</a><span><a href="#evidence">Evidence</a> &nbsp; <a href="#method">Method</a> &nbsp; <a href="https://github.com/OrvilleRockwellJr/orvillerockwelljr.github.io/tree/main/projects/diffusion-design">Code</a> &nbsp; <a href="../../">Research by Orville Rockwell Jr. &rarr;</a></span></nav>
- <h1>Classifier-Guided Diffusion for Post-Stroke Drug Design</h1>
- <p class="lede">A working generative platform for one target, <b>PTP&sigma;</b>, the receptor through which the glial scar blocks axon regrowth after stroke. Describe what you want and what it is for, and one guided-diffusion engine designs both kinds of candidate: <b>small molecules</b> and <b>gene-editing guide sequences</b>, aimed at the same target. It runs entirely in your browser: no server, no API, nothing uploaded.</p>
+<header class="top"><div class="page"><nav class="nav" aria-label="Page"><a class="wm" href="./"><span class="wmk" aria-hidden="true"></span>PTP&sigma; Studio</a><span class="navr"><a href="#evidence">Evidence</a><a href="#method">Method</a><a href="https://github.com/OrvilleRockwellJr/orvillerockwelljr.github.io/tree/main/projects/diffusion-design">Code</a><a class="pill" href="../../">Orville Rockwell Jr. &rarr;</a></span></nav></div></header>
+<div class="hero"><div class="page">
+ <span class="eyebrow"><i></i>Research preview &middot; runs entirely in your browser</span>
+ <h1>Generative design that tells you <em>when not to trust it.</em></h1>
+ <p class="lede">Steer small molecules and CRISPR guides toward <b>PTP&sigma;</b>, the receptor that lets the glial scar block axon regrowth after stroke. Every candidate is audited by a second model that never saw the steering, so a score the generator learned to game gets flagged instead of shipped.</p>
+ <div class="cta"><a class="b1" href="#design" id="cta-go">Start designing</a><a class="b2" href="#evidence">See the evidence</a></div>
+ <div class="proof">
+  <div><b>9% &rarr; 81%</b><span>Molecules passing the held-out audit in the critic&rsquo;s shortlist, without and with the trust gate. Unguided filtering gets 49% (N&nbsp;=&nbsp;250, 3 seeds).</span></div>
+  <div><b>1 engine, 2 alphabets</b><span>The same guided diffusion designs SMILES-latent molecules and 30-nt SpCas9 guides aimed at PTPRS exons.</span></div>
+  <div><b>0 servers</b><span>No API and no upload. Models, chemistry and reports run on your device.</span></div>
+ </div>
 </div></div>
 <main class="page" id="main">
  <p class="notice"><b>Research prototype, in silico only.</b> Every score is a prediction from small models trained on public data (ChEMBL, B3DB, Tox21, the Doench guide-efficacy screens). Nothing here is lab-validated, and nothing here is medical advice. The <i>Evidence</i> tab shows how often the held-out judge agrees with the steering classifiers, including where it does not.</p>
@@ -160,6 +209,7 @@ footer{border-top:1px solid var(--rule);margin-top:40px;padding:22px 0 40px;font
      <label>Brain penetration<select id="g-wb"><option value="0">Off</option><option value="1" selected>Normal</option><option value="2">High</option></select></label>
      <label>Target activity<select id="g-wa"><option value="0">Off</option><option value="1" selected>Normal</option><option value="2">High</option></select></label>
      <label>Low toxicity<select id="g-wt"><option value="0">Off</option><option value="1" selected>Normal</option><option value="2">High</option></select></label>
+     <label>Uncertainty gate (molecules)<select id="g-gate"><option value="on" selected>On (recommended)</option><option value="off">Off, to see the critic get exploited</option></select></label>
      <label>Seed<input type="number" id="g-seed" value="21" min="0"></label>
     </div>
     <ul class="small" id="g-notes"></ul>
@@ -258,6 +308,7 @@ footer{border-top:1px solid var(--rule);margin-top:40px;padding:22px 0 40px;font
  <section class="panel" id="p-me" role="tabpanel" aria-labelledby="t-me" hidden><div id="me-body" class="prose"></div></section>
 </main>
 <footer><div class="page">Orville Rockwell Jr. &middot; Northeastern University &middot; Independent research, in progress &middot; <a href="../../">Home</a> &middot; <a href="https://github.com/OrvilleRockwellJr/OrvilleRockwellJr.github.io/tree/main/projects/diffusion-design">Code and data</a></div></footer>
+<footer class="page foot">PTP&sigma; Studio is a research prototype by <a href="../../">Orville Rockwell Jr.</a> All scores are in-silico predictions from small public-data models; none is lab-validated. <a href="https://github.com/OrvilleRockwellJr/orvillerockwelljr.github.io/tree/main/projects/diffusion-design">Source</a> &middot; <a href="#method">How it works</a></footer>
 <script src="vendor/RDKit_minimal.js"></script>
 <script src="engine.js"></script>
 <script src="app.js"></script>

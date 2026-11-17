@@ -3,6 +3,8 @@
 "use strict";
 const E=window.GDEngine, $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const sig=E.sigmoid, fmt=(v,d=2)=>Number.isFinite(v)?v.toFixed(d):"–", pct=v=>Number.isFinite(v)?Math.round(v*100)+"%":"–";
+const BASE=new URL("./",(document.currentScript&&document.currentScript.src)||(document.querySelector('script[src$="app.js"]')||{}).src||location.href).href;
+async function getJSON(rel){ let last=null; for(let k=0;k<3;k++){ const u=BASE+rel+(k?"?r="+Date.now():""); try{ const r=await fetch(u,k?{cache:"reload"}:{}); const t=await r.text(); if(!r.ok||/^\s*</.test(t)) throw new Error("HTTP "+r.status+(/^\s*</.test(t)?" (got a web page instead of data)":"")); return JSON.parse(t); }catch(e){ last=e; await new Promise(r=>setTimeout(r,400*(k+1))); } } throw new Error(rel+": "+(last&&last.message||last)); }
 const S={rd:null,worker:null,ready:false,judges:null,ref:null,ptprs:null,job:0,mol:{items:[],cmp:false},dna:{items:[]}};
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 
@@ -21,12 +23,12 @@ $("#s-src").addEventListener("change",e=>$("#s-paste").style.display=e.target.va
 async function boot(){
   try{
     const [rd,judges,ref,ptprs]=await Promise.all([
-      initRDKitModule({locateFile:f=>"vendor/"+f}),
-      fetch("models/judges.json").then(r=>r.json()), fetch("models/ref.json").then(r=>r.json()), fetch("models/ptprs.json").then(r=>r.json())]);
+      initRDKitModule({locateFile:f=>BASE+"vendor/"+f}),
+      getJSON("models/judges.json"), getJSON("models/ref.json"), getJSON("models/ptprs.json")]);
     S.rd=rd; S.judges=judges; S.ref=ref.map(([s,bits])=>({s,bits:new Set(bits)})); S.ptprs=ptprs;
-    S.worker=new Worker("worker.js"); S.worker.onmessage=onWorker; S.worker.onerror=e=>fail("Worker error: "+e.message);
+    S.worker=new Worker(BASE+"worker.js"); S.worker.onmessage=onWorker; S.worker.onerror=e=>fail("Worker error: "+e.message);
     S.worker.postMessage({cmd:"init"});
-  }catch(err){ fail("Could not load the models: "+err); }
+  }catch(err){ fail("Could not load the models. "+(err&&err.message||err)+" Reload the page; if it persists, open orvillerockwelljr.com/projects/diffusion-design/ directly."); }
 }
 function fail(msg){ $("#loadmsg").innerHTML='<div class="err">'+esc(msg)+'</div>'; }
 function onWorker(ev){
@@ -85,11 +87,14 @@ function pair(label,cp,jp,good){ // good: true if high is good, false if low is 
   const cw=Math.round((good?cp:1-cp)*100), jw=jp==null?null:Math.round((good?jp:1-jp)*100);
   return '<div class="pair c"><span>'+label+'</span><div class="tr"><i style="width:'+cw+'%"></i></div><b>'+cw+'</b></div>'+(jw==null?'':'<div class="pair j"><span></span><div class="tr"><i style="width:'+jw+'%"></i></div><b>'+jw+'</b></div>');
 }
+function auditDna(o){ if(o.cp>=0.8&&o.jp<0.5) return "hack"; return o.pass&&Math.abs(o.cp-o.jp)<=0.25?"ok":"mid"; }
+function auditMol(o){ if(!o.valid) return null; const g=[[o.cp.bbb,o.jp.bbb],[o.cp.act,o.jp.act],[1-o.cp.tox,1-o.jp.tox]]; if(g.some(([c,j])=>c>=0.8&&j<0.5)) return "hack"; return o.pass&&g.every(([c,j])=>Math.abs(c-j)<=0.3)?"ok":"mid"; }
+function auditTag(k){ return k==="hack"?'<span class="tag no" title="Rule: the steering critic scores it 0.8 or higher on an objective while the held-out judge scores it below 0.5">audit: likely exploited</span>':k==="ok"?'<span class="tag ok" title="Judge passes and critic and judge agree">audit: trusted</span>':'<span class="tag" title="Critic and judge disagree, or the judge fails it">audit: disputed</span>'; }
 function molCard(o,idx,un){
   if(!o.valid) return '<div class="card'+(un?" un":"")+'"><div class="sv small">invalid structure</div><div class="smi">'+esc(o.smiles||"(empty)")+'</div><span class="tag no">not a valid molecule</span></div>';
   const a=o.a, cns=a.tpsa<90&&a.mw<450&&a.hbd<=3;
   return '<div class="card'+(un?" un":"")+'"><div class="sv">'+a.svg+'</div><div class="smi" title="Click to copy" data-smi="'+esc(a.canon)+'">'+esc(a.canon)+'</div><div>'+
-   (o.pass?'<span class="tag ok">judge: passes all three</span>':'<span class="tag no">judge: fails ≥1</span>')+(cns?'<span class="tag ok">CNS-like physchem</span>':'<span class="tag">outside CNS physchem</span>')+'</div>'+
+   (o.pass?'<span class="tag ok">judge: passes all three</span>':'<span class="tag no">judge: fails ≥1</span>')+auditTag(auditMol(o))+(cns?'<span class="tag ok">CNS-like physchem</span>':'<span class="tag">outside CNS physchem</span>')+'</div>'+
    pair("brain",o.cp.bbb,o.jp.bbb,true)+pair("activity",o.cp.act,o.jp.act,true)+pair("low tox",o.cp.tox,o.jp.tox,false)+
    '<div class="small" style="font-size:11.5px">MW '+fmt(a.mw,0)+' · cLogP '+fmt(a.logp,1)+' · TPSA '+fmt(a.tpsa,0)+' · HBD '+fmt(a.hbd,0)+' · Ro5 violations '+a.ro5+'</div>'+
    '<div class="small" style="font-size:11.5px">Nearest known compound: Tanimoto '+fmt(o.nn.t)+(o.nn.t>=0.99?' (known)':o.nn.t<0.4?' (new scaffold)':'')+'</div></div>';
@@ -143,7 +148,7 @@ function seqHtml(s,conf){ let h=""; for(let i=0;i<s.length;i++){ const cls=(i<4|
 function renderTraceDna(m){ $("#d-tracek").hidden=false; $("#d-trace").innerHTML='<div style="font-family:var(--sans);font-size:12px;color:var(--muted);width:100%">step '+(m.si+1)+' / '+m.n+'</div>'+seqHtml(m.seq,m.conf); }
 function dnaRow(o,label,un){
   const ck=o.ck; return '<div class="row" style="'+(un?"background:#fafbfc":"")+'"><div>'+(label?'<div style="font-weight:600;color:var(--navy);margin-bottom:4px">'+label+'</div>':'')+seqHtml(o.seq)+'<div class="seqkey">'+o.seq.slice(4,24)+' + '+o.seq.slice(24,27)+' (protospacer + PAM)</div></div><div>'+
-   (o.pass?'<span class="tag ok">judge: efficient + passes checks</span>':'<span class="tag no">fails judge or checks</span>')+(ck.pam?'<span class="tag ok">NGG PAM</span>':'<span class="tag no">no NGG PAM</span>')+'<span class="tag '+(ck.gc>=.4&&ck.gc<=.7?'ok':'no')+'">GC '+Math.round(ck.gc*100)+'%</span>'+(ck.t4?'<span class="tag no">TTTT run</span>':'')+(S.lib?(o.hit?'<span class="tag ok">exact site: '+esc(o.hit.label)+', '+(o.hit.strand>0?'+':'−')+' strand</span>':'<span class="tag no">not a site in '+esc(S.lib.label)+'</span>'):'')+
+   (o.pass?'<span class="tag ok">judge: efficient + passes checks</span>':'<span class="tag no">fails judge or checks</span>')+auditTag(auditDna(o))+(ck.pam?'<span class="tag ok">NGG PAM</span>':'<span class="tag no">no NGG PAM</span>')+'<span class="tag '+(ck.gc>=.4&&ck.gc<=.7?'ok':'no')+'">GC '+Math.round(ck.gc*100)+'%</span>'+(ck.t4?'<span class="tag no">TTTT run</span>':'')+(S.lib?(o.hit?'<span class="tag ok">exact site: '+esc(o.hit.label)+', '+(o.hit.strand>0?'+':'−')+' strand</span>':'<span class="tag no">not a site in '+esc(S.lib.label)+'</span>'):'')+
    pair("critic",o.cp,null,true).replace('pair c','pair c')+pair("judge",o.jp,null,true).replace('class="pair c"','class="pair j"')+'</div><div style="grid-column:1/-1"><button type="button" class="repbtn" data-seq="'+o.seq+'">Per-base report</button><div class="rep-out"></div></div></div>';
 }
 $("#d-go").addEventListener("click",()=>{
@@ -184,7 +189,7 @@ function onScores(m){
 /* ---------- evidence + method (built from saved result files) ---------- */
 async function loadEvidence(){
   try{
-    const [mt,dt,me,de,le]=await Promise.all(["mol_train_metrics","dna_train_metrics","mol_experiments","dna_experiments","locus_experiments"].map(n=>fetch("results/"+n+".json").then(r=>r.json())));
+    const [mt,dt,me,de,le]=await Promise.all(["mol_train_metrics","dna_train_metrics","mol_experiments","dna_experiments","locus_experiments"].map(n=>getJSON("results/"+n+".json")));
     S.locusRes=le; renderEvidence(mt,dt,me,de);
   }catch(err){ $("#ev-body").innerHTML='<div class="err">Results files not found: '+esc(err)+'</div>'; }
   renderMethod();
@@ -226,10 +231,10 @@ function renderEvidence(mt,dt,me,de){
   h+='<div class="charts" style="margin-top:16px">'+lineChart("Guides: judge-efficient and usable",[ser(de,"judge_success",gD,"none","#8BA6C9","gate off"),ser(de,"judge_success",gD,"ens","#B23A64","gate on")],"fraction of samples","guidance strength γ",{xs:[0,1,2,4,8,16],ymax:Math.max(0.05,...de.results.map(r=>r.metrics.judge_success[0]))*1.25})+lineChart("Guides: critic–judge gap",[ser(de,"gap",gD,"none","#8BA6C9","gate off"),ser(de,"gap",gD,"ens","#B23A64","gate on")],"critic − judge","guidance strength γ",{xs:[0,1,2,4,8,16],ymin:Math.min(0,...de.results.map(r=>r.metrics.gap[0])),ymax:Math.max(0.1,...de.results.map(r=>r.metrics.gap[0]))*1.25})+'</div>';
   const note=(me.notes||"")+" "; h+='<div class="callout" id="ev-read"></div>';
   if(S.locusRes){ const L=S.locusRes, f=(v,d)=>v?(v[0]*100).toFixed(0)+"% \u00b1 "+(v[1]*100).toFixed(0):"\u2013"; h+='<h3 style="margin-top:26px">4. Aiming guides at a locus (PTPRS exons)</h3><p class="small" style="margin:6px 0 10px">Library: '+L.library_size+' unique NGG sites whose cut falls inside a PTPRS exon. '+L.N+' guides per row \u00d7 '+L.seeds.length+' seeds, '+L.steps+' steps, guidance \u03b3 = '+L.gamma+'. "Success" = exact PTPRS site, judge P &gt; 0.5, passes the usability checks.</p><div class="tw"><table class="t"><thead><tr><th>Setting</th><th class="n">Exact PTPRS site</th><th class="n">Distinct sites</th><th class="n">Success</th></tr></thead><tbody>'+L.results.map(r=>"<tr><td>"+r.setting+"</td><td class=\"n\">"+f(r.exact)+"</td><td class=\"n\">"+f(r.distinct)+"</td><td class=\"n\">"+f(r.success)+"</td></tr>").join("")+"<tr><td><i>Baseline: random draw from the library</i></td><td class=\"n\">100%</td><td class=\"n\">\u2013</td><td class=\"n\">"+f(L.baselines.random_library_draw.success)+"</td></tr><tr><td><i>Baseline: scan and rank (top by critic)</i></td><td class=\"n\">100%</td><td class=\"n\">100%</td><td class=\"n\">"+(L.baselines.scan_and_rank_top_by_critic.success*100).toFixed(0)+"% (deterministic)</td></tr></tbody></table></div>"; }
-  $("#ev-body").innerHTML=h; fetch("results/READING.html").then(r=>r.ok?r.text():"").then(t=>{ if(t) $("#ev-read").innerHTML=t; else $("#ev-read").remove(); }).catch(()=>$("#ev-read").remove());
+  $("#ev-body").innerHTML=h; fetch(BASE+"results/READING.html").then(r=>r.ok?r.text():"").then(t=>{ if(t) $("#ev-read").innerHTML=t; else $("#ev-read").remove(); }).catch(()=>$("#ev-read").remove());
 }
 function renderMethod(){
-  fetch("results/METHOD.html").then(r=>r.text()).then(t=>$("#me-body").innerHTML=t).catch(()=>{});
+  fetch(BASE+"results/METHOD.html").then(r=>r.text()).then(t=>$("#me-body").innerHTML=t).catch(()=>{});
 }
 /* ---------- describe-what-you-want: rule-based request reader + combined run ---------- */
 const NUMW={one:1,two:2,three:3,four:4,five:5,six:6,eight:8,ten:10,twelve:12,sixteen:16,twenty:20,"twenty-four":24};
@@ -270,7 +275,7 @@ $("#g-make-go").addEventListener("click",()=>{
   const lib=make!=="mol"?buildLib(libk,g.cfg.pasted):null; if(make!=="mol"&&libk==="paste"&&!lib){ $("#g-status").textContent="No pasted DNA found in your request (need 40+ letters)."; return; }
   if(make!=="dna"&&w.every(v=>v===0)){ $("#g-status").textContent="All three molecule objectives are off; switch one on."; return; }
   S.lib=lib; const gam={mol:{gentle:2,std:4,hard:8},dna:{gentle:2,std:4,hard:12}};
-  const stages=[]; if(make!=="dna") stages.push({kind:"mol",job:{cmd:"genMol",id:0,n:Math.min(48,n*2),seed,steps:60,gamma:gam.mol[push],w,gate:true,tau:1,compare:false}});
+  const stages=[]; if(make!=="dna") stages.push({kind:"mol",job:{cmd:"genMol",id:0,n:Math.min(48,n*2),seed,steps:60,gamma:gam.mol[push],w,gate:$("#g-gate").value==="on",tau:1,compare:false}});
   if(make!=="mol") stages.push({kind:"dna",job:dnaJob({n,seed:seed+1,steps:50,gamma:gam.dna[push],gate:false,tau:1,compare:false,wl:1,tilt:2},lib)});
   S.go.run={stages,i:0,make,n,mol:[],dna:[],lib,libk,use:g.cfg.use,push,w,t0:performance.now(),stopped:false}; $("#g-out").innerHTML=""; $("#g-make-go").disabled=true; $("#g-stop").hidden=false; $("#g-bar").style.width="0"; startStage();
 });
@@ -295,8 +300,8 @@ function renderShortlist(){
     const ranked=g.slice().sort((a,b)=>(+!!b.hit-+!!a.hit)||(b.jz-a.jz)).filter((o,i,arr)=>arr.findIndex(x=>x.seq===o.seq)===i).slice(0,K);
     const head=r.lib?(on.length+' of '+g.length+' are exact cut sites in '+r.lib.label+'; '+onp.length+' of those also pass the judge and the checks ('+new Set(on.map(o=>o.seq)).size+' distinct sites).'):(pass.length+' of '+g.length+' pass the judge and the checks (no locus was set).');
     parts.push('<div><h3>Gene-editing guides</h3><p class="small" style="margin-bottom:8px">'+head+' Showing the top '+ranked.length+' distinct.</p><div class="dna">'+ranked.map(o=>dnaRow(o,"",false)).join("")+'</div></div>'); }
-  const gdna=r.make!=="mol"?r.dna:[], gmol=r.make!=="dna"?r.mol.filter(o=>o.valid):[]; const gaps=[...gdna.map(o=>Math.abs(o.cp-o.jp)),...gmol.flatMap(o=>[Math.abs(o.cp.bbb-o.jp.bbb),Math.abs(o.cp.act-o.jp.act),Math.abs(o.cp.tox-o.jp.tox)])]; const gapm=gaps.length?gaps.reduce((s,v)=>s+v,0)/gaps.length:NaN; const nreq=r.n*(r.make==="both"?2:1), ngen=(r.make!=="dna"?r.mol.length:0)+gdna.length, passN=gmol.filter(o=>o.pass).length+gdna.filter(o=>o.pass).length, onT=gdna.filter(o=>o.hit).length;
-  html+='<div class="metrics"><div><span>Requested</span><b>'+nreq+'</b><small>'+(r.make==="both"?r.n+" molecules + "+r.n+" guides":r.n+(r.make==="mol"?" molecules":" guides"))+'</small></div><div><span>Generated</span><b>'+ngen+'</b><small>'+(r.make!=="dna"?r.mol.length+" molecule draws, "+gmol.length+" valid":"")+(r.make==="both"?", ":"")+(r.make!=="mol"?gdna.length+" guides":"")+'</small></div>'+(r.make!=="mol"&&r.lib?'<div><span>On target</span><b>'+onT+'</b><small>of '+gdna.length+' guides are exact cut sites in '+esc(r.lib.label)+'</small></div>':'')+'<div><span>Pass held-out judge</span><b>'+passN+'</b><small>of '+(gmol.length+gdna.length)+' valid</small></div><div><span>Critic&ndash;judge gap</span><b>'+fmt(gapm)+'</b><small>mean |critic P &minus; judge P|</small></div></div>';
+  const gdna=r.make!=="mol"?r.dna:[], gmol=r.make!=="dna"?r.mol.filter(o=>o.valid):[]; const gaps=[...gdna.map(o=>Math.abs(o.cp-o.jp)),...gmol.flatMap(o=>[Math.abs(o.cp.bbb-o.jp.bbb),Math.abs(o.cp.act-o.jp.act),Math.abs(o.cp.tox-o.jp.tox)])]; const gapm=gaps.length?gaps.reduce((s,v)=>s+v,0)/gaps.length:NaN; const nflag=gmol.filter(o=>auditMol(o)==="hack").length+gdna.filter(o=>auditDna(o)==="hack").length; const nreq=r.n*(r.make==="both"?2:1), ngen=(r.make!=="dna"?r.mol.length:0)+gdna.length, passN=gmol.filter(o=>o.pass).length+gdna.filter(o=>o.pass).length, onT=gdna.filter(o=>o.hit).length;
+  html+='<div class="metrics"><div><span>Requested</span><b>'+nreq+'</b><small>'+(r.make==="both"?r.n+" molecules + "+r.n+" guides":r.n+(r.make==="mol"?" molecules":" guides"))+'</small></div><div><span>Generated</span><b>'+ngen+'</b><small>'+(r.make!=="dna"?r.mol.length+" molecule draws, "+gmol.length+" valid":"")+(r.make==="both"?", ":"")+(r.make!=="mol"?gdna.length+" guides":"")+'</small></div>'+(r.make!=="mol"&&r.lib?'<div><span>On target</span><b>'+onT+'</b><small>of '+gdna.length+' guides are exact cut sites in '+esc(r.lib.label)+'</small></div>':'')+'<div><span>Pass held-out judge</span><b>'+passN+'</b><small>of '+(gmol.length+gdna.length)+' valid</small></div><div><span>Audit flags</span><b>'+nflag+'</b><small>likely exploited: critic confident, judge not</small></div><div><span>Critic&ndash;judge gap</span><b>'+fmt(gapm)+'</b><small>mean |critic P &minus; judge P|</small></div></div>';
   html+='<div class="twocol">'+parts.join("")+'</div><p class="small" style="margin-top:14px">Scores are predictions from small public-data models; the judge is a separate model, not an experiment. For a known locus, ranking every site on the Scan tab is the strongest baseline for guides; see the Evidence tab for how this generator compares.</p>';
   $("#g-out").innerHTML=html;
 }

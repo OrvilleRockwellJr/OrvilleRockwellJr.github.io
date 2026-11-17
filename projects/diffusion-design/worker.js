@@ -2,7 +2,7 @@
 importScripts("engine.js");
 const E=self.GDEngine; let M=null, Dn=null, cancelled=new Set();
 const tick=()=>new Promise(r=>setTimeout(r,0));
-async function load(name){ const J=await (await fetch("models/"+name+".json")).json(); const buf=await (await fetch("models/"+name+".bin")).arrayBuffer(); return {J,W:new E.Weights(J.manifest,buf)}; }
+async function load(name){ const rj=await fetch("models/"+name+".json"); if(!rj.ok) throw new Error("models/"+name+".json: HTTP "+rj.status); const J=JSON.parse(await rj.text()); const rb=await fetch("models/"+name+".bin"); if(!rb.ok) throw new Error("models/"+name+".bin: HTTP "+rb.status); const buf=await rb.arrayBuffer(); return {J,W:new E.Weights(J.manifest,buf)}; }
 async function init(){
   const m=await load("mol"), d=await load("dna");
   M={J:m.J,W:m.W,den:new E.Denoiser(m.W,"den."),ens:{bbb:new E.Ensemble(m.W,"bbb."),act:new E.Ensemble(m.W,"act."),tox:new E.Ensemble(m.W,"tox.")},dec:new E.MolDecoder(m.W,m.J.vocab,m.J.L),mean:m.W.get("stat.mean"),std:m.W.get("stat.std")};
