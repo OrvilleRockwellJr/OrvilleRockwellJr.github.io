@@ -64,7 +64,7 @@ section{padding:34px 0 6px}.sub{font-family:var(--sans);font-size:14.5px;color:v
 .tag{display:inline-block;font-size:11px;padding:1px 7px;border-radius:999px;background:var(--wash);border:1px solid var(--rule);color:var(--muted);margin:0 3px 3px 0}.tag.ok{background:#E6F3F3;border-color:#BFDFE0;color:#0b5a5f}.tag.no{background:#F8E9EF;border-color:#E9C3D2;color:#8a2a4d}
 .pair{display:grid;grid-template-columns:3.4rem 1fr 2.2rem;gap:5px;align-items:center;font-size:11.5px;color:var(--muted)}
 .pair .tr{height:7px;background:var(--rule);border-radius:4px;position:relative}.pair .tr i{position:absolute;left:0;top:0;bottom:0;border-radius:4px}
-.pair .c i{background:#8BA6C9}.pair .j i{background:var(--cv)}.pair b{font-weight:500;color:var(--ink);text-align:right;font-variant-numeric:tabular-nums}
+.pair.c i{background:#8BA6C9}.pair.j i{background:var(--cv)}.pair b{font-weight:500;color:var(--ink);text-align:right;font-variant-numeric:tabular-nums}
 .legendline{font-family:var(--sans);font-size:12px;color:var(--muted);margin:6px 0 10px}
 .legendline i{display:inline-block;width:14px;height:7px;border-radius:4px;vertical-align:middle;margin:0 4px 0 10px}
 table.t{border-collapse:collapse;width:100%;font-family:var(--sans);font-size:13px}
@@ -95,7 +95,23 @@ footer{border-top:1px solid var(--rule);margin-top:40px;padding:22px 0 40px;font
 .gorow .btn{width:auto;margin-top:0}
 .twocol{display:grid;gap:22px;grid-template-columns:1fr}@media(min-width:900px){.twocol{grid-template-columns:1fr 1fr}}
 .twocol h3{font:600 15px var(--sans);color:var(--navy);margin:0 0 8px}
-</style>
+.modes{display:grid;gap:14px;grid-template-columns:1fr;margin:4px 0 22px}@media(min-width:700px){.modes{grid-template-columns:1fr 1fr}}
+.mode{font:inherit;text-align:left;display:flex;flex-direction:column;gap:6px;border:1px solid var(--rule);border-radius:10px;background:#fff;padding:16px 18px;cursor:pointer;color:var(--muted);font-family:var(--sans);font-size:14px;line-height:1.45}
+.mode b{font-weight:600;font-size:15px;color:var(--ink)}.mode .mi{width:38px;height:38px;border-radius:8px;background:var(--wash);color:var(--navy);display:flex;align-items:center;justify-content:center}
+.mode.on{background:#EEF3FB;border-color:#BCCDE8}.mode.on b{color:var(--navy)}.mode.on .mi{background:#DCE7F7}
+.dock{border:1px solid #CCD4DF;border-radius:20px;background:#fff;box-shadow:0 6px 22px rgba(20,48,90,.08);padding:14px 16px 12px}
+.dock .prompt{border:0;padding:4px 2px;resize:none;border-radius:0;min-height:76px}.dock .prompt:focus{outline:none}
+.dockbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:6px;font-family:var(--sans);font-size:13px}
+.dsel{display:inline-flex;align-items:center;gap:6px;background:var(--wash);border-radius:999px;padding:4px 10px;color:var(--muted)}.dsel select{font:inherit;font-weight:600;border:0;background:transparent;color:var(--ink)}
+.live{flex:1;min-width:12rem;color:var(--muted);font-size:12.5px}
+.iconbtn{border:0;background:transparent;color:var(--navy);cursor:pointer;padding:6px;border-radius:8px}.iconbtn:hover,.iconbtn[aria-expanded=true]{background:var(--wash)}
+.gen{font:600 15px var(--sans);color:#fff;background:var(--navy);border:0;border-radius:999px;padding:10px 20px;cursor:pointer}.gen:hover{background:#0F2547}.gen:disabled{background:#9AA6B6;cursor:default}
+.rep{border-top:1px dashed var(--rule);margin-top:8px;padding-top:8px;font-family:var(--sans);font-size:12px;color:var(--muted)}
+.rep h5{margin:10px 0 4px;font-size:12.5px;color:var(--navy);font-weight:600}.rep svg{display:block;max-width:100%;height:auto}.rep .rk{display:flex;gap:10px;align-items:center;margin-top:3px;font-size:11px}
+.rep .rk i{display:inline-block;width:12px;height:9px;border-radius:2px}
+.repbtn{font:12px var(--sans);border:1px solid var(--rule);background:var(--wash);color:var(--navy);border-radius:6px;padding:3px 9px;cursor:pointer;margin-top:6px}
+.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:12px 0}.metrics div{border:1px solid var(--rule);border-radius:8px;padding:9px 12px;background:var(--wash);font-family:var(--sans)}.metrics span{display:block;font-size:11.5px;color:var(--muted)}.metrics b{font-size:20px;color:var(--navy);font-weight:600}.metrics small{display:block;font-size:11px;color:var(--muted)}
+.lane{margin-top:22px;border:1px solid var(--rule);border-radius:8px;padding:10px 16px;background:var(--wash);font-family:var(--sans);font-size:13.5px;line-height:1.55}.lane summary{cursor:pointer;font-weight:600;color:var(--navy)}.lane p{margin:8px 0}</style>
 </head>
 <body>
 <div class="mast"><div class="page">
@@ -117,28 +133,55 @@ footer{border-top:1px solid var(--rule);margin-top:40px;padding:22px 0 40px;font
 
  <!-- PROMPT -->
  <section class="panel" id="p-go" role="tabpanel" aria-labelledby="t-go">
-  <h2>Describe what you want made</h2>
-  <p class="sub">Type what you want and what it is for. The platform reads your request, sets the objectives, and designs small molecules and gene-editing guides for PTP&sigma; in one run. No server and no language-model API: a small rule-based reader maps your words onto the model's controls, and you can see and change exactly what it understood before anything runs.</p>
-  <textarea id="g-prompt" rows="4" class="prompt" placeholder="e.g. I want brain-penetrant, non-toxic PTP inhibitors for stroke recovery, plus CRISPR guides to knock out PTPRS. Give me 12 of each, push hard."></textarea>
-  <div class="chips" id="g-chips"><button type="button" data-p="Brain-penetrant, non-toxic PTP&sigma; inhibitors and Cas9 guides to knock out PTPRS, for stroke recovery. Give me 12 of each.">Both, for stroke recovery</button><button type="button" data-p="Potent small molecules for PTPRS, I don't care about toxicity yet. Strong guidance, 16 candidates. Molecules only.">Potent molecules only</button><button type="button" data-p="Diverse, gentle exploration of CRISPR guides for PTPRS. Guides only, 18 candidates.">Diverse guides only</button></div>
-  <div class="gorow"><button class="btn" id="g-read" disabled>Read my request</button><span class="small" id="g-readmsg"></span></div>
-  <div id="g-plan" hidden>
-   <h3 class="h3s">How I read it</h3>
-   <div class="grid4">
-    <label>Make<select id="g-make"><option value="both">Molecules and guides</option><option value="mol">Molecules only</option><option value="dna">Guides only</option></select></label>
-    <label>Candidates each<select id="g-n"><option>6</option><option>8</option><option selected>12</option><option>16</option><option>24</option></select></label>
-    <label>Push<select id="g-push"><option value="gentle">Gentle (diverse)</option><option value="std" selected>Standard</option><option value="hard">Hard</option></select></label>
-    <label>Guide target<select id="g-lib"><option value="ptprs">PTPRS exons (cut inside an exon)</option><option value="paste">The DNA I pasted</option><option value="none">No locus (generic efficient guides)</option></select></label>
-    <label>Brain penetration<select id="g-wb"><option value="0">Off</option><option value="1" selected>Normal</option><option value="2">High</option></select></label>
-    <label>Target activity<select id="g-wa"><option value="0">Off</option><option value="1" selected>Normal</option><option value="2">High</option></select></label>
-    <label>Low toxicity<select id="g-wt"><option value="0">Off</option><option value="1" selected>Normal</option><option value="2">High</option></select></label>
-    <label>Seed<input type="number" id="g-seed" value="21" min="0"></label>
-   </div>
-   <ul class="small" id="g-notes"></ul>
-   <div class="gorow"><button class="btn" id="g-make-go" disabled>Make it</button><button class="btn alt" id="g-stop" hidden>Stop</button><span class="small" id="g-status"></span></div>
-   <div class="bar"><i id="g-bar"></i></div>
+  <div class="modes" id="go-modes">
+   <button type="button" class="mode on" id="mode-gen" data-m="gen"><span class="mi"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M7 3c0 6 10 6 10 12s-10 6-10 6M17 3c0 6-10 6-10 12s10 6 10 6M8.5 7.5h7M8.5 16.5h7"/></svg></span><b>Generate designs</b><span>Say what you want and what it is for. Get molecule and guide shortlists for PTP&sigma;, steered and audited.</span></button>
+   <button type="button" class="mode" id="mode-score" data-m="score"><span class="mi"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 20V10M12 20V4M19 20v-7"/></svg></span><b>Score a candidate</b><span>Paste a guide, DNA (up to 500 bases) or a SMILES. See critic and judge scores and the effect of every single-base change.</span></button>
   </div>
-  <div id="g-out"></div>
+
+  <div id="go-gen">
+   <div class="dock">
+    <textarea id="g-prompt" rows="3" class="prompt" placeholder="Describe what you want made and what it is for, e.g. brain-penetrant, non-toxic PTP inhibitors for stroke recovery, plus Cas9 guides to knock out PTPRS. 12 of each. Paste DNA here to aim guides at your own sequence."></textarea>
+    <div class="dockbar">
+     <label class="dsel">Target <select id="g-lib"><option value="ptprs">PTPRS exons</option><option value="paste">DNA I pasted</option><option value="none">No locus</option></select></label>
+     <span class="live" id="g-live">Waiting for your request.</span>
+     <button type="button" class="iconbtn" id="g-gear" aria-expanded="false" title="Settings"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/></svg></button>
+     <button class="gen" id="g-make-go" disabled>Generate <span aria-hidden="true">&uarr;</span></button><button class="btn alt" id="g-stop" hidden>Stop</button>
+    </div>
+   </div>
+   <div class="chips" id="g-chips"><button type="button" data-p="Brain-penetrant, non-toxic PTP&sigma; inhibitors and Cas9 guides to knock out PTPRS, for stroke recovery. Give me 12 of each.">Both, for stroke recovery</button><button type="button" data-p="Potent small molecules for PTPRS, I don't care about toxicity yet. Strong guidance, 16 candidates. Molecules only.">Potent molecules only</button><button type="button" data-p="Diverse, gentle exploration of CRISPR guides for PTPRS. Guides only, 16 candidates.">Diverse guides only</button></div>
+   <p class="small" id="g-ruleline">The text is read by a small rule-based reader in your browser (no language model, no API). The gear shows exactly what it understood, and you can change any setting.</p>
+   <button class="btn" id="g-read" hidden disabled>Read</button><span id="g-readmsg" hidden></span>
+   <div id="g-plan" hidden>
+    <h3 class="h3s">How I read it</h3>
+    <div class="grid4">
+     <label>Make<select id="g-make"><option value="both">Molecules and guides</option><option value="mol">Molecules only</option><option value="dna">Guides only</option></select></label>
+     <label>Candidates each<select id="g-n"><option>6</option><option>8</option><option selected>12</option><option>16</option><option>24</option></select></label>
+     <label>Push<select id="g-push"><option value="gentle">Gentle (diverse)</option><option value="std" selected>Standard</option><option value="hard">Hard</option></select></label>
+     <label>Brain penetration<select id="g-wb"><option value="0">Off</option><option value="1" selected>Normal</option><option value="2">High</option></select></label>
+     <label>Target activity<select id="g-wa"><option value="0">Off</option><option value="1" selected>Normal</option><option value="2">High</option></select></label>
+     <label>Low toxicity<select id="g-wt"><option value="0">Off</option><option value="1" selected>Normal</option><option value="2">High</option></select></label>
+     <label>Seed<input type="number" id="g-seed" value="21" min="0"></label>
+    </div>
+    <ul class="small" id="g-notes"></ul>
+   </div>
+   <div class="status" id="g-status" style="margin-top:12px"></div><div class="bar"><i id="g-bar"></i></div>
+   <div id="g-out"></div>
+   <details class="lane" id="g-lane"><summary>What lane this is, and the open gap</summary>
+    <p><b>Not Evo 2.</b> Evo 2 is a billion-parameter genome model. This studio uses small models trained on public data, so it is a testbed for one question, not a competitor.</p>
+    <p><b>The lane.</b> Evo 2 is steered by generating many sequences and keeping the ones an outside predictor scores well (search and filter). Here the predictor's gradient steers every denoising step, and a second model that never saw the steering checks the result. The report on each guide shows where those two models agree.</p>
+    <p><b>The gap.</b> When can a steering predictor be trusted, and when does gradient guidance beat generating more and filtering? Our evidence is mixed. For molecules, guidance without the uncertainty gate made the critic-ranked shortlist worse than no guidance (9% vs 49% pass the held-out judge, so the critic was being exploited); with the gate, 81% pass (guidance 4). For guides, filtering unguided samples already reaches 90%, guidance lifts that to about 100%, and the gate did not help. The Evidence tab has the tables and error bars.</p>
+   </details>
+  </div>
+
+  <div id="go-score" hidden>
+   <div class="dock">
+    <textarea id="sc-in" rows="3" class="prompt" placeholder="Paste a 30-nt guide context, any DNA up to 500 bases (every NGG site is scored), or a SMILES string."></textarea>
+    <div class="dockbar"><span class="live" id="sc-live">0 letters</span><span style="flex:1"></span><button class="gen" id="sc-go" disabled>Score <span aria-hidden="true">&uarr;</span></button></div>
+   </div>
+   <div class="chips" id="sc-chips"></div>
+   <div class="status" id="sc-status" style="margin-top:12px"></div>
+   <div id="sc-out"></div>
+  </div>
  </section>
 
  <!-- MOLECULES -->

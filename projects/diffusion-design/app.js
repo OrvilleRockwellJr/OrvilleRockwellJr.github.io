@@ -31,11 +31,12 @@ async function boot(){
 function fail(msg){ $("#loadmsg").innerHTML='<div class="err">'+esc(msg)+'</div>'; }
 function onWorker(ev){
   const m=ev.data;
-  if(m.evt==="ready"){ S.ready=true; $("#loadmsg").textContent="Models loaded ("+m.info.molHeads+"-head critic ensembles; runs on your device)."; ["m-go","d-go","s-go","g-read"].forEach(i=>$("#"+i).disabled=false); setTimeout(()=>{ if(S.ready) $("#loadmsg").style.display="none"; },2500); loadEvidence(); }
+  if(m.evt==="ready"){ S.ready=true; $("#loadmsg").textContent="Models loaded ("+m.info.molHeads+"-head critic ensembles; runs on your device)."; ["m-go","d-go","s-go","g-read"].forEach(i=>$("#"+i).disabled=false); scInit(); if($("#g-prompt").value.trim()) doRead(); setTimeout(()=>{ if(S.ready) $("#loadmsg").style.display="none"; },2500); loadEvidence(); }
   else if(m.evt==="trace") onTrace(m);
   else if(m.evt==="item") onItem(m);
   else if(m.evt==="done") onDone(m);
-  else if(m.evt==="scores") onScores(m);
+  else if(m.evt==="scores"){ if(S.sc&&S.sc.id===m.id) onScScores(m); else onScores(m); }
+  else if(m.evt==="report") onReport(m);
   else if(m.evt==="scanprog") $("#s-status").textContent="Scoring "+m.i+" / "+m.n+" sites…";
   else if(m.evt==="error") fail(m.message);
 }
@@ -143,7 +144,7 @@ function renderTraceDna(m){ $("#d-tracek").hidden=false; $("#d-trace").innerHTML
 function dnaRow(o,label,un){
   const ck=o.ck; return '<div class="row" style="'+(un?"background:#fafbfc":"")+'"><div>'+(label?'<div style="font-weight:600;color:var(--navy);margin-bottom:4px">'+label+'</div>':'')+seqHtml(o.seq)+'<div class="seqkey">'+o.seq.slice(4,24)+' + '+o.seq.slice(24,27)+' (protospacer + PAM)</div></div><div>'+
    (o.pass?'<span class="tag ok">judge: efficient + passes checks</span>':'<span class="tag no">fails judge or checks</span>')+(ck.pam?'<span class="tag ok">NGG PAM</span>':'<span class="tag no">no NGG PAM</span>')+'<span class="tag '+(ck.gc>=.4&&ck.gc<=.7?'ok':'no')+'">GC '+Math.round(ck.gc*100)+'%</span>'+(ck.t4?'<span class="tag no">TTTT run</span>':'')+(S.lib?(o.hit?'<span class="tag ok">exact site: '+esc(o.hit.label)+', '+(o.hit.strand>0?'+':'−')+' strand</span>':'<span class="tag no">not a site in '+esc(S.lib.label)+'</span>'):'')+
-   pair("critic",o.cp,null,true).replace('pair c','pair c')+pair("judge",o.jp,null,true).replace('class="pair c"','class="pair j"')+'</div></div>';
+   pair("critic",o.cp,null,true).replace('pair c','pair c')+pair("judge",o.jp,null,true).replace('class="pair c"','class="pair j"')+'</div><div style="grid-column:1/-1"><button type="button" class="repbtn" data-seq="'+o.seq+'">Per-base report</button><div class="rep-out"></div></div></div>';
 }
 $("#d-go").addEventListener("click",()=>{
   const lib=buildLib($("#d-lib").value,$("#d-paste").value); if($("#d-lib").value==="paste"&&!lib){ $("#d-status").textContent="Paste at least 40 letters of A, C, G, T."; return; } S.lib=lib;
@@ -259,12 +260,12 @@ function readPrompt(raw){
 $("#g-chips").addEventListener("click",e=>{ const b=e.target.closest("button"); if(!b) return; $("#g-prompt").value=b.dataset.p.replace(/&sigma;/g,"σ"); doRead(); });
 $("#g-read").addEventListener("click",doRead);
 function doRead(){
-  const raw=$("#g-prompt").value.trim(); if(!raw){ $("#g-readmsg").textContent="Type what you want first, or pick an example."; return; } $("#g-readmsg").textContent="";
+  const raw=$("#g-prompt").value.trim(); if(!raw){ $("#g-live").textContent="Waiting for your request."; $("#g-make-go").disabled=true; S.go=null; return; } $("#g-readmsg").textContent="";
   const {cfg,notes}=readPrompt(raw); S.go={cfg,raw}; $("#g-make").value=cfg.make; $("#g-n").value=String(cfg.n); $("#g-push").value=cfg.push; $("#g-lib").value=cfg.lib; $("#g-wb").value=String(cfg.w[0]); $("#g-wa").value=String(cfg.w[1]); $("#g-wt").value=String(cfg.w[2]);
-  $("#g-notes").innerHTML=notes.map(n=>"<li>"+esc(n)+"</li>").join(""); $("#g-plan").hidden=false; $("#g-make-go").disabled=!S.ready;
+  $("#g-notes").innerHTML=notes.map(n=>"<li>"+esc(n)+"</li>").join(""); $("#g-make-go").disabled=!S.ready; liveLine(cfg);
 }
 $("#g-make-go").addEventListener("click",()=>{
-  const g=S.go; const make=$("#g-make").value, n=+$("#g-n").value, push=$("#g-push").value, libk=$("#g-lib").value;
+  if(!S.go||S.go.raw!==$("#g-prompt").value.trim()) doRead(); const g=S.go; if(!g) return; const make=$("#g-make").value, n=+$("#g-n").value, push=$("#g-push").value, libk=$("#g-lib").value;
   const w=[+$("#g-wb").value,+$("#g-wa").value,+$("#g-wt").value]; const seed=+$("#g-seed").value||0;
   const lib=make!=="mol"?buildLib(libk,g.cfg.pasted):null; if(make!=="mol"&&libk==="paste"&&!lib){ $("#g-status").textContent="No pasted DNA found in your request (need 40+ letters)."; return; }
   if(make!=="dna"&&w.every(v=>v===0)){ $("#g-status").textContent="All three molecule objectives are off; switch one on."; return; }
@@ -294,9 +295,67 @@ function renderShortlist(){
     const ranked=g.slice().sort((a,b)=>(+!!b.hit-+!!a.hit)||(b.jz-a.jz)).filter((o,i,arr)=>arr.findIndex(x=>x.seq===o.seq)===i).slice(0,K);
     const head=r.lib?(on.length+' of '+g.length+' are exact cut sites in '+r.lib.label+'; '+onp.length+' of those also pass the judge and the checks ('+new Set(on.map(o=>o.seq)).size+' distinct sites).'):(pass.length+' of '+g.length+' pass the judge and the checks (no locus was set).');
     parts.push('<div><h3>Gene-editing guides</h3><p class="small" style="margin-bottom:8px">'+head+' Showing the top '+ranked.length+' distinct.</p><div class="dna">'+ranked.map(o=>dnaRow(o,"",false)).join("")+'</div></div>'); }
+  const gdna=r.make!=="mol"?r.dna:[], gmol=r.make!=="dna"?r.mol.filter(o=>o.valid):[]; const gaps=[...gdna.map(o=>Math.abs(o.cp-o.jp)),...gmol.flatMap(o=>[Math.abs(o.cp.bbb-o.jp.bbb),Math.abs(o.cp.act-o.jp.act),Math.abs(o.cp.tox-o.jp.tox)])]; const gapm=gaps.length?gaps.reduce((s,v)=>s+v,0)/gaps.length:NaN; const nreq=r.n*(r.make==="both"?2:1), ngen=(r.make!=="dna"?r.mol.length:0)+gdna.length, passN=gmol.filter(o=>o.pass).length+gdna.filter(o=>o.pass).length, onT=gdna.filter(o=>o.hit).length;
+  html+='<div class="metrics"><div><span>Requested</span><b>'+nreq+'</b><small>'+(r.make==="both"?r.n+" molecules + "+r.n+" guides":r.n+(r.make==="mol"?" molecules":" guides"))+'</small></div><div><span>Generated</span><b>'+ngen+'</b><small>'+(r.make!=="dna"?r.mol.length+" molecule draws, "+gmol.length+" valid":"")+(r.make==="both"?", ":"")+(r.make!=="mol"?gdna.length+" guides":"")+'</small></div>'+(r.make!=="mol"&&r.lib?'<div><span>On target</span><b>'+onT+'</b><small>of '+gdna.length+' guides are exact cut sites in '+esc(r.lib.label)+'</small></div>':'')+'<div><span>Pass held-out judge</span><b>'+passN+'</b><small>of '+(gmol.length+gdna.length)+' valid</small></div><div><span>Critic&ndash;judge gap</span><b>'+fmt(gapm)+'</b><small>mean |critic P &minus; judge P|</small></div></div>';
   html+='<div class="twocol">'+parts.join("")+'</div><p class="small" style="margin-top:14px">Scores are predictions from small public-data models; the judge is a separate model, not an experiment. For a known locus, ranking every site on the Scan tab is the strongest baseline for guides; see the Evidence tab for how this generator compares.</p>';
   $("#g-out").innerHTML=html;
 }
+
+/* ---------- Evo-Designer-style dock: modes, live reader, gear ---------- */
+function liveLine(cfg){ const mk={both:"molecules + guides",mol:"molecules",dna:"guides"}[cfg.make], pu={gentle:"gentle",std:"standard",hard:"hard"}[cfg.push];
+  const tg=cfg.make==="mol"?"":(cfg.lib==="ptprs"?" · target PTPRS exons":cfg.lib==="paste"?" · target your DNA ("+cfg.pasted.length+" bases)":" · no locus");
+  $("#g-live").textContent="Reads as: "+mk+" · "+cfg.n+(cfg.make==="both"?" each":"")+" · "+pu+" push"+tg; }
+let liveT=null; $("#g-prompt").addEventListener("input",()=>{ clearTimeout(liveT); liveT=setTimeout(()=>{ if(S.ready) doRead(); else $("#g-live").textContent=$("#g-prompt").value.trim()?"Models still loading…":"Waiting for your request."; },250); });
+$("#g-lib").addEventListener("change",()=>{ if(S.go){ S.go.cfg.lib=$("#g-lib").value; } });
+$("#g-gear").addEventListener("click",()=>{ const p=$("#g-plan"); p.hidden=!p.hidden; $("#g-gear").setAttribute("aria-expanded",String(!p.hidden)); });
+document.querySelectorAll("#go-modes .mode").forEach(b=>b.addEventListener("click",()=>{ const m=b.dataset.m; document.querySelectorAll("#go-modes .mode").forEach(x=>x.classList.toggle("on",x===b)); $("#go-gen").hidden=m!=="gen"; $("#go-score").hidden=m!=="score"; }));
+/* ---------- per-base report ---------- */
+S.rep=new Map(); let _ptLib=null; function ptLib(){ return _ptLib||(_ptLib=buildLib("ptprs")); }
+function onReport(m){ const cb=S.rep.get(m.id); if(cb){ S.rep.delete(m.id); cb(m.reports[0]); } }
+function reqReport(seq,cb){ const id=++S.job; const lib=S.lib&&S.lib.kind==="ptprs"?S.lib:ptLib(); S.rep.set(id,cb); S.worker.postMessage({cmd:"report",id,seqs:[seq],lib:lib?lib.wins:null,libKey:lib?lib.key:null}); }
+function repHtml(r){
+  const NT="ACGT", s=r.seq, cw=18, x0=34, H=14, gap=5;
+  const jz=E.dnaJudge(s,S.judges.dna); const jism=[]; for(let i=0;i<30;i++){ const row=[]; for(let b=0;b<4;b++) row.push(NT[b]===s[i]?jz:E.dnaJudge(s.slice(0,i)+NT[b]+s.slice(i+1),S.judges.dna)); jism.push(row); }
+  const am=row=>row.indexOf(Math.max(...row)); const c0=sig(r.crit.mean), j0=sig(jz); let dis=0, mat=0; const dpos=[]; for(let i=0;i<30;i++){ const gc=sig(Math.max(...r.ism[i]))-c0, gj=sig(Math.max(...jism[i]))-j0; if(gc>=0.03||gj>=0.03){ mat++; if(am(r.ism[i])!==am(jism[i])){ dis++; dpos.push(i); } } }
+  const cur=[sig(r.crit.mean),sig(jz)];
+  const heat=(rows,base,y0,name)=>{ let g='<text x="0" y="'+(y0+H*2+3)+'" font-size="9" fill="#5a6573" transform="rotate(-90 8 '+(y0+H*2)+')" text-anchor="middle">'+name+'</text>';
+    for(let b=0;b<4;b++){ g+='<text x="'+(x0-6)+'" y="'+(y0+b*H+H-3)+'" font-size="9" text-anchor="end" fill="#5a6573">'+NT[b]+'</text>';
+      for(let i=0;i<30;i++){ const d=sig(rows[i][b])-base, isCur=NT[b]===s[i], al=Math.min(1,Math.abs(d)/0.3);
+        const fill=isCur?"#E6EAF0":(d>=0?"rgba(31,111,165,"+(0.08+0.85*al).toFixed(2)+")":"rgba(201,92,30,"+(0.08+0.85*al).toFixed(2)+")");
+        g+='<rect x="'+(x0+i*cw)+'" y="'+(y0+b*H)+'" width="'+(cw-1)+'" height="'+(H-1)+'" rx="2" fill="'+fill+'"><title>'+name+': position '+(i+1)+' '+s[i]+'→'+NT[b]+' changes P by '+(isCur?"0 (current)":(d>=0?"+":"")+d.toFixed(2))+'</title></rect>'; } }
+    return g; };
+  let svg='<svg viewBox="0 0 '+(x0+30*cw)+' 196" role="img" aria-label="Per-base report">';
+  for(let i=0;i<30;i++){ svg+='<text x="'+(x0+i*cw+cw/2-.5)+'" y="9" font-size="10" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" fill="'+(i>=24&&i<27?"#1F6FA5":"#14305A")+'" font-weight="'+(i>=24&&i<27?700:500)+'">'+s[i]+'</text>'; }
+  svg+=heat(r.ism,cur[0],14,"critic")+heat(jism,cur[1],14+4*H+gap+4,"judge");
+  const ty=14+8*H+gap*2+14, mx=Math.max(1.6,...r.surp.pos); svg+='<text x="0" y="'+(ty+22)+'" font-size="9" fill="#5a6573" transform="rotate(-90 8 '+(ty+22)+')" text-anchor="middle">surprise</text>';
+  r.surp.pos.forEach((v,i)=>{ const h=Math.max(1,v/mx*40); svg+='<rect x="'+(x0+i*cw)+'" y="'+(ty+44-h)+'" width="'+(cw-1)+'" height="'+h+'" rx="2" fill="#7A8CA8"><title>prior surprise at position '+(i+1)+': '+v.toFixed(2)+'</title></rect>'; });
+  for(const i of dpos) svg+='<rect x="'+(x0+i*cw)+'" y="'+(ty+47)+'" width="'+(cw-1)+'" height="3" fill="#C95C1E"/>';
+  svg+='</svg>';
+  const ann=(S.lib&&S.lib.map.get(s))||(ptLib()&&ptLib().map.get(s)); const sp=r.pct==null?"":" Lower surprise than "+Math.round((1-r.pct)*100)+"% of PTPRS sites.";
+  return '<div class="rep"><h5>Per-base report</h5>'+svg+'<div class="rk"><span><i style="background:rgba(31,111,165,.8)"></i>mutation raises P(efficient)</span><span><i style="background:rgba(201,92,30,.8)"></i>lowers it</span><span><i style="background:#E6EAF0"></i>current base</span><span><i style="background:#C95C1E"></i>critic and judge pick different best bases</span></div>'+
+   '<p style="margin:8px 0 0"><b>Critic P '+cur[0].toFixed(2)+' · judge P '+cur[1].toFixed(2)+'.</b> Each cell is the change in predicted efficiency if that one base were swapped (in-silico mutagenesis). At the <b>'+mat+'</b> positions where either model sees a gain of 0.03 or more, they disagree on the best base at <b>'+dis+'</b>.</p>'+
+   '<p style="margin:4px 0 0">Prior surprise (denoising error under the coding-sequence prior, our analogue of Evo\'s per-base entropy): mean '+r.surp.mean.toFixed(2)+'; a random sequence is about 1.2.'+sp+'</p>'+
+   '<p style="margin:4px 0 0">'+(ann?"Annotation: "+esc(ann.label)+", "+(ann.strand>0?"sense":"antisense")+" strand, PAM at positions 25 to 27, cut between positions 21 and 22 of the 30-mer.":"Annotation: not an exact NGG cut site inside a PTPRS exon.")+'</p></div>'; }
+document.addEventListener("click",e=>{ const b=e.target.closest(".repbtn"); if(!b) return; const out=b.parentNode.querySelector(".rep-out"); if(out.dataset.on==="1"){ out.innerHTML=""; out.dataset.on="0"; b.textContent="Per-base report"; return; } b.textContent="Computing…"; reqReport(b.dataset.seq,r=>{ out.innerHTML=repHtml(r); out.dataset.on="1"; b.textContent="Hide per-base report"; }); });
+/* ---------- Score a candidate ---------- */
+function scKind(raw){ const t=raw.trim(), d=t.replace(/\s+/g,"").toUpperCase(); if(d.length>=20&&/^[ACGT]+$/.test(d)&&new Set(d).size>=3) return {kind:"dna",dna:d}; if(t&&!/\s/.test(t)) return {kind:"smiles",smi:t}; return {kind:"none"}; }
+function scUpdate(){ $("#sc-status").textContent=""; const raw=$("#sc-in").value, k=scKind(raw); const n=raw.replace(/\s+/g,"").length;
+  $("#sc-live").textContent=!n?"0 letters":k.kind==="dna"?(k.dna.length+" bases"+(k.dna.length===30?" · one guide context":k.dna.length>500?" · only the first 500 are used":" · every NGG site is scored")):k.kind==="smiles"?n+" characters · read as a SMILES":n+" characters · paste DNA (20+ bases, A/C/G/T) or one SMILES with no spaces";
+  $("#sc-go").disabled=!S.ready||k.kind==="none"; }
+$("#sc-in").addEventListener("input",scUpdate);
+function scInit(){ const ex=[]; const L=ptLib(); if(L){ const w=L.wins[Math.floor(L.wins.length/3)]; ex.push(["A PTPRS cut site (30-mer)",w]); } if(S.ptprs&&S.ptprs.exons[4]) ex.push(["PTPRS exon 5 stretch (DNA)",S.ptprs.exons[4].seq.slice(0,160)]); ex.push(["Melatonin (SMILES)","COc1ccc2[nH]cc(CCNC(C)=O)c2c1"]); ex.push(["Aspirin (SMILES)","CC(=O)Oc1ccccc1C(=O)O"]);
+  $("#sc-chips").innerHTML=ex.map(([l,v])=>'<button type="button" data-p="'+esc(v)+'">'+esc(l)+'</button>').join(""); scUpdate(); }
+$("#sc-chips").addEventListener("click",e=>{ const b=e.target.closest("button"); if(!b) return; $("#sc-in").value=b.dataset.p; scUpdate(); $("#sc-go").click(); });
+$("#sc-go").addEventListener("click",()=>{ const k=scKind($("#sc-in").value); if(k.kind==="none") return; $("#sc-out").innerHTML="";
+  if(k.kind==="smiles"){ const a=analyse(k.smi); if(!a){ $("#sc-status").textContent="That is not a valid SMILES string."; return; } const j=judgeMol(a), jp={bbb:sig(j.bbb),act:sig(j.act),tox:sig(j.tox)}, nn=nearest(a), pass=j.bbb>0&&j.act>0&&j.tox<0, cns=a.tpsa<90&&a.mw<450&&a.hbd<=3;
+    $("#sc-status").textContent="Scored on your device."; $("#sc-out").innerHTML='<div class="card" style="max-width:420px"><div class="sv">'+a.svg+'</div><div class="smi" data-smi="'+esc(a.canon)+'">'+esc(a.canon)+'</div><div>'+(pass?'<span class="tag ok">judge: passes all three</span>':'<span class="tag no">judge: fails at least one</span>')+(cns?'<span class="tag ok">CNS-like physchem</span>':'<span class="tag">outside CNS physchem</span>')+(a.ro5>1||a.mw>600||a.mw<120||a.logp>6?'<span class="tag no">not drug-like</span>':'')+'</div>'+pair("brain",jp.bbb,null,true)+pair("activity",jp.act,null,true)+pair("low tox",jp.tox,null,false)+'<div class="small" style="font-size:11.5px">MW '+fmt(a.mw,0)+' · cLogP '+fmt(a.logp,1)+' · TPSA '+fmt(a.tpsa,0)+' · HBD '+fmt(a.hbd,0)+' · Ro5 violations '+a.ro5+'</div><div class="small" style="font-size:11.5px">Nearest known compound: Tanimoto '+fmt(nn.t)+(nn.t>=0.99?' (known)':nn.t<0.4?' (new scaffold)':'')+'</div></div><p class="small" style="margin-top:10px">Judge scores only. The steering critics read the generator\'s latent space and this page has no SMILES encoder, so critic scores and per-atom effects are not available for a pasted molecule. Guides get the full per-base report.</p>'; return; }
+  let seq=k.dna.slice(0,500), rows=[]; if(seq.length===30) rows=[{win:seq,label:"your 30-mer",strand:1,pos:0}]; else if(seq.length<30){ $("#sc-status").textContent="Need at least 30 bases for a guide context."; return; } else{ const raw=[]; E.findSites(seq,"your DNA",0,seq.length,raw); const seen=new Set(); rows=raw.filter(r=>{ const kk=r.win; if(seen.has(kk)) return false; seen.add(kk); return true; }); }
+  if(!rows.length){ $("#sc-status").textContent="No NGG site with 30 bases of context found in that DNA."; return; }
+  S.lib=ptLib(); S.sc={id:++S.job,rows,len:seq.length}; $("#sc-go").disabled=true; $("#sc-status").textContent="Scoring "+rows.length+" site"+(rows.length>1?"s":"")+"…"; S.worker.postMessage({cmd:"scoreDna",id:S.sc.id,seqs:rows.map(r=>r.win)}); });
+function onScScores(m){ const R=S.sc.rows; $("#sc-go").disabled=false; const O=R.map((r,i)=>{ const ck=dnaChecks(r.win), jz=E.dnaJudge(r.win,S.judges.dna); return {seq:r.win,ck,cp:sig(m.scores[i][0]),csd:m.scores[i][1],jp:sig(jz),jz,pass:ck.usable&&jz>0,hit:S.lib.map.get(r.win)||null,label:r.label,strand:r.strand}; }); O.sort((a,b)=>(b.cp+b.jp)-(a.cp+a.jp));
+  const top=O.slice(0,R.length===1?1:8), gap=O.reduce((s,o)=>s+Math.abs(o.cp-o.jp),0)/O.length;
+  $("#sc-status").textContent="Done. Scored "+O.length+" site"+(O.length>1?"s":"")+" on your device.";
+  $("#sc-out").innerHTML='<div class="metrics"><div><span>Sites scored</span><b>'+O.length+'</b><small>NGG with 30-nt context, both strands</small></div><div><span>Pass judge and checks</span><b>'+O.filter(o=>o.pass).length+'</b><small>of '+O.length+'</small></div><div><span>Best critic / judge</span><b>'+fmt(top[0].cp)+' / '+fmt(top[0].jp)+'</b><small>top-ranked site</small></div><div><span>Mean critic&ndash;judge gap</span><b>'+fmt(gap)+'</b><small>how far the two models differ</small></div></div>'+(R.length>1?'<p class="small">Top '+top.length+' by average of critic and judge. Open any row for its per-base report.</p>':'')+'<div class="dna">'+top.map((o,i)=>dnaRow(o,R.length>1?"Rank "+(i+1)+" · "+(o.strand>0?"sense":"antisense")+" strand":"",false)).join("")+'</div>'; if(O.length===1||top.length===1){ const b=$("#sc-out .repbtn"); if(b) b.click(); } }
 
 boot();
 })();

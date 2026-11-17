@@ -34,6 +34,17 @@ function dnaRun(job,i,gamma,trace){
   const seq=E.dnaFromX(xf); const r=Dn.ens.eval(E.dnaToX(seq),0,1,false);
   return {seq,crit:r};
 }
+/* per-base report for a 30-nt site: in-silico mutagenesis of the critic ensemble, and prior "surprise" (denoising error under the coding-sequence prior) */
+const surpRef={};
+function surprise(seq){ const x0=E.dnaToX(seq), D=120, pos=new Float64Array(30), eps=new Float32Array(D), xt=new Float32Array(D), out=new Float32Array(D), rnd=E.rng(12345); let n=0;
+  for(const t of [20,60,100,140]){ const ab=E.AB[t], sa=Math.sqrt(ab), s1=Math.sqrt(1-ab); for(let d=0;d<3;d++){ for(let k=0;k<D;k++){ eps[k]=rnd.n(); xt[k]=sa*x0[k]+s1*eps[k]; } Dn.den.eps(xt,t,out); for(let i=0;i<30;i++){ let e=0; for(let c=0;c<4;c++){ const k=i*4+c; e+=(out[k]-eps[k])*(out[k]-eps[k]); } pos[i]+=e/4; } n++; } }
+  let m=0; for(let i=0;i<30;i++){ pos[i]/=n; m+=pos[i]; } return {pos:Array.from(pos),mean:m/30}; }
+function report(seq,lib,libKey){
+  const NT="ACGT", cur=Dn.ens.eval(E.dnaToX(seq),0,1,false); const ism=[], sd=[];
+  for(let i=0;i<30;i++){ const row=[],rs=[]; for(let b=0;b<4;b++){ if(NT[b]===seq[i]){ row.push(cur.mean); rs.push(cur.sd); continue; } const s=seq.slice(0,i)+NT[b]+seq.slice(i+1); const r=Dn.ens.eval(E.dnaToX(s),0,1,false); row.push(r.mean); rs.push(r.sd); } ism.push(row); sd.push(rs); }
+  const su=surprise(seq); let pct=null;
+  if(lib&&lib.length){ if(!surpRef[libKey]){ const rnd=E.rng(77), m=[]; for(let j=0;j<120;j++) m.push(surprise(lib[Math.floor(rnd.u()*lib.length)]).mean); m.sort((a,b)=>a-b); surpRef[libKey]=m; } const ref=surpRef[libKey]; pct=ref.filter(v=>v<=su.mean).length/ref.length; }
+  return {seq,crit:{mean:cur.mean,sd:cur.sd},ism,sd,surp:su,pct}; }
 self.onmessage=async(ev)=>{
   const m=ev.data;
   try{
@@ -50,6 +61,7 @@ self.onmessage=async(ev)=>{
       }
       self.postMessage({evt:"done",id:m.id,cancelled:cancelled.has(m.id)}); return;
     }
+    if(m.cmd==="report"){ const out=m.seqs.map(s=>report(s,m.lib,m.libKey)); self.postMessage({evt:"report",id:m.id,reports:out}); return; }
     if(m.cmd==="scoreDna"){
       const out=[]; for(let i=0;i<m.seqs.length;i++){ const r=Dn.ens.eval(E.dnaToX(m.seqs[i]),0,1,false); out.push([r.mean,r.sd]); if(i%200===0){ self.postMessage({evt:"scanprog",id:m.id,i,n:m.seqs.length}); await tick(); } }
       self.postMessage({evt:"scores",id:m.id,scores:out}); return;
