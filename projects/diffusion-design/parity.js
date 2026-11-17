@@ -14,4 +14,5 @@ for(const name of ["mol","dna"]){
     chk(name+" sample("+gate+")["+s+"]",x,R["sample_"+gate][s],5e-2); } }
 }
 { const {J,W}=load("mol"); const dec=new E.MolDecoder(W,J.vocab,J.L); for(let i=0;i<P.dec.z.length;i++){ const r=dec.decode(Float32Array.from(P.dec.z[i])); const same=r.smiles===P.dec.smiles[i]; if(!same) fail++; console.log(same?"PASS":"FAIL","decoder smiles["+i+"]",r.smiles,same?"":("expected "+P.dec.smiles[i])); } }
+{ const L=JSON.parse(fs.readFileSync(__dirname+"/results/lib_parity_reference.json")); const lib=new E.LibCritic(L.seqs); for(const c of L.cases){ const r=lib.eval(Float32Array.from(c.x),c.t,1,true); chk("locus critic mean t="+c.t,[r.mean],[c.mean],1e-3); chk("locus critic grad t="+c.t,lib.g,c.g,1e-3); } }
 console.log(fail?("FAILURES: "+fail):"ALL PARITY CHECKS PASSED"); process.exit(fail?1:0);

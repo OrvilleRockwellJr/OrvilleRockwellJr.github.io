@@ -14,5 +14,14 @@
 <li><b>The gate did not help here.</b> At every &gamma; the ungated runs scored higher on the judge (for example 0.79 vs 0.75 at &gamma; = 16). The gate only weakened the push; I did not test why, but the critic and judge agree closely on these sites, so there was little for it to correct.</li>
 <li><b>Limit.</b> Critic AUC on held-out genes is 0.72 and the judge's is 0.73, so both are modest predictors. Filtering unguided guides to the critic's top 10% already passes 90%, so filtering is a strong baseline here. Real guides from held-out genes pass the judge 43.6% of the time; generated guides at &gamma; = 16 pass 83.3%, but that reflects what the judge learned from the same labels. Generated guides are not targeted to PTPRS; use the scanner for that.</li>
 </ul>
+<h3>A reward-hacking example</h3>
+<p>In one combined run, a 48-carbon chain with no rings (MW 675, cLogP 19) scored 100% from the brain-penetration and activity critics and passed the held-out judge on all three objectives. Both models were trained on a few thousand labeled molecules and have never seen anything like it. That is the failure the judge is meant to expose, and here it did not: the judge is a fingerprint model, and so it can also be fooled off-distribution. The shortlist therefore applies a basic drug-likeness filter and reports how many candidates it removed. A pass is a prediction, not a property.</p>
+<h3>Aiming guides at PTPRS</h3>
+<ul>
+<li><b>Generic guides are not on target.</b> Efficiency-steered guides matched a real PTPRS site 0% of the time, so they were never locus-specific.</li>
+<li><b>Locus guidance fixes that.</b> A target-site critic (the exact diffusion score of the library of PTPRS cut sites) makes 100% of generated guides exact PTPRS sites, 93% distinct.</li>
+<li><b>But efficiency steering is easily swamped.</b> An untilted library pulls every sample to a random site: success equals a random draw from the library (33% vs 34%). Weighting the library by the efficiency critic ("tilt") raises success to 54% &plusmn; 5.</li>
+<li><b>Scan-and-rank wins.</b> Simply ranking every PTPRS site by the critic gives 76% success. For a known locus the Scan tab is the better tool; the generator is useful for the integrated molecule-plus-guide workflow and for sequences without an exhaustive site list, not as a replacement for scanning.</li>
+</ul>
 <h3>What this does and does not show</h3>
 <p>The trust gate is the useful part for molecules, where critics trained on a few thousand labels meet a generator that wanders off their data. It is not useful for guides in this setup. Neither result involves synthesis, wet-lab or animal data.</p>

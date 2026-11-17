@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Classifier-Guided Diffusion for Post-Stroke Drug Design | Orville Rockwell Jr.</title>
+<title>PTP&sigma; Design Studio: Classifier-Guided Diffusion for Post-Stroke Drug Design</title>
 <meta name="description" content="A working guided-diffusion platform that designs candidate small molecules and gene-editing guide sequences against PTPσ, the receptor that blocks axon regrowth after stroke. It runs entirely in your browser.">
 <meta name="theme-color" content="#14305A">
 <link rel="canonical" href="https://orvillerockwelljr.com/projects/diffusion-design/">
@@ -24,6 +24,7 @@ p{margin:0}.page{max-width:72rem;margin:0 auto;padding:0 22px}
 .mast h1{font-size:clamp(1.9rem,4.4vw,2.9rem);line-height:1.1;letter-spacing:-.015em;margin:34px 0 10px;max-width:46rem}
 .mast .lede{font-size:1.15rem;color:#D4DEEC;max-width:46rem;padding-bottom:46px}
 .mast .lede b{color:#fff}
+.mast .wm{display:inline-flex;align-items:center;gap:10px;color:#fff!important;font-weight:600;font-size:16px;letter-spacing:.01em}.wmk{width:22px;height:22px;border-radius:6px;background:conic-gradient(from 200deg,#3E7BD0,#1AA3AA,#D9568A,#3E7BD0);display:inline-block}
 .notice{font-family:var(--sans);font-size:13.5px;background:#FFF8E6;border:1px solid #EBD9A1;color:#5B4A12;border-radius:6px;padding:10px 14px;margin:22px 0 0;line-height:1.5}
 h2{font-size:1.45rem;font-weight:600;letter-spacing:-.01em;margin:0 0 6px;color:var(--navy)}
 h2::after{content:"";display:block;width:36px;height:3px;border-radius:2px;margin-top:8px;background:linear-gradient(90deg,var(--cv) 0 33.3%,var(--auto) 33.3% 66.6%,var(--bio) 66.6%)}
@@ -85,27 +86,63 @@ table.t td.n,table.t th.n{text-align:right;font-variant-numeric:tabular-nums}
 .callout{border-left:4px solid var(--bio);background:var(--wash);padding:12px 16px;border-radius:0 8px 8px 0;font-family:var(--sans);font-size:14px;max-width:var(--col);margin:14px 0}
 footer{border-top:1px solid var(--rule);margin-top:40px;padding:22px 0 40px;font-family:var(--sans);font-size:13px;color:var(--muted)}
 .err{background:#F8E9EF;border:1px solid #E9C3D2;color:#8a2a4d;border-radius:6px;padding:10px 14px;font-family:var(--sans);font-size:14px;margin:12px 0}
+.prompt{width:100%;font:16px/1.5 var(--sans);border:1px solid #B9C3D0;border-radius:8px;padding:12px 14px;resize:vertical}
+.prompt:focus{outline:2px solid #3E7BD0;outline-offset:1px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 4px}.chips button{font:13px var(--sans);border:1px solid var(--rule);background:var(--wash);color:var(--navy);border-radius:999px;padding:5px 12px;cursor:pointer}.chips button:hover{border-color:var(--cv)}
+.gorow{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:12px 0}.h3s{font:600 15px var(--sans);color:var(--navy);margin:18px 0 8px}
+.grid4{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px 16px;font-family:var(--sans);font-size:13.5px}.grid4 label{display:flex;flex-direction:column;gap:4px;color:var(--muted)}
+.grid4 select,.grid4 input{font:14px var(--sans);padding:6px 8px;border:1px solid #B9C3D0;border-radius:6px;background:#fff;color:var(--ink)}
+.gorow .btn{width:auto;margin-top:0}
+.twocol{display:grid;gap:22px;grid-template-columns:1fr}@media(min-width:900px){.twocol{grid-template-columns:1fr 1fr}}
+.twocol h3{font:600 15px var(--sans);color:var(--navy);margin:0 0 8px}
 </style>
 </head>
 <body>
 <div class="mast"><div class="page">
- <nav class="nav" aria-label="Page"><a href="../../">&larr; Orville Rockwell Jr.</a><span><a href="#design">Design</a> &nbsp; <a href="#evidence">Evidence</a> &nbsp; <a href="#method">Method</a> &nbsp; <a href="https://github.com/OrvilleRockwellJr/OrvilleRockwellJr.github.io/tree/main/projects/diffusion-design">Code</a></span></nav>
+ <nav class="nav" aria-label="Page"><a class="wm" href="./"><span class="wmk" aria-hidden="true"></span>PTP&sigma; Design Studio</a><span><a href="#evidence">Evidence</a> &nbsp; <a href="#method">Method</a> &nbsp; <a href="https://github.com/OrvilleRockwellJr/orvillerockwelljr.github.io/tree/main/projects/diffusion-design">Code</a> &nbsp; <a href="../../">Research by Orville Rockwell Jr. &rarr;</a></span></nav>
  <h1>Classifier-Guided Diffusion for Post-Stroke Drug Design</h1>
- <p class="lede">A working generative platform for one target, <b>PTP&sigma;</b>, the receptor through which the glial scar blocks axon regrowth after stroke. One guided-diffusion engine designs two kinds of candidate: <b>small molecules</b> and <b>gene-editing guide sequences</b>. It runs entirely in your browser: no server, nothing uploaded.</p>
+ <p class="lede">A working generative platform for one target, <b>PTP&sigma;</b>, the receptor through which the glial scar blocks axon regrowth after stroke. Describe what you want and what it is for, and one guided-diffusion engine designs both kinds of candidate: <b>small molecules</b> and <b>gene-editing guide sequences</b>, aimed at the same target. It runs entirely in your browser: no server, no API, nothing uploaded.</p>
 </div></div>
 <main class="page" id="main">
  <p class="notice"><b>Research prototype, in silico only.</b> Every score is a prediction from small models trained on public data (ChEMBL, B3DB, Tox21, the Doench guide-efficacy screens). Nothing here is lab-validated, and nothing here is medical advice. The <i>Evidence</i> tab shows how often the held-out judge agrees with the steering classifiers, including where it does not.</p>
  <div class="tabs" role="tablist" id="design" aria-label="Platform sections">
-  <button role="tab" aria-selected="true" aria-controls="p-mol" id="t-mol">Design molecules</button>
-  <button role="tab" aria-selected="false" aria-controls="p-dna" id="t-dna">Design gene-editing guides</button>
-  <button role="tab" aria-selected="false" aria-controls="p-scan" id="t-scan">Scan the PTPRS gene</button>
+  <button role="tab" aria-selected="true" aria-controls="p-go" id="t-go">Describe what you want</button>
+  <button role="tab" aria-selected="false" aria-controls="p-mol" id="t-mol">Molecules</button>
+  <button role="tab" aria-selected="false" aria-controls="p-dna" id="t-dna">Guides</button>
+  <button role="tab" aria-selected="false" aria-controls="p-scan" id="t-scan">Scan a gene</button>
   <button role="tab" aria-selected="false" aria-controls="p-ev" id="t-ev">Evidence</button>
   <button role="tab" aria-selected="false" aria-controls="p-me" id="t-me">Method</button>
  </div>
  <div id="loadmsg" class="status" style="margin-top:14px">Loading models&hellip;</div>
 
+ <!-- PROMPT -->
+ <section class="panel" id="p-go" role="tabpanel" aria-labelledby="t-go">
+  <h2>Describe what you want made</h2>
+  <p class="sub">Type what you want and what it is for. The platform reads your request, sets the objectives, and designs small molecules and gene-editing guides for PTP&sigma; in one run. No server and no language-model API: a small rule-based reader maps your words onto the model's controls, and you can see and change exactly what it understood before anything runs.</p>
+  <textarea id="g-prompt" rows="4" class="prompt" placeholder="e.g. I want brain-penetrant, non-toxic PTP inhibitors for stroke recovery, plus CRISPR guides to knock out PTPRS. Give me 12 of each, push hard."></textarea>
+  <div class="chips" id="g-chips"><button type="button" data-p="Brain-penetrant, non-toxic PTP&sigma; inhibitors and Cas9 guides to knock out PTPRS, for stroke recovery. Give me 12 of each.">Both, for stroke recovery</button><button type="button" data-p="Potent small molecules for PTPRS, I don't care about toxicity yet. Strong guidance, 16 candidates. Molecules only.">Potent molecules only</button><button type="button" data-p="Diverse, gentle exploration of CRISPR guides for PTPRS. Guides only, 18 candidates.">Diverse guides only</button></div>
+  <div class="gorow"><button class="btn" id="g-read" disabled>Read my request</button><span class="small" id="g-readmsg"></span></div>
+  <div id="g-plan" hidden>
+   <h3 class="h3s">How I read it</h3>
+   <div class="grid4">
+    <label>Make<select id="g-make"><option value="both">Molecules and guides</option><option value="mol">Molecules only</option><option value="dna">Guides only</option></select></label>
+    <label>Candidates each<select id="g-n"><option>6</option><option>8</option><option selected>12</option><option>16</option><option>24</option></select></label>
+    <label>Push<select id="g-push"><option value="gentle">Gentle (diverse)</option><option value="std" selected>Standard</option><option value="hard">Hard</option></select></label>
+    <label>Guide target<select id="g-lib"><option value="ptprs">PTPRS exons (cut inside an exon)</option><option value="paste">The DNA I pasted</option><option value="none">No locus (generic efficient guides)</option></select></label>
+    <label>Brain penetration<select id="g-wb"><option value="0">Off</option><option value="1" selected>Normal</option><option value="2">High</option></select></label>
+    <label>Target activity<select id="g-wa"><option value="0">Off</option><option value="1" selected>Normal</option><option value="2">High</option></select></label>
+    <label>Low toxicity<select id="g-wt"><option value="0">Off</option><option value="1" selected>Normal</option><option value="2">High</option></select></label>
+    <label>Seed<input type="number" id="g-seed" value="21" min="0"></label>
+   </div>
+   <ul class="small" id="g-notes"></ul>
+   <div class="gorow"><button class="btn" id="g-make-go" disabled>Make it</button><button class="btn alt" id="g-stop" hidden>Stop</button><span class="small" id="g-status"></span></div>
+   <div class="bar"><i id="g-bar"></i></div>
+  </div>
+  <div id="g-out"></div>
+ </section>
+
  <!-- MOLECULES -->
- <section class="panel" id="p-mol" role="tabpanel" aria-labelledby="t-mol">
+ <section class="panel" id="p-mol" role="tabpanel" aria-labelledby="t-mol" hidden>
   <h2>Design small molecules</h2>
   <p class="sub">A diffusion model denoises a molecular latent code into a structure. Three classifiers, trained on <i>noised</i> codes, steer every denoising step toward brain penetration, PTP-family activity and low toxicity. A separate held-out judge, built on different features, scores the result.</p>
   <div class="grid2"><div class="ctrl">
@@ -126,7 +163,7 @@ footer{border-top:1px solid var(--rule);margin-top:40px;padding:22px 0 40px;font
    <div id="m-traceh" class="small" hidden>Watch candidate 1 denoise (decoded at checkpoints; grey = not yet a valid molecule):</div><div class="trace" id="m-trace"></div>
    <div class="strip" id="m-strip"></div>
    <div class="legendline" id="m-leg" hidden>Bars show P(favourable): <i style="background:#8BA6C9"></i>critic (the classifier that steered) <i style="background:var(--cv)"></i>judge (held-out, different features). A gap means the generator is leaning on the critic's blind spots.</div>
-   <div id="m-sort" class="small" hidden>Sort by <select id="m-sortby" style="font:inherit"><option value="judge">held-out judge</option><option value="critic">critic</option><option value="qed">QED</option></select> &nbsp; <button class="btn alt" id="m-csv" style="width:auto;margin:0 0 0 8px;padding:5px 10px;font-size:13px">Download CSV</button></div>
+   <div id="m-sort" class="small" hidden>Sort by <select id="m-sortby" style="font:inherit"><option value="judge">held-out judge</option><option value="critic">critic</option><option value="qed">drug-likeness (rule of five)</option></select> &nbsp; <button class="btn alt" id="m-csv" style="width:auto;margin:0 0 0 8px;padding:5px 10px;font-size:13px">Download CSV</button></div>
    <div class="cards" id="m-cards" style="margin-top:10px"></div></div></div>
  </section>
 
@@ -137,6 +174,10 @@ footer{border-top:1px solid var(--rule);margin-top:40px;padding:22px 0 40px;font
   <div class="grid2"><div class="ctrl">
    <label>Candidates <output id="d-n-o">12</output></label><input type="range" id="d-n" min="6" max="48" step="6" value="12">
    <label>Guidance strength &gamma; <output id="d-g-o">4</output></label><input type="range" id="d-g" min="0" max="16" step="1" value="4">
+   <hr><label>Guide target<select id="d-lib"><option value="none">No locus (generic efficient guides)</option><option value="ptprs">PTPRS exons (cut inside an exon)</option><option value="paste">DNA pasted below</option></select></label>
+   <textarea id="d-paste" rows="4" style="display:none;width:100%;margin-top:6px;font:12px ui-monospace,Menlo,monospace;border:1px solid var(--rule);border-radius:6px;padding:6px" placeholder="Paste DNA (A, C, G, T), up to 20,000 letters"></textarea>
+   <label>Locus strength <output id="d-wl-o">1</output></label><input type="range" id="d-wl" min="0" max="4" step="0.25" value="1">
+   <label class="chk"><input type="checkbox" id="d-tilt" checked><span><b>Favor efficient sites</b><br><span class="hint">Weights the target sites by the efficiency critic, so steering picks good sites inside the locus.</span></span></label>
    <hr><label class="chk"><input type="checkbox" id="d-gate" checked><span><b>Trust gate</b><br><span class="hint">Shrinks the push when ensemble heads disagree.</span></span></label>
    <label>Gate threshold &tau; <output id="d-tau-o">1.0</output></label><input type="range" id="d-tau" min="0.25" max="3" step="0.25" value="1">
    <label class="chk"><input type="checkbox" id="d-cmp" checked><span><b>Compare with unguided</b><br><span class="hint">Same starting noise, &gamma; = 0.</span></span></label>

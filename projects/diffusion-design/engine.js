@@ -137,6 +137,25 @@ function dnaJudge(s,J){ const f=[]; for(let i=0;i<30;i++) for(let j=0;j<4;j++) f
   for(let i=0;i<29;i++) for(let a=0;a<4;a++) for(let b=0;b<4;b++) f.push(NT[a]===s[i]&&NT[b]===s[i+1]?1:0);
   let gc=0; for(let i=4;i<24;i++) if(s[i]==="G"||s[i]==="C") gc++; gc/=20; f.push(gc,gc*gc);
   let z=J.b; for(let i=0;i<f.length;i++) z+=J.coef[i]*f[i]; return z; }
-const API={T,AB,Weights,Denoiser,Critic,Ensemble,rng,sample,timeSeq,MolDecoder,dnaFromX,dnaToX,dnaConf,dnaJudge,sigmoid};
+
+/* ---------- target-site library critic ----------
+   Exact score of a Gaussian mixture centred on the library sites, evaluated on the noised input x_t:
+   log p(x_t) = logsumexp_j( logw_j - ||x_t - sqrt(ab) s_j||^2 / (2 v) ), v = max(1-ab, floor). Gradient = posterior-weighted pull toward the sites.
+   It is a retrieval score, not a learned one, so it has no ensemble spread (sd = 0 and the trust gate is a no-op for it). */
+class LibCritic{
+  constructor(seqs,floor,logw){ this.N=seqs.length; this.lw=logw||new Float64Array(seqs.length); this.D=120; this.floor=floor||0.02; this.S=new Float32Array(this.N*120); for(let j=0;j<this.N;j++){ const x=dnaToX(seqs[j]); this.S.set(x,j*120); } this.g=new Float32Array(120); this.lg=new Float64Array(this.N); }
+  eval(x,t,want,wantGrad){ const ab=AB[t], sa=Math.sqrt(ab), v=Math.max(1-ab,this.floor), N=this.N, S=this.S; let xx=0; for(let k=0;k<120;k++) xx+=x[k]*x[k];
+    let mx=-Infinity; for(let j=0;j<N;j++){ let d=0; const o=j*120; for(let k=0;k<120;k++) d+=x[k]*S[o+k]; const l=-(xx-2*sa*d+ab*120)/(2*v)+this.lw[j]; this.lg[j]=l; if(l>mx) mx=l; }
+    let z=0; for(let j=0;j<N;j++){ const e=Math.exp(this.lg[j]-mx); this.lg[j]=e; z+=e; }
+    if(wantGrad){ const g=this.g; g.fill(0); for(let j=0;j<N;j++){ const w=this.lg[j]/z; if(w<1e-6) continue; const o=j*120; for(let k=0;k<120;k++) g[k]+=w*S[o+k]; } for(let k=0;k<120;k++) g[k]=(sa*g[k]-x[k])/v; }
+    return {mean:mx+Math.log(z),sd:0}; }
+}
+const COMPL={A:"T",C:"G",G:"C",T:"A"}; const rc=s=>[...s].reverse().map(c=>COMPL[c]||"N").join("");
+/* every NGG site with its full 30-nt context (4 nt, 20-nt protospacer, NGG, 3 nt), both strands; cutIn = predicted cut inside [exonLo,exonHi) */
+function findSites(seq,label,exonLo,exonHi,rows){
+  for(const strand of [1,-1]){ const s=strand===1?seq:rc(seq); const lo=strand===1?exonLo:seq.length-exonHi, hi=strand===1?exonHi:seq.length-exonLo;
+    for(let w=0;w+30<=s.length;w++){ const win=s.slice(w,w+30); if(win[25]!=="G"||win[26]!=="G"||/[^ACGT]/.test(win)) continue; const cut=w+4+17; rows.push({win,label,strand,cutIn:cut>=lo&&cut<hi}); } }
+}
+const API={LibCritic,findSites,rc,T,AB,Weights,Denoiser,Critic,Ensemble,rng,sample,timeSeq,MolDecoder,dnaFromX,dnaToX,dnaConf,dnaJudge,sigmoid};
 if(typeof module!=="undefined"&&module.exports) module.exports=API; else root.GDEngine=API;
 })(typeof self!=="undefined"?self:globalThis);

@@ -20,10 +20,15 @@ function molRun(job,i,gamma,trace){
   const dec=M.dec.decode(unstd(xf)); const c=molCrit(xf);
   return {smiles:dec.smiles,crit:{bbb:c.bbb,act:c.act,tox:c.tox}};
 }
+const libCache={};
+function getLib(job){ if(libCache.key===job.libKey) return libCache.crit;
+  const lsig=z=>-Math.log(1+Math.exp(-z)); const lw=Float64Array.from(job.lib,s=>(job.tilt||0)*lsig(Dn.ens.eval(E.dnaToX(s),0,1,false).mean));
+  libCache.key=job.libKey; libCache.crit=new E.LibCritic(job.lib,0.02,lw); return libCache.crit; }
 function dnaRun(job,i,gamma,trace){
   const rnd=E.rng((job.seed*6151+i*92821)>>>0); const D=Dn.den.D, x=new Float32Array(D); for(let k=0;k<D;k++) x[k]=rnd.n();
   const snaps=new Set(); if(trace) for(let s=0;s<10;s++) snaps.add(Math.round((job.steps-1)*s/9));
-  const xf=E.sample({den:Dn.den,objectives:[{ens:Dn.ens,want:1,weight:1}],gamma,tau:job.tau,gate:job.gate?"ens":"none",eta:0,steps:job.steps,clip:1.5,x,rnd,
+  const objs=[]; if((job.ew==null?1:job.ew)>0) objs.push({ens:Dn.ens,want:1,weight:job.ew==null?1:job.ew}); if(job.lib&&job.lib.length&&job.wl>0&&gamma>0) objs.push({ens:getLib(job),want:1,weight:job.wl});
+  const xf=E.sample({den:Dn.den,objectives:objs,gamma,tau:job.tau,gate:job.gate?"ens":"none",eta:0,steps:job.steps,clip:1.5,x,rnd,
     onStep:(si,n,x0,info)=>{ if(trace&&snaps.has(si)) self.postMessage({evt:"trace",id:job.id,kind:"dna",si,n,seq:E.dnaFromX(x0),conf:E.dnaConf(x0)}); }});
   // final sequence: clip like the training-time sampler, read argmax of the final x
   const seq=E.dnaFromX(xf); const r=Dn.ens.eval(E.dnaToX(seq),0,1,false);

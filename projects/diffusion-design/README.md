@@ -6,6 +6,7 @@ Open `index.html` (served over HTTP). Everything runs client-side.
 - `engine.js` / `worker.js` / `app.js`: inference engine (mirror of `scripts/gd.py`), worker, UI.
 - `models/`: exported weights. `scripts/`: data prep, training, experiments, export, parity reference.
 - `parity.js`: `node parity.js` checks the JS engine against the PyTorch reference (denoiser, critics, gradients, sampling, decoder).
+- `scripts/experiments_locus.js`: locus-guidance experiment (node). `results/lib_parity_reference.json`: numpy reference for the locus critic.
 - `results/`: saved metrics and experiment outputs shown in the Evidence tab (see `results/READING.html`, `results/METHOD.html`).
 
 Honest limits: small public datasets; guides are not locus-targeted; the PTP-family activity model is a proxy for PTPσ; in silico only.
