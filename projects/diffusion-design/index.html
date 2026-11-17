@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>PTP&sigma; Design Studio: Classifier-Guided Diffusion for Post-Stroke Drug Design</title>
 <meta name="description" content="A working guided-diffusion platform that designs candidate small molecules and gene-editing guide sequences against PTPσ, the receptor that blocks axon regrowth after stroke. It runs entirely in your browser.">
-<meta name="theme-color" content="#14305A">
+<meta name="theme-color" content="#FAF9F5">
 <script>(function(){var t=null;try{t=localStorage.getItem("ptp-theme");}catch(e){}if(!t)t=window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";document.documentElement.dataset.theme=t;})();</script>
 <link rel="canonical" href="https://orvillerockwelljr.com/projects/diffusion-design/">
 <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&family=JetBrains+Mono:wght@400;500&display=swap">
 <style>
 :root{--paper:#fff;--ink:#1C2633;--muted:#5B6573;--faint:#66707D;--rule:#E2E6EB;--wash:#F4F6F9;--cv:#1F4E8C;--auto:#0F7A80;--bio:#B23A64;--navy:#14305A;--navy-2:#0F2547;
  --good:#0F7A80;--bad:#B23A64;--serif:"Source Serif 4",Georgia,"Times New Roman",serif;--sans:"IBM Plex Sans","Helvetica Neue",Arial,sans-serif;--col:46rem}
@@ -202,6 +202,43 @@ table.t th{background:var(--wash);color:var(--ink)}
 [data-theme=dark] .themebtn{background:#16203a;border-color:#2a3555}
 [data-theme=dark] .err{background:#3a1626;color:#ffb3cc}
 .rep .rk{flex-wrap:wrap;gap:6px 16px}.rep .rk span{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+
+/* ---- v2 skin: warm, minimal, academic ---- */
+:root{--paper:#FAF9F5;--surf:#FFFFFF;--ink:#1F1E1D;--muted:#5E5D59;--faint:#73726C;--rule:#E8E6DC;--wash:#F2F0E8;--cv:#C15F3C;--auto:#4D7C6F;--bio:#B04A5A;--navy:#1F1E1D;--cellcur:#EDEAE0;--serif:"Source Serif 4",Georgia,"Times New Roman",serif;--sans:"Inter",ui-sans-serif,system-ui,sans-serif}
+[data-theme=dark]{--paper:#262624;--surf:#30302E;--ink:#ECEBE6;--muted:#B3B1A8;--faint:#9A988F;--rule:#413F3A;--wash:#2E2D2A;--cv:#E08A68;--auto:#8FBFB0;--bio:#E48A98;--navy:#ECEBE6;--cellcur:#3A3935}
+body,[data-theme=dark] body{background:var(--paper);color:var(--ink);font-family:var(--sans)}
+h1,h2,h3,h4,.hero h1,.sub{font-family:var(--serif);font-weight:500;letter-spacing:-.01em}
+.hero,[data-theme=dark] .hero{background:var(--paper)!important;border-bottom:1px solid var(--rule)}
+.hero::before,[data-theme=dark] .hero::before{display:none!important}
+.hero h1{font-size:clamp(2rem,4.6vw,3.2rem);line-height:1.12;color:var(--ink)}
+.eyebrow,[data-theme=dark] .eyebrow{background:none!important;border:0!important;padding:0;color:var(--cv)!important;font:500 .8rem var(--sans);letter-spacing:.08em;text-transform:uppercase}
+.top,[data-theme=dark] .top{background:color-mix(in srgb,var(--paper) 88%,transparent);border-bottom:1px solid var(--rule);backdrop-filter:blur(8px)}
+.navr a.pill,[data-theme=dark] .navr a.pill{background:transparent;color:var(--ink);border:1px solid var(--rule);box-shadow:none}
+.cta .b1,[data-theme=dark] .cta .b1{background:var(--ink);color:var(--paper);box-shadow:none;border-radius:10px}
+.cta .b2,[data-theme=dark] .cta .b2{background:transparent;color:var(--ink);border:1px solid var(--rule);border-radius:10px}
+.proof div,.notice,.gl4>div,.metrics div,.strip div,.card,.dna .row,.chart,.mode,.lane,[data-theme=dark] .proof div,[data-theme=dark] .notice,[data-theme=dark] .gl4>div,[data-theme=dark] .metrics div,[data-theme=dark] .strip div,[data-theme=dark] .card,[data-theme=dark] .dna .row,[data-theme=dark] .chart,[data-theme=dark] .mode{background:var(--surf);border:1px solid var(--rule);border-radius:12px;box-shadow:none}
+.proof b{font-family:var(--serif);font-weight:500;color:var(--ink)}
+.tabs,[data-theme=dark] .tabs{background:transparent;border:0;border-bottom:1px solid var(--rule);border-radius:0;padding:0;gap:4px}
+.tabs button,[data-theme=dark] .tabs button{border-radius:8px 8px 0 0;background:transparent;color:var(--muted);box-shadow:none}
+.tabs button[aria-selected=true],[data-theme=dark] .tabs button[aria-selected=true]{background:transparent;color:var(--ink);box-shadow:inset 0 -2px 0 var(--cv)}
+.mode.on,[data-theme=dark] .mode.on{background:var(--wash);border-color:var(--cv)}
+.mode .mi,[data-theme=dark] .mode .mi{background:var(--wash);color:var(--cv)}
+.dock,[data-theme=dark] .dock{background:var(--surf);border:1px solid var(--rule);border-radius:18px;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.dock:focus-within,[data-theme=dark] .dock:focus-within{border-color:var(--cv);box-shadow:0 0 0 3px color-mix(in srgb,var(--cv) 18%,transparent)}
+textarea,select,input,[data-theme=dark] textarea,[data-theme=dark] select,[data-theme=dark] input{background:var(--surf);color:var(--ink);border-color:var(--rule)}
+.dock textarea,[data-theme=dark] .dock textarea{background:transparent;font-family:var(--sans)}
+button.go,.dock .go,#g-make-go{background:var(--cv);color:#fff;border:0}
+a{color:var(--cv)}
+.small,.sub,.t th{color:var(--muted)}
+.t th,.t td{border-color:var(--rule)}
+.hero h1 em{background:none!important;-webkit-text-fill-color:var(--cv);color:var(--cv);font-style:italic}
+.wmk,[data-theme=dark] .wmk{background:var(--cv)!important;border-radius:8px;box-shadow:none!important}
+#theme,[data-theme=dark] #theme{background:transparent!important;border:1px solid var(--rule);color:var(--ink);box-shadow:none}
+.eyebrow i{background:var(--cv)!important}
+.callout,[data-theme=dark] .callout{background:var(--wash)!important;color:var(--ink)!important;border:1px solid var(--rule);border-radius:12px;box-shadow:none}
+.callout h3,.callout li,.callout p,.callout b{color:var(--ink)!important}
+.t thead th,[data-theme=dark] .t thead th{background:var(--wash)!important;color:var(--muted)!important;border-bottom:1px solid var(--rule)}
+.t tbody td{background:transparent}
 </style>
 </head>
 <body>
