@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Classifier-Guided Diffusion for Post-Stroke Drug Design | Orville Rockwell Jr.</title>
+<meta name="description" content="A working guided-diffusion platform that designs candidate small molecules and gene-editing guide sequences against PTPσ, the receptor that blocks axon regrowth after stroke. It runs entirely in your browser.">
+<meta name="theme-color" content="#14305A">
+<link rel="canonical" href="https://orvillerockwelljr.com/projects/diffusion-design/">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&display=swap">
+<style>
+:root{--paper:#fff;--ink:#1C2633;--muted:#5B6573;--faint:#66707D;--rule:#E2E6EB;--wash:#F4F6F9;--cv:#1F4E8C;--auto:#0F7A80;--bio:#B23A64;--navy:#14305A;--navy-2:#0F2547;
+ --good:#0F7A80;--bad:#B23A64;--serif:"Source Serif 4",Georgia,"Times New Roman",serif;--sans:"IBM Plex Sans","Helvetica Neue",Arial,sans-serif;--col:46rem}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--serif);font-size:17.5px;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:var(--cv);text-underline-offset:3px;text-decoration-thickness:1px}
+p{margin:0}.page{max-width:72rem;margin:0 auto;padding:0 22px}
+.mast{background:radial-gradient(120% 140% at 85% -10%,#1E4A85 0%,var(--navy) 45%,var(--navy-2) 100%);color:#fff;position:relative}
+.mast::after{content:"";position:absolute;left:0;right:0;bottom:0;height:5px;background:linear-gradient(90deg,#3E7BD0 0 33.3%,#1AA3AA 33.3% 66.6%,#D9568A 66.6%)}
+.mast a{color:#BFD5F7}.mast .nav{display:flex;gap:20px;flex-wrap:wrap;justify-content:space-between;padding:20px 0 0;font-family:var(--sans);font-size:14px}
+.mast .nav a{color:#A9BDD9;text-decoration:none}.mast .nav a:hover{color:#fff}
+.mast h1{font-size:clamp(1.9rem,4.4vw,2.9rem);line-height:1.1;letter-spacing:-.015em;margin:34px 0 10px;max-width:46rem}
+.mast .lede{font-size:1.15rem;color:#D4DEEC;max-width:46rem;padding-bottom:46px}
+.mast .lede b{color:#fff}
+.notice{font-family:var(--sans);font-size:13.5px;background:#FFF8E6;border:1px solid #EBD9A1;color:#5B4A12;border-radius:6px;padding:10px 14px;margin:22px 0 0;line-height:1.5}
+h2{font-size:1.45rem;font-weight:600;letter-spacing:-.01em;margin:0 0 6px;color:var(--navy)}
+h2::after{content:"";display:block;width:36px;height:3px;border-radius:2px;margin-top:8px;background:linear-gradient(90deg,var(--cv) 0 33.3%,var(--auto) 33.3% 66.6%,var(--bio) 66.6%)}
+h3{font-size:1.05rem;margin:0 0 6px;color:var(--navy)}
+section{padding:34px 0 6px}.sub{font-family:var(--sans);font-size:14.5px;color:var(--muted);max-width:var(--col);margin:6px 0 18px}
+.tabs{display:flex;gap:4px;flex-wrap:wrap;border-bottom:1px solid var(--rule);margin-top:26px;position:sticky;top:0;background:#fff;z-index:5;padding-top:6px}
+.tabs button{font-family:var(--sans);font-size:15px;font-weight:500;color:var(--muted);background:none;border:0;border-bottom:3px solid transparent;padding:10px 14px;cursor:pointer}
+.tabs button[aria-selected=true]{color:var(--navy);border-bottom-color:var(--bio)}
+.tabs button:focus-visible{outline:2px solid var(--cv);outline-offset:-2px}
+.panel[hidden]{display:none}
+.grid2{display:grid;gap:22px;grid-template-columns:1fr}@media(min-width:900px){.grid2{grid-template-columns:19rem minmax(0,1fr)}}
+.ctrl{background:var(--wash);border:1px solid var(--rule);border-radius:8px;padding:16px;font-family:var(--sans);font-size:14px;align-self:start}
+.ctrl label{display:flex;justify-content:space-between;gap:8px;margin-top:12px;font-weight:500;color:var(--ink)}
+.ctrl label:first-child{margin-top:0}.ctrl output{font-variant-numeric:tabular-nums;color:var(--muted)}
+.ctrl input[type=range]{width:100%;accent-color:var(--cv)}
+.ctrl select,.ctrl input[type=number]{width:100%;font:inherit;padding:6px 8px;border:1px solid var(--rule);border-radius:6px;background:#fff}
+.ctrl .chk{display:flex;align-items:flex-start;gap:8px;margin-top:12px;font-weight:400;line-height:1.35;justify-content:flex-start}
+.ctrl .hint{font-size:12.5px;color:var(--muted);margin-top:4px;line-height:1.4;font-weight:400}
+.ctrl hr{border:0;border-top:1px solid var(--rule);margin:14px 0 0}
+.btn{font-family:var(--sans);font-size:15px;font-weight:600;color:#fff;background:var(--cv);border:0;border-radius:6px;padding:10px 16px;cursor:pointer;width:100%;margin-top:16px}
+.btn:hover{background:#18407a}.btn:disabled{background:#9AA6B6;cursor:default}.btn.alt{background:#fff;color:var(--cv);border:1px solid var(--cv);margin-top:8px}
+.btn:focus-visible{outline:2px solid var(--navy);outline-offset:2px}
+.stage{min-width:0}.status{font-family:var(--sans);font-size:14px;color:var(--muted);min-height:1.4em;margin-bottom:10px}
+.bar{height:6px;background:var(--rule);border-radius:3px;overflow:hidden;margin-bottom:12px}.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--cv),var(--bio));transition:width .15s}
+.trace{display:flex;gap:8px;overflow-x:auto;padding:4px 0 10px;margin-bottom:6px}
+.trace figure{margin:0;flex:0 0 auto;width:132px;text-align:center;font-family:var(--sans);font-size:11.5px;color:var(--muted)}
+.trace .tb{width:132px;height:100px;border:1px solid var(--rule);border-radius:6px;background:#fff;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.trace .tb svg{width:100%;height:100%}.trace .tb.inv{background:repeating-linear-gradient(45deg,#fafbfc,#fafbfc 6px,#f0f2f5 6px,#f0f2f5 12px);color:#9aa3b0;font-size:11px}
+.strip{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));margin:6px 0 16px;font-family:var(--sans)}
+.strip div{background:var(--wash);border:1px solid var(--rule);border-radius:8px;padding:10px 12px}
+.strip b{display:block;font-size:20px;color:var(--navy);font-weight:600;font-variant-numeric:tabular-nums}.strip span{font-size:12.5px;color:var(--muted)}
+.strip small{display:block;font-size:11.5px;color:var(--faint);margin-top:2px}
+.cards{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(235px,1fr))}
+.card{border:1px solid var(--rule);border-radius:8px;padding:10px 12px 12px;background:#fff;font-family:var(--sans);font-size:12.5px;display:flex;flex-direction:column;gap:6px}
+.card.un{background:#fafbfc}.card .sv{height:150px;display:flex;align-items:center;justify-content:center;background:#fff}.card .sv svg{max-width:100%;max-height:150px}
+.card .smi{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:11px;word-break:break-all;color:var(--ink);cursor:pointer}
+.tag{display:inline-block;font-size:11px;padding:1px 7px;border-radius:999px;background:var(--wash);border:1px solid var(--rule);color:var(--muted);margin:0 3px 3px 0}.tag.ok{background:#E6F3F3;border-color:#BFDFE0;color:#0b5a5f}.tag.no{background:#F8E9EF;border-color:#E9C3D2;color:#8a2a4d}
+.pair{display:grid;grid-template-columns:3.4rem 1fr 2.2rem;gap:5px;align-items:center;font-size:11.5px;color:var(--muted)}
+.pair .tr{height:7px;background:var(--rule);border-radius:4px;position:relative}.pair .tr i{position:absolute;left:0;top:0;bottom:0;border-radius:4px}
+.pair .c i{background:#8BA6C9}.pair .j i{background:var(--cv)}.pair b{font-weight:500;color:var(--ink);text-align:right;font-variant-numeric:tabular-nums}
+.legendline{font-family:var(--sans);font-size:12px;color:var(--muted);margin:6px 0 10px}
+.legendline i{display:inline-block;width:14px;height:7px;border-radius:4px;vertical-align:middle;margin:0 4px 0 10px}
+table.t{border-collapse:collapse;width:100%;font-family:var(--sans);font-size:13px}
+table.t th,table.t td{padding:6px 9px;border-bottom:1px solid var(--rule);text-align:left;vertical-align:top}
+table.t th{font-weight:600;color:var(--navy);font-size:12.5px;background:var(--wash);position:sticky;top:0}
+table.t td.n,table.t th.n{text-align:right;font-variant-numeric:tabular-nums}
+.tw{overflow-x:auto;border:1px solid var(--rule);border-radius:8px}
+.seq{display:flex;flex-wrap:wrap;gap:2px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:15px;font-weight:600}
+.seq span{display:inline-block;width:1.15em;text-align:center;border-radius:3px;line-height:1.5}
+.seq .A{background:#DCEBFA;color:#1d4f8e}.seq .C{background:#E1F2EC;color:#0b6b52}.seq .G{background:#FCEBD3;color:#8a5200}.seq .T{background:#F8DDE7;color:#8a2a4d}
+.seq .pam{outline:2px solid var(--bio);outline-offset:0}.seq .ctx{opacity:.45}
+.seqkey{font-family:var(--sans);font-size:11.5px;color:var(--muted);margin-top:4px}
+.dna .row{display:grid;gap:10px;grid-template-columns:1fr;border:1px solid var(--rule);border-radius:8px;padding:10px 12px;margin-bottom:8px;font-family:var(--sans);font-size:12.5px}
+@media(min-width:760px){.dna .row{grid-template-columns:minmax(0,24rem) minmax(0,1fr)}}
+.charts{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}.chart{border:1px solid var(--rule);border-radius:8px;padding:12px;font-family:var(--sans);font-size:12px}
+.chart h4{margin:0 0 6px;font-size:13.5px;color:var(--navy)}.chart svg{width:100%;height:auto;display:block}
+.prose{max-width:var(--col)}.prose p+p{margin-top:12px}.prose ul{padding-left:20px;margin:8px 0}.prose li{margin:4px 0}
+.small{font-family:var(--sans);font-size:13px;color:var(--muted)}
+.callout{border-left:4px solid var(--bio);background:var(--wash);padding:12px 16px;border-radius:0 8px 8px 0;font-family:var(--sans);font-size:14px;max-width:var(--col);margin:14px 0}
+footer{border-top:1px solid var(--rule);margin-top:40px;padding:22px 0 40px;font-family:var(--sans);font-size:13px;color:var(--muted)}
+.err{background:#F8E9EF;border:1px solid #E9C3D2;color:#8a2a4d;border-radius:6px;padding:10px 14px;font-family:var(--sans);font-size:14px;margin:12px 0}
+</style>
+</head>
+<body>
+<div class="mast"><div class="page">
+ <nav class="nav" aria-label="Page"><a href="../../">&larr; Orville Rockwell Jr.</a><span><a href="#design">Design</a> &nbsp; <a href="#evidence">Evidence</a> &nbsp; <a href="#method">Method</a> &nbsp; <a href="https://github.com/OrvilleRockwellJr/OrvilleRockwellJr.github.io/tree/main/projects/diffusion-design">Code</a></span></nav>
+ <h1>Classifier-Guided Diffusion for Post-Stroke Drug Design</h1>
+ <p class="lede">A working generative platform for one target, <b>PTP&sigma;</b>, the receptor through which the glial scar blocks axon regrowth after stroke. One guided-diffusion engine designs two kinds of candidate: <b>small molecules</b> and <b>gene-editing guide sequences</b>. It runs entirely in your browser: no server, nothing uploaded.</p>
+</div></div>
+<main class="page" id="main">
+ <p class="notice"><b>Research prototype, in silico only.</b> Every score is a prediction from small models trained on public data (ChEMBL, B3DB, Tox21, the Doench guide-efficacy screens). Nothing here is lab-validated, and nothing here is medical advice. The <i>Evidence</i> tab shows how often the held-out judge agrees with the steering classifiers, including where it does not.</p>
+ <div class="tabs" role="tablist" id="design" aria-label="Platform sections">
+  <button role="tab" aria-selected="true" aria-controls="p-mol" id="t-mol">Design molecules</button>
+  <button role="tab" aria-selected="false" aria-controls="p-dna" id="t-dna">Design gene-editing guides</button>
+  <button role="tab" aria-selected="false" aria-controls="p-scan" id="t-scan">Scan the PTPRS gene</button>
+  <button role="tab" aria-selected="false" aria-controls="p-ev" id="t-ev">Evidence</button>
+  <button role="tab" aria-selected="false" aria-controls="p-me" id="t-me">Method</button>
+ </div>
+ <div id="loadmsg" class="status" style="margin-top:14px">Loading models&hellip;</div>
+
+ <!-- MOLECULES -->
+ <section class="panel" id="p-mol" role="tabpanel" aria-labelledby="t-mol">
+  <h2>Design small molecules</h2>
+  <p class="sub">A diffusion model denoises a molecular latent code into a structure. Three classifiers, trained on <i>noised</i> codes, steer every denoising step toward brain penetration, PTP-family activity and low toxicity. A separate held-out judge, built on different features, scores the result.</p>
+  <div class="grid2"><div class="ctrl">
+   <label>Candidates <output id="m-n-o">16</output></label><input type="range" id="m-n" min="4" max="24" step="4" value="16">
+   <label>Guidance strength &gamma; <output id="m-g-o">4</output></label><input type="range" id="m-g" min="0" max="8" step="0.5" value="4">
+   <div class="hint">0 = unguided diffusion. Higher pushes harder on the classifiers.</div>
+   <hr><label>Brain penetration <output id="m-wb-o">1</output></label><input type="range" id="m-wb" min="0" max="2" step="0.25" value="1">
+   <label>PTP-family activity <output id="m-wa-o">1</output></label><input type="range" id="m-wa" min="0" max="2" step="0.25" value="1">
+   <label>Low toxicity <output id="m-wt-o">1</output></label><input type="range" id="m-wt" min="0" max="2" step="0.25" value="1">
+   <hr><label class="chk"><input type="checkbox" id="m-gate" checked><span><b>Trust gate</b><br><span class="hint">Shrinks a classifier's push when its five ensemble heads disagree.</span></span></label>
+   <label>Gate threshold &tau; <output id="m-tau-o">1.0</output></label><input type="range" id="m-tau" min="0.25" max="3" step="0.25" value="1">
+   <label class="chk"><input type="checkbox" id="m-cmp" checked><span><b>Compare with unguided</b><br><span class="hint">Same starting noise, &gamma; = 0. Doubles the time.</span></span></label>
+   <label>Denoising steps<select id="m-steps"><option>30</option><option selected>60</option><option>100</option></select></label>
+   <label>Seed<input type="number" id="m-seed" value="7" min="0"></label>
+   <button class="btn" id="m-go" disabled>Generate molecules</button><button class="btn alt" id="m-stop" hidden>Stop</button>
+  </div>
+  <div class="stage"><div class="status" id="m-status">Ready.</div><div class="bar"><i id="m-bar"></i></div>
+   <div id="m-traceh" class="small" hidden>Watch candidate 1 denoise (decoded at checkpoints; grey = not yet a valid molecule):</div><div class="trace" id="m-trace"></div>
+   <div class="strip" id="m-strip"></div>
+   <div class="legendline" id="m-leg" hidden>Bars show P(favourable): <i style="background:#8BA6C9"></i>critic (the classifier that steered) <i style="background:var(--cv)"></i>judge (held-out, different features). A gap means the generator is leaning on the critic's blind spots.</div>
+   <div id="m-sort" class="small" hidden>Sort by <select id="m-sortby" style="font:inherit"><option value="judge">held-out judge</option><option value="critic">critic</option><option value="qed">QED</option></select> &nbsp; <button class="btn alt" id="m-csv" style="width:auto;margin:0 0 0 8px;padding:5px 10px;font-size:13px">Download CSV</button></div>
+   <div class="cards" id="m-cards" style="margin-top:10px"></div></div></div>
+ </section>
+
+ <!-- DNA -->
+ <section class="panel" id="p-dna" role="tabpanel" aria-labelledby="t-dna" hidden>
+  <h2>Design gene-editing guide sequences</h2>
+  <p class="sub">The same engine, a different alphabet. It generates 30-nucleotide SpCas9 guide contexts (4 nt, a 20-nt protospacer, the NGG PAM, 3 nt). A classifier ensemble trained on noised sequences steers toward high cutting efficiency; a held-out logistic model scores the result. This is the proof of mechanism for sequence design; to target PTPRS itself, use the scanner.</p>
+  <div class="grid2"><div class="ctrl">
+   <label>Candidates <output id="d-n-o">12</output></label><input type="range" id="d-n" min="6" max="48" step="6" value="12">
+   <label>Guidance strength &gamma; <output id="d-g-o">4</output></label><input type="range" id="d-g" min="0" max="16" step="1" value="4">
+   <hr><label class="chk"><input type="checkbox" id="d-gate" checked><span><b>Trust gate</b><br><span class="hint">Shrinks the push when ensemble heads disagree.</span></span></label>
+   <label>Gate threshold &tau; <output id="d-tau-o">1.0</output></label><input type="range" id="d-tau" min="0.25" max="3" step="0.25" value="1">
+   <label class="chk"><input type="checkbox" id="d-cmp" checked><span><b>Compare with unguided</b><br><span class="hint">Same starting noise, &gamma; = 0.</span></span></label>
+   <label>Denoising steps<select id="d-steps"><option>25</option><option selected>50</option><option>100</option></select></label>
+   <label>Seed<input type="number" id="d-seed" value="11" min="0"></label>
+   <button class="btn" id="d-go" disabled>Generate guides</button>
+  </div>
+  <div class="stage"><div class="status" id="d-status">Ready.</div><div class="bar"><i id="d-bar"></i></div>
+   <div id="d-trace" class="seq" style="margin-bottom:6px"></div><div class="seqkey" id="d-tracek" hidden>Candidate 1 resolving: letters fade in as the model commits to them. Outlined = PAM; faded = flanking context.</div>
+   <div class="strip" id="d-strip"></div><div class="dna" id="d-rows" style="margin-top:10px"></div></div></div>
+ </section>
+
+ <!-- SCAN -->
+ <section class="panel" id="p-scan" role="tabpanel" aria-labelledby="t-scan" hidden>
+  <h2>Scan the PTPRS gene</h2>
+  <p class="sub">Every NGG site on both strands of PTPRS's 38 exons (Ensembl, GRCh38, transcript ENST00000262963), scored by the same critic ensemble and the held-out judge. You can also paste any DNA of your own.</p>
+  <div class="grid2"><div class="ctrl">
+   <label>Sequence<select id="s-src"><option value="ptprs" selected>PTPRS exons (built in)</option><option value="paste">Paste my own DNA</option></select></label>
+   <textarea id="s-paste" rows="6" style="display:none;width:100%;margin-top:8px;font:12px ui-monospace,Menlo,monospace;border:1px solid var(--rule);border-radius:6px;padding:6px" placeholder="Paste DNA (A, C, G, T), up to 20,000 letters"></textarea>
+   <label>Show top <output id="s-k-o">15</output></label><input type="range" id="s-k" min="5" max="40" step="5" value="15">
+   <label class="chk"><input type="checkbox" id="s-req" checked><span>Only sites whose cut falls inside the exon<br><span class="hint">Cut is 3 bp upstream of the PAM.</span></span></label>
+   <label class="chk"><input type="checkbox" id="s-use" checked><span>Only guides passing design checks<br><span class="hint">GC 40&ndash;70%, no TTTT run.</span></span></label>
+   <button class="btn" id="s-go" disabled>Scan</button>
+  </div><div class="stage"><div class="status" id="s-status">Ready.</div><div class="strip" id="s-strip"></div><div class="tw" id="s-tab" hidden></div></div></div>
+ </section>
+
+ <!-- EVIDENCE -->
+ <section class="panel" id="p-ev" role="tabpanel" aria-labelledby="t-ev" hidden>
+  <h2 id="evidence">Evidence</h2>
+  <p class="sub">All numbers are produced by the scripts in the repository and loaded here from the saved results files. Splits are by scaffold (molecules) and by gene (guides), so the test sets are new chemistry and new genes.</p>
+  <div id="ev-body" class="prose"><p class="small">Loading results&hellip;</p></div>
+ </section>
+
+ <!-- METHOD -->
+ <section class="panel" id="p-me" role="tabpanel" aria-labelledby="t-me" hidden><div id="me-body" class="prose"></div></section>
+</main>
+<footer><div class="page">Orville Rockwell Jr. &middot; Northeastern University &middot; Independent research, in progress &middot; <a href="../../">Home</a> &middot; <a href="https://github.com/OrvilleRockwellJr/OrvilleRockwellJr.github.io/tree/main/projects/diffusion-design">Code and data</a></div></footer>
+<script src="vendor/RDKit_minimal.js"></script>
+<script src="engine.js"></script>
+<script src="app.js"></script>
+</body></html>

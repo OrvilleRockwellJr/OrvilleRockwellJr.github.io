@@ -42,11 +42,10 @@ li{margin:0}
 <li>Simulated a closed-loop (“self-driving lab”) discovery cycle over five ChEMBL targets (20 seeds each) to test whether calibrating the scoring model reduces the experiments needed.</li>
 <li>Isotonic calibration never significantly improved greedy hit recovery and significantly hurt it on 2 of 5 targets (e.g., JAK2: 375.0 vs. 384.3 hits at a 400-experiment budget) while lowering calibration error; traced to a tied-score plateau (88 to 2,212 molecules) at the top of the ranking, and recovered by raw-score tie-breaking or strictly monotone calibrators.</li>
 </ul>
-<div class="row"><span><b>Independent Research – Classifier-Guided Diffusion for Post-Stroke Drug Design</b> | Northeastern University</span><span class="r">In progress</span></div>
+<div class="row"><span><b>Independent Research – Classifier-Guided Diffusion for Post-Stroke Drug Design</b> | Northeastern University</span><span class="r">Working prototype</span></div>
 <ul>
-<li>Designing a diffusion-based molecular generator steered by property-classifier gradients for blood-brain-barrier penetration, target activity and toxicity, aimed at post-stroke glial scar repair; protein and generative sequence design stages planned for therapeutics.</li>
-<li>Guidance classifiers trained on noised inputs plus a separate held-out judge keep the generator from exploiting its own guide; all scorers to be evaluated on scaffold splits.</li>
-<li>Originated as the individual research project for AAI 6600 (Applied AI), Prof. Elena Izotova, at Northeastern University.</li>
+<li>Built a browser-based guided-diffusion platform for PTP&sigma; (post-stroke glial scar) that designs small molecules and gene-editing guides: <a href="https://orvillerockwelljr.com/projects/diffusion-design/">orvillerockwelljr.com/projects/diffusion-design</a>. Originated in AAI 6600 (Prof. Elena Izotova); in silico only.</li>
+<li>Noise-trained critic ensembles, an uncertainty trust gate and a held-out judge: the gate raised the judge pass rate on all three molecule objectives from 17% to 34% and kept 86% of molecules unique (29% ungated).</li>
 </ul>
 
 <h2>Manuscripts in Preparation</h2>

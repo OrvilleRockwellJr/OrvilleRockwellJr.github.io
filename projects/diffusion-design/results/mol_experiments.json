@@ -1,0 +1,850 @@
+{
+ "N": 250,
+ "seeds": [
+  0,
+  1,
+  2
+ ],
+ "steps": 60,
+ "tau": 1.0,
+ "results": [
+  {
+   "gamma": 0.0,
+   "gate": "none",
+   "metrics": {
+    "valid": [
+     0.36400000000000005,
+     0.016000000000000014
+    ],
+    "unique_of_valid": [
+     0.9963369963369964,
+     0.006344508452633227
+    ],
+    "novel_of_unique": [
+     0.9886334610472541,
+     0.011496381241857265
+    ],
+    "critic_p_bbb": [
+     0.7456252972284952,
+     0.011368492570775048
+    ],
+    "judge_p_bbb": [
+     0.730135483623874,
+     0.01891006508512769
+    ],
+    "gap_bbb": [
+     0.00702043204686964,
+     0.008936066740132685
+    ],
+    "critic_p_act": [
+     0.4954196015993754,
+     0.058687463420675004
+    ],
+    "judge_p_act": [
+     0.4467756739743692,
+     0.017512900737730833
+    ],
+    "gap_act": [
+     -0.09259789131322822,
+     0.051963449952679694
+    ],
+    "critic_p_tox": [
+     0.464350829521815,
+     0.004916125915860501
+    ],
+    "judge_p_tox": [
+     0.35718828738476965,
+     0.016907623202161333
+    ],
+    "gap_tox": [
+     0.07409349691652284,
+     0.01583468467371316
+    ],
+    "judge_success_all3": [
+     0.13466666666666668,
+     0.015143755588800727
+    ],
+    "judge_success_bbb_act": [
+     0.15333333333333335,
+     0.01665332799572905
+    ],
+    "qed": [
+     0.6381805304925164,
+     0.022460692806647885
+    ],
+    "mw": [
+     318.2689530687905,
+     6.450939259328991
+    ],
+    "topk_judge_success_all3": [
+     0.49333333333333335,
+     0.061101009266077894
+    ],
+    "topk_valid": [
+     1.0,
+     0.0
+    ]
+   }
+  },
+  {
+   "gamma": 1.0,
+   "gate": "none",
+   "metrics": {
+    "valid": [
+     0.308,
+     0.01743559577416271
+    ],
+    "unique_of_valid": [
+     0.3865154711673699,
+     0.08221858845596483
+    ],
+    "novel_of_unique": [
+     0.9901960784313726,
+     0.016980890270283114
+    ],
+    "critic_p_bbb": [
+     0.9424771865208944,
+     0.005017434437730041
+    ],
+    "judge_p_bbb": [
+     0.7738547589318201,
+     0.006132811314255221
+    ],
+    "gap_bbb": [
+     0.16907380145723508,
+     0.008877897452766206
+    ],
+    "critic_p_act": [
+     0.9932969609896342,
+     0.007918030485516328
+    ],
+    "judge_p_act": [
+     0.5175799385331735,
+     0.007601432660394142
+    ],
+    "gap_act": [
+     0.47288052951392984,
+     0.009525102804657876
+    ],
+    "critic_p_tox": [
+     0.3564379811286926,
+     0.009127877184975017
+    ],
+    "judge_p_tox": [
+     0.24288611189519646,
+     0.008073636844140215
+    ],
+    "gap_tox": [
+     0.15361935374847463,
+     0.03487882421670669
+    ],
+    "judge_success_all3": [
+     0.168,
+     0.016
+    ],
+    "judge_success_bbb_act": [
+     0.16933333333333334,
+     0.014047538337136983
+    ],
+    "qed": [
+     0.21375766417635908,
+     0.06862092680403743
+    ],
+    "mw": [
+     588.2903447198779,
+     37.30674589299208
+    ],
+    "topk_judge_success_all3": [
+     0.20000000000000004,
+     0.039999999999999994
+    ],
+    "topk_valid": [
+     1.0,
+     0.0
+    ]
+   }
+  },
+  {
+   "gamma": 1.0,
+   "gate": "ens",
+   "metrics": {
+    "valid": [
+     0.36533333333333334,
+     0.012220201853215585
+    ],
+    "unique_of_valid": [
+     0.9850131752305665,
+     0.017414401807851972
+    ],
+    "novel_of_unique": [
+     0.9741925575467504,
+     0.005345785476050036
+    ],
+    "critic_p_bbb": [
+     0.8637345234553019,
+     0.01043232460652693
+    ],
+    "judge_p_bbb": [
+     0.7652205467701648,
+     0.018125245858712644
+    ],
+    "gap_bbb": [
+     0.09618619153608683,
+     0.00673323840169785
+    ],
+    "critic_p_act": [
+     0.8206999699274699,
+     0.035785842703194
+    ],
+    "judge_p_act": [
+     0.5519310757237025,
+     0.0242668917291406
+    ],
+    "gap_act": [
+     0.18070203997604764,
+     0.049332706567753945
+    ],
+    "critic_p_tox": [
+     0.3445587356885274,
+     0.007610236003803008
+    ],
+    "judge_p_tox": [
+     0.30454504092647344,
+     0.013227887488727578
+    ],
+    "gap_tox": [
+     0.01102299602316594,
+     0.015911252131729024
+    ],
+    "judge_success_all3": [
+     0.20666666666666667,
+     0.008326663997864527
+    ],
+    "judge_success_bbb_act": [
+     0.21866666666666668,
+     0.012220201853215583
+    ],
+    "qed": [
+     0.6371079791827546,
+     0.017488308690572094
+    ],
+    "mw": [
+     306.85292340846024,
+     11.759521823036694
+    ],
+    "topk_judge_success_all3": [
+     0.6133333333333334,
+     0.12858201014657272
+    ],
+    "topk_valid": [
+     1.0,
+     0.0
+    ]
+   }
+  },
+  {
+   "gamma": 2.0,
+   "gate": "none",
+   "metrics": {
+    "valid": [
+     0.44,
+     0.054990908339470075
+    ],
+    "unique_of_valid": [
+     0.31324178269438613,
+     0.06194137880046733
+    ],
+    "novel_of_unique": [
+     0.9440300440300441,
+     0.05161299429242308
+    ],
+    "critic_p_bbb": [
+     0.9772098263104757,
+     0.0025336756320274217
+    ],
+    "judge_p_bbb": [
+     0.7642674473586597,
+     0.00467639567516919
+    ],
+    "gap_bbb": [
+     0.21715769656173786,
+     0.004623355123188364
+    ],
+    "critic_p_act": [
+     0.9963417251904806,
+     0.004629639024112459
+    ],
+    "judge_p_act": [
+     0.4471121708602895,
+     0.007513893077176534
+    ],
+    "gap_act": [
+     0.5299363014856161,
+     0.011356199735685024
+    ],
+    "critic_p_tox": [
+     0.229380801320076,
+     0.01274111796428388
+    ],
+    "judge_p_tox": [
+     0.22780111145954116,
+     0.004662566071127
+    ],
+    "gap_tox": [
+     -0.025391869742939378,
+     0.01676804191694377
+    ],
+    "judge_success_all3": [
+     0.16666666666666666,
+     0.026633312473917578
+    ],
+    "judge_success_bbb_act": [
+     0.168,
+     0.0249799919935936
+    ],
+    "qed": [
+     0.1797233029752122,
+     0.026129181186222324
+    ],
+    "mw": [
+     596.4525021227032,
+     24.923942056894067
+    ],
+    "topk_judge_success_all3": [
+     0.12,
+     0.06928203230275509
+    ],
+    "topk_valid": [
+     1.0,
+     0.0
+    ]
+   }
+  },
+  {
+   "gamma": 2.0,
+   "gate": "ens",
+   "metrics": {
+    "valid": [
+     0.39066666666666666,
+     0.018475208614068008
+    ],
+    "unique_of_valid": [
+     0.9732924544370635,
+     0.019629409356167818
+    ],
+    "novel_of_unique": [
+     0.9683668022230626,
+     0.010902988264549135
+    ],
+    "critic_p_bbb": [
+     0.9175764520963033,
+     0.005385523630619725
+    ],
+    "judge_p_bbb": [
+     0.7768219674287632,
+     0.010020070554814776
+    ],
+    "gap_bbb": [
+     0.1428665070004703,
+     0.015746572379055575
+    ],
+    "critic_p_act": [
+     0.8999412457148234,
+     0.018013103086753263
+    ],
+    "judge_p_act": [
+     0.5672463540176277,
+     0.0250113243347202
+    ],
+    "gap_act": [
+     0.2443050425174821,
+     0.06399015458818655
+    ],
+    "critic_p_tox": [
+     0.2796163161595662,
+     0.008067113064286818
+    ],
+    "judge_p_tox": [
+     0.2738287516779355,
+     0.004998874620040324
+    ],
+    "gap_tox": [
+     -0.019737162159205884,
+     0.012505725202970549
+    ],
+    "judge_success_all3": [
+     0.2373333333333333,
+     0.004618802153516994
+    ],
+    "judge_success_bbb_act": [
+     0.23866666666666667,
+     0.0023094010767585054
+    ],
+    "qed": [
+     0.5958778893427104,
+     0.028259811811012635
+    ],
+    "mw": [
+     292.6803060807359,
+     8.296017338603448
+    ],
+    "topk_judge_success_all3": [
+     0.7200000000000001,
+     0.1058300524425836
+    ],
+    "topk_valid": [
+     1.0,
+     0.0
+    ]
+   }
+  },
+  {
+   "gamma": 4.0,
+   "gate": "none",
+   "metrics": {
+    "valid": [
+     0.488,
+     0.05011985634456669
+    ],
+    "unique_of_valid": [
+     0.28852157943067036,
+     0.061674364445227337
+    ],
+    "novel_of_unique": [
+     0.8598927875243665,
+     0.0388207679909149
+    ],
+    "critic_p_bbb": [
+     0.9920067191123962,
+     0.0015245606702146077
+    ],
+    "judge_p_bbb": [
+     0.766163330101472,
+     0.0051906557196695026
+    ],
+    "gap_bbb": [
+     0.22753537413826883,
+     0.007212008983673442
+    ],
+    "critic_p_act": [
+     0.9986303647359213,
+     9.119037956669571e-05
+    ],
+    "judge_p_act": [
+     0.44368217124453047,
+     0.030590094150583336
+    ],
+    "gap_act": [
+     0.5433154171953499,
+     0.023162495164639765
+    ],
+    "critic_p_tox": [
+     0.1645946055650711,
+     0.012064208930991263
+    ],
+    "judge_p_tox": [
+     0.21765541689948567,
+     0.002804592388642183
+    ],
+    "gap_tox": [
+     -0.06567970792789264,
+     0.023290796317506933
+    ],
+    "judge_success_all3": [
+     0.16666666666666666,
+     0.04548992562461861
+    ],
+    "judge_success_bbb_act": [
+     0.16666666666666666,
+     0.04548992562461861
+    ],
+    "qed": [
+     0.15085098128600286,
+     0.03846538341819422
+    ],
+    "mw": [
+     598.5847734516886,
+     27.450495721152247
+    ],
+    "topk_judge_success_all3": [
+     0.09333333333333332,
+     0.04618802153517006
+    ],
+    "topk_valid": [
+     1.0,
+     0.0
+    ]
+   }
+  },
+  {
+   "gamma": 4.0,
+   "gate": "ens",
+   "metrics": {
+    "valid": [
+     0.46399999999999997,
+     0.024979991993593582
+    ],
+    "unique_of_valid": [
+     0.864280840532445,
+     0.0309564231786497
+    ],
+    "novel_of_unique": [
+     0.8618737477612495,
+     0.03603307031970732
+    ],
+    "critic_p_bbb": [
+     0.9638180136680603,
+     0.001253117055866021
+    ],
+    "judge_p_bbb": [
+     0.7993560449109979,
+     0.003823756519892532
+    ],
+    "gap_bbb": [
+     0.16347095004139703,
+     0.00497343761535405
+    ],
+    "critic_p_act": [
+     0.9734026193618774,
+     0.003069817937698335
+    ],
+    "judge_p_act": [
+     0.626891949332013,
+     0.029490606610587018
+    ],
+    "gap_act": [
+     0.31867145091056914,
+     0.030858588288676658
+    ],
+    "critic_p_tox": [
+     0.23877638081709543,
+     0.010041486739430696
+    ],
+    "judge_p_tox": [
+     0.2278338839657641,
+     0.007032844108326372
+    ],
+    "gap_tox": [
+     0.011227580082418679,
+     0.01589014398482594
+    ],
+    "judge_success_all3": [
+     0.3426666666666667,
+     0.03585154575933001
+    ],
+    "judge_success_bbb_act": [
+     0.34800000000000003,
+     0.038574603043971825
+    ],
+    "qed": [
+     0.4716542869353508,
+     0.03313938506396715
+    ],
+    "mw": [
+     316.62231152783073,
+     7.5670564991639955
+    ],
+    "topk_judge_success_all3": [
+     0.8133333333333334,
+     0.06110100926607786
+    ],
+    "topk_valid": [
+     1.0,
+     0.0
+    ]
+   }
+  },
+  {
+   "gamma": 8.0,
+   "gate": "none",
+   "metrics": {
+    "valid": [
+     0.5613333333333334,
+     0.04046397574798268
+    ],
+    "unique_of_valid": [
+     0.20890770319940258,
+     0.021576814239061572
+    ],
+    "novel_of_unique": [
+     0.7158064516129032,
+     0.036471590300718684
+    ],
+    "critic_p_bbb": [
+     0.9980541666348776,
+     0.0022150093555032466
+    ],
+    "judge_p_bbb": [
+     0.7632468331168415,
+     0.0077231816988003466
+    ],
+    "gap_bbb": [
+     0.2337444455310025,
+     0.010886576567568371
+    ],
+    "critic_p_act": [
+     0.9995421568552653,
+     0.0007539002193300534
+    ],
+    "judge_p_act": [
+     0.42664530226343195,
+     0.03321095072247517
+    ],
+    "gap_act": [
+     0.5544575752389413,
+     0.030817716602408157
+    ],
+    "critic_p_tox": [
+     0.16132756074269614,
+     0.031081481074700525
+    ],
+    "judge_p_tox": [
+     0.21193129132526,
+     0.0022652407970303757
+    ],
+    "gap_tox": [
+     -0.05488100900366727,
+     0.0505784478983622
+    ],
+    "judge_success_all3": [
+     0.208,
+     0.05642694391866355
+    ],
+    "judge_success_bbb_act": [
+     0.208,
+     0.05642694391866355
+    ],
+    "qed": [
+     0.08760853294869858,
+     0.02377656087950315
+    ],
+    "mw": [
+     634.8146671571477,
+     26.667400841399463
+    ],
+    "topk_judge_success_all3": [
+     0.05333333333333334,
+     0.046188021535170064
+    ],
+    "topk_valid": [
+     1.0,
+     0.0
+    ]
+   }
+  },
+  {
+   "gamma": 8.0,
+   "gate": "ens",
+   "metrics": {
+    "valid": [
+     0.6413333333333333,
+     0.028095076674273998
+    ],
+    "unique_of_valid": [
+     0.4456111120429542,
+     0.027321268270897744
+    ],
+    "novel_of_unique": [
+     0.7246983433701718,
+     0.029611749735416366
+    ],
+    "critic_p_bbb": [
+     0.994114359219869,
+     0.00017114954892874293
+    ],
+    "judge_p_bbb": [
+     0.798484199390586,
+     0.0029022272880393695
+    ],
+    "gap_bbb": [
+     0.194977888970958,
+     0.0035214172703607674
+    ],
+    "critic_p_act": [
+     0.9972469806671143,
+     0.002247548414130991
+    ],
+    "judge_p_act": [
+     0.6064383641540799,
+     0.019008084530018957
+    ],
+    "gap_act": [
+     0.37491152279380113,
+     0.02105504272570922
+    ],
+    "critic_p_tox": [
+     0.30334896842638653,
+     0.010387423088643719
+    ],
+    "judge_p_tox": [
+     0.21862767933103422,
+     0.0021341679575328744
+    ],
+    "gap_tox": [
+     0.12542079582193114,
+     0.006925217012332704
+    ],
+    "judge_success_all3": [
+     0.548,
+     0.03939543120718441
+    ],
+    "judge_success_bbb_act": [
+     0.5506666666666667,
+     0.03780652501002084
+    ],
+    "qed": [
+     0.2292115073038126,
+     0.00694521112132446
+    ],
+    "mw": [
+     457.3510474907773,
+     3.655202852809872
+    ],
+    "topk_judge_success_all3": [
+     0.5733333333333334,
+     0.046188021535170036
+    ],
+    "topk_valid": [
+     1.0,
+     0.0
+    ]
+   }
+  }
+ ],
+ "reference": {
+  "zinc_random": {
+   "judge_p_bbb": 0.7086505868763069,
+   "judge_p_act": 0.43290505997054013,
+   "judge_p_tox": 0.3606630496542275,
+   "judge_success_all3": 0.348
+  }
+ },
+ "examples": {
+  "0.0_none": [
+   "CC1N=CCN1c1cc(C(=N)NS(C)=O)cnc1",
+   "O=C(NC1CCCCC1CCNn1ccnc1)Cc1cc2ccc(F)cc2cc1C",
+   "CCc1cc(F)cc(CCNS(=O)C(N)=Cc2ccsn2)c1",
+   "C=Cc1cc([N+](=O)[O-])c([N+](=O)O)cc1O",
+   "CC(C(O)OC)NC(=O)CCNc1ccc(Cl)cc1[N+](=O)[O-]",
+   "Cc1nnn(Cc2ccccc2)c(=O)n1",
+   "CC(NC(=O)CC1CN(CC(=O)N=Cc2ccccc2Cl)c2cccnc2)C1",
+   "c1ccc(Cl)c(N2CCC(C)CCC2)n1",
+   "COc1ccc(-c2ncc(NC(=O)OC(F)F)c(Cl)c2Cl)cc1",
+   "CC(=O)NC(=O)Nc1c(S)ccc(Cc2cccc(F)c2)n1",
+   "COCC(=O)OCC1Cc2cc(F)c(F)cc2S1=O",
+   "CC(=O)N(CCSC(=O)NCCCCOc1ccccc1)C(=O)C1CCC1"
+  ],
+  "1.0_none": [
+   "CCCNNCNNCNNNCNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN",
+   "CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC",
+   "CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC",
+   "CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC",
+   "Cc1nnsc1Cc1ccccc1Br",
+   "NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN",
+   "CC1(C)CCN(CC2CCN(C(=O)NCc3ccccc3Cl)c2=O)C1",
+   "CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC",
+   "CCC(NC#N)Cc1c(N)c(SCc2ncccc2F)c(Br)s1",
+   "CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC",
+   "NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN",
+   "NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN"
+  ],
+  "1.0_ens": [
+   "CC1CNC1CCN1C(=NC(=O)NC(=S)N2CCCC2)CC1",
+   "CCc1ccc(C)c(CNC2CS(C)(=O)NC2CCC)c1",
+   "CC(CNC(C)C)(CO)NCC1Cc2ccc(Cl)cc2C1C",
+   "CCC1CCC(c2c([N+](=O)[O-])c(F)c(O)cc2)C1",
+   "Cc1ccccc1-n1CCCNCN1C(C)N1CCCC1C",
+   "CC(CO)(CO)CNC(=NC)Nc1ccnc(Cl)c1Cl",
+   "Cc1nnsc1Cc1ccccc1Br",
+   "Cn1ccc(C(CO)CN)c1SCc1ccccc1Cl",
+   "CC1CSC(C(=O)NCC(c2ccccc2Cl)=C2COC2)CC1",
+   "OCCc1ccccc1N",
+   "COC(=O)c1ccnc(NC(=O)C(C)S(=O)c2ccc(Cl)cc2)c1",
+   "CC(OCC)c1sncc1CC(=O)N(c1cc(Br)cnc1)c1ccncc1"
+  ],
+  "2.0_none": [
+   "NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN",
+   "CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC",
+   "NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN",
+   "NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN",
+   "NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN",
+   "CCCCCCC",
+   "Cc1cnnc(Cn2nncc2CN2CCNC(=O)CC2CC)c1C",
+   "CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC",
+   "NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN",
+   "NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN",
+   "NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN",
+   "CCOc1ccccc1COCN(C)C1cnn1-n1nnnn1"
+  ],
+  "2.0_ens": [
+   "CCC1CCCC1NC1N=C(N)NC(=O)N1CCCNCn1nnnn1",
+   "CCc1ccc(C)c(CNC2CS(=O)NNC2C)s1C",
+   "CCCCCCCCCCCc1n(Cl)c(F)c(Br)n1",
+   "CCCC(=O)NCC1CNC(=O)C1CC",
+   "CC(CO)C(O)CNC(=O)CNCc1ccc2cccoc12",
+   "Cc1nnsc1Cn1cccc1",
+   "CC#CCCCCCN1CCC(CS(C)C)CN1",
+   "CC(=N)C1CCCCCCC1CCN1CC1",
+   "CC(CC1CN(C)CC1)C",
+   "CC1CC(CSC(NCCO)Nc2ccccc2Cl)CC1C",
+   "IC1CC1O",
+   "CC(C)C1C(=O)C(=NN=C(C)Nc2c(Cl)cc(Cl)cc2Cl)CC1=S"
+  ],
+  "4.0_none": [
+   "NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN",
+   "NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN",
+   "NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN",
+   "NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN",
+   "CC1CNCCC(CCN2CCC(NC(=NN)c3ccccc3Cl)C2)CC1",
+   "NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN",
+   "NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN",
+   "CCC1CCCCN1C(=O)NNC(=Nn1c(Cl)c(Cl)c(Cl)c1Cl)NCc1nncs1",
+   "CCCCCCCCC",
+   "NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN",
+   "CCc1nnnn1CCn1cnn1CNCC1CCC1",
+   "CC1CCCC(c2ccccc2NN(C(N)=N)c2c1CCCC2)CCCCC2CCC2"
+  ],
+  "4.0_ens": [
+   "CCCCCCCCCCCCCCCCCCCCCCCCCCCCNCCCCNCCCNCCCNCCNCCN",
+   "CCCCCCNCNCNCNCNCNCNCNCNCNCNCNCNCNCNCNCNCNCNCNCNC",
+   "CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC",
+   "CCCCCCCCCCCBr",
+   "CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC",
+   "CSC1CCCCC1",
+   "N1CCCCCCCCCCCC1CCN1CSC(=C2c3ccsc3C(C)CC2)CC1",
+   "CC1CNCC(CCCNC2CC(C)N2)C1",
+   "CCCCC1CCCC1",
+   "CCCCCCCCCCCCNC(CSC)CC",
+   "CNCCCNC(CC)CCNC",
+   "CC1CCC1"
+  ],
+  "8.0_none": [
+   "NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN",
+   "NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN",
+   "CCCCCCCCCNNCCNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN",
+   "NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN",
+   "CCCCCCCCCCCCCCCCCCCCCCC",
+   "NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN",
+   "NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN",
+   "NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN",
+   "NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN",
+   "CCCCCCC",
+   "CCCCCCCNCCNCCNCNCNCNCNCNCNCNCNCNCNCNCNCNCNCNCNCN",
+   "NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN"
+  ],
+  "8.0_ens": [
+   "CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC",
+   "NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN",
+   "CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC",
+   "CCCCCCC(C)C",
+   "CCCCCCCCCN(C)N",
+   "CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC",
+   "CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC",
+   "CCCCCCCCCCCC",
+   "CCCCCCCCCCCCCCCCCBr",
+   "CCCCCCCC",
+   "CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC",
+   "CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC"
+  ]
+ }
+}

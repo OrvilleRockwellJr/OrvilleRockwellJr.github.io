@@ -1,0 +1,18 @@
+<h3>How to read these numbers</h3>
+<p>Every number below is a mean &plusmn; SD over three seeds with identical starting noise across settings (250 molecule latents and 300 guides per seed). The <b>critic</b> is the model that steers; the <b>judge</b> is a separate model on different features that never steers. "Judge pass" means the judge scores the sample above 0.5 on every objective (molecules: brain-penetrant, PTP-active, non-toxic; guides: judge says efficient and the site passes a usability check).</p>
+<h3>Molecules</h3>
+<ul>
+<li><b>Guidance without the gate collapses diversity.</b> At &gamma; = 4, unique valid molecules fall from 99.6% (unguided) to 28.9%. With the trust gate, 86.4% stay unique.</li>
+<li><b>The gate keeps more of the gain honest.</b> At &gamma; = 4 the critic-judge gap on activity is 0.32 with the gate and 0.54 without. The judge pass rate on all three objectives is 34.3% &plusmn; 3.6 with the gate, 16.7% &plusmn; 4.5 without, and 13.5% &plusmn; 1.5 unguided.</li>
+<li><b>Against the filter baseline.</b> Keeping the critic's top 10% of unguided samples gives a judge pass rate of 49.3% &plusmn; 6.1. Guided with the gate at &gamma; = 4, then filtered the same way: 81.3% &plusmn; 6.1.</li>
+<li><b>Costs.</b> Only about 46% of decoded latents are valid SMILES at &gamma; = 4. The autoencoder reconstructs 81% of held-out ZINC molecules exactly. The three objectives conflict, so toxicity improves most (judge P(toxic) 0.36 to 0.23) and activity least.</li>
+<li><b>Limit.</b> A ZINC molecule drawn at random passes the judge on all three 34.8% of the time, so unguided generation is worse than the training pool on this metric. Gated guidance at &gamma; = 4 only matches that pool before filtering.</li>
+</ul>
+<h3>Gene-editing guides</h3>
+<ul>
+<li><b>Guidance works and is not obviously gamed.</b> Judge P(efficient) rises from 0.49 (unguided) to 0.79 at &gamma; = 16, and the critic-judge gap stays small (0.06).</li>
+<li><b>The gate did not help here.</b> At every &gamma; the ungated runs scored higher on the judge (for example 0.79 vs 0.75 at &gamma; = 16). The gate only weakened the push; I did not test why, but the critic and judge agree closely on these sites, so there was little for it to correct.</li>
+<li><b>Limit.</b> Critic AUC on held-out genes is 0.72 and the judge's is 0.73, so both are modest predictors. Filtering unguided guides to the critic's top 10% already passes 90%, so filtering is a strong baseline here. Real guides from held-out genes pass the judge 43.6% of the time; generated guides at &gamma; = 16 pass 83.3%, but that reflects what the judge learned from the same labels. Generated guides are not targeted to PTPRS; use the scanner for that.</li>
+</ul>
+<h3>What this does and does not show</h3>
+<p>The trust gate is the useful part for molecules, where critics trained on a few thousand labels meet a generator that wanders off their data. It is not useful for guides in this setup. Neither result involves synthesis, wet-lab or animal data.</p>

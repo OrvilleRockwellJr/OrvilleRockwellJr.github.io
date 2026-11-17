@@ -1,0 +1,224 @@
+/* Platform UI. Generation runs in worker.js; chemistry (validity, drawing, descriptors, fingerprints) runs here in RDKit.js. */
+(function(){
+"use strict";
+const E=window.GDEngine, $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const sig=E.sigmoid, fmt=(v,d=2)=>Number.isFinite(v)?v.toFixed(d):"–", pct=v=>Number.isFinite(v)?Math.round(v*100)+"%":"–";
+const S={rd:null,worker:null,ready:false,judges:null,ref:null,ptprs:null,job:0,mol:{items:[],cmp:false},dna:{items:[]}};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+/* ---------- tabs and sliders ---------- */
+const tabs=$$(".tabs button");
+function showTab(id){ tabs.forEach(b=>{ const on=b.id===id; b.setAttribute("aria-selected",on); $("#"+b.getAttribute("aria-controls")).hidden=!on; }); if(history.replaceState) history.replaceState(null,"","#"+id.replace("t-","")); }
+tabs.forEach(b=>b.addEventListener("click",()=>showTab(b.id)));
+const hashTab={mol:"t-mol",dna:"t-dna",scan:"t-scan",evidence:"t-ev",ev:"t-ev",method:"t-me",me:"t-me"}[location.hash.slice(1)]; if(hashTab) showTab(hashTab);
+[["m-n"],["m-g"],["m-wb"],["m-wa"],["m-wt"],["m-tau"],["d-n"],["d-g"],["d-tau"],["s-k"]].forEach(([id])=>{ const el=$("#"+id), o=$("#"+id+"-o"); const f=()=>o.textContent=(+el.value).toString().replace(/^(\d)$/,(m,a)=>a); el.addEventListener("input",f); f(); });
+$("#m-tau-o").textContent=(+$("#m-tau").value).toFixed(1); $("#m-tau").addEventListener("input",e=>$("#m-tau-o").textContent=(+e.target.value).toFixed(1));
+$("#d-tau-o").textContent=(+$("#d-tau").value).toFixed(1); $("#d-tau").addEventListener("input",e=>$("#d-tau-o").textContent=(+e.target.value).toFixed(1));
+$("#s-src").addEventListener("change",e=>$("#s-paste").style.display=e.target.value==="paste"?"block":"none");
+
+/* ---------- boot ---------- */
+async function boot(){
+  try{
+    const [rd,judges,ref,ptprs]=await Promise.all([
+      initRDKitModule({locateFile:f=>"vendor/"+f}),
+      fetch("models/judges.json").then(r=>r.json()), fetch("models/ref.json").then(r=>r.json()), fetch("models/ptprs.json").then(r=>r.json())]);
+    S.rd=rd; S.judges=judges; S.ref=ref.map(([s,bits])=>({s,bits:new Set(bits)})); S.ptprs=ptprs;
+    S.worker=new Worker("worker.js"); S.worker.onmessage=onWorker; S.worker.onerror=e=>fail("Worker error: "+e.message);
+    S.worker.postMessage({cmd:"init"});
+  }catch(err){ fail("Could not load the models: "+err); }
+}
+function fail(msg){ $("#loadmsg").innerHTML='<div class="err">'+esc(msg)+'</div>'; }
+function onWorker(ev){
+  const m=ev.data;
+  if(m.evt==="ready"){ S.ready=true; $("#loadmsg").textContent="Models loaded ("+m.info.molHeads+"-head critic ensembles; runs on your device)."; ["m-go","d-go","s-go"].forEach(i=>$("#"+i).disabled=false); setTimeout(()=>{ if(S.ready) $("#loadmsg").style.display="none"; },2500); loadEvidence(); }
+  else if(m.evt==="trace") onTrace(m);
+  else if(m.evt==="item") onItem(m);
+  else if(m.evt==="done") onDone(m);
+  else if(m.evt==="scores") onScores(m);
+  else if(m.evt==="scanprog") $("#s-status").textContent="Scoring "+m.i+" / "+m.n+" sites…";
+  else if(m.evt==="error") fail(m.message);
+}
+
+/* ---------- chemistry helpers ---------- */
+const DESC_KEYS={mw:["exactmw","amw"],logp:["CrippenClogP","crippenClogP"],tpsa:["tpsa","TPSA"],hbd:["NumHBD","lipinskiHBD"],hba:["NumHBA","lipinskiHBA"],rot:["NumRotatableBonds"],qed:["QED","qed"],rings:["NumRings"]};
+function pick(d,keys){ for(const k of keys) if(k in d) return d[k]; return NaN; }
+function analyse(smi){
+  if(!smi) return null; let m=null; try{ m=S.rd.get_mol(smi); }catch(e){ m=null; } if(!m||!m.is_valid()){ if(m) m.delete(); return null; }
+  const out={}; try{ const d=JSON.parse(m.get_descriptors()); for(const k in DESC_KEYS) out[k]=pick(d,DESC_KEYS[k]); }catch(e){}
+  out.canon=m.get_smiles(); out.svg=m.get_svg(300,200);
+  const fp=m.get_morgan_fp(JSON.stringify({radius:2,nBits:1024})); const on=[]; for(let i=0;i<fp.length;i++) if(fp.charCodeAt(i)===49) on.push(i); out.fp=on; out.fpset=new Set(on);
+  m.delete(); return out;
+}
+function drawSvg(smi,w,h){ try{ const m=S.rd.get_mol(smi); if(!m||!m.is_valid()){ if(m) m.delete(); return null; } const s=m.get_svg(w||132,h||100); m.delete(); return s; }catch(e){ return null; } }
+function judgeMol(a){ const o={}; for(const p of ["bbb","act","tox"]){ const J=S.judges.mol[p]; let z=J.b; for(const i of a.fp) z+=J.coef[i]; o[p]=z; } return o; }
+function nearest(a){ let best=0,bs=null; for(const r of S.ref){ let inter=0; for(const b of a.fp) if(r.bits.has(b)) inter++; const t=inter/(a.fp.length+r.bits.size-inter); if(t>best){best=t;bs=r.s;} } return {t:best,s:bs}; }
+
+/* ---------- molecule generation ---------- */
+function resetBar(p){ $(p+"-bar").style.width="0"; }
+$("#m-go").addEventListener("click",()=>{
+  const job={cmd:"genMol",id:++S.job,n:+$("#m-n").value,seed:+$("#m-seed").value||0,steps:+$("#m-steps").value,gamma:+$("#m-g").value,w:[+$("#m-wb").value,+$("#m-wa").value,+$("#m-wt").value],gate:$("#m-gate").checked,tau:+$("#m-tau").value,compare:$("#m-cmp").checked&&+$("#m-g").value>0};
+  S.cur={kind:"mol",job,t0:performance.now(),got:0}; S.mol={items:[],cmp:job.compare,job};
+  $("#m-cards").innerHTML=""; $("#m-trace").innerHTML=""; $("#m-strip").innerHTML=""; $("#m-leg").hidden=true; $("#m-sort").hidden=true; $("#m-traceh").hidden=false; resetBar("#m"); $("#m-go").disabled=true; $("#m-stop").hidden=false;
+  $("#m-status").textContent="Denoising "+job.n+" candidates…"; S.worker.postMessage(job);
+});
+$("#m-stop").addEventListener("click",()=>{ S.worker.postMessage({cmd:"cancel",id:S.cur.job.id}); });
+function onTrace(m){
+  if(m.kind==="mol"){ const box=$("#m-trace"); const fig=document.createElement("figure"); const svg=m.smiles?drawSvg(m.smiles):null; const pc=Math.round((m.si+1)/m.n*100);
+    fig.innerHTML='<div class="tb'+(svg?"":" inv")+'">'+(svg||"not a valid molecule yet")+'</div>step '+(m.si+1)+'/'+m.n+(m.gate<0.999?' · gate '+fmt(m.gate):''); box.appendChild(fig); box.scrollLeft=box.scrollWidth; }
+  else if(m.kind==="dna"){ renderTraceDna(m); }
+}
+function onItem(m){
+  if(!S.cur||S.cur.job.id!==m.id) return; S.cur.got++;
+  const bar=m.kind==="mol"?"#m-bar":"#d-bar"; $(bar).style.width=(S.cur.got/S.cur.job.n*100)+"%";
+  if(m.kind==="mol"){ S.mol.items.push({i:m.i,g:procMol(m.guided),u:m.unguided?procMol(m.unguided):null}); renderMol(); $("#m-status").textContent="Generated "+S.cur.got+" / "+S.cur.job.n+"…"; }
+  else{ S.dna.items.push({i:m.i,g:procDna(m.guided),u:m.unguided?procDna(m.unguided):null}); renderDna(); $("#d-status").textContent="Generated "+S.cur.got+" / "+S.cur.job.n+"…"; }
+}
+function procMol(r){
+  const a=analyse(r.smiles); const o={smiles:r.smiles,valid:!!a,crit:r.crit};
+  o.cp={bbb:sig(r.crit.bbb.mean),act:sig(r.crit.act.mean),tox:sig(r.crit.tox.mean)};   // P(brain-penetrant), P(active), P(toxic)
+  if(a){ Object.assign(o,{a}); const j=judgeMol(a); o.jz=j; o.jp={bbb:sig(j.bbb),act:sig(j.act),tox:sig(j.tox)}; o.jscore=j.bbb+j.act-j.tox; o.pass=j.bbb>0&&j.act>0&&j.tox<0; o.nn=nearest(a); }
+  o.cscore=r.crit.bbb.mean+r.crit.act.mean-r.crit.tox.mean; return o;
+}
+function pair(label,cp,jp,good){ // good: true if high is good, false if low is good (toxicity)
+  const cw=Math.round((good?cp:1-cp)*100), jw=jp==null?null:Math.round((good?jp:1-jp)*100);
+  return '<div class="pair c"><span>'+label+'</span><div class="tr"><i style="width:'+cw+'%"></i></div><b>'+cw+'</b></div>'+(jw==null?'':'<div class="pair j"><span></span><div class="tr"><i style="width:'+jw+'%"></i></div><b>'+jw+'</b></div>');
+}
+function molCard(o,idx,un){
+  if(!o.valid) return '<div class="card'+(un?" un":"")+'"><div class="sv small">invalid structure</div><div class="smi">'+esc(o.smiles||"(empty)")+'</div><span class="tag no">not a valid molecule</span></div>';
+  const a=o.a, cns=a.tpsa<90&&a.mw<450&&a.hbd<=3;
+  return '<div class="card'+(un?" un":"")+'"><div class="sv">'+a.svg+'</div><div class="smi" title="Click to copy" data-smi="'+esc(a.canon)+'">'+esc(a.canon)+'</div><div>'+
+   (o.pass?'<span class="tag ok">judge: passes all three</span>':'<span class="tag no">judge: fails ≥1</span>')+(cns?'<span class="tag ok">CNS-like physchem</span>':'<span class="tag">outside CNS physchem</span>')+'</div>'+
+   pair("brain",o.cp.bbb,o.jp.bbb,true)+pair("activity",o.cp.act,o.jp.act,true)+pair("low tox",o.cp.tox,o.jp.tox,false)+
+   '<div class="small" style="font-size:11.5px">MW '+fmt(a.mw,0)+' · cLogP '+fmt(a.logp,1)+' · TPSA '+fmt(a.tpsa,0)+' · HBD '+fmt(a.hbd,0)+' · QED '+fmt(a.qed)+'</div>'+
+   '<div class="small" style="font-size:11.5px">Nearest known compound: Tanimoto '+fmt(o.nn.t)+(o.nn.t>=0.99?' (known)':o.nn.t<0.4?' (new scaffold)':'')+'</div></div>';
+}
+function stripHtml(items,key,labels){
+  const v=items.map(x=>x[key]).filter(Boolean), n=v.length; if(!n) return ""; const valid=v.filter(x=>x.valid);
+  const m=f=>valid.length?valid.reduce((s,x)=>s+f(x),0)/valid.length:NaN; const pass=valid.filter(x=>x.pass).length;
+  return '<div><span>'+labels+' · valid</span><b>'+pct(valid.length/n)+'</b><small>'+valid.length+' of '+n+' decode to a molecule</small></div>'+
+   '<div><span>Judge passes all three</span><b>'+pct(pass/n)+'</b><small>'+pass+' of '+n+' (brain, activity, low toxicity)</small></div>'+
+   '<div><span>Critic P(brain) / judge</span><b>'+fmt(m(x=>x.cp.bbb),2)+' / '+fmt(m(x=>x.jp.bbb),2)+'</b><small>steering vs held-out</small></div>'+
+   '<div><span>Critic P(active) / judge</span><b>'+fmt(m(x=>x.cp.act),2)+' / '+fmt(m(x=>x.jp.act),2)+'</b><small>steering vs held-out</small></div>'+
+   '<div><span>P(toxic) critic / judge</span><b>'+fmt(m(x=>x.cp.tox),2)+' / '+fmt(m(x=>x.jp.tox),2)+'</b><small>lower is better</small></div>';
+}
+function renderMol(){
+  const it=S.mol.items.slice(); const by=$("#m-sortby").value;
+  const key={judge:o=>o.valid?o.jscore:-1e9,critic:o=>o.valid?o.cscore:-1e9,qed:o=>o.valid?o.a.qed:-1}[by];
+  const g=it.map(x=>x.g).sort((a,b)=>key(b)-key(a));
+  let html=""; if(S.mol.cmp){ html+='<div style="grid-column:1/-1;font-family:var(--sans);font-size:14px;font-weight:600;color:var(--navy)">Guided (&gamma; = '+S.mol.job.gamma+')</div>'; }
+  html+=g.map((o,i)=>molCard(o,i,false)).join("");
+  if(S.mol.cmp){ const u=it.map(x=>x.u).sort((a,b)=>key(b)-key(a)); html+='<div style="grid-column:1/-1;font-family:var(--sans);font-size:14px;font-weight:600;color:var(--navy);margin-top:10px">Unguided (&gamma; = 0), same starting noise</div>'+u.map((o,i)=>molCard(o,i,true)).join(""); }
+  $("#m-cards").innerHTML=html;
+  let strip='<div style="grid-column:1/-1;display:none"></div>'+stripHtml(it,"g",S.mol.cmp?"Guided":"Candidates"); 
+  if(S.mol.cmp) strip+=stripHtml(it,"u","Unguided");
+  const sEl=$("#m-strip"); sEl.innerHTML=strip; $("#m-leg").hidden=false; $("#m-sort").hidden=false;
+}
+$("#m-sortby").addEventListener("change",()=>{ if(S.mol.items.length) renderMol(); });
+$("#m-cards").addEventListener("click",e=>{ const t=e.target.closest(".smi"); if(t&&navigator.clipboard){ navigator.clipboard.writeText(t.dataset.smi).then(()=>{ const o=t.textContent; t.textContent="copied"; setTimeout(()=>t.textContent=o,700); }); } });
+$("#m-csv").addEventListener("click",()=>{
+  const rows=[["set","smiles","valid","critic_p_brain","critic_p_active","critic_p_toxic","judge_p_brain","judge_p_active","judge_p_toxic","judge_pass_all3","mw","clogp","tpsa","hbd","qed","nearest_tanimoto"]];
+  const add=(set,o)=>rows.push([set,o.valid?o.a.canon:o.smiles,o.valid,fmt(o.cp.bbb,3),fmt(o.cp.act,3),fmt(o.cp.tox,3),o.valid?fmt(o.jp.bbb,3):"",o.valid?fmt(o.jp.act,3):"",o.valid?fmt(o.jp.tox,3):"",o.valid?o.pass:"",o.valid?fmt(o.a.mw,1):"",o.valid?fmt(o.a.logp,2):"",o.valid?fmt(o.a.tpsa,1):"",o.valid?o.a.hbd:"",o.valid?fmt(o.a.qed,3):"",o.valid?fmt(o.nn.t,3):""]);
+  S.mol.items.forEach(x=>{ add("guided",x.g); if(x.u) add("unguided",x.u); }); download("ptpsigma_molecules.csv",rows);
+});
+function download(name,rows){ const csv=rows.map(r=>r.map(v=>/[",\n]/.test(String(v))?'"'+String(v).replace(/"/g,'""')+'"':v).join(",")).join("\n"); const a=document.createElement("a"); a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"})); a.download=name; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href),1000); }
+
+/* ---------- DNA ---------- */
+const NT="ACGT";
+function dnaChecks(s){ const gc=[...s.slice(4,24)].filter(c=>c==="G"||c==="C").length/20; const pam=s.slice(25,27)==="GG"; const t4=s.slice(4,24).includes("TTTT"); return {gc,pam,t4,usable:pam&&gc>=0.4&&gc<=0.7&&!t4}; }
+function procDna(r){ const seq=r.seq, ck=dnaChecks(seq), jz=E.dnaJudge(seq,S.judges.dna); return {seq,ck,cp:sig(r.crit.mean),csd:r.crit.sd,jp:sig(jz),jz,pass:ck.usable&&jz>0}; }
+function seqHtml(s,conf){ let h=""; for(let i=0;i<s.length;i++){ const cls=(i<4||i>=27?"ctx ":"")+(i>=24&&i<27?"pam ":"")+s[i]; h+='<span class="'+cls+'"'+(conf?' style="opacity:'+(i<4||i>=27?Math.min(.45,.12+conf[i]*.4):(.18+conf[i]*.82))+'"':"")+'>'+s[i]+'</span>'; } return '<div class="seq">'+h+'</div>'; }
+function renderTraceDna(m){ $("#d-tracek").hidden=false; $("#d-trace").innerHTML='<div style="font-family:var(--sans);font-size:12px;color:var(--muted);width:100%">step '+(m.si+1)+' / '+m.n+'</div>'+seqHtml(m.seq,m.conf); }
+function dnaRow(o,label,un){
+  const ck=o.ck; return '<div class="row" style="'+(un?"background:#fafbfc":"")+'"><div>'+(label?'<div style="font-weight:600;color:var(--navy);margin-bottom:4px">'+label+'</div>':'')+seqHtml(o.seq)+'<div class="seqkey">'+o.seq.slice(4,24)+' + '+o.seq.slice(24,27)+' (protospacer + PAM)</div></div><div>'+
+   (o.pass?'<span class="tag ok">judge: efficient + passes checks</span>':'<span class="tag no">fails judge or checks</span>')+(ck.pam?'<span class="tag ok">NGG PAM</span>':'<span class="tag no">no NGG PAM</span>')+'<span class="tag '+(ck.gc>=.4&&ck.gc<=.7?'ok':'no')+'">GC '+Math.round(ck.gc*100)+'%</span>'+(ck.t4?'<span class="tag no">TTTT run</span>':'')+
+   pair("critic",o.cp,null,true).replace('pair c','pair c')+pair("judge",o.jp,null,true).replace('class="pair c"','class="pair j"')+'</div></div>';
+}
+$("#d-go").addEventListener("click",()=>{
+  const job={cmd:"genDna",id:++S.job,n:+$("#d-n").value,seed:+$("#d-seed").value||0,steps:+$("#d-steps").value,gamma:+$("#d-g").value,gate:$("#d-gate").checked,tau:+$("#d-tau").value,compare:$("#d-cmp").checked&&+$("#d-g").value>0};
+  S.cur={kind:"dna",job,got:0}; S.dna={items:[],job,cmp:job.compare}; $("#d-rows").innerHTML=""; $("#d-strip").innerHTML=""; $("#d-trace").innerHTML=""; resetBar("#d"); $("#d-go").disabled=true; $("#d-status").textContent="Denoising "+job.n+" candidates…"; S.worker.postMessage(job);
+});
+function renderDna(){
+  const it=S.dna.items; const g=it.map(x=>x.g).sort((a,b)=>b.jz-a.jz); const u=it.map(x=>x.u).filter(Boolean);
+  const st=(arr,l)=>{ const n=arr.length; const m=f=>arr.reduce((s,x)=>s+f(x),0)/n; return '<div><span>'+l+' · valid PAM</span><b>'+pct(m(x=>x.ck.pam?1:0))+'</b><small>NGG at the PAM position</small></div><div><span>Critic / judge P(efficient)</span><b>'+fmt(m(x=>x.cp))+' / '+fmt(m(x=>x.jp))+'</b><small>steering vs held-out</small></div><div><span>Pass judge + checks</span><b>'+pct(m(x=>x.pass?1:0))+'</b><small>'+arr.filter(x=>x.pass).length+' of '+n+'</small></div>'; };
+  $("#d-strip").innerHTML=st(g,S.dna.cmp?"Guided":"Candidates")+(u.length?st(u,"Unguided"):"");
+  $("#d-rows").innerHTML=(S.dna.cmp?'<div style="font-family:var(--sans);font-weight:600;color:var(--navy);margin:4px 0 8px">Guided (&gamma; = '+S.dna.job.gamma+')</div>':"")+g.map(o=>dnaRow(o,"",false)).join("")+(u.length?'<div style="font-family:var(--sans);font-weight:600;color:var(--navy);margin:14px 0 8px">Unguided, same starting noise</div>'+u.sort((a,b)=>b.jz-a.jz).map(o=>dnaRow(o,"",true)).join(""):"");
+}
+function onDone(m){ if(!S.cur||S.cur.job.id!==m.id) return; const k=S.cur.kind; const sec=((performance.now()-(S.cur.t0||performance.now()))/1000);
+  if(k==="mol"){ $("#m-go").disabled=false; $("#m-stop").hidden=true; $("#m-status").textContent=(m.cancelled?"Stopped. ":"Done. ")+S.mol.items.length+" candidates"+(S.cur.t0?" in "+sec.toFixed(1)+" s":"")+" on your device."; $("#m-bar").style.width="100%"; }
+  else if(k==="dna"){ $("#d-go").disabled=false; $("#d-status").textContent="Done. "+S.dna.items.length+" candidates on your device."; $("#d-bar").style.width="100%"; } }
+
+/* ---------- scan ---------- */
+const COMP={A:"T",C:"G",G:"C",T:"A"}, rc=s=>[...s].reverse().map(c=>COMP[c]||"N").join("");
+function findSites(seq,label,exonLo,exonHi,rows){
+  for(const strand of [1,-1]){ const s=strand===1?seq:rc(seq); const lo=strand===1?exonLo:seq.length-exonHi, hi=strand===1?exonHi:seq.length-exonLo;
+    for(let w=0;w+30<=s.length;w++){ const win=s.slice(w,w+30); if(win[25]!=="G"||win[26]!=="G"||/[^ACGT]/.test(win)) continue; const cut=w+4+17; rows.push({win,label,strand,cutIn:cut>=lo&&cut<hi}); } }
+}
+$("#s-go").addEventListener("click",()=>{
+  const rows=[]; let src="PTPRS";
+  if($("#s-src").value==="ptprs"){ for(const ex of S.ptprs.exons){ findSites(ex.seq,"exon "+ex.exon,30,30+ex.len,rows); } }
+  else{ const raw=$("#s-paste").value.toUpperCase().replace(/[^ACGT]/g,"").slice(0,20000); src="your sequence"; if(raw.length<40){ $("#s-status").textContent="Paste at least 40 letters of A, C, G, T."; return; } findSites(raw,"pasted",0,raw.length,rows); }
+  const seen=new Set(); S.scan={rows:rows.filter(r=>{ const k=r.win+r.label; if(seen.has(k)) return false; seen.add(k); return true; }),src};
+  $("#s-go").disabled=true; $("#s-status").textContent="Scoring "+S.scan.rows.length+" sites…"; S.worker.postMessage({cmd:"scoreDna",id:++S.job,seqs:S.scan.rows.map(r=>r.win)});
+});
+function onScores(m){
+  const R=S.scan.rows; R.forEach((r,i)=>{ r.cp=sig(m.scores[i][0]); r.jz=E.dnaJudge(r.win,S.judges.dna); r.jp=sig(r.jz); r.ck=dnaChecks(r.win); });
+  $("#s-go").disabled=false; const k=+$("#s-k").value, needCut=$("#s-req").checked&&S.scan.src==="PTPRS", needUse=$("#s-use").checked;
+  let pool=R.filter(r=>(!needCut||r.cutIn)&&(!needUse||r.ck.usable)); pool.sort((a,b)=>(b.cp+b.jp)-(a.cp+a.jp)); const top=pool.slice(0,k);
+  const agree=pool.filter(r=>r.cp>0.5&&r.jp>0.5).length;
+  $("#s-status").textContent="Scored "+R.length+" candidate sites in "+S.scan.src+".";
+  $("#s-strip").innerHTML='<div><span>Sites found (both strands)</span><b>'+R.length+'</b><small>NGG with full 30-nt context</small></div><div><span>After your filters</span><b>'+pool.length+'</b><small>'+agree+' scored &gt; 0.5 by both critic and judge</small></div><div><span>Best site (avg of both)</span><b>'+(top[0]?fmt((top[0].cp+top[0].jp)/2):"–")+'</b><small>'+(top[0]?top[0].label:"")+'</small></div>';
+  const T=$("#s-tab"); T.hidden=false;
+  T.innerHTML='<table class="t"><thead><tr><th>#</th><th>Where</th><th>Strand</th><th>Guide (20 nt) + PAM</th><th class="n">Critic P</th><th class="n">Judge P</th><th class="n">GC</th><th>Cut in exon</th></tr></thead><tbody>'+top.map((r,i)=>'<tr><td>'+(i+1)+'</td><td>'+esc(r.label)+'</td><td>'+(r.strand===1?"sense":"antisense")+'</td><td style="font-family:ui-monospace,Menlo,monospace">'+r.win.slice(4,24)+' <b style="color:var(--bio)">'+r.win.slice(24,27)+'</b></td><td class="n">'+fmt(r.cp)+'</td><td class="n">'+fmt(r.jp)+'</td><td class="n">'+Math.round(r.ck.gc*100)+'%</td><td>'+(r.cutIn?"yes":"no")+'</td></tr>').join("")+'</tbody></table>';
+}
+
+/* ---------- evidence + method (built from saved result files) ---------- */
+async function loadEvidence(){
+  try{
+    const [mt,dt,me,de]=await Promise.all(["mol_train_metrics","dna_train_metrics","mol_experiments","dna_experiments"].map(n=>fetch("results/"+n+".json").then(r=>r.json())));
+    renderEvidence(mt,dt,me,de);
+  }catch(err){ $("#ev-body").innerHTML='<div class="err">Results files not found: '+esc(err)+'</div>'; }
+  renderMethod();
+}
+const f2=v=>Number.isFinite(v)?v.toFixed(2):"–", f3=v=>Number.isFinite(v)?v.toFixed(3):"–", ms=a=>a[0].toFixed(2)+" ± "+a[1].toFixed(2);
+function lineChart(title,series,yl,xl,opts){
+  const W=420,H=240,P={l:42,r:12,t:12,b:36}; const xs=opts.xs; const xmax=Math.max(...xs),xmin=Math.min(...xs); const ymax=opts.ymax, ymin=opts.ymin||0;
+  const X=x=>P.l+(x-xmin)/(xmax-xmin||1)*(W-P.l-P.r), Y=y=>H-P.b-(y-ymin)/(ymax-ymin)*(H-P.t-P.b);
+  let g=""; for(let i=0;i<=4;i++){ const v=ymin+(ymax-ymin)*i/4; g+='<line x1="'+P.l+'" x2="'+(W-P.r)+'" y1="'+Y(v)+'" y2="'+Y(v)+'" stroke="#E2E6EB"/><text x="'+(P.l-6)+'" y="'+(Y(v)+4)+'" text-anchor="end" fill="#5B6573" font-size="10">'+v.toFixed(opts.d||2)+'</text>'; }
+  xs.forEach(x=>g+='<text x="'+X(x)+'" y="'+(H-P.b+14)+'" text-anchor="middle" fill="#5B6573" font-size="10">'+x+'</text>');
+  g+='<text x="'+(W/2)+'" y="'+(H-4)+'" text-anchor="middle" fill="#5B6573" font-size="11">'+xl+'</text><text transform="translate(11,'+(H/2)+') rotate(-90)" text-anchor="middle" fill="#5B6573" font-size="11">'+yl+'</text>';
+  series.forEach(s=>{ if(s.hline!=null){ g+='<line x1="'+P.l+'" x2="'+(W-P.r)+'" y1="'+Y(s.hline)+'" y2="'+Y(s.hline)+'" stroke="'+s.c+'" stroke-dasharray="5 4"/><text x="'+(W-P.r)+'" y="'+(Y(s.hline)-4)+'" text-anchor="end" fill="'+s.c+'" font-size="10">'+s.n+'</text>'; return; }
+    const pts=s.pts.map(p=>[X(p[0]),Y(p[1]),p[2]]); g+='<polyline fill="none" stroke="'+s.c+'" stroke-width="2" points="'+pts.map(p=>p[0]+","+p[1]).join(" ")+'"/>';
+    pts.forEach((p,i)=>{ if(s.pts[i][2]!=null){ g+='<line x1="'+p[0]+'" x2="'+p[0]+'" y1="'+Y(s.pts[i][1]-s.pts[i][2])+'" y2="'+Y(s.pts[i][1]+s.pts[i][2])+'" stroke="'+s.c+'" opacity=".5"/>'; } g+='<circle cx="'+p[0]+'" cy="'+p[1]+'" r="3.5" fill="'+s.c+'"/>'; }); });
+  const leg=series.filter(s=>!s.hline).map((s,i)=>'<span style="margin-right:14px"><i style="display:inline-block;width:10px;height:10px;border-radius:50%;background:'+s.c+';vertical-align:middle;margin-right:4px"></i>'+s.n+'</span>').join("");
+  return '<div class="chart"><h4>'+title+'</h4><svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="'+esc(title)+'">'+g+'</svg><div style="margin-top:4px">'+leg+'</div></div>';
+}
+function renderEvidence(mt,dt,me,de){
+  const find=(R,g,gate)=>R.results.find(r=>r.gamma===g&&r.gate===gate), base=find(me,0,"none").metrics, baseD=find(de,0,"none").metrics;
+  const gs=[1,2,4,8], gD=[1,2,4,8,16];
+  const ser=(R,key,gl,gate,c,n)=>({n,c,pts:[[0,find(R,0,"none").metrics[key][0],find(R,0,"none").metrics[key][1]]].concat(gl.map(g=>[g,find(R,g,gate).metrics[key][0],find(R,g,gate).metrics[key][1]]))});
+  const cls=(k)=>mt[k];
+  let h='<h3>1. Do the classifiers work on chemistry they have not seen?</h3><p class="small">Scaffold split: test molecules share no Bemis–Murcko scaffold with training molecules. AUC of the steering critic (a small network on the latent code, ensemble mean) next to the held-out judge (logistic regression on ECFP4 fingerprints).</p>'+
+   '<div class="tw"><table class="t"><thead><tr><th>Property</th><th class="n">Train / test molecules</th><th class="n">Critic AUC (clean)</th><th class="n">Critic AUC (noised, t=100)</th><th class="n">Judge AUC</th></tr></thead><tbody>'+
+   [["bbb","Brain penetration (B3DB)"],["act","PTP-family activity (ChEMBL)"],["tox","Toxicity (Tox21, any assay)"]].map(([k,n])=>'<tr><td>'+n+'</td><td class="n">'+cls(k).n_train+' / '+cls(k).n_test+'</td><td class="n">'+f3(cls(k).critic_auc_t0)+'</td><td class="n">'+f3(cls(k).critic_auc_t100)+'</td><td class="n">'+f3(cls(k).judge_auc_test)+'</td></tr>').join("")+'</tbody></table></div>';
+  const px=mt.ptpsigma_external; h+='<p class="small" style="margin-top:8px"><b>PTP&sigma; check (n = '+px.n+' molecules, '+px.n_active+' active; too few to rank on).</b> Critic AUC '+f2(px.critic_auc)+' (95% bootstrap CI '+f2(px.critic_ci[0])+'–'+f2(px.critic_ci[1])+'), judge AUC '+f2(px.judge_auc)+' ('+f2(px.judge_ci[0])+'–'+f2(px.judge_ci[1])+'). ChEMBL holds 30 distinct PTP&sigma; molecules with exact potencies; the activity classifier learns from the wider phosphatase family and is only a weak proxy for PTP&sigma; itself.</p>';
+  h+='<h3 style="margin-top:26px">2. Does guidance move generated molecules, and does the held-out judge agree?</h3><p class="small">'+me.N+' molecules per setting × '+me.seeds.length+' seeds ('+(me.N*me.seeds.length)+' per row), '+me.steps+' denoising steps, identical starting noise across rows. &ldquo;All three&rdquo; = valid, and the judge calls brain-penetrant, active and non-toxic. Top-10% = the best tenth ranked by the critics, the fair baseline for &ldquo;generate then filter&rdquo;.</p>';
+  h+='<div class="tw"><table class="t"><thead><tr><th>&gamma;</th><th>Trust gate</th><th class="n">Valid</th><th class="n">Novel</th><th class="n">Critic P(brain / active / toxic)</th><th class="n">Judge P(brain / active / toxic)</th><th class="n">Judge: all three</th><th class="n">Top-10%: all three</th></tr></thead><tbody>'+
+   me.results.map(r=>{ const m=r.metrics; return '<tr><td>'+r.gamma+'</td><td>'+(r.gamma===0?"–":r.gate==="ens"?"on":"off")+'</td><td class="n">'+f2(m.valid[0])+'</td><td class="n">'+f2(m.novel_of_unique[0])+'</td><td class="n">'+f2(m.critic_p_bbb[0])+' / '+f2(m.critic_p_act[0])+' / '+f2(m.critic_p_tox[0])+'</td><td class="n">'+f2(m.judge_p_bbb[0])+' / '+f2(m.judge_p_act[0])+' / '+f2(m.judge_p_tox[0])+'</td><td class="n">'+ms(m.judge_success_all3)+'</td><td class="n">'+ms(m.topk_judge_success_all3)+'</td></tr>'; }).join("")+
+   '<tr><td colspan="6"><i>Random ZINC molecules (reference)</i></td><td class="n">'+f2(me.reference.zinc_random.judge_success_all3)+'</td><td></td></tr></tbody></table></div>';
+  h+='<div class="charts" style="margin-top:16px">'+
+   lineChart("Held-out judge: all three pass",[ser(me,"judge_success_all3",gs,"none","#8BA6C9","gate off"),ser(me,"judge_success_all3",gs,"ens","#B23A64","gate on")],"fraction of samples","guidance strength γ",{xs:[0,1,2,4,8],ymax:Math.max(0.05,...me.results.map(r=>r.metrics.judge_success_all3[0]))*1.25,d:2})+
+   lineChart("Critic–judge gap, P(brain)",[ser(me,"gap_bbb",gs,"none","#8BA6C9","gate off"),ser(me,"gap_bbb",gs,"ens","#B23A64","gate on")],"critic − judge","guidance strength γ",{xs:[0,1,2,4,8],ymin:0,ymax:Math.max(0.1,...me.results.map(r=>r.metrics.gap_bbb[0]))*1.25,d:2})+'</div>';
+  h+='<h3 style="margin-top:26px">3. Gene-editing guide sequences</h3><p class="small">Gene split: test guides come from CD13, CD45, NF2, THY1 and CD28, which the classifiers never saw (Doench et al. screens, 4,379 guides). The prior is a diffusion model trained on '+(de.prior_n||"~110,000")+' NGG-bearing sites from the coding sequence of 419 random human genes.</p>'+
+   '<div class="tw"><table class="t"><thead><tr><th>Model</th><th class="n">Train / test guides</th><th class="n">Critic AUC (clean)</th><th class="n">Critic AUC (noised, t=100)</th><th class="n">Judge AUC</th></tr></thead><tbody><tr><td>Cutting efficiency (top half vs bottom half)</td><td class="n">'+dt.n_train+' / '+dt.n_test+'</td><td class="n">'+f3(dt.critic_auc_t0)+'</td><td class="n">'+f3(dt.critic_auc_t100)+'</td><td class="n">'+f3(dt.judge_auc_test)+'</td></tr></tbody></table></div>';
+  h+='<div class="tw" style="margin-top:12px"><table class="t"><thead><tr><th>&gamma;</th><th>Gate</th><th class="n">Valid PAM</th><th class="n">Novel</th><th class="n">Critic P</th><th class="n">Judge P</th><th class="n">Usable &amp; judge-efficient</th><th class="n">Top-10%</th></tr></thead><tbody>'+
+   de.results.map(r=>{ const m=r.metrics; return '<tr><td>'+r.gamma+'</td><td>'+(r.gamma===0?"–":r.gate==="ens"?"on":"off")+'</td><td class="n">'+f2(m.pam_valid[0])+'</td><td class="n">'+f2(m.novel_of_unique[0])+'</td><td class="n">'+f2(m.critic_p[0])+'</td><td class="n">'+f2(m.judge_p[0])+'</td><td class="n">'+ms(m.judge_success)+'</td><td class="n">'+ms(m.topk_judge_success)+'</td></tr>'; }).join("")+
+   '<tr><td colspan="6"><i>Real Doench test guides (reference) / natural genomic sites</i></td><td class="n">'+f2(de.reference.doench_test_guides.judge_success)+' / '+f2(de.reference.genomic_prior_sites.judge_success)+'</td><td></td></tr></tbody></table></div>';
+  h+='<div class="charts" style="margin-top:16px">'+lineChart("Guides: judge-efficient and usable",[ser(de,"judge_success",gD,"none","#8BA6C9","gate off"),ser(de,"judge_success",gD,"ens","#B23A64","gate on")],"fraction of samples","guidance strength γ",{xs:[0,1,2,4,8,16],ymax:Math.max(0.05,...de.results.map(r=>r.metrics.judge_success[0]))*1.25})+lineChart("Guides: critic–judge gap",[ser(de,"gap",gD,"none","#8BA6C9","gate off"),ser(de,"gap",gD,"ens","#B23A64","gate on")],"critic − judge","guidance strength γ",{xs:[0,1,2,4,8,16],ymin:Math.min(0,...de.results.map(r=>r.metrics.gap[0])),ymax:Math.max(0.1,...de.results.map(r=>r.metrics.gap[0]))*1.25})+'</div>';
+  const note=(me.notes||"")+" "; h+='<div class="callout" id="ev-read"></div>';
+  $("#ev-body").innerHTML=h; fetch("results/READING.html").then(r=>r.ok?r.text():"").then(t=>{ if(t) $("#ev-read").innerHTML=t; else $("#ev-read").remove(); }).catch(()=>$("#ev-read").remove());
+}
+function renderMethod(){
+  fetch("results/METHOD.html").then(r=>r.text()).then(t=>$("#me-body").innerHTML=t).catch(()=>{});
+}
+boot();
+})();
