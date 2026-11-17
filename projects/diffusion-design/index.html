@@ -6,6 +6,7 @@
 <title>PTP&sigma; Design Studio: Classifier-Guided Diffusion for Post-Stroke Drug Design</title>
 <meta name="description" content="A working guided-diffusion platform that designs candidate small molecules and gene-editing guide sequences against PTPσ, the receptor that blocks axon regrowth after stroke. It runs entirely in your browser.">
 <meta name="theme-color" content="#14305A">
+<script>(function(){var t=null;try{t=localStorage.getItem("ptp-theme");}catch(e){}if(!t)t=window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";document.documentElement.dataset.theme=t;})();</script>
 <link rel="canonical" href="https://orvillerockwelljr.com/projects/diffusion-design/">
 <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -153,10 +154,58 @@ h2{font-size:1.5rem;letter-spacing:-.02em;color:var(--ink);font-weight:650}h2::a
 table.t th{background:var(--wash);color:var(--ink)}
 .tw{box-shadow:0 1px 2px rgba(15,23,42,.04)}
 .foot{border-top:1px solid var(--rule);margin-top:56px;padding:26px 0 40px;font-size:13px;color:var(--muted)}.foot a{color:var(--muted)}
+
+/* ===== header recede + dark theme ===== */
+:root{--surf:#fff;--cellcur:#E6EAF0;--hh:58px;color-scheme:light}
+.top{transition:transform .28s cubic-bezier(.2,.7,.2,1)}.top.hide{transform:translateY(-100%)}
+.tabs{top:var(--hh);transition:top .28s cubic-bezier(.2,.7,.2,1)}
+@media(prefers-reduced-motion:reduce){.top,.tabs{transition:none}html{scroll-behavior:auto}}
+.themebtn{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;border:1px solid var(--rule);background:var(--surf);color:var(--ink);cursor:pointer;padding:0}
+.themebtn:hover{background:var(--wash)}.themebtn[aria-pressed=true] svg path{fill:currentColor}.themebtn:focus-visible{outline:2px solid var(--cv);outline-offset:2px}
+.gl{stroke:var(--rule)}.cb{fill:var(--cellcur)}
+.chart svg,.rep{color:var(--muted)}
+.glance{padding-top:40px}.glance h2{margin-bottom:14px}.gl4{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+.gl4>div{background:var(--surf);border:1px solid var(--rule);border-radius:14px;padding:14px 16px;box-shadow:0 1px 2px rgba(15,23,42,.04)}
+.gl4 span{font-size:11.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--cv)}.gl4 p{margin-top:6px;font-size:13.5px;line-height:1.55;color:var(--muted)}.gl4 p a{color:var(--cv)}
+[data-theme=dark]{--ink:#E9EDF6;--muted:#A0ABC1;--faint:#8793AB;--rule:#232C44;--wash:#121A2D;--surf:#101829;--paper:#0A0F1D;--cv:#7E9DFF;--navy:#E9EDF6;--auto:#2DD4BF;--bio:#FF6B9D;--cellcur:#2B3652;color-scheme:dark}
+[data-theme=dark] body{background:#0A0F1D;color:var(--ink)}
+[data-theme=dark] .top{background:rgba(10,15,29,.82);border-bottom-color:rgba(255,255,255,.07)}
+[data-theme=dark] .navr a.pill{background:#E9EDF6;color:#0A0F1D}[data-theme=dark] .navr a.pill:hover{background:#fff;color:#0A0F1D}
+[data-theme=dark] .hero{background:radial-gradient(60% 80% at 15% 0%,rgba(47,91,234,.28),transparent 60%),radial-gradient(50% 70% at 90% 10%,rgba(214,51,108,.18),transparent 60%),radial-gradient(50% 60% at 60% 100%,rgba(14,159,142,.16),transparent 60%),#0A0F1D;border-bottom-color:var(--rule)}
+[data-theme=dark] .hero::before{background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px)}
+[data-theme=dark] .eyebrow{background:rgba(126,157,255,.12);border-color:rgba(126,157,255,.3);color:#B9C8FF}
+[data-theme=dark] .cta .b1{background:#E9EDF6;color:#0A0F1D;box-shadow:0 6px 18px rgba(0,0,0,.4)}[data-theme=dark] .cta .b1:hover{background:#fff}
+[data-theme=dark] .cta .b2{background:transparent;color:var(--ink);border-color:#2f3a57}
+[data-theme=dark] .proof div,[data-theme=dark] .notice,[data-theme=dark] .gl4>div,[data-theme=dark] .metrics div,[data-theme=dark] .strip div,[data-theme=dark] .lane,[data-theme=dark] .card,[data-theme=dark] .dna .row,[data-theme=dark] .chart,[data-theme=dark] .mode{background:var(--surf);border-color:var(--rule);box-shadow:none}
+[data-theme=dark] .card.un,[data-theme=dark] .row[style*="fafbfc"]{background:#0e1525!important}
+[data-theme=dark] .tabs{background:var(--wash);border-color:var(--rule)}[data-theme=dark] .tabs button[aria-selected=true]{background:#1b2540;color:var(--ink);box-shadow:none}
+[data-theme=dark] .mode.on{background:#16213f;border-color:#34457a}[data-theme=dark] .mode .mi{background:#1b2540;color:var(--cv)}[data-theme=dark] .mode:hover{border-color:#34457a;box-shadow:none}
+[data-theme=dark] .dock{background:var(--surf);border-color:#2a3555;box-shadow:0 14px 40px rgba(0,0,0,.45)}[data-theme=dark] .dock:focus-within{border-color:#4d68c9;box-shadow:0 0 0 4px rgba(126,157,255,.15)}
+[data-theme=dark] textarea,[data-theme=dark] select,[data-theme=dark] input{background:#0d1426;color:var(--ink);border-color:#2a3555}
+[data-theme=dark] .dock textarea{background:transparent}[data-theme=dark] .dock textarea::placeholder{color:#7e8aa3}
+[data-theme=dark] .dsel{background:#1a2340}[data-theme=dark] .dsel select{background:transparent}
+[data-theme=dark] .gen,[data-theme=dark] .btn{background:#E9EDF6;color:#0A0F1D}[data-theme=dark] .gen:hover,[data-theme=dark] .btn:hover{background:#fff}[data-theme=dark] .gen:disabled,[data-theme=dark] .btn:disabled{background:#3a4560;color:#8e99b0}
+[data-theme=dark] .btn.alt{background:transparent;color:var(--ink);border-color:#2f3a57}
+[data-theme=dark] .chips button{background:#121b30;border-color:#2a3555;color:var(--ink)}[data-theme=dark] .chips button:hover{background:#1a2644}
+[data-theme=dark] .iconbtn{color:var(--ink)}[data-theme=dark] .iconbtn:hover,[data-theme=dark] .iconbtn[aria-expanded=true]{background:#1a2340}
+[data-theme=dark] .repbtn{background:#16203a;color:var(--ink);border-color:#2a3555}
+[data-theme=dark] table.t th{background:#16203a;color:var(--ink)}[data-theme=dark] table.t td{border-bottom-color:var(--rule)}
+[data-theme=dark] .tw{border-color:var(--rule)}
+[data-theme=dark] .card .sv{background:#fff;border-radius:10px}
+[data-theme=dark] .trace .tb{background:#fff}[data-theme=dark] .trace .tb.inv{background:repeating-linear-gradient(45deg,#0e1525,#0e1525 6px,#141c30 6px,#141c30 12px)}
+[data-theme=dark] .seq .A{background:#1b3358;color:#a9cbff}[data-theme=dark] .seq .C{background:#15382f;color:#8fe3c6}[data-theme=dark] .seq .G{background:#45341a;color:#ffc979}[data-theme=dark] .seq .T{background:#472033;color:#ff9fc2}
+[data-theme=dark] .tag{background:#16203a;border-color:#2a3555;color:var(--muted)}[data-theme=dark] .tag.ok{background:#0f2f2b;border-color:#1c5a52;color:#7fe0d0}[data-theme=dark] .tag.no{background:#3a1626;border-color:#6b2a45;color:#ff9fbd}
+[data-theme=dark] .pair.c i{background:#5f7fb8}[data-theme=dark] .pair .tr{background:#1d2740}
+[data-theme=dark] .callout{background:#121a2d}
+[data-theme=dark] .notice b,[data-theme=dark] .proof b{color:var(--ink)}
+[data-theme=dark] a{color:#9DB5FF}[data-theme=dark] .navr a,[data-theme=dark] .foot a{color:var(--muted)}[data-theme=dark] .navr a:hover{color:var(--ink)}
+[data-theme=dark] .themebtn{background:#16203a;border-color:#2a3555}
+[data-theme=dark] .err{background:#3a1626;color:#ffb3cc}
+.rep .rk{flex-wrap:wrap;gap:6px 16px}.rep .rk span{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
 </style>
 </head>
 <body>
-<header class="top"><div class="page"><nav class="nav" aria-label="Page"><a class="wm" href="./"><span class="wmk" aria-hidden="true"></span>PTP&sigma; Studio</a><span class="navr"><a href="#evidence">Evidence</a><a href="#method">Method</a><a href="https://github.com/OrvilleRockwellJr/orvillerockwelljr.github.io/tree/main/projects/diffusion-design">Code</a><a class="pill" href="../../">Orville Rockwell Jr. &rarr;</a></span></nav></div></header>
+<header class="top"><div class="page"><nav class="nav" aria-label="Page"><a class="wm" href="./"><span class="wmk" aria-hidden="true"></span>PTP&sigma; Studio</a><span class="navr"><a href="#evidence">Evidence</a><a href="#method">Method</a><a href="https://github.com/OrvilleRockwellJr/orvillerockwelljr.github.io/tree/main/projects/diffusion-design">Code</a><button type="button" class="themebtn" id="theme" aria-pressed="false" aria-label="Toggle dark theme" title="Switch to dark theme"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5a8.5 8.5 0 1 0 10.7 10.7z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/></svg></button><a class="pill" href="../../">Orville Rockwell Jr. &rarr;</a></span></nav></div></header>
 <div class="hero"><div class="page">
  <span class="eyebrow"><i></i>Research preview &middot; runs entirely in your browser</span>
  <h1>Generative design that tells you <em>when not to trust it.</em></h1>
@@ -168,6 +217,12 @@ table.t th{background:var(--wash);color:var(--ink)}
   <div><b>0 servers</b><span>No API and no upload. Models, chemistry and reports run on your device.</span></div>
  </div>
 </div></div>
+<section class="page glance" aria-label="Summary for reviewers"><h2>At a glance</h2><div class="gl4">
+ <div><span>Question</span><p>When can a steering predictor be trusted during generative design, and when does gradient guidance beat generate-and-filter?</p></div>
+ <div><span>Approach</span><p>Classifier-guided diffusion for molecules and CRISPR guides, a 5-head bootstrap critic ensemble with an uncertainty gate, and a held-out judge trained on different features.</p></div>
+ <div><span>Finding</span><p>For molecules the gate decides whether the critic&rsquo;s shortlist is usable (9% pass the audit without it, 81% with it; unguided filtering 49%). For guides filtering already reaches 90% and the gate did not help.</p></div>
+ <div><span>Limits</span><p>Small public datasets, one target (PTPRS), and a judge that is a model, not an experiment. Nothing here is lab-validated. <a href="#method">Method and reproduction</a>.</p></div>
+</div></section>
 <main class="page" id="main">
  <p class="notice"><b>Research prototype, in silico only.</b> Every score is a prediction from small models trained on public data (ChEMBL, B3DB, Tox21, the Doench guide-efficacy screens). Nothing here is lab-validated, and nothing here is medical advice. The <i>Evidence</i> tab shows how often the held-out judge agrees with the steering classifiers, including where it does not.</p>
  <div class="tabs" role="tablist" id="design" aria-label="Platform sections">

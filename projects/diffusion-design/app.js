@@ -198,9 +198,9 @@ const f2=v=>Number.isFinite(v)?v.toFixed(2):"–", f3=v=>Number.isFinite(v)?v.to
 function lineChart(title,series,yl,xl,opts){
   const W=420,H=240,P={l:42,r:12,t:12,b:36}; const xs=opts.xs; const xmax=Math.max(...xs),xmin=Math.min(...xs); const ymax=opts.ymax, ymin=opts.ymin||0;
   const X=x=>P.l+(x-xmin)/(xmax-xmin||1)*(W-P.l-P.r), Y=y=>H-P.b-(y-ymin)/(ymax-ymin)*(H-P.t-P.b);
-  let g=""; for(let i=0;i<=4;i++){ const v=ymin+(ymax-ymin)*i/4; g+='<line x1="'+P.l+'" x2="'+(W-P.r)+'" y1="'+Y(v)+'" y2="'+Y(v)+'" stroke="#E2E6EB"/><text x="'+(P.l-6)+'" y="'+(Y(v)+4)+'" text-anchor="end" fill="#5B6573" font-size="10">'+v.toFixed(opts.d||2)+'</text>'; }
-  xs.forEach(x=>g+='<text x="'+X(x)+'" y="'+(H-P.b+14)+'" text-anchor="middle" fill="#5B6573" font-size="10">'+x+'</text>');
-  g+='<text x="'+(W/2)+'" y="'+(H-4)+'" text-anchor="middle" fill="#5B6573" font-size="11">'+xl+'</text><text transform="translate(11,'+(H/2)+') rotate(-90)" text-anchor="middle" fill="#5B6573" font-size="11">'+yl+'</text>';
+  let g=""; for(let i=0;i<=4;i++){ const v=ymin+(ymax-ymin)*i/4; g+='<line x1="'+P.l+'" x2="'+(W-P.r)+'" y1="'+Y(v)+'" y2="'+Y(v)+'" class="gl"/><text x="'+(P.l-6)+'" y="'+(Y(v)+4)+'" text-anchor="end" fill="currentColor" font-size="10">'+v.toFixed(opts.d||2)+'</text>'; }
+  xs.forEach(x=>g+='<text x="'+X(x)+'" y="'+(H-P.b+14)+'" text-anchor="middle" fill="currentColor" font-size="10">'+x+'</text>');
+  g+='<text x="'+(W/2)+'" y="'+(H-4)+'" text-anchor="middle" fill="currentColor" font-size="11">'+xl+'</text><text transform="translate(11,'+(H/2)+') rotate(-90)" text-anchor="middle" fill="currentColor" font-size="11">'+yl+'</text>';
   series.forEach(s=>{ if(s.hline!=null){ g+='<line x1="'+P.l+'" x2="'+(W-P.r)+'" y1="'+Y(s.hline)+'" y2="'+Y(s.hline)+'" stroke="'+s.c+'" stroke-dasharray="5 4"/><text x="'+(W-P.r)+'" y="'+(Y(s.hline)-4)+'" text-anchor="end" fill="'+s.c+'" font-size="10">'+s.n+'</text>'; return; }
     const pts=s.pts.map(p=>[X(p[0]),Y(p[1]),p[2]]); g+='<polyline fill="none" stroke="'+s.c+'" stroke-width="2" points="'+pts.map(p=>p[0]+","+p[1]).join(" ")+'"/>';
     pts.forEach((p,i)=>{ if(s.pts[i][2]!=null){ g+='<line x1="'+p[0]+'" x2="'+p[0]+'" y1="'+Y(s.pts[i][1]-s.pts[i][2])+'" y2="'+Y(s.pts[i][1]+s.pts[i][2])+'" stroke="'+s.c+'" opacity=".5"/>'; } g+='<circle cx="'+p[0]+'" cy="'+p[1]+'" r="3.5" fill="'+s.c+'"/>'; }); });
@@ -323,21 +323,21 @@ function repHtml(r){
   const jz=E.dnaJudge(s,S.judges.dna); const jism=[]; for(let i=0;i<30;i++){ const row=[]; for(let b=0;b<4;b++) row.push(NT[b]===s[i]?jz:E.dnaJudge(s.slice(0,i)+NT[b]+s.slice(i+1),S.judges.dna)); jism.push(row); }
   const am=row=>row.indexOf(Math.max(...row)); const c0=sig(r.crit.mean), j0=sig(jz); let dis=0, mat=0; const dpos=[]; for(let i=0;i<30;i++){ const gc=sig(Math.max(...r.ism[i]))-c0, gj=sig(Math.max(...jism[i]))-j0; if(gc>=0.03||gj>=0.03){ mat++; if(am(r.ism[i])!==am(jism[i])){ dis++; dpos.push(i); } } }
   const cur=[sig(r.crit.mean),sig(jz)];
-  const heat=(rows,base,y0,name)=>{ let g='<text x="0" y="'+(y0+H*2+3)+'" font-size="9" fill="#5a6573" transform="rotate(-90 8 '+(y0+H*2)+')" text-anchor="middle">'+name+'</text>';
-    for(let b=0;b<4;b++){ g+='<text x="'+(x0-6)+'" y="'+(y0+b*H+H-3)+'" font-size="9" text-anchor="end" fill="#5a6573">'+NT[b]+'</text>';
+  const heat=(rows,base,y0,name)=>{ let g='<text x="0" y="'+(y0+H*2+3)+'" font-size="9" fill="currentColor" transform="rotate(-90 8 '+(y0+H*2)+')" text-anchor="middle">'+name+'</text>';
+    for(let b=0;b<4;b++){ g+='<text x="'+(x0-6)+'" y="'+(y0+b*H+H-3)+'" font-size="9" text-anchor="end" fill="currentColor">'+NT[b]+'</text>';
       for(let i=0;i<30;i++){ const d=sig(rows[i][b])-base, isCur=NT[b]===s[i], al=Math.min(1,Math.abs(d)/0.3);
-        const fill=isCur?"#E6EAF0":(d>=0?"rgba(31,111,165,"+(0.08+0.85*al).toFixed(2)+")":"rgba(201,92,30,"+(0.08+0.85*al).toFixed(2)+")");
-        g+='<rect x="'+(x0+i*cw)+'" y="'+(y0+b*H)+'" width="'+(cw-1)+'" height="'+(H-1)+'" rx="2" fill="'+fill+'"><title>'+name+': position '+(i+1)+' '+s[i]+'→'+NT[b]+' changes P by '+(isCur?"0 (current)":(d>=0?"+":"")+d.toFixed(2))+'</title></rect>'; } }
+        const fill=isCur?"var(--cellcur)":(d>=0?"rgba(31,111,165,"+(0.08+0.85*al).toFixed(2)+")":"rgba(201,92,30,"+(0.08+0.85*al).toFixed(2)+")");
+        g+='<rect x="'+(x0+i*cw)+'" y="'+(y0+b*H)+'" width="'+(cw-1)+'" height="'+(H-1)+'" rx="2" style="fill:'+fill+'"><title>'+name+': position '+(i+1)+' '+s[i]+'→'+NT[b]+' changes P by '+(isCur?"0 (current)":(d>=0?"+":"")+d.toFixed(2))+'</title></rect>'; } }
     return g; };
   let svg='<svg viewBox="0 0 '+(x0+30*cw)+' 196" role="img" aria-label="Per-base report">';
   for(let i=0;i<30;i++){ svg+='<text x="'+(x0+i*cw+cw/2-.5)+'" y="9" font-size="10" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" fill="'+(i>=24&&i<27?"#1F6FA5":"#14305A")+'" font-weight="'+(i>=24&&i<27?700:500)+'">'+s[i]+'</text>'; }
   svg+=heat(r.ism,cur[0],14,"critic")+heat(jism,cur[1],14+4*H+gap+4,"judge");
-  const ty=14+8*H+gap*2+14, mx=Math.max(1.6,...r.surp.pos); svg+='<text x="0" y="'+(ty+22)+'" font-size="9" fill="#5a6573" transform="rotate(-90 8 '+(ty+22)+')" text-anchor="middle">surprise</text>';
+  const ty=14+8*H+gap*2+14, mx=Math.max(1.6,...r.surp.pos); svg+='<text x="0" y="'+(ty+22)+'" font-size="9" fill="currentColor" transform="rotate(-90 8 '+(ty+22)+')" text-anchor="middle">surprise</text>';
   r.surp.pos.forEach((v,i)=>{ const h=Math.max(1,v/mx*40); svg+='<rect x="'+(x0+i*cw)+'" y="'+(ty+44-h)+'" width="'+(cw-1)+'" height="'+h+'" rx="2" fill="#7A8CA8"><title>prior surprise at position '+(i+1)+': '+v.toFixed(2)+'</title></rect>'; });
   for(const i of dpos) svg+='<rect x="'+(x0+i*cw)+'" y="'+(ty+47)+'" width="'+(cw-1)+'" height="3" fill="#C95C1E"/>';
   svg+='</svg>';
   const ann=(S.lib&&S.lib.map.get(s))||(ptLib()&&ptLib().map.get(s)); const sp=r.pct==null?"":" Lower surprise than "+Math.round((1-r.pct)*100)+"% of PTPRS sites.";
-  return '<div class="rep"><h5>Per-base report</h5>'+svg+'<div class="rk"><span><i style="background:rgba(31,111,165,.8)"></i>mutation raises P(efficient)</span><span><i style="background:rgba(201,92,30,.8)"></i>lowers it</span><span><i style="background:#E6EAF0"></i>current base</span><span><i style="background:#C95C1E"></i>critic and judge pick different best bases</span></div>'+
+  return '<div class="rep"><h5>Per-base report</h5>'+svg+'<div class="rk"><span><i style="background:rgba(31,111,165,.8)"></i>mutation raises P(efficient)</span><span><i style="background:rgba(201,92,30,.8)"></i>lowers it</span><span><i class="cb" style="background:var(--cellcur)"></i>current base</span><span><i style="background:#C95C1E"></i>critic and judge pick different best bases</span></div>'+
    '<p style="margin:8px 0 0"><b>Critic P '+cur[0].toFixed(2)+' · judge P '+cur[1].toFixed(2)+'.</b> Each cell is the change in predicted efficiency if that one base were swapped (in-silico mutagenesis). At the <b>'+mat+'</b> positions where either model sees a gain of 0.03 or more, they disagree on the best base at <b>'+dis+'</b>.</p>'+
    '<p style="margin:4px 0 0">Prior surprise (denoising error under the coding-sequence prior, our analogue of Evo\'s per-base entropy): mean '+r.surp.mean.toFixed(2)+'; a random sequence is about 1.2.'+sp+'</p>'+
    '<p style="margin:4px 0 0">'+(ann?"Annotation: "+esc(ann.label)+", "+(ann.strand>0?"sense":"antisense")+" strand, PAM at positions 25 to 27, cut between positions 21 and 22 of the 30-mer.":"Annotation: not an exact NGG cut site inside a PTPRS exon.")+'</p></div>'; }
@@ -362,5 +362,12 @@ function onScScores(m){ const R=S.sc.rows; $("#sc-go").disabled=false; const O=R
   $("#sc-status").textContent="Done. Scored "+O.length+" site"+(O.length>1?"s":"")+" on your device.";
   $("#sc-out").innerHTML='<div class="metrics"><div><span>Sites scored</span><b>'+O.length+'</b><small>NGG with 30-nt context, both strands</small></div><div><span>Pass judge and checks</span><b>'+O.filter(o=>o.pass).length+'</b><small>of '+O.length+'</small></div><div><span>Best critic / judge</span><b>'+fmt(top[0].cp)+' / '+fmt(top[0].jp)+'</b><small>top-ranked site</small></div><div><span>Mean critic&ndash;judge gap</span><b>'+fmt(gap)+'</b><small>how far the two models differ</small></div></div>'+(R.length>1?'<p class="small">Top '+top.length+' by average of critic and judge. Open any row for its per-base report.</p>':'')+'<div class="dna">'+top.map((o,i)=>dnaRow(o,R.length>1?"Rank "+(i+1)+" · "+(o.strand>0?"sense":"antisense")+" strand":"",false)).join("")+'</div>'; if(O.length===1||top.length===1){ const b=$("#sc-out .repbtn"); if(b) b.click(); } }
 
+/* ---------- header that recedes on scroll, theme toggle ---------- */
+(function(){ const hd=document.querySelector(".top"), root=document.documentElement; let last=window.scrollY, tick=false;
+  function upd(){ const y=window.scrollY, d=y-last; if(y<80){ hd.classList.remove("hide"); root.style.setProperty("--hh","58px"); } else if(d>6){ hd.classList.add("hide"); root.style.setProperty("--hh","8px"); } else if(d<-6){ hd.classList.remove("hide"); root.style.setProperty("--hh","58px"); } if(Math.abs(d)>6||y<80) last=y; tick=false; }
+  window.addEventListener("scroll",()=>{ if(!tick){ tick=true; requestAnimationFrame(upd); } },{passive:true});
+  hd.addEventListener("focusin",()=>{ hd.classList.remove("hide"); root.style.setProperty("--hh","58px"); });
+  const btn=document.getElementById("theme"); function paint(){ const dark=root.dataset.theme==="dark"; btn.setAttribute("aria-pressed",String(dark)); btn.title=dark?"Switch to light theme":"Switch to dark theme"; const m=document.querySelector('meta[name=theme-color]'); if(m) m.content=dark?"#0B1020":"#14305A"; }
+  btn.addEventListener("click",()=>{ const dark=root.dataset.theme!=="dark"; root.dataset.theme=dark?"dark":"light"; try{ localStorage.setItem("ptp-theme",root.dataset.theme); }catch(e){} paint(); }); paint(); })();
 boot();
 })();
