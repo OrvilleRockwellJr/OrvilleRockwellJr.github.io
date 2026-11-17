@@ -3,7 +3,7 @@ import json, sys, numpy as np, torch
 sys.path.insert(0,"/home/claude/build/scripts"); import gd
 from train_ae import AE, vocab, L, Z, detok
 O="/home/claude/build/models/"; W="/home/claude/build/web/models/"
-torch.manual_seed(5)
+torch.manual_seed(5); GAM={"mol":3.0,"dna":3.0}
 out={}
 for name,dsz,H in (("mol",64,128),("dna",120,128)):
     den=gd.Denoiser(dsz,512 if name=="mol" else 384); den.load_state_dict(torch.load(O+f"{name}_denoiser.pt")); den.eval()
@@ -27,7 +27,7 @@ for name,dsz,H in (("mol",64,128),("dna",120,128)):
     rec["crit"]=cg
     noise=torch.randn(2,dsz,generator=torch.Generator().manual_seed(11))
     for gate in ("none","ens"):
-        xs=gd.sample(den,dsz,2,steps=20,objectives=obj,gamma=3.0,tau=1.5,eta=0.0,noise=noise,gate_mode=gate,clip=None if name=="mol" else 1.5)
+        xs=gd.sample(den,dsz,2,steps=20,objectives=obj,gamma=GAM[name],tau=1.5,eta=0.0,noise=noise,gate_mode=gate,clip=None if name=="mol" else 1.5)
         rec[f"sample_{gate}"]=xs.tolist()
     rec["noise"]=noise.tolist(); out[name]=rec
 ae=AE(); ae.load_state_dict(torch.load(O+"ae.pt")); ae.eval()

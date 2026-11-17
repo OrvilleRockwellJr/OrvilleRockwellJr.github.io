@@ -6,7 +6,7 @@ from train_ae import AE, vocab, L, Z, detok
 from rdkit import Chem, RDLogger; from rdkit.Chem import rdFingerprintGenerator as G, QED, Descriptors, Crippen
 RDLogger.DisableLog('rdApp.*'); torch.set_num_threads(2)
 D="/home/claude/build/data/"; O="/home/claude/build/models/"; log=lambda m:print(m,flush=True)
-M=json.load(open(D+"mol.json")); st=torch.load(O+"mol_stats.pt"); mean,std=st["mean"],st["std"]
+M=json.load(open(D+"mol2.json")); st=torch.load(O+"mol_stats.pt"); mean,std=st["mean"],st["std"]
 ae=AE(); ae.load_state_dict(torch.load(O+"ae.pt")); ae.eval()
 den=gd.Denoiser(64,512); den.load_state_dict(torch.load(O+"mol_denoiser.pt")); den.eval()
 cr=torch.load(O+"mol_critics.pt"); heads={}

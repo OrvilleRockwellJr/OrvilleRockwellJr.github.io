@@ -29,484 +29,484 @@
      0.0397678448181628
     ],
     "critic_p": [
-     0.49739041924476624,
-     0.015891362061563986
+     0.550140897432963,
+     0.011102791637625559
     ],
     "judge_p": [
-     0.49109008499479284,
-     0.012539418282716737
+     0.47038150991809163,
+     0.006340831181410941
     ],
     "gap": [
-     0.006300334249973376,
-     0.009619172155000733
+     0.07975938751487144,
+     0.00612406984357084
     ],
     "judge_success": [
-     0.4033333333333333,
-     0.026034165586355504
+     0.3844444444444444,
+     0.041410322563520494
     ],
     "gc_mean": [
      0.573111111111111,
      0.0041910398250094
     ],
     "topk_judge_success": [
-     0.9,
-     0.09999999999999998
-    ]
-   }
-  },
-  {
-   "gamma": 1.0,
-   "gate": "none",
-   "metrics": {
-    "pam_valid": [
-     1.0,
-     0.0
-    ],
-    "unique": [
-     1.0,
-     0.0
-    ],
-    "novel_of_unique": [
-     1.0,
-     0.0
-    ],
-    "usable": [
-     0.8088888888888889,
-     0.025239592648001186
-    ],
-    "critic_p": [
-     0.5970096786816915,
-     0.016104475725311367
-    ],
-    "judge_p": [
-     0.5736392602286013,
-     0.012914392904902188
-    ],
-    "gap": [
-     0.02337041845309007,
-     0.00862684143243738
-    ],
-    "judge_success": [
-     0.5477777777777777,
-     0.03203007845644351
-    ],
-    "gc_mean": [
-     0.5757777777777777,
-     0.0019460310986818435
-    ],
-    "topk_judge_success": [
-     0.9777777777777779,
-     0.01924500897298752
-    ]
-   }
-  },
-  {
-   "gamma": 1.0,
-   "gate": "ens",
-   "metrics": {
-    "pam_valid": [
-     1.0,
-     0.0
-    ],
-    "unique": [
-     1.0,
-     0.0
-    ],
-    "novel_of_unique": [
-     1.0,
-     0.0
-    ],
-    "usable": [
-     0.8055555555555555,
-     0.033719979789985574
-    ],
-    "critic_p": [
-     0.5732343991597494,
-     0.01621693057646425
-    ],
-    "judge_p": [
-     0.554262829705244,
-     0.011120038616761429
-    ],
-    "gap": [
-     0.018971569454505472,
-     0.006801882585598132
-    ],
-    "judge_success": [
-     0.5155555555555555,
-     0.020367003088692614
-    ],
-    "gc_mean": [
-     0.5740555555555554,
-     0.0022993557873972493
-    ],
-    "topk_judge_success": [
-     0.9777777777777779,
-     0.01924500897298752
-    ]
-   }
-  },
-  {
-   "gamma": 2.0,
-   "gate": "none",
-   "metrics": {
-    "pam_valid": [
-     1.0,
-     0.0
-    ],
-    "unique": [
-     1.0,
-     0.0
-    ],
-    "novel_of_unique": [
-     1.0,
-     0.0
-    ],
-    "usable": [
-     0.8288888888888889,
-     0.02219442706159798
-    ],
-    "critic_p": [
-     0.659399171670278,
-     0.015583734737057448
-    ],
-    "judge_p": [
-     0.6246139268843223,
-     0.013270024364247311
-    ],
-    "gap": [
-     0.034785244785955606,
-     0.009228577618720273
-    ],
-    "judge_success": [
-     0.6522222222222221,
-     0.04525647078759177
-    ],
-    "gc_mean": [
-     0.5757777777777777,
-     0.002083888814834536
-    ],
-    "topk_judge_success": [
-     0.9888888888888889,
-     0.01924500897298752
-    ]
-   }
-  },
-  {
-   "gamma": 2.0,
-   "gate": "ens",
-   "metrics": {
-    "pam_valid": [
-     1.0,
-     0.0
-    ],
-    "unique": [
-     1.0,
-     0.0
-    ],
-    "novel_of_unique": [
-     1.0,
-     0.0
-    ],
-    "usable": [
-     0.8177777777777778,
-     0.02219442706159798
-    ],
-    "critic_p": [
-     0.6261690457661947,
-     0.016636136926716203
-    ],
-    "judge_p": [
-     0.5980706068029982,
-     0.015611854290475586
-    ],
-    "gap": [
-     0.028098438963196488,
-     0.010005991221594603
-    ],
-    "judge_success": [
-     0.6044444444444445,
-     0.048342910928460214
-    ],
-    "gc_mean": [
-     0.5747222222222222,
-     0.003417005403262626
-    ],
-    "topk_judge_success": [
-     0.9888888888888889,
-     0.01924500897298752
-    ]
-   }
-  },
-  {
-   "gamma": 4.0,
-   "gate": "none",
-   "metrics": {
-    "pam_valid": [
-     1.0,
-     0.0
-    ],
-    "unique": [
-     1.0,
-     0.0
-    ],
-    "novel_of_unique": [
-     1.0,
-     0.0
-    ],
-    "usable": [
-     0.8177777777777777,
-     0.040184758488944705
-    ],
-    "critic_p": [
-     0.7287226517995199,
-     0.013270095745009997
-    ],
-    "judge_p": [
-     0.6868721905398627,
-     0.012498131646854012
-    ],
-    "gap": [
-     0.04185046125965719,
-     0.0068448169199135335
-    ],
-    "judge_success": [
-     0.7311111111111112,
-     0.04525647078759177
-    ],
-    "gc_mean": [
-     0.5761666666666666,
-     0.0044752405273658395
-    ],
-    "topk_judge_success": [
-     1.0,
-     0.0
-    ]
-   }
-  },
-  {
-   "gamma": 4.0,
-   "gate": "ens",
-   "metrics": {
-    "pam_valid": [
-     1.0,
-     0.0
-    ],
-    "unique": [
-     1.0,
-     0.0
-    ],
-    "novel_of_unique": [
-     1.0,
-     0.0
-    ],
-    "usable": [
-     0.8222222222222223,
-     0.03595264374969651
-    ],
-    "critic_p": [
-     0.6903871893882751,
-     0.016329451163308577
-    ],
-    "judge_p": [
-     0.6527127007633862,
-     0.008833918357752612
-    ],
-    "gap": [
-     0.037674488624888945,
-     0.008391077259607862
-    ],
-    "judge_success": [
-     0.69,
-     0.04333333333333334
-    ],
-    "gc_mean": [
-     0.5755555555555555,
-     0.002009237924447184
-    ],
-    "topk_judge_success": [
-     1.0,
-     0.0
-    ]
-   }
-  },
-  {
-   "gamma": 8.0,
-   "gate": "none",
-   "metrics": {
-    "pam_valid": [
-     1.0,
-     0.0
-    ],
-    "unique": [
-     1.0,
-     0.0
-    ],
-    "novel_of_unique": [
-     1.0,
-     0.0
-    ],
-    "usable": [
-     0.8333333333333334,
-     0.03179797338056481
-    ],
-    "critic_p": [
-     0.7932913700739542,
-     0.008820185420716815
-    ],
-    "judge_p": [
-     0.7405993935688678,
-     0.004787137391863691
-    ],
-    "gap": [
-     0.05269197650508639,
-     0.005587298779427198
-    ],
-    "judge_success": [
-     0.7922222222222223,
-     0.04337604732431808
-    ],
-    "gc_mean": [
-     0.5756111111111111,
-     0.004001157240006896
-    ],
-    "topk_judge_success": [
-     1.0,
-     0.0
-    ]
-   }
-  },
-  {
-   "gamma": 8.0,
-   "gate": "ens",
-   "metrics": {
-    "pam_valid": [
-     1.0,
-     0.0
-    ],
-    "unique": [
-     1.0,
-     0.0
-    ],
-    "novel_of_unique": [
-     1.0,
-     0.0
-    ],
-    "usable": [
-     0.8166666666666665,
-     0.039299420408505314
-    ],
-    "critic_p": [
-     0.7511494954427084,
-     0.01137682388504903
-    ],
-    "judge_p": [
-     0.7035889025148574,
-     0.007074738469862107
-    ],
-    "gap": [
-     0.04756059292785094,
-     0.006704576994812826
-    ],
-    "judge_success": [
-     0.7422222222222222,
-     0.044263520637871305
-    ],
-    "gc_mean": [
-     0.5746111111111111,
-     0.005480605535617106
-    ],
-    "topk_judge_success": [
-     1.0,
-     0.0
-    ]
-   }
-  },
-  {
-   "gamma": 16.0,
-   "gate": "none",
-   "metrics": {
-    "pam_valid": [
-     1.0,
-     0.0
-    ],
-    "unique": [
-     1.0,
-     0.0
-    ],
-    "novel_of_unique": [
-     1.0,
-     0.0
-    ],
-    "usable": [
-     0.8488888888888888,
-     0.030971910810591873
-    ],
-    "critic_p": [
-     0.8457416494687399,
-     0.005962679070788892
-    ],
-    "judge_p": [
-     0.7888636841323593,
-     0.002951777122605718
-    ],
-    "gap": [
-     0.056877965336380565,
-     0.005982017393979536
-    ],
-    "judge_success": [
-     0.8333333333333334,
-     0.04163331998932265
-    ],
-    "gc_mean": [
-     0.575388888888889,
-     0.006447078005950881
-    ],
-    "topk_judge_success": [
-     1.0,
-     0.0
-    ]
-   }
-  },
-  {
-   "gamma": 16.0,
-   "gate": "ens",
-   "metrics": {
-    "pam_valid": [
-     1.0,
-     0.0
-    ],
-    "unique": [
-     1.0,
-     0.0
-    ],
-    "novel_of_unique": [
-     1.0,
-     0.0
-    ],
-    "usable": [
-     0.84,
-     0.03511884584284249
-    ],
-    "critic_p": [
-     0.8036212921142578,
-     0.008342071392924158
-    ],
-    "judge_p": [
-     0.7470302228980374,
-     0.007143190284401803
-    ],
-    "gap": [
-     0.056591069216220445,
-     0.007509003774097849
-    ],
-    "judge_success": [
-     0.8011111111111111,
+     0.9222222222222222,
      0.05091750772173154
+    ]
+   }
+  },
+  {
+   "gamma": 1.0,
+   "gate": "none",
+   "metrics": {
+    "pam_valid": [
+     1.0,
+     0.0
+    ],
+    "unique": [
+     1.0,
+     0.0
+    ],
+    "novel_of_unique": [
+     1.0,
+     0.0
+    ],
+    "usable": [
+     0.8977777777777778,
+     0.02219442706159798
+    ],
+    "critic_p": [
+     0.6673227349917094,
+     0.014451775042070108
+    ],
+    "judge_p": [
+     0.5653817973078509,
+     0.000874425524511988
+    ],
+    "gap": [
+     0.10194093768385855,
+     0.015236919738694671
+    ],
+    "judge_success": [
+     0.5222222222222223,
+     0.02795499027868695
     ],
     "gc_mean": [
-     0.5750555555555557,
-     0.005583540626334323
+     0.5790555555555555,
+     0.0023648662948657817
+    ],
+    "topk_judge_success": [
+     0.9666666666666667,
+     0.033333333333333326
+    ]
+   }
+  },
+  {
+   "gamma": 1.0,
+   "gate": "ens",
+   "metrics": {
+    "pam_valid": [
+     1.0,
+     0.0
+    ],
+    "unique": [
+     1.0,
+     0.0
+    ],
+    "novel_of_unique": [
+     1.0,
+     0.0
+    ],
+    "usable": [
+     0.8866666666666667,
+     0.0348010216963685
+    ],
+    "critic_p": [
+     0.650800367196401,
+     0.014622663597302039
+    ],
+    "judge_p": [
+     0.5515755638572108,
+     0.0009594775257577556
+    ],
+    "gap": [
+     0.09922480333919015,
+     0.015294906980244657
+    ],
+    "judge_success": [
+     0.4977777777777777,
+     0.026943012562182518
+    ],
+    "gc_mean": [
+     0.5790555555555555,
+     0.001931704294523694
+    ],
+    "topk_judge_success": [
+     0.9555555555555556,
+     0.01924500897298752
+    ]
+   }
+  },
+  {
+   "gamma": 2.0,
+   "gate": "none",
+   "metrics": {
+    "pam_valid": [
+     1.0,
+     0.0
+    ],
+    "unique": [
+     1.0,
+     0.0
+    ],
+    "novel_of_unique": [
+     1.0,
+     0.0
+    ],
+    "usable": [
+     0.9166666666666666,
+     0.017638342073763927
+    ],
+    "critic_p": [
+     0.7237927317619324,
+     0.013761323293368443
+    ],
+    "judge_p": [
+     0.6138222079343659,
+     0.0075061620556001124
+    ],
+    "gap": [
+     0.10997052382756652,
+     0.01982736417455368
+    ],
+    "judge_success": [
+     0.61,
+     0.04910306620885413
+    ],
+    "gc_mean": [
+     0.5786666666666668,
+     0.0027838821814150437
+    ],
+    "topk_judge_success": [
+     1.0,
+     0.0
+    ]
+   }
+  },
+  {
+   "gamma": 2.0,
+   "gate": "ens",
+   "metrics": {
+    "pam_valid": [
+     1.0,
+     0.0
+    ],
+    "unique": [
+     1.0,
+     0.0
+    ],
+    "novel_of_unique": [
+     1.0,
+     0.0
+    ],
+    "usable": [
+     0.9155555555555556,
+     0.01575271875417537
+    ],
+    "critic_p": [
+     0.7050058841705322,
+     0.014980104985302245
+    ],
+    "judge_p": [
+     0.598080658307985,
+     0.00572340670341235
+    ],
+    "gap": [
+     0.10692522586254727,
+     0.020575280948757255
+    ],
+    "judge_success": [
+     0.58,
+     0.03605551275463986
+    ],
+    "gc_mean": [
+     0.5792222222222222,
+     0.0020161385901804594
+    ],
+    "topk_judge_success": [
+     1.0,
+     0.0
+    ]
+   }
+  },
+  {
+   "gamma": 4.0,
+   "gate": "none",
+   "metrics": {
+    "pam_valid": [
+     1.0,
+     0.0
+    ],
+    "unique": [
+     1.0,
+     0.0
+    ],
+    "novel_of_unique": [
+     1.0,
+     0.0
+    ],
+    "usable": [
+     0.9288888888888889,
+     0.0189541356769244
+    ],
+    "critic_p": [
+     0.7844463984171549,
+     0.010179888371564888
+    ],
+    "judge_p": [
+     0.684751218223863,
+     0.003578245645777264
+    ],
+    "gap": [
+     0.09969518019329204,
+     0.007338169518142547
+    ],
+    "judge_success": [
+     0.7044444444444444,
+     0.02834966849371793
+    ],
+    "gc_mean": [
+     0.5781666666666667,
+     0.0017559422921421615
+    ],
+    "topk_judge_success": [
+     1.0,
+     0.0
+    ]
+   }
+  },
+  {
+   "gamma": 4.0,
+   "gate": "ens",
+   "metrics": {
+    "pam_valid": [
+     1.0,
+     0.0
+    ],
+    "unique": [
+     1.0,
+     0.0
+    ],
+    "novel_of_unique": [
+     1.0,
+     0.0
+    ],
+    "usable": [
+     0.918888888888889,
+     0.030061665018819267
+    ],
+    "critic_p": [
+     0.7662826180458069,
+     0.011928191247248634
+    ],
+    "judge_p": [
+     0.6626490337936181,
+     0.004945553701816284
+    ],
+    "gap": [
+     0.10363358425218883,
+     0.007761296084987552
+    ],
+    "judge_success": [
+     0.67,
+     0.053333333333333344
+    ],
+    "gc_mean": [
+     0.58,
+     0.0030550504633038962
+    ],
+    "topk_judge_success": [
+     1.0,
+     0.0
+    ]
+   }
+  },
+  {
+   "gamma": 8.0,
+   "gate": "none",
+   "metrics": {
+    "pam_valid": [
+     1.0,
+     0.0
+    ],
+    "unique": [
+     1.0,
+     0.0
+    ],
+    "novel_of_unique": [
+     1.0,
+     0.0
+    ],
+    "usable": [
+     0.9311111111111111,
+     0.01644294287438745
+    ],
+    "critic_p": [
+     0.8377429445584615,
+     0.006425293966053901
+    ],
+    "judge_p": [
+     0.7590996044346586,
+     0.003122612468740354
+    ],
+    "gap": [
+     0.07864334012380288,
+     0.006682781620516431
+    ],
+    "judge_success": [
+     0.7944444444444444,
+     0.01677740985615727
+    ],
+    "gc_mean": [
+     0.5781111111111111,
+     0.0041577682760151015
+    ],
+    "topk_judge_success": [
+     1.0,
+     0.0
+    ]
+   }
+  },
+  {
+   "gamma": 8.0,
+   "gate": "ens",
+   "metrics": {
+    "pam_valid": [
+     1.0,
+     0.0
+    ],
+    "unique": [
+     1.0,
+     0.0
+    ],
+    "novel_of_unique": [
+     1.0,
+     0.0
+    ],
+    "usable": [
+     0.9266666666666666,
+     0.02027587510099405
+    ],
+    "critic_p": [
+     0.8223719994227091,
+     0.00795666566721423
+    ],
+    "judge_p": [
+     0.7319372933365301,
+     0.0056324664647719146
+    ],
+    "gap": [
+     0.09043470608617905,
+     0.005670782480336861
+    ],
+    "judge_success": [
+     0.7611111111111112,
+     0.041943524640393075
+    ],
+    "gc_mean": [
+     0.5796111111111112,
+     0.004237181103481964
+    ],
+    "topk_judge_success": [
+     1.0,
+     0.0
+    ]
+   }
+  },
+  {
+   "gamma": 16.0,
+   "gate": "none",
+   "metrics": {
+    "pam_valid": [
+     1.0,
+     0.0
+    ],
+    "unique": [
+     1.0,
+     0.0
+    ],
+    "novel_of_unique": [
+     1.0,
+     0.0
+    ],
+    "usable": [
+     0.9388888888888888,
+     0.016777409856157218
+    ],
+    "critic_p": [
+     0.8756580948829651,
+     0.005740439231160064
+    ],
+    "judge_p": [
+     0.8118271779580569,
+     0.0058198266702563645
+    ],
+    "gap": [
+     0.06383091692490821,
+     0.0027912642903708657
+    ],
+    "judge_success": [
+     0.8477777777777779,
+     0.0340478965467657
+    ],
+    "gc_mean": [
+     0.5821111111111111,
+     0.005189019746149203
+    ],
+    "topk_judge_success": [
+     1.0,
+     0.0
+    ]
+   }
+  },
+  {
+   "gamma": 16.0,
+   "gate": "ens",
+   "metrics": {
+    "pam_valid": [
+     1.0,
+     0.0
+    ],
+    "unique": [
+     1.0,
+     0.0
+    ],
+    "novel_of_unique": [
+     1.0,
+     0.0
+    ],
+    "usable": [
+     0.9344444444444445,
+     0.02589151155051346
+    ],
+    "critic_p": [
+     0.8648486336072286,
+     0.005650669862587463
+    ],
+    "judge_p": [
+     0.7953124695453221,
+     0.004056736119257162
+    ],
+    "gap": [
+     0.06953616406190655,
+     0.0016314462849612073
+    ],
+    "judge_success": [
+     0.831111111111111,
+     0.04114113018127475
+    ],
+    "gc_mean": [
+     0.5801111111111111,
+     0.004595690412807447
     ],
     "topk_judge_success": [
      1.0,
@@ -517,14 +517,22 @@
  ],
  "reference": {
   "doench_test_guides": {
-   "judge_p": 0.5036744338765538,
+   "judge_p": 0.44841250079072215,
    "usable": 0.8629629629629629,
-   "judge_success": 0.4361111111111111
+   "judge_success": 0.4
   },
   "genomic_prior_sites": {
-   "judge_p": 0.49523754852444746,
+   "judge_p": 0.46739035725386896,
    "usable": 0.7735,
-   "judge_success": 0.4015
+   "judge_success": 0.368
+  },
+  "kim_test_guides": {
+   "judge_p": 0.4670017253709244,
+   "n": 526
+  },
+  "luo_test_guides": {
+   "judge_p": 0.49721857215300597,
+   "n": 1051
   }
  },
  "examples": {
@@ -543,144 +551,144 @@
    "GAGAGACTGGCTTTCGAGATTGCTGGGTGC"
   ],
   "1.0_none": [
-   "GTGAAACGACTTACATACGAACAGCGGTGG",
-   "CCCTCAGACTGTTATGTCGCACACTGGTAA",
-   "AACGGAGACACCCAATCGACTCCCAGGTCG",
-   "AGTATGCAGCTTGAGGATGGTGATGGGCAA",
+   "GTGAAACGACTCACATACGAACAGCGGTGG",
+   "CCCTCAGACTGTTCTGGGGCACACTGGTAA",
+   "AAAGGAGACAGCCAATCGACTCCCAGGTCG",
+   "AGTATGCAGCTTGACGATGGTGATGGGGAA",
    "TTGATCTCATTAGAGACTTCAAGTGGGGCT",
-   "GCTTCAAGATAGGCTTAAAGACGAGGGCCC",
-   "GCAGGTTGCTGAGCGGAATGCCGTGGGCTA",
+   "GCCTCAAGATAGGCTTGAGGACCAGGGCCC",
+   "GCAGGTTGCTGAGGCGAATGCCGTGGGGTA",
    "TCTGTGGCGACAGAGGTGAGGGACGGGTGC",
    "AAAATTAGAACGGCGAGTCCTGGGAGGATA",
-   "ACGATCTCCGGAGACGCAAGAGCACGGGCA",
-   "CTGCAGTTTCCGCAGTGGGCCCCTTGGGCT",
-   "GAGAGACTGGCTTACGAGATTGCTGGGTAA"
+   "ACGATCTCCGGAAACGCAAGAGCACGGGCA",
+   "CTGCAGTTTCCGCAGTGGGGCCCTTGGGCT",
+   "GAGAGACTGGCTTTCGAGATTGCTGGGTGC"
   ],
   "1.0_ens": [
-   "GTGAAACGACTTACATACGAACAGCGGTGG",
-   "CCCTCAGACTGTTATGTCGCACACTGGTAA",
-   "AAAGGAGACACCCAGTCGACTCCCAGGGCG",
-   "AGTATGCAGCTTGAGGATGGTGATGGGCAA",
-   "TTGATCTCATTAGAGACTTCAAGTGGGGCT",
-   "GCTTCAAGATAGGCTTAAAGACGAGGGCCC",
-   "GCAGGTTGCTGAGGGGAATGCCTTGGGCTA",
-   "TCTGTGGCGACAGAGGTGAGGGACGGGTGC",
-   "AAAATTAGAACGGCGAGTCCTGGGAGGATA",
-   "ACGATCTCCGGAGACGCAGGAGCACGGGCA",
-   "CTGCAGTTTCCGCAGTGGGCCCCTTGGGCT",
-   "GAGAGACTGGCTTACGAGATTGCTGGGTGA"
-  ],
-  "2.0_none": [
    "GTGAAACGACTCACATACGAACAGCGGTGG",
-   "CCCTAAGACTGTTATGTCTCACACTGGTAA",
-   "AACGAAGACACCCAATCGACTCCCAGGTCG",
-   "AGTATGCAGCTTGAGGATGATGATGGGCAA",
+   "CCCTCAGACTGTTCTGGGGCACACTGGTAA",
+   "AAAGGAGACAGCCAATCGACTCCCAGGTCG",
+   "AGTATGCAGCTTGACGATGGTGATGGGGAA",
    "TTGATCTCATTAGAGACTTCAAGTGGGGCT",
-   "GCTTCAAGATAGGCTTAAAGACGAGGGCCC",
-   "GCAGGTTGCTGAACGGAATGCCGTGGGCTA",
-   "TCTGTGGCGACAGAGGTGAGGGACGGGTGC",
-   "AAAATTAGAACGGCGAGTCCTGGGAGGATA",
-   "ACGATCTCCGGAAACGCAACAGCACGGGCA",
-   "CTGCAGTTTCCGCAGTGGGCCCCTGGGGCT",
-   "AAGAGACTGGCTTACGAGATTGCTGGGTAA"
-  ],
-  "2.0_ens": [
-   "GTGAAACGACTCACATACGAACAGCGGTGG",
-   "CCCTCAGACTGTTATGTCGCACACTGGTAA",
-   "AACGGAGACACCCAATCGACTCCCAGGTCG",
-   "AGTATGCAGCTTGAGGATGGTGATGGGCAA",
-   "TTGATCTCATTAGAGACTTCAAGTGGGGCT",
-   "GCTTCAAGATAGGCTTAAAGACGAGGGCCC",
-   "GCAGGTTGCTGAACGGAATGCCGTGGGCTA",
+   "GCCTCAAGATAGGCTTGAGGACCAGGGCCC",
+   "GCAGGTTGCTGAGGCGAATGCCGTGGGGTA",
    "TCTGTGGCGACAGAGGTGAGGGACGGGTGC",
    "AAAATTAGAACGGCGAGTCCTGGGAGGATA",
    "ACGATCTCCGGAAACGCAAGAGCACGGGCA",
    "CTGCAGTTTCCGCAGTGGGCCCCTTGGGCT",
-   "AAGAGACTGGCTTACGAGATTGCTGGGTAA"
+   "GAGAGACTGGCTTTCGAGATTGCTGGGTGC"
+  ],
+  "2.0_none": [
+   "GTGAAACGACTCACATACGAACAGCGGTGG",
+   "CCCGCAGACTGTTCTGGGGCGCACTGGTAA",
+   "AAAGGAGACAGCCAATCGACTCCCAGGTCG",
+   "AGAATGCAGCTTGACGATGGTGATGGGGAA",
+   "TTGATCTCAATAGAGACTTCAAGTGGGGCT",
+   "GCCTCAAGATAGGCCTGAGGACCAGGGCCC",
+   "GCAGGTGGCTGAGGCGAATGCCGTGGGCTA",
+   "TCTGTGGCGACAGAGGTGAGGGACGGGTGC",
+   "AAAATTAGAACGGCGAGTCCTGGGAGGATA",
+   "ACGATCTCCGGAAACGCAAGAGCACGGGCA",
+   "CTGCAGTTTCCGCAGTGGGCCCCGTGGGCT",
+   "GAGAGACTGGCTGTCGAGATTGCTGGGTGC"
+  ],
+  "2.0_ens": [
+   "GTGAAACGACTCACATACGAACAGCGGTGG",
+   "CCCTCAGACTGTTCTGGGGCACACTGGTAA",
+   "AAAGGAGACAGCCAATCGACTCCCAGGTCG",
+   "AGAATGCAGCTTGACGATGGTGATGGGGAA",
+   "TTGATCTCAATAGAGACTTCAAGTGGGGCT",
+   "GCCTCAAGATAGGCCTGAGGACCAGGGCCC",
+   "GCAGGTTGCTGAGGCGAATGCCGTGGGCTA",
+   "TCTGTGGCGACAGAGGTGAGGGACGGGTGC",
+   "AAAATTAGAACGGCGAGTCCTGGGAGGATA",
+   "ACGATCTCCGGAAACGCAAGAGCACGGGCA",
+   "CTGCAGTTTCCGCAGTGGGCCCCTTGGGCT",
+   "GAGAGACTGGCTTTCGAGATTGCTGGGTGC"
   ],
   "4.0_none": [
    "GTGAAACGACTCACATACGAACAGCGGTGG",
-   "CCCTAAGACTGTTAAGTAGCACACTGGTAA",
-   "AACGAAGACACCCAATCGACTCCCAGGTCG",
-   "AGAATGGAGCTTGAGGATGATGAGGGGCAA",
-   "TTCATCTCATTAGAGACTTCAAGTGGGGCT",
-   "GCCTCAAGATAGGCATAAACACCAGGGCCC",
-   "GCAGGTTGCTGTACGGAATGCCGTGGGCTA",
-   "TCAGTCTCGACAAAGGTGAACGCAGGGTGC",
-   "AAAATTAGCACGGCGACTCCTGGGAGGATA",
-   "ACGATCTCCGGAAACGCAACAGCACGGTCA",
-   "CTGCAGTTGCCCCAGTGGGCCCCGGGGGAT",
-   "AAGAGACTGGCTTACGAGACTGCTGGGTAA"
+   "CCCGCAGACTGTTCTGGGGCGCACTGGTAA",
+   "AAAGGAGACAGCCAATCGACTCCCAGGTCG",
+   "AGAATGCAGCTTGACGATGGTGATGGGGAA",
+   "TTGATCTCAATAGAGACTTCAAGTGGGGCT",
+   "GCCTCAAGATAGGCCTGAAGACCAGGGCCC",
+   "GCAGGTGGCTGAGGCGGATGCCGTGGGCTA",
+   "TCTGTGGCGACAAAGGTGAGGGCAGGGTGC",
+   "AAAATTAGAGCGGCGACTCCTGGGAGGATA",
+   "ACGATCTCCGGAAACACAAGAGCACGGGCA",
+   "CTGCAGTTTCCGCAGTGGGCCCCGTGGGAT",
+   "GAGAGACTGGCAGACGAGATTGCTGGGTGC"
   ],
   "4.0_ens": [
    "GTGAAACGACTCACATACGAACAGCGGTGG",
-   "CCCTAAGACTGTTATGTCGCACACTGGTAA",
-   "AACGAAGACACCCAATCGACTCCCAGGTCG",
-   "AGAATGGAGCTTGAGGATGATGAGGGGCAA",
-   "TTGATCTCATTAGAGACTTCAAGTGGGGCT",
-   "GCTTCAAGATAGGCTTAAACACCAGGGCCC",
-   "GCAGGTTGCTGTACGGAATGCCGTGGGCTA",
-   "TCAGTCTCGACAAAGGTGAACGCAGGGTGC",
-   "AAAATTAGCACGGCGACTCCTGGGAGGATA",
-   "ACGATCTCCGGAAACGCAACAGCACGGGCA",
-   "CTGCAGTTTCCGCAGTGGGCCCCGGGGGCT",
-   "AAGAGACTGGCTTACGAGATTGCTGGGTAA"
+   "CCCGCAGACTGTTCTGGGGCGCACTGGTAA",
+   "AAAGGAGACAGCCAATCGACTCCCAGGTCG",
+   "AGAATGCAGCTTGACGATGGTGATGGGGAA",
+   "TTGATCTCAATAGAGACTTCAAGTGGGGCT",
+   "GCCTCAAGATAGGCCTGAAGACCAGGGCCC",
+   "GCAGGTGGCTGAGGCGGATGCCGTGGGCTA",
+   "TCTGTGGCGACAAAGGTGAGGGCAGGGTGC",
+   "AAAATTAGAACGGCGACTCCTGGGAGGATA",
+   "ACGATCTCCGGAAACGCAAGAGCACGGGCA",
+   "CTGCAGTTTCCGCAGTGGGCCCCGTGGGCT",
+   "GAGAGACTGGCAGTCGAGATTGCTGGGTGC"
   ],
   "8.0_none": [
-   "CTGAAACGACTCACATACGAACAGCGGTGG",
-   "CCCTAAGACTGTTAAGTATCACAAGGGTAA",
-   "AACGAAGACACCCAATCGACTCCCAGGTCG",
-   "AGCATGGAGCCTGAGGATGATGCGGGGCAA",
-   "TTCATCTCACTAGAGACTTCAAGTGGGGCT",
-   "GCCTCAAGATAGGCATAAACCCCAGGGCCC",
-   "GCAGGTTGCTGTACGGAATGCCGTGGGCTA",
-   "TCAGTCTCGACAAAAGTGACCGCAGGGTGC",
-   "AAAATTAGCACGGAGACTCCTGGGAGGATA",
-   "ACGAACTCCGGAAACGCAACAGCACGGTCA",
-   "CTGCAGTTGCCCCAGTGGTCCCCGGGGCAT",
-   "AAGAGACTGGCTTAAGAGACTGCTGGGTAA"
+   "GCGAAACGACTCACATGCGAACAGCGGTGG",
+   "CCCGCAGACTGTTCTGGGGCGCACTGGTAA",
+   "AAAGGAGACAGCCAATCGACTCACAGGTCG",
+   "AGAATGCAGCTTGACGATGGTGATGGGGAA",
+   "TTGATCTCAATAGACACTTCACGTGGGGCT",
+   "GCCTCAAGATAGGCCTGAACCCCAGGGCCC",
+   "GCAGGTGGCTGAGGCGGATGCCGTGGGTTC",
+   "CCTGGGTCGACAAAAGTGAGGGCAGGGTGC",
+   "AAAATTAGAGCGGCGACTCCTGGGAGGATA",
+   "ACGATCTCCGGAAACACAACACCACGGGCA",
+   "CTGCAGTTTCCGCAGTGGGCCCCGTGGCAT",
+   "GAGAGACTGGCAAACGAGATTGCGGGGTGC"
   ],
   "8.0_ens": [
-   "CTGAAACGACTCACATACGAACAGCGGTGG",
-   "CCCTAAGACTGTTAAGTATCACACTGGTAA",
-   "AACGAAGACACCCAATCGACTCCCAGGTCG",
-   "AGAATGGAGCTTGAGGATGATGAGGGGCAA",
-   "TTCATCTCATTAGAGACTTCAAGTGGGGCT",
-   "GCCTCAAGATAGGCATAAACACCAGGGCCC",
-   "GCAGGTTGCTGTACGGAATGCCGTGGGCTA",
-   "TCAGTCTCGACAAAAGTGACCGCAGGGTGC",
-   "AAAATTAGCACGGAGACTCCTGGGAGGATA",
-   "ACGAACTCCGGAAACGCAACAGCACGGTCA",
-   "CTGCAGTTGCCCCAGTGGGCCCCGGGGCAT",
-   "AAGAGACTGGCTTACGAGACTGCTGGGTAA"
+   "GTGAAACGACTCACATACGAACAGCGGTGG",
+   "CCCGCAGACTGTTCTGGGGCGCACTGGTAA",
+   "AAAGGAGACAGCCAATCGACTCCCAGGTCG",
+   "AGAATGCAGCTTGACGATGGTGATGGGGAA",
+   "TTGATCTCAATAGACACTTCACGTGGGGCT",
+   "GCCTCAAGATAGGCCTGAACCCCAGGGCCC",
+   "GCAGGTGGCTGAGGCGGATGCCGTGGGTTC",
+   "TCTGGGTCGACAAAAGTGAGGGCAGGGTGC",
+   "AAAATTAGAGCGGCGACTCCTGGGAGGATA",
+   "ACGATCTCCGGAAACACAACAGCACGGGCA",
+   "CTGCAGTTTCCGCAGTGGGCCCCGTGGGAT",
+   "GAGAGACTGGCAAACGAGATTGCGGGGTGC"
   ],
   "16.0_none": [
-   "CTGAAACGACTCACATACGAACAGCGGTGG",
-   "CCCTAAGACTGTTAAGTAGCACAAGGGTAA",
-   "AACGAAGACACCCAATCTACACCCAGGTCG",
-   "AGCATAGAGCCTGAGGATGATCCGGGGCAA",
-   "TTCATCTCACTAGAAACTTCAAGTGGGCCT",
-   "GCCTCAAGATAGGCATAAACCCCAGGGCCC",
-   "GCAGGTTGCTCTACGGAATGCCGTGGGCTA",
-   "TGAATCTCGGCAAAAGAGACCGCAGGGTGC",
-   "AAAATTAGCACGGAGACTCCTGGGAGGCTC",
-   "ACGAACTCCGGAAACACAACAGCACGGTCA",
-   "CTGCAGTTGCCGCAGTGGTCCCCGGGGCAT",
-   "AAGAGAATGGCTAAAGAGACTGCGGGGTAA"
+   "GCGAGACGACTGACATGCGAACAGCGGTGG",
+   "CCCGCAGAATGTACTGTGGCGCACTGGTAG",
+   "AAAGGAGACAGCCAATCTACTCACAGGTCG",
+   "ATAATGCAGCTTGAGGATGGTGATGGGGAT",
+   "CTGATCTCACTAGACACTTCACGTGGGGCT",
+   "GCCTCAAGATAGGCCTGAACCCCAGGGCCC",
+   "GCAGGTGGCTGAACCGCATGCCGTGGGTTC",
+   "CCTGGGTCGACAAAACAGAAGGCAGGGTGG",
+   "AAAATTAGAGCGGCGACTACTGGGAGGATA",
+   "ACGATCTCCGGAAACACAACACCACGGTCA",
+   "CTGCAGTTTCCGCAGTGGGCCCCGTGGCAT",
+   "AAGAGACTGGCAACCGATACTGCGGGGTGC"
   ],
   "16.0_ens": [
-   "CTGAAACGACTCACATACGAACAGCGGTGG",
-   "CCCTAAGACTGTTAAGTATCACAAGGGTAA",
-   "AACGAAGACACCCAATCGACTCCCAGGTCG",
-   "AGCATGGAGCCTGAGGATGATGCGGGGCAA",
-   "TTCATCTCACTAGAGACTTCAAGTGGGCCT",
-   "GCCTCAAGATAGGCATAAACCCCAGGGCCC",
-   "GCAGGTTGCTGTACGGAATGCCGTGGGCTA",
-   "TGAATCTCGACAAAAGTGACCGCAGGGTGC",
-   "AAAATTAGCACGGAGACTCCTGGGAGGCTC",
-   "ACGAACTCCGGAAACACAACAGCACGGTCA",
-   "CTGCAGTTGCCCCAGTGGTCCCCGGGGCAT",
-   "AAGAGACTGGCTTAAGAGACTGCTGGGTAA"
+   "GCGAAACGACTCACATGCGAACAGCGGTGG",
+   "CCCGCAGACTGTTCTGGGGCGCACTGGTAA",
+   "AAAGGAGACAGCCAATCTACTCACAGGTCG",
+   "AGAATGCAGCTTGAGGATGGTGATGGGGAA",
+   "CTGATCTCACTAGACACTTCACGTGGGGCT",
+   "GCCTCAAGATAGGCCTGAACCCCAGGGCCC",
+   "GCAGGTGGCTGAGCCGCATGCCGTGGGTTC",
+   "CCTGGGTCGACAAAAGAGAAGGCAGGGTGG",
+   "AAAATTAGAGCGGCGACTACTGGGAGGATA",
+   "ACGATCTCCGGAAACACAACACCACGGTCA",
+   "CTGCAGTTTCCGCAGTGGGCCCCGTGGCAT",
+   "AAGAGACTGGCAAACGATACTGCGGGGTGC"
   ]
  }
 }

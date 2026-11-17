@@ -212,19 +212,19 @@ table.t th{background:var(--wash);color:var(--ink)}
  <p class="lede">Steer small molecules and CRISPR guides toward <b>PTP&sigma;</b>, the receptor that lets the glial scar block axon regrowth after stroke. Every candidate is audited by a second model that never saw the steering, so a score the generator learned to game gets flagged instead of shipped.</p>
  <div class="cta"><a class="b1" href="#design" id="cta-go">Start designing</a><a class="b2" href="#evidence">See the evidence</a></div>
  <div class="proof">
-  <div><b>9% &rarr; 81%</b><span>Molecules passing the held-out audit in the critic&rsquo;s shortlist, without and with the trust gate. Unguided filtering gets 49% (N&nbsp;=&nbsp;250, 3 seeds).</span></div>
+  <div><b>5% &rarr; 72%</b><span>Molecules passing the held-out audit in the critic&rsquo;s shortlist, without and with the trust gate. Unguided filtering gets 31% (N&nbsp;=&nbsp;250, 3 seeds; the judge uses separate data for brain penetration and toxicity, not for activity).</span></div>
   <div><b>1 engine, 2 alphabets</b><span>The same guided diffusion designs SMILES-latent molecules and 30-nt SpCas9 guides aimed at PTPRS exons.</span></div>
   <div><b>0 servers</b><span>No API and no upload. Models, chemistry and reports run on your device.</span></div>
  </div>
 </div></div>
 <section class="page glance" aria-label="Summary for reviewers"><h2>At a glance</h2><div class="gl4">
  <div><span>Question</span><p>When can a steering predictor be trusted during generative design, and when does gradient guidance beat generate-and-filter?</p></div>
- <div><span>Approach</span><p>Classifier-guided diffusion for molecules and CRISPR guides, a 5-head bootstrap critic ensemble with an uncertainty gate, and a held-out judge trained on different features.</p></div>
- <div><span>Finding</span><p>For molecules the gate decides whether the critic&rsquo;s shortlist is usable (9% pass the audit without it, 81% with it; unguided filtering 49%). For guides filtering already reaches 90% and the gate did not help.</p></div>
+ <div><span>Approach</span><p>Classifier-guided diffusion for molecules and CRISPR guides, a 5-head bootstrap critic ensemble with an uncertainty gate, and a held-out judge trained on different features and different data.</p></div>
+ <div><span>Finding</span><p>For molecules the gate decides whether the critic&rsquo;s shortlist is usable (5% pass the audit without it, 72% with it; unguided filtering 31%). For guides filtering already reaches 92% and the gate did not help.</p></div>
  <div><span>Limits</span><p>Small public datasets, one target (PTPRS), and a judge that is a model, not an experiment. Nothing here is lab-validated. <a href="#method">Method and reproduction</a>.</p></div>
 </div></section>
 <main class="page" id="main">
- <p class="notice"><b>Research prototype, in silico only.</b> Every score is a prediction from small models trained on public data (ChEMBL, B3DB, Tox21, the Doench guide-efficacy screens). Nothing here is lab-validated, and nothing here is medical advice. The <i>Evidence</i> tab shows how often the held-out judge agrees with the steering classifiers, including where it does not.</p>
+ <p class="notice"><b>Research prototype, in silico only.</b> Every score is a prediction from small models trained on public data (ChEMBL, B3DB, BBBP, Tox21, ToxCast, and SpCas9 guide-efficacy screens from three labs). Nothing here is lab-validated, and nothing here is medical advice. The <i>Evidence</i> tab shows how often the held-out judge agrees with the steering classifiers, including where it does not.</p>
  <div class="tabs" role="tablist" id="design" aria-label="Platform sections">
   <button role="tab" aria-selected="true" aria-controls="p-go" id="t-go">Describe what you want</button>
   <button role="tab" aria-selected="false" aria-controls="p-mol" id="t-mol">Molecules</button>
@@ -287,7 +287,7 @@ table.t th{background:var(--wash);color:var(--ink)}
  <!-- MOLECULES -->
  <section class="panel" id="p-mol" role="tabpanel" aria-labelledby="t-mol" hidden>
   <h2>Design small molecules</h2>
-  <p class="sub">A diffusion model denoises a molecular latent code into a structure. Three classifiers, trained on <i>noised</i> codes, steer every denoising step toward brain penetration, PTP-family activity and low toxicity. A separate held-out judge, built on different features, scores the result.</p>
+  <p class="sub">A diffusion model denoises a molecular latent code into a structure. Three classifiers, trained on <i>noised</i> codes, steer every denoising step toward brain penetration, PTP-family activity and low toxicity. A separate held-out judge, built on different features and trained on different data (for brain penetration and toxicity), scores the result.</p>
   <div class="grid2"><div class="ctrl">
    <label>Candidates <output id="m-n-o">16</output></label><input type="range" id="m-n" min="4" max="24" step="4" value="16">
    <label>Guidance strength &gamma; <output id="m-g-o">4</output></label><input type="range" id="m-g" min="0" max="8" step="0.5" value="4">
@@ -313,7 +313,7 @@ table.t th{background:var(--wash);color:var(--ink)}
  <!-- DNA -->
  <section class="panel" id="p-dna" role="tabpanel" aria-labelledby="t-dna" hidden>
   <h2>Design gene-editing guide sequences</h2>
-  <p class="sub">The same engine, a different alphabet. It generates 30-nucleotide SpCas9 guide contexts (4 nt, a 20-nt protospacer, the NGG PAM, 3 nt). A classifier ensemble trained on noised sequences steers toward high cutting efficiency; a held-out logistic model scores the result. This is the proof of mechanism for sequence design; to target PTPRS itself, use the scanner.</p>
+  <p class="sub">The same engine, a different alphabet. It generates 30-nucleotide SpCas9 guide contexts (4 nt, a 20-nt protospacer, the NGG PAM, 3 nt). A classifier ensemble trained on noised sequences steers toward high cutting efficiency; a held-out logistic model trained on a different lab&rsquo;s library scores the result. This is the proof of mechanism for sequence design; to target PTPRS itself, use the scanner.</p>
   <div class="grid2"><div class="ctrl">
    <label>Candidates <output id="d-n-o">12</output></label><input type="range" id="d-n" min="6" max="48" step="6" value="12">
    <label>Guidance strength &gamma; <output id="d-g-o">4</output></label><input type="range" id="d-g" min="0" max="16" step="1" value="4">

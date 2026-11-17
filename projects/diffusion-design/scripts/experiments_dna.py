@@ -22,7 +22,7 @@ def jscore(ss): return np.array([feats(s)@coef+jb for s in ss])
 def seq_of(x): 
     a=x.reshape(-1,30,4).argmax(-1).numpy(); return ["".join(NT[i] for i in r) for r in a]
 sig=lambda z:1/(1+np.exp(-z)); STEPS=50; N=int(sys.argv[1]) if len(sys.argv)>1 else 300; SEEDS=[0,1,2]; TAU=1.0
-pairs=pd.DataFrame(P["pairs"]); known=set(pairs.s)|set(P["prior"])
+P2=json.load(open(D+"dna_prep2.json")); pairs=pd.DataFrame(P["pairs"]); known=set(pairs.s)|set(P["prior"])|{r["s"] for r in P2["crispron"]}
 def usable(s): 
     gc=sum(c in "GC" for c in s[4:24])/20; return s[25:27]=="GG" and 0.4<=gc<=0.7 and "TTTT" not in s[4:24]
 def run(gamma,gate,seed):
@@ -53,4 +53,6 @@ if __name__=="__main__":
     prior=P["prior"][:2000]; jp=jscore(prior); up=np.array([usable(s) for s in prior])
     ref={"doench_test_guides":{"judge_p":float(np.mean(sig(js))),"usable":float(us.mean()),"judge_success":float(((js>0)&us).mean())},
          "genomic_prior_sites":{"judge_p":float(np.mean(sig(jp))),"usable":float(up.mean()),"judge_success":float(((jp>0)&up).mean())}}
+    ref["kim_test_guides"]={"judge_p":float(np.mean(sig(jscore([r["s"] for r in P2["crispron"] if r["lab"]=="kim" and r["split"]=="test"])))),"n":526}
+    ref["luo_test_guides"]={"judge_p":float(np.mean(sig(jscore([r["s"] for r in P2["crispron"] if r["lab"]=="luo" and r["split"]=="test"])))),"n":1051}
     json.dump({"N":N,"seeds":SEEDS,"steps":STEPS,"tau":TAU,"results":results,"reference":ref,"examples":ex},open(O+"dna_experiments.json","w"),indent=1); log("done "+str(time.time()-t0))
