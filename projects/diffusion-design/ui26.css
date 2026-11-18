@@ -185,3 +185,55 @@ header nav a,.hdr nav a,.topnav a,.site-nav a{padding:6px 2px}
 .chipf .att-x{font-size:16px;padding:0 6px}
 .studio .smi[data-smi]{cursor:copy}
 .studio .smi[data-smi]:hover{color:var(--ink)}
+
+/* =========================================================
+   Serious layer: flat, restrained, instrument-like.
+   Single accent, no gradient text, tight radii, hairlines.
+   ========================================================= */
+:root{--r1:6px;--r2:8px;--r3:10px;--lift:none;--glow:transparent;--grad:var(--cv)}
+[data-theme=dark]{--paper:#111015;--surf:#18171E;--hair:rgba(236,234,245,.10);--glass:#18171E;--lift:none;--glow:transparent;--grad:#A794E8}
+html{scroll-behavior:auto}
+body{background-image:none!important}
+.top{backdrop-filter:none!important;-webkit-backdrop-filter:none!important;background:var(--paper)!important}
+.tabs{backdrop-filter:none!important;background:transparent!important;border-bottom:1px solid var(--hair)!important;border-radius:0!important;padding:0!important}
+.tabs button{border-radius:0!important;background:transparent!important;box-shadow:none!important;border-bottom:2px solid transparent!important;padding:10px 14px!important}
+.tabs button[aria-selected=true]{border-bottom-color:var(--cv)!important;color:var(--ink)!important}
+.homehead h1,.studio .metrics b{background:none!important;-webkit-text-fill-color:currentColor!important;color:var(--ink)!important}
+.homehead h1{font-size:clamp(1.5rem,2.6vw,2rem)!important;letter-spacing:-.02em!important;font-weight:600!important}
+.homehead .logo,.homehead .wmk,.homehead svg{display:none!important}
+.homehead p{max-width:560px}
+.studio .metrics b{font-size:22px!important;font-weight:600!important;font-variant-numeric:tabular-nums}
+.studio .metrics{border-radius:var(--r2)!important;background:var(--surf)!important;border:1px solid var(--hair)!important}
+.dock{backdrop-filter:none!important;border-radius:var(--r3)!important;background:var(--surf)!important;box-shadow:none!important}
+.dock:focus-within{border-color:var(--cv)!important;box-shadow:0 0 0 1px var(--cv)!important}
+.gen{background:var(--cv)!important;color:#fff!important;box-shadow:none!important;border-radius:var(--r2)!important}
+[data-theme=dark] .gen,[data-theme=dark] .btn{background:#A794E8!important;color:#15131C!important}
+.btn{background:var(--cv)!important;border-radius:var(--r2)!important}
+.btn.alt{background:transparent!important;border:1px solid var(--hair)!important;color:var(--ink)!important}
+.newchat,.mode,.chip,.chips button{border-radius:var(--r2)!important}
+.mode{border-radius:var(--r2)!important}
+.studio .card,.pr,.imgcard,.sayreply{border-radius:var(--r3)!important;background:var(--surf)!important;border:1px solid var(--hair)!important;box-shadow:none!important}
+.studio .card:hover{transform:none!important;box-shadow:none!important;border-color:color-mix(in srgb,var(--ink) 22%,transparent)!important}
+.tag{border-radius:4px!important;background:transparent!important;border:1px solid var(--hair)!important;font-weight:500}
+.tag.ok{color:#5FC79A!important;border-color:color-mix(in srgb,#5FC79A 45%,transparent)!important}
+.tag.no{color:#E58A8A!important;border-color:color-mix(in srgb,#E58A8A 45%,transparent)!important}
+[data-theme=light] .tag.ok,:root:not([data-theme=dark]) .tag.ok{color:#1B7F57!important}
+:root:not([data-theme=dark]) .tag.no{color:#B23A3A!important}
+.bar i,.studio .pair.j i{background:var(--cv)!important;box-shadow:none!important}
+[data-theme=dark] .bar i,[data-theme=dark] .studio .pair.j i{background:#A794E8!important}
+.ld i{background:var(--cv)}
+/* pairs: plain grid, no horizontal carousel */
+.pairs{grid-auto-flow:row!important;grid-auto-columns:unset!important;grid-template-columns:repeat(auto-fill,minmax(min(100%,430px),1fr))!important;overflow:visible!important;scroll-snap-type:none!important;padding:0!important;margin:10px 0 0!important}
+/* chat layout: composer pinned to the bottom of the viewport */
+#p-go:not(.home) #go-gen:not([hidden]){display:contents}
+#p-go:not(.home) .composer{position:sticky!important;bottom:0;z-index:5;padding:14px 0 10px!important;background:linear-gradient(to bottom,transparent,var(--paper) 14px)!important}
+#thread{padding-bottom:8px}
+.studio .main,.studio main{min-height:calc(100vh - 62px)}
+@media(max-width:700px){#p-go:not(.home) .composer{padding:10px 0 8px!important}}
+.homemark{display:none!important}
+#p-go:not(.home) #g-prompt{min-height:0!important;height:auto;max-height:140px}
+.homehead{padding-top:6vh}
+#p-go:not(.home) #g-prompt{height:46px!important;min-height:46px!important;padding-top:12px!important;padding-bottom:4px!important}
+#p-go:not(.home) .dock{padding-bottom:8px!important}
+#p-go:not(.home) #g-live:empty{display:none}
+.dock .gen{margin-left:auto}

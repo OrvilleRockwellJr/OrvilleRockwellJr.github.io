@@ -254,7 +254,7 @@ $("#g-make-go").addEventListener("click",()=>{
   if(make!=="mol") stages.push({kind:"dna",job:dnaJob({n,seed:seed+1,steps:50,gamma:gam.dna[push],gate:false,tau:1,compare:false,wl:1,tilt:2},lib)});
   S.go.run={seedInfo,photo:S.photo||null,stages,i:0,make,n,mol:[],dna:[],lib,libk,use:g.cfg.use,push,w,t0:performance.now(),stopped:false}; $("#g-out").innerHTML=""; $("#g-make-go").disabled=true; $("#g-stop").hidden=false; $("#g-bar").style.width="0"; startStage(); clearComposer();
 });
-function clearComposer(){ const P=$("#g-prompt"); P.value=""; $("#g-smi").value=""; S.photo=null; S.files=[]; const att=$("#g-att"); att.hidden=true; att.innerHTML=""; $("#g-img").innerHTML=""; $("#g-notes").innerHTML=""; const pl=$("#g-plan"); if(pl&&!pl.hidden){ $("#g-gear").click(); } $("#g-live").textContent="Ask a follow-up, or describe something new."; $("#g-make-go").disabled=true; }
+function clearComposer(){ const P=$("#g-prompt"); P.value=""; $("#g-smi").value=""; S.photo=null; S.files=[]; const att=$("#g-att"); att.hidden=true; att.innerHTML=""; $("#g-img").innerHTML=""; $("#g-notes").innerHTML=""; const pl=$("#g-plan"); if(pl&&!pl.hidden){ $("#g-gear").click(); } $("#g-live").textContent=""; $("#g-make-go").disabled=true; }
 $("#g-stop").addEventListener("click",()=>{ const r=S.go&&S.go.run; if(!r) return; r.stopped=true; if(S.cur) S.worker.postMessage({cmd:"cancel",id:S.cur.job.id}); });
 function startStage(){
   const r=S.go.run, st=r.stages[r.i]; st.job.id=++S.job; S.cur={kind:st.kind,job:st.job,got:0,t0:performance.now(),chain:true};
@@ -391,4 +391,10 @@ boot();
 /* ---------- UX: Enter sends, click a SMILES in results to copy ---------- */
 $("#g-prompt").addEventListener("keydown",e=>{ if(e.key==="Enter"&&!e.shiftKey&&!e.isComposing){ const b=$("#g-make-go"); if(b&&!b.disabled){ e.preventDefault(); b.click(); } } });
 document.addEventListener("click",e=>{ const t=e.target.closest(".smi[data-smi]"); if(!t||!t.closest("#thread,#g-out")||!navigator.clipboard) return; navigator.clipboard.writeText(t.dataset.smi).then(()=>{ if(t.dataset.busy) return; t.dataset.busy="1"; const o=t.textContent; t.textContent="Copied"; setTimeout(()=>{ t.textContent=o; delete t.dataset.busy; },900); }).catch(()=>{ const ta=document.createElement("textarea"); ta.value=t.dataset.smi; ta.style.position="fixed"; ta.style.opacity="0"; document.body.appendChild(ta); ta.select(); try{ document.execCommand("copy"); const o=t.textContent; t.textContent="Copied"; setTimeout(()=>{ t.textContent=o; },900); }catch(_){} ta.remove(); }); });
+
+/* follow-up composer: short placeholder and 1-2 rows once a chat has started */
+(function(){ const P=$("#g-prompt"), full=P.placeholder; const fit=()=>{ if(P.value||!document.querySelector("#thread .turn")) { P.rows=P.value.split("\n").length>1?Math.min(5,P.value.split("\n").length):2; } };
+ document.addEventListener("ptp:turn",()=>{ P.placeholder="Ask a follow-up, or describe something new"; P.rows=2; });
+ const nc=$("#newchat"); if(nc) nc.addEventListener("click",()=>{ P.placeholder=full; P.rows=3; });
+ P.addEventListener("input",fit); })();
 })();
