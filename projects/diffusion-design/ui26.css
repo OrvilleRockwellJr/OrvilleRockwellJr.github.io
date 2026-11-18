@@ -610,3 +610,5 @@ body{background-image:none!important}
 .mm-opt.on{color:var(--ink)!important}
 #g-plan.menumode>#mm-adv{display:none!important}
 #g-plan.menumode .mm-sub #mm-adv{display:block!important}
+
+#p-go.home .dock{min-height:0!important}
