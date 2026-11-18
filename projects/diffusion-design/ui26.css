@@ -351,3 +351,31 @@ body{background-image:none!important}
 #p-go .dockbar .dsel{order:0}
 .dockbar #g-gear{margin-left:auto!important}
 .dockbar .gen{margin-left:0!important}
+
+/* ===== One system: no tabs, no mode switch; settings pop up; dark grey instead of black; chats panel toggle ===== */
+#design.tabs,#go-modes,#go-score{display:none!important}
+.stagebar{display:flex;align-items:center;min-height:40px;margin-top:6px}
+.stagebar .iconbtn{color:var(--muted)}
+.stagebar .iconbtn:hover{color:var(--ink);background:color-mix(in srgb,var(--ink) 8%,transparent)}
+@media(max-width:900px){.stagebar{display:none}}
+@media(min-width:901px){body.sideclosed .studio.shell{grid-template-columns:0 minmax(0,1fr)!important}body.sideclosed .side{display:none!important}}
+#p-go .composer{position:relative}
+#g-plan{position:absolute!important;right:0;bottom:calc(100% - 4px);z-index:30;width:min(640px,94vw);max-height:min(62vh,520px);overflow:auto;background:var(--surf);border:1px solid var(--hair);border-radius:14px;padding:16px 18px;box-shadow:0 24px 60px -12px rgba(0,0,0,.55)}
+#g-plan[hidden]{display:none!important}
+#p-go:not(.home) #g-plan{bottom:calc(100% + 8px)}
+#g-plan .h3s{margin:0 0 4px;font:600 14px var(--sans)}
+#g-plan .grid4{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px 14px!important}
+#g-plan label{font-size:12px}
+[data-theme=dark]{--paper:#1E1E22!important;--surf:#28282D!important;--glass:#28282D!important;--hair:rgba(255,255,255,.10)!important;--wash:#25252A!important;--tile:#1A1A1E!important}
+[data-theme=dark] body{background:#1E1E22}
+[data-theme=dark] .top{background:color-mix(in srgb,#1E1E22 90%,transparent)!important}
+[data-theme=dark] #p-go.home .dock{background:#2C2C32!important}
+[data-theme=dark] .studio .card .sv,[data-theme=dark] .pr .sv{background:#1A1A1E!important}
+[data-theme=dark] .studio .side{background:#1E1E22}
+#p-go #go-modes,#p-go.home #go-modes,.dockbar #go-modes{display:none!important}
+.stagebar .iconbtn,.stagebar .iconbtn[aria-expanded=true]{background:transparent!important}
+.stagebar .iconbtn:hover{background:color-mix(in srgb,var(--ink) 8%,transparent)!important}
+[data-theme=dark] .dsel{background:rgba(255,255,255,.07)!important}
+[data-theme=dark] .dsel select{color:var(--ink)!important}
+#p-go #g-plan,#p-go.home #g-plan{top:auto!important;bottom:calc(100% + 8px)!important;left:0!important;right:0!important;width:auto!important;max-height:min(58vh,460px)}
+.dockbar .iconbtn[aria-expanded=true],[data-theme=dark] .dockbar .iconbtn[aria-expanded=true]{background:rgba(255,255,255,.10)!important;color:var(--ink)!important}
