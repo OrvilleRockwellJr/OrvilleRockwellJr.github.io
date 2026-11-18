@@ -320,3 +320,34 @@ body{background-image:none!important}
 .fs .fb,.fs span,.fs b{order:0!important}
 .legend .lg{margin-left:0}.legend{gap:18px}
 @media(max-width:600px){.fs{grid-template-columns:7.5rem minmax(0,1fr) 1.8rem!important}}
+
+/* ===== Layout tidy: flush sidebar, centered column, minimal tabs, modes in composer ===== */
+@media(min-width:901px){
+ .studio.shell{max-width:none!important;grid-template-columns:260px minmax(0,1fr)!important}
+ .stage{padding:8px 36px 36px!important;align-items:center}
+ .stage>*{width:100%;max-width:860px}
+}
+.stage .tabs{border-bottom:0!important;margin-top:10px!important;gap:2px!important}
+.stage .tabs button{font-size:13px!important;color:var(--muted);padding:6px 12px!important;border-bottom:0!important;border-radius:8px!important}
+.stage .tabs button[aria-selected=true]{color:var(--ink)!important;background:color-mix(in srgb,var(--ink) 8%,transparent)!important}
+.stage .tabs button:hover{color:var(--ink)}
+#p-go.home~#loadmsg,#loadmsg{display:none}
+#p-go.home #g-live{display:none}
+.dockbar #go-modes{display:inline-flex!important;margin:0!important;padding:2px!important;gap:2px!important;max-width:none!important;width:auto!important;border:1px solid var(--hair);border-radius:9px;background:transparent!important;order:0}
+.dockbar #go-modes .mode{display:inline-flex!important;padding:4px 11px!important;border:0!important;border-radius:7px!important;background:transparent!important;font-size:12.5px!important;color:var(--muted)!important;min-height:0!important;flex-direction:row!important}
+.dockbar #go-modes .mode .mi,.dockbar #go-modes .mode>span:last-child{display:none!important}
+.dockbar #go-modes .mode.on{background:color-mix(in srgb,var(--cv) 16%,transparent)!important;color:var(--ink)!important}
+[data-theme=dark] .dockbar #go-modes .mode.on{background:rgba(167,148,232,.18)!important}
+.dockbar{gap:8px!important;align-items:center}
+.dockbar .gen{margin-left:auto}
+.dockbar #g-gear{margin-left:0}
+.sidefoot{border-top:0!important;padding-top:4px!important}
+.sidefoot .linkbtn{color:var(--muted)!important;text-decoration:none!important;font-size:12.5px!important}
+.sidefoot .linkbtn:hover{color:var(--ink)!important}
+.sidefoot .small{font-size:11px!important;opacity:.6}
+.sidefoot .notice{margin:8px 0 0!important;padding:0!important;text-align:left!important;font-size:11px!important;color:var(--faint)!important}
+#design.tabs,[data-theme=dark] #design.tabs{border:0!important;box-shadow:none!important;background:transparent!important;outline:0!important}
+#p-go.home .dockbar #go-modes,#p-go .dockbar #go-modes{order:0!important;margin:0!important}
+#p-go .dockbar .dsel{order:0}
+.dockbar #g-gear{margin-left:auto!important}
+.dockbar .gen{margin-left:0!important}

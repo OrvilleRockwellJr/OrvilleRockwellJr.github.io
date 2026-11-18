@@ -405,4 +405,8 @@ document.addEventListener("click",e=>{ const t=e.target.closest(".smi[data-smi]"
 (function(){ const ul=$("#chatlist"), box=$("#recents"), grid=$("#rgrid"); if(!ul||!box) return;
  function build(){ const items=[...ul.querySelectorAll("li[data-id]")].slice(0,3); grid.innerHTML=""; items.forEach(li=>{ const ci=li.querySelector(".ci"); if(!ci) return; const sm=ci.querySelector("small"); const title=ci.title||ci.childNodes[0].textContent; const b=document.createElement("button"); b.type="button"; b.className="rcard"; b.innerHTML="<b>"+esc(title)+"</b><small>"+(sm?esc(sm.textContent):"")+"</small>"; b.addEventListener("click",()=>ci.click()); grid.appendChild(b); }); box.hidden=!items.length; }
  new MutationObserver(build).observe(ul,{childList:true}); build(); })();
+
+/* ---------- layout tidy: modes into the composer bar, notice into the sidebar ---------- */
+(function(){ const m=$("#go-modes"), bar=document.querySelector("#cmp-gen .dockbar"), live=$("#g-live"); if(m&&bar){ const g=$("#mode-gen b"), s=$("#mode-score b"); if(g) g.textContent="Design"; if(s) s.textContent="Score"; bar.insertBefore(m,live||bar.firstChild); }
+ const n=document.querySelector(".notice"), f=document.querySelector(".sidefoot"); if(n&&f) f.appendChild(n); })();
 })();
