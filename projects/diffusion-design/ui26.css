@@ -562,3 +562,6 @@ h3,.h3s{letter-spacing:-.01em}
 #p-go #g-plan.menumode.down,#p-go.home #g-plan.menumode.down{top:calc(100% + 8px)!important;bottom:auto!important}
 #g-plan.menumode{scrollbar-width:thin;overscroll-behavior:contain}
 #g-plan.menumode .mm-row{min-height:36px}
+
+#g-plan.menumode.more{-webkit-mask-image:linear-gradient(#000 calc(100% - 26px),transparent);mask-image:linear-gradient(#000 calc(100% - 26px),transparent)}
+@media(max-width:480px){#p-go #g-plan.menumode,#p-go.home #g-plan.menumode{width:calc(100vw - 28px)!important}}
