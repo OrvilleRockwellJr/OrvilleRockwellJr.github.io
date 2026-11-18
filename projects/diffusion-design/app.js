@@ -397,4 +397,9 @@ document.addEventListener("click",e=>{ const t=e.target.closest(".smi[data-smi]"
  document.addEventListener("ptp:turn",()=>{ P.placeholder="Ask a follow-up, or describe something new"; P.rows=2; });
  const nc=$("#newchat"); if(nc) nc.addEventListener("click",()=>{ P.placeholder=full; P.rows=3; });
  P.addEventListener("input",fit); })();
+
+/* ---------- home: recent chats as cards (mirrors the sidebar list) ---------- */
+(function(){ const ul=$("#chatlist"), box=$("#recents"), grid=$("#rgrid"); if(!ul||!box) return;
+ function build(){ const items=[...ul.querySelectorAll("li[data-id]")].slice(0,3); grid.innerHTML=""; items.forEach(li=>{ const ci=li.querySelector(".ci"); if(!ci) return; const sm=ci.querySelector("small"); const title=ci.title||ci.childNodes[0].textContent; const b=document.createElement("button"); b.type="button"; b.className="rcard"; b.innerHTML="<b>"+esc(title)+"</b><small>"+(sm?esc(sm.textContent):"")+"</small>"; b.addEventListener("click",()=>ci.click()); grid.appendChild(b); }); box.hidden=!items.length; }
+ new MutationObserver(build).observe(ul,{childList:true}); build(); })();
 })();
