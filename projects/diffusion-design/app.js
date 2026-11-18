@@ -396,7 +396,7 @@ function buildMenu(){
   const p=$("#g-plan"); let m=$("#g-menu"); if(!m){ m=document.createElement("div"); m.id="g-menu"; p.prepend(m); p.classList.add("menumode"); const live=$("#g-live"); if(live) m.after(live);
     const adv=document.createElement("div"); adv.id="mm-adv"; ["g-seed","g-smi","g-str"].forEach(id=>{ const l=$("#"+id); if(l&&l.closest("label")) adv.appendChild(l.closest("label")); }); p.appendChild(adv); }
   const adv=$("#mm-adv"); const html=[]; const text=id=>{ const e=$("#"+id); return e.options[e.selectedIndex].text.replace(/ \(.*/,"").replace(/,.*/,"").replace("Molecules and guides","Both").replace(" only",""); };
-  const sub=(key,icon,label,val,body)=>{ const o=mmOpen===key; html.push('<button type="button" class="mm-row'+(o?' open':'')+'" data-k="'+key+'">'+mIc(icon)+'<span>'+label+'</span><em>'+esc(val||"")+'</em>'+CHV+'</button>'+(o?'<div class="mm-sub">'+body+'</div>':'')); };
+  const sub=(key,icon,label,val,body)=>{ const o=mmOpen===key; html.push('<button type="button" class="mm-row'+(o?' open':'')+'" data-k="'+key+'">'+mIc(icon)+'<span>'+label+'</span>'+CHV+'</button>'+(o?'<div class="mm-sub">'+body+'</div>':'')); };
   const opts=id=>[...$("#"+id).options].map(o=>'<button type="button" class="mm-opt'+(o.value===$("#"+id).value?' on':'')+'" data-sel="'+id+'" data-v="'+esc(o.value)+'"><span>'+esc(o.text)+'</span>'+(o.value===$("#"+id).value?CHK:'')+'</button>').join("");
   html.push('<button type="button" class="mm-row" data-act="attach">'+mIc("clip")+'<span>Upload or add files</span></button><div class="mm-div"></div>');
   sub("lib","target","Target",text("g-lib"),opts("g-lib")); sub("make","layers","Make",text("g-make"),opts("g-make")); sub("n","hash","Candidates each",$("#g-n").value,opts("g-n"));
@@ -405,8 +405,7 @@ function buildMenu(){
   tog("g-gate",$("#g-gate").value==="on","Uncertainty gate","shield"); tog("g-cmp",$("#g-cmp").value==="on","Compare with unguided","split");
   html.push('<div class="mm-div"></div>');
   sub("obj","brain","Objectives","",["g-wb","g-wa","g-wt"].map(id=>'<div class="mm-grp">'+esc($("#"+id).closest("label").childNodes[0].textContent.trim())+'</div>'+opts(id)).join(""));
-  sub("steer","gear","Steering","γ, τ, steps",["g-push","g-gam","g-tau","g-steps"].map(id=>'<div class="mm-grp">'+esc($("#"+id).closest("label").childNodes[0].textContent.trim().replace("threshold ",""))+'</div>'+opts(id)).join(""));
-  sub("adv","sliders","Seed and analogs","","<div id=\"mm-advslot\"></div>");
+  sub("steer","gear","Advanced","",["g-push","g-gam","g-tau","g-steps"].map(id=>'<div class="mm-grp">'+esc($("#"+id).closest("label").childNodes[0].textContent.trim().replace("threshold ",""))+'</div>'+opts(id)).join("")+'<div class="mm-grp">Seed and analogs</div><div id="mm-advslot"></div>');
   m.innerHTML=html.join(""); const slot=$("#mm-advslot"); if(slot) slot.appendChild(adv);
 }
 document.addEventListener("click",e=>{ const m=e.target.closest("#g-menu"); if(!m) return; const b=e.target.closest("button"); if(!b) return; e.stopImmediatePropagation();

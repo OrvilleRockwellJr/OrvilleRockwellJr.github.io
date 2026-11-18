@@ -596,3 +596,17 @@ body{background-image:none!important}
 /* menu: solid surface, no see-through blur */
 #g-plan.menumode{background:#fff!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;border:1px solid var(--card-bd)!important}
 [data-theme=dark] #g-plan.menumode{background:#2A2A30!important;border-color:rgba(255,255,255,.09)!important}
+
+/* + menu: compact, Claude-desktop style */
+#p-go #g-plan.menumode,#p-go.home #g-plan.menumode{width:300px!important;padding:8px!important;border-radius:16px!important;box-shadow:0 12px 40px -8px rgba(0,0,0,.55)!important}
+@media(max-width:480px){#p-go #g-plan.menumode,#p-go.home #g-plan.menumode{width:min(300px,calc(100vw - 28px))!important}}
+.mm-row{min-height:38px!important;padding:6px 10px!important;gap:14px!important;font-size:15px!important;color:var(--ink)!important;border-radius:9px!important}
+.mm-row svg{width:20px;height:20px;color:var(--ink)!important;opacity:.85}
+.mm-row .mm-cv{margin-left:auto;opacity:.6}
+.mm-row:hover,.mm-opt:hover{background:color-mix(in srgb,var(--ink) 9%,transparent)!important}
+.mm-div{margin:6px 2px!important}
+.mm-sub{padding:2px 0 6px 34px!important}
+.mm-opt{font-size:14px!important;padding:6px 10px!important}
+.mm-opt.on{color:var(--ink)!important}
+#g-plan.menumode>#mm-adv{display:none!important}
+#g-plan.menumode .mm-sub #mm-adv{display:block!important}
