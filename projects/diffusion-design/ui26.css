@@ -530,3 +530,6 @@ h3,.h3s{letter-spacing:-.01em}
 #g-plan .menurow{display:inline-flex;align-items:center;gap:8px;padding:7px 12px;border-radius:999px;border:1px solid var(--card-bd);background:transparent;color:var(--ink);font:inherit;font-size:13px;cursor:pointer}
 #g-plan .menurow:hover{background:var(--ac-soft)}
 #g-plan .live{display:block;font-size:12.5px;color:var(--muted);margin:0 0 10px}
+#p-go #g-plan,#p-go.home #g-plan{max-height:max(240px,min(440px,calc(100dvh - 520px)))!important;overscroll-behavior:contain}
+#p-go:not(.home) #g-plan{max-height:min(440px,calc(100dvh - 250px))!important}
+.dock .prompt{min-height:24px!important}.dockbar{padding-top:4px!important}
