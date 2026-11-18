@@ -373,4 +373,8 @@ document.addEventListener("ptp:photo",e=>{ if(S.files.length>=8){ $("#g-status")
 document.addEventListener("ptp:attach-error",e=>{ $("#g-status").textContent=e.detail; renderAtt(); });
 function turn(kind,prompt,sel){ document.dispatchEvent(new CustomEvent("ptp:turn",{detail:{kind,prompt,html:$(sel).innerHTML}})); }
 boot();
+
+/* ---------- UX: Enter sends, click a SMILES in results to copy ---------- */
+$("#g-prompt").addEventListener("keydown",e=>{ if(e.key==="Enter"&&!e.shiftKey&&!e.isComposing){ const b=$("#g-make-go"); if(b&&!b.disabled){ e.preventDefault(); b.click(); } } });
+document.addEventListener("click",e=>{ const t=e.target.closest(".smi[data-smi]"); if(!t||!t.closest("#thread,#g-out")||!navigator.clipboard) return; navigator.clipboard.writeText(t.dataset.smi).then(()=>{ if(t.dataset.busy) return; t.dataset.busy="1"; const o=t.textContent; t.textContent="Copied"; setTimeout(()=>{ t.textContent=o; delete t.dataset.busy; },900); }).catch(()=>{ const ta=document.createElement("textarea"); ta.value=t.dataset.smi; ta.style.position="fixed"; ta.style.opacity="0"; document.body.appendChild(ta); ta.select(); try{ document.execCommand("copy"); const o=t.textContent; t.textContent="Copied"; setTimeout(()=>{ t.textContent=o; },900); }catch(_){} ta.remove(); }); });
 })();

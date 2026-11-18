@@ -183,3 +183,5 @@ header nav a,.hdr nav a,.topnav a,.site-nav a{padding:6px 2px}
 .chipf{display:inline-flex;align-items:center;gap:6px;padding:4px 4px 4px 8px;border-radius:99px;background:var(--glass);border:1px solid var(--hair);font-size:12px;color:var(--ink)}
 .chipf img{width:22px!important;height:22px!important;border-radius:6px!important}
 .chipf .att-x{font-size:16px;padding:0 6px}
+.studio .smi[data-smi]{cursor:copy}
+.studio .smi[data-smi]:hover{color:var(--ink)}
