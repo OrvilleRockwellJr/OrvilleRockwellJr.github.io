@@ -47,8 +47,12 @@ function extract(text){
 }
 const TXT=/\.(txt|csv|tsv|md|json|fa|fasta|fna|smi|smiles|sdf|gb|gbk)$/i;
 const isImg=f=>/^image\//.test(f.type)||/\.(png|jpe?g|webp|gif|bmp|heic)$/i.test(f.name);
+const isPdf=f=>f.type==="application/pdf"||/\.pdf$/i.test(f.name);
+let pdfP=null;
+async function pdfText(file,maxPages){ if(!pdfP) pdfP=import(BASE+"vendor/pdf/pdf.min.mjs"); const lib=await pdfP; lib.GlobalWorkerOptions.workerSrc=BASE+"vendor/pdf/pdf.worker.min.mjs"; const doc=await lib.getDocument({data:new Uint8Array(await file.arrayBuffer())}).promise; const n=Math.min(doc.numPages,maxPages); let out=[]; for(let i=1;i<=n;i++){ const pg=await doc.getPage(i), tc=await pg.getTextContent(); let line="",y=null; for(const it of tc.items){ if(!("str" in it)) continue; const yy=Math.round(it.transform[5]); if(y!==null&&Math.abs(yy-y)>2){ out.push(line); line=""; } line+=(line&&!/\s$/.test(line)?" ":"")+it.str; y=yy; } out.push(line); out.push(""); } return {text:out.join("\n"),pages:doc.numPages,read:n}; }
 const isTxt=f=>/^text\//.test(f.type)||TXT.test(f.name);
 async function analyze(file,onp){
+  if(isPdf(file)){ if(file.size>40e6) throw new Error(file.name+" is over 40 MB."); onp&&onp("reading PDF",0); const r=await pdfText(file,30); const text=r.text.slice(0,200000); if(text.replace(/\s/g,"").length<20) throw new Error(file.name+": no text layer (a scanned PDF). Attach pages as images instead."); const ex=extract(text.slice(0,60000)); const fa=text.split(/\n/).map(l=>l.replace(/[\s\d]/g,"")).filter(l=>/^[ACGTacgt]{20,}$/.test(l)).join("").toUpperCase(); if(fa.length>=20&&fa.length>(ex.dna||"").length) ex.dna=fa.slice(0,4000); return {name:file.name,thumb:"",w:0,h:0,kind:"pdf",kindLabel:"PDF ("+r.read+(r.read<r.pages?" of "+r.pages:"")+" pages)",kindNote:"",text:text.slice(0,4000),words:text.split(/\s+/).length,conf:100,...ex}; }
   if(isTxt(file)&&!isImg(file)){
     if(file.size>5e6) throw new Error(file.name+" is over 5 MB.");
     const text=(await file.text()).slice(0,200000), ex=extract(text.slice(0,40000));
@@ -56,7 +60,7 @@ async function analyze(file,onp){
     if(fa.length>=20&&fa.length>(ex.dna||"").length) ex.dna=fa.slice(0,4000);
     return {name:file.name,thumb:"",w:0,h:0,kind:"file",kindLabel:"Text file",kindNote:"",text:text.slice(0,4000),words:text.split(/\s+/).length,conf:100,...ex};
   }
-  if(!isImg(file)) throw new Error(file.name+": unsupported file type (use an image or a text, CSV, FASTA or SMILES file).");
+  if(!isImg(file)) throw new Error(file.name+": unsupported file type (use an image, PDF, or a text, CSV, FASTA or SMILES file).");
   if(file.size>25e6) throw new Error(file.name+" is over 25 MB.");
   const {im,u}=await loadImage(file); try{
     const st=stats(im), th=thumb(im); onp&&onp("loading text reader",0); const w=await getWorker(onp); onp&&onp("reading text",0);
