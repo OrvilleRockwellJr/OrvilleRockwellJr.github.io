@@ -378,7 +378,7 @@ function liveLine(cfg){ const mk={both:"molecules + guides",mol:"molecules",dna:
   $("#g-live").textContent="Reads as: "+mk+" · "+cfg.n+(cfg.make==="both"?" each":"")+" · "+pu+" push"+tg; }
 let liveT=null; $("#g-prompt").addEventListener("input",()=>{ clearTimeout(liveT); liveT=setTimeout(()=>{ if(S.ready) doRead(); else $("#g-live").textContent=$("#g-prompt").value.trim()?"Models still loading…":"Waiting for your request."; },250); });
 $("#g-lib").addEventListener("change",()=>{ if(S.go){ S.go.cfg.lib=$("#g-lib").value; } });
-$("#g-gear").addEventListener("click",e=>{ e.stopPropagation(); const p=$("#g-plan"); p.hidden=!p.hidden; $("#g-gear").setAttribute("aria-expanded",String(!p.hidden)); });
+$("#g-gear").addEventListener("click",e=>{ e.stopPropagation(); const p=$("#g-plan"); p.hidden=!p.hidden; if(!p.hidden){ const hh=(document.querySelector(".top,header")||{getBoundingClientRect:()=>({bottom:64})}).getBoundingClientRect().bottom, top=$("#g-prompt").closest(".dock").getBoundingClientRect().top; p.style.setProperty("max-height",Math.max(200,Math.min(480,top-hh-20))+"px","important"); } $("#g-gear").setAttribute("aria-expanded",String(!p.hidden)); });
 document.addEventListener("click",e=>{ const p=$("#g-plan"); if(!p.hidden&&!p.contains(e.target)&&!e.target.closest("#g-gear")){ p.hidden=true; $("#g-gear").setAttribute("aria-expanded","false"); } });
 document.addEventListener("keydown",e=>{ if(e.key==="Escape"){ const p=$("#g-plan"); if(!p.hidden){ p.hidden=true; $("#g-gear").setAttribute("aria-expanded","false"); } } });
 document.querySelectorAll("#go-modes .mode").forEach(b=>b.addEventListener("click",()=>{ const m=b.dataset.m; document.querySelectorAll("#go-modes .mode").forEach(x=>x.classList.toggle("on",x===b)); $("#go-gen").hidden=m!=="gen"; $("#go-score").hidden=m!=="score"; }));
@@ -460,7 +460,7 @@ document.addEventListener("click",e=>{ const t=e.target.closest(".smi[data-smi]"
 (function(){ const P=$("#g-prompt"), full=P.placeholder; const fit=()=>{ if(P.value||!document.querySelector("#thread .turn")) { P.rows=P.value.split("\n").length>1?Math.min(5,P.value.split("\n").length):2; } };
  document.addEventListener("ptp:turn",()=>{ P.placeholder="Ask a follow-up, or describe something new"; P.rows=2; });
  const nc=$("#newchat"); if(nc) nc.addEventListener("click",()=>{ P.placeholder=full; P.rows=3; });
- P.addEventListener("input",fit); })();
+ P.addEventListener("input",fit); let lw=0; new ResizeObserver(()=>{ const w=P.clientWidth; if(w!==lw){ lw=w; fit(); } }).observe(P); window.addEventListener("resize",fit); document.addEventListener("ptp:turn",()=>setTimeout(fit,50)); })();
 
 /* ---------- home: recent chats as cards (mirrors the sidebar list) ---------- */
 (function(){ const ul=$("#chatlist"), box=$("#recents"), grid=$("#rgrid"); if(!ul||!box) return;
@@ -476,6 +476,6 @@ document.addEventListener("click",e=>{ const t=e.target.closest(".smi[data-smi]"
  function apply(){ document.body.classList.toggle("sideclosed",closed); [b,b2].filter(Boolean).forEach(x=>{ x.setAttribute("aria-expanded",String(!closed)); x.setAttribute("aria-label",closed?"Open chats panel":"Close chats panel"); }); try{ localStorage.setItem("ptp-side",closed?"closed":"open"); }catch(e){} }
  [b,b2].filter(Boolean).forEach(x=>x.addEventListener("click",()=>{ if(innerWidth<=900){ const o=document.body.classList.toggle("sideopen"); const sb=$("#sidebtn"); if(sb) sb.setAttribute("aria-expanded",String(o)); return; } closed=!closed; apply(); })); apply(); })();
 
-(function(){ const P=document.querySelector("#g-prompt"); if(!P) return; const fit=()=>{ P.style.height="auto"; P.style.height=Math.min(P.scrollHeight,220)+"px"; }; P.addEventListener("input",fit); const d=Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype,"value"); Object.defineProperty(P,"value",{get(){return d.get.call(P)},set(v){d.set.call(P,v); fit();}}); fit(); })();
+(function(){ const P=document.querySelector("#g-prompt"); if(!P) return; const FS=window.CSS&&CSS.supports&&CSS.supports("field-sizing","content"); const fit=()=>{ if(FS){ P.style.height=""; return; } P.style.height="auto"; P.style.height=Math.min(P.scrollHeight,220)+"px"; }; P.addEventListener("input",fit); const d=Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype,"value"); Object.defineProperty(P,"value",{get(){return d.get.call(P)},set(v){d.set.call(P,v); fit();}}); fit(); })();
 window.__ptpTest={readPrompt:readPrompt,intentOf:intentOf,sayReply:sayReply};
 })();

@@ -231,7 +231,7 @@ body{background-image:none!important}
 .studio .main,.studio main{min-height:calc(100vh - 62px)}
 @media(max-width:700px){#p-go:not(.home) .composer{padding:10px 0 8px!important}}
 .homemark{display:none!important}
-#p-go:not(.home) #g-prompt{min-height:0!important;height:auto;max-height:140px}
+#p-go:not(.home) #g-prompt{min-height:0!important;height:auto!important;field-sizing:content;max-height:160px}
 .homehead{padding-top:6vh}
 #p-go:not(.home) #g-prompt{height:46px!important;min-height:46px!important;padding-top:12px!important;padding-bottom:4px!important}
 #p-go:not(.home) .dock{padding-bottom:8px!important}
@@ -533,3 +533,4 @@ h3,.h3s{letter-spacing:-.01em}
 #p-go #g-plan,#p-go.home #g-plan{max-height:max(240px,min(440px,calc(100dvh - 520px)))!important;overscroll-behavior:contain}
 #p-go:not(.home) #g-plan{max-height:min(440px,calc(100dvh - 250px))!important}
 .dock .prompt{min-height:24px!important}.dockbar{padding-top:4px!important}
+.dock .prompt{field-sizing:content}
