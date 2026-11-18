@@ -1,5 +1,5 @@
 /* Generation worker: runs the guided-diffusion engine off the UI thread. */
-importScripts("engine.js");
+importScripts("engine.js?v=1795020132");
 const E=self.GDEngine; let M=null, Dn=null, cancelled=new Set();
 const tick=()=>new Promise(r=>setTimeout(r,0));
 const PG={};

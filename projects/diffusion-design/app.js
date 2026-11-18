@@ -26,7 +26,7 @@ async function boot(){
       initRDKitModule({locateFile:f=>BASE+"vendor/"+f}),
       getJSON("models/judges.json"), getJSON("models/ref.json"), getJSON("models/ptprs.json")]);
     S.rd=rd; S.judges=judges; S.ref=ref.map(([s,bits])=>({s,bits:new Set(bits)})); S.ptprs=ptprs; S.pref=null; getJSON("models/ptprs_ref.json").then(P=>{ S.pref={meta:P,rows:P.smiles.map((s,i)=>{ const m=rd.get_mol(s); if(!m) return null; const fp=m.get_morgan_fp(JSON.stringify({radius:2,nBits:1024})); m.delete(); const on=new Set(); for(let k=0;k<fp.length;k++) if(fp.charCodeAt(k)===49) on.add(k); return {y:P.y[i],bits:on}; }).filter(Boolean)}; }).catch(()=>{});
-    S.worker=new Worker(BASE+"worker.js"); S.worker.onmessage=onWorker; S.worker.onerror=e=>fail("Worker error: "+e.message);
+    S.worker=new Worker(BASE+"worker.js?v=1795020132"); S.worker.onmessage=onWorker; S.worker.onerror=e=>fail("Worker error: "+e.message);
     S.worker.postMessage({cmd:"init"});
   }catch(err){ fail("Could not load the models. "+(err&&err.message||err)+" Reload the page; if it persists, open orvillerockwelljr.com/projects/diffusion-design/ directly."); }
 }
