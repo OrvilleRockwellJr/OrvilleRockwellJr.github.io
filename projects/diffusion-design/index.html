@@ -19,10 +19,10 @@
 <div class="hero"><div class="page">
  <span class="eyebrow"><i></i>Research preview &middot; runs entirely in your browser</span>
  <h1>Generative design that <em>audits its own answers.</em></h1>
- <p class="lede">Steer small molecules and CRISPR guides toward <b>PTP&sigma;</b>, the receptor that lets the glial scar block axon regrowth after stroke. Every candidate is audited by a second model that never saw the steering, so a score the generator learned to game gets flagged instead of shipped.</p>
+ <p class="lede">Steer CRISPR guides against <i>PTPRS</i> and small molecules toward PTP-family inhibition, for <b>PTP&sigma;</b>, the receptor that lets the glial scar block axon regrowth after stroke. Every candidate is audited by a second model that never saw the steering, so a score the generator learned to game gets flagged instead of shipped.</p>
  <div class="cta"><a class="b1" href="studio.html" id="cta-go">Start designing</a><a class="b2" href="evidence.html">See the evidence</a></div>
  <div class="proof">
-  <div><b>5% &rarr; 72%</b><span>Molecules passing the held-out audit in the critic&rsquo;s shortlist, without and with the trust gate. Unguided filtering gets 31% (N&nbsp;=&nbsp;250, 3 seeds; the judge uses separate data for brain penetration and toxicity, not for activity).</span></div>
+  <div><b>5% &rarr; 72%</b><span>Molecules passing the held-out audit in the critic&rsquo;s shortlist, without and with the trust gate. Unguided filtering gets 31% (N&nbsp;=&nbsp;250, 3 seeds; the judge uses separate data for brain penetration and toxicity; the activity term is PTP-family-level and shares ChEMBL with the critic).</span></div>
   <div><b>1 engine, 2 alphabets</b><span>The same guided diffusion designs SMILES-latent molecules and 30-nt SpCas9 guides aimed at PTPRS exons.</span></div>
   <div><b>0 servers</b><span>No API and no upload. Models, chemistry and reports run on your device.</span></div>
  </div>
@@ -31,7 +31,7 @@
  <div><span>Question</span><p>When can a steering predictor be trusted during generative design, and when does gradient guidance beat generate-and-filter?</p></div>
  <div><span>Approach</span><p>Classifier-guided diffusion for molecules and CRISPR guides, a 5-head bootstrap critic ensemble with an uncertainty gate, and a held-out judge trained on different features and different data.</p></div>
  <div><span>Finding</span><p>For molecules the gate decides whether the critic&rsquo;s shortlist is usable (5% pass the audit without it, 72% with it; unguided filtering 31%). For guides filtering already reaches 92% and the gate did not help.</p></div>
- <div><span>Limits</span><p>Small public datasets, one target (PTPRS), and a judge that is a model, not an experiment. Nothing here is lab-validated. <a href="evidence.html#method">Method and reproduction</a>.</p></div>
+ <div><span>Limits</span><p>Small public datasets, one target (PTPRS), and a judge that is a model, not an experiment. Nothing here is lab-validated. The activity models are PTP-family-level: once molecules shared with the training splits are removed, the judge ranks the 59 ChEMBL PTP&sigma; molecules at AUC 0.70 and the steering critic shows no transfer (0.27), so PTP&sigma;-specific potency is not predicted here. <a href="evidence.html#method">Method and reproduction</a>.</p></div>
 </div></section>
 
 <script src="site.js"></script>

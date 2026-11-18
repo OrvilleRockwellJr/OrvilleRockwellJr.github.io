@@ -32,6 +32,10 @@ sdae=ae.state_dict()
 d["dec.zh.w"]=sdae["zh.weight"].numpy(); d["dec.zh.b"]=sdae["zh.bias"].numpy(); d["dec.demb"]=sdae["demb.weight"].numpy()
 d["dec.gru.wih"]=sdae["gru.weight_ih_l0"].numpy(); d["dec.gru.whh"]=sdae["gru.weight_hh_l0"].numpy(); d["dec.gru.bih"]=sdae["gru.bias_ih_l0"].numpy(); d["dec.gru.bhh"]=sdae["gru.bias_hh_l0"].numpy()
 d["dec.out.w"]=sdae["out.weight"].numpy(); d["dec.out.b"]=sdae["out.bias"].numpy()
+# encoder (needed in the browser for seeded/analog runs and for scoring a pasted SMILES)
+for k,src in (("enc.emb","emb.weight"),("enc.c1.w","c1.weight"),("enc.c1.b","c1.bias"),("enc.c2.w","c2.weight"),("enc.c2.b","c2.bias"),
+              ("enc.c3.w","c3.weight"),("enc.c3.b","c3.bias"),("enc.fc.w","fc.weight"),("enc.fc.b","fc.bias"),("enc.mu.w","mu.weight"),("enc.mu.b","mu.bias")):
+    d[k]=sdae[src].numpy()
 d["stat.mean"]=st["mean"].numpy(); d["stat.std"]=st["std"].numpy()
 man,arr=pack(d); arr.tofile(W+"mol.bin"); json.dump({"manifest":man,"vocab":vocab,"L":L,"Z":Z,"T":gd.T},open(W+"mol.json","w"))
 print("mol.bin",arr.nbytes/1e6,"MB")
