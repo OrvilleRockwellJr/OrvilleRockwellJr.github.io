@@ -45,9 +45,19 @@ function extract(text){
   const ptprs=/\bPTPRS\b|PTP[-\s]?(σ|sigma|s)\b|PTPσ/i.test(text); const genes=[]; (text.match(/\b[A-Z][A-Z0-9]{2,7}\b/g)||[]).forEach(g=>{ if(!STOP.has(g)&&!/^[ACGT]+$/.test(g)&&/[A-Z]{2}/.test(g)&&!genes.includes(g)&&!/^\d/.test(g)) genes.push(g); });
   return {smiles:smiles.slice(0,8),dna,ptprs,genes:genes.slice(0,6)};
 }
+const TXT=/\.(txt|csv|tsv|md|json|fa|fasta|fna|smi|smiles|sdf|gb|gbk)$/i;
+const isImg=f=>/^image\//.test(f.type)||/\.(png|jpe?g|webp|gif|bmp|heic)$/i.test(f.name);
+const isTxt=f=>/^text\//.test(f.type)||TXT.test(f.name);
 async function analyze(file,onp){
-  if(!/^image\//.test(file.type)&&!/\.(png|jpe?g|webp|gif|bmp|heic)$/i.test(file.name)) throw new Error("Choose an image file (photo, screenshot, scan).");
-  if(file.size>25e6) throw new Error("That image is over 25 MB.");
+  if(isTxt(file)&&!isImg(file)){
+    if(file.size>5e6) throw new Error(file.name+" is over 5 MB.");
+    const text=(await file.text()).slice(0,200000), ex=extract(text.slice(0,40000));
+    const fa=text.replace(/^>.*$/gm,"\n").split(/\n/).map(l=>l.replace(/[\s\d]/g,"")).filter(l=>/^[ACGTacgt]{20,}$/.test(l)).join("").toUpperCase();
+    if(fa.length>=20&&fa.length>(ex.dna||"").length) ex.dna=fa.slice(0,4000);
+    return {name:file.name,thumb:"",w:0,h:0,kind:"file",kindLabel:"Text file",kindNote:"",text:text.slice(0,4000),words:text.split(/\s+/).length,conf:100,...ex};
+  }
+  if(!isImg(file)) throw new Error(file.name+": unsupported file type (use an image or a text, CSV, FASTA or SMILES file).");
+  if(file.size>25e6) throw new Error(file.name+" is over 25 MB.");
   const {im,u}=await loadImage(file); try{
     const st=stats(im), th=thumb(im); onp&&onp("loading text reader",0); const w=await getWorker(onp); onp&&onp("reading text",0);
     const r=await w.recognize(file); const text=(r.data.text||"").trim(); const words=(r.data.words||[]).filter(x=>x.confidence>=50&&/[A-Za-z0-9]{2,}/.test(x.text)).length;
@@ -58,14 +68,20 @@ async function analyze(file,onp){
 window.PTPPhoto={analyze,extract};
 const btn=$("#g-photo"), inp=$("#g-file"); if(!btn||!inp) return;
 btn.addEventListener("click",()=>inp.click());
-async function handle(file){
-  if(!file) return; const att=$("#g-att"); att.hidden=false; att.innerHTML='<span class="att-s">Reading image on this device…</span>';
-  try{ const a=await analyze(file,(s,p)=>{ att.querySelector(".att-s").textContent=(s==="recognizing text"?"Reading text":s.charAt(0).toUpperCase()+s.slice(1))+(p?" "+Math.round(p*100)+"%":"…"); });
-    document.dispatchEvent(new CustomEvent("ptp:photo",{detail:a})); }
-  catch(e){ att.innerHTML='<span class="att-s">'+String(e.message||e).replace(/</g,"&lt;")+'</span> <button type="button" class="att-x" aria-label="Dismiss">×</button>'; att.querySelector(".att-x").onclick=()=>{ att.hidden=true; att.innerHTML=""; }; }
-  inp.value="";
+let busy=Promise.resolve();
+function handle(files){
+  files=[...(files||[])]; if(!files.length) return; const att=$("#g-att");
+  busy=busy.then(async()=>{
+    for(const file of files){
+      att.hidden=false; let s=att.querySelector(".att-s.busy"); if(!s){ s=document.createElement("span"); s.className="att-s busy"; att.appendChild(s); } s.textContent="Reading "+file.name+" on this device…";
+      try{ const a=await analyze(file,(st,pr)=>{ s.textContent="Reading "+file.name+" ("+(st==="recognizing text"?"text":st)+(pr?" "+Math.round(pr*100)+"%":"")+")…"; });
+        s.remove(); document.dispatchEvent(new CustomEvent("ptp:photo",{detail:a})); }
+      catch(e){ s.remove(); document.dispatchEvent(new CustomEvent("ptp:attach-error",{detail:String(e.message||e)})); }
+    }
+    inp.value="";
+  });
 }
-inp.addEventListener("change",()=>handle(inp.files&&inp.files[0]));
-const dock=btn.closest(".composer")||document; ["dragover","drop"].forEach(ev=>dock.addEventListener(ev,e=>{ if(!e.dataTransfer||!e.dataTransfer.files||!e.dataTransfer.files.length) return; e.preventDefault(); if(ev==="drop") handle(e.dataTransfer.files[0]); }));
-document.addEventListener("paste",e=>{ const it=[...(e.clipboardData&&e.clipboardData.items||[])].find(i=>i.type.startsWith("image/")); if(it&&$("#go-gen")&&!$("#go-gen").hidden){ const f=it.getAsFile(); if(f) handle(f); } });
+inp.addEventListener("change",()=>handle(inp.files));
+const dock=btn.closest(".composer")||document; ["dragover","drop"].forEach(ev=>dock.addEventListener(ev,e=>{ if(!e.dataTransfer||!e.dataTransfer.files||!e.dataTransfer.files.length) return; e.preventDefault(); if(ev==="drop") handle(e.dataTransfer.files); }));
+document.addEventListener("paste",e=>{ const fs=[...(e.clipboardData&&e.clipboardData.items||[])].filter(i=>i.kind==="file").map(i=>i.getAsFile()).filter(Boolean); if(fs.length&&$("#go-gen")&&!$("#go-gen").hidden) handle(fs); });
 })();

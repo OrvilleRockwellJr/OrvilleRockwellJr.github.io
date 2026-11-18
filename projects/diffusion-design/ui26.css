@@ -177,3 +177,9 @@ header nav a,.hdr nav a,.topnav a,.site-nav a{padding:6px 2px}
 .studio .pair.c{margin-top:9px!important}.studio .pair.j{margin-top:2px!important}
 .studio .card .small{line-height:1.35}
 .studio .card .btn,.studio .card .chip{padding:5px 11px;font-size:12px}
+
+/* attachment chips */
+.att{flex-wrap:wrap;gap:6px!important}
+.chipf{display:inline-flex;align-items:center;gap:6px;padding:4px 4px 4px 8px;border-radius:99px;background:var(--glass);border:1px solid var(--hair);font-size:12px;color:var(--ink)}
+.chipf img{width:22px!important;height:22px!important;border-radius:6px!important}
+.chipf .att-x{font-size:16px;padding:0 6px}
