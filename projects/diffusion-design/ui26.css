@@ -618,3 +618,16 @@ body{background-image:none!important}
 .fuse .fz{display:flex;gap:12px;align-items:flex-start;margin-top:8px}
 .fuse .sv{flex:none;width:96px}
 .fuse button.ghost{margin-top:6px;font-size:12px;padding:5px 10px;border-radius:999px;border:1px solid var(--ac,#8b5cf6);background:transparent;color:inherit;cursor:pointer}
+
+.fuse .fz{display:grid;grid-template-columns:130px 1fr;gap:14px;align-items:start}
+.fuse .sv{width:130px;height:110px;display:grid;place-items:center;overflow:hidden;border-radius:12px;background:var(--tile,#fff);border:1px solid var(--card-bd,rgba(255,255,255,.1))}
+.fuse .sv svg{max-width:100%;max-height:104px;width:100%;height:auto}
+.fuse .smi{display:block;margin:2px 0 6px;word-break:break-all}
+[data-theme=dark] .fuse .sv,[data-theme=dark] .sup .sv{background:#1A1A1E!important}
+[data-theme=dark] .fuse .sv svg,[data-theme=dark] .sup .sv svg{filter:invert(1) hue-rotate(180deg) saturate(.9);background:transparent!important}
+.sup .sv svg rect:first-child{fill:transparent!important}
+.pr .supk{grid-column:1/-1}
+.sup{display:grid;grid-template-columns:150px 1fr;gap:12px;margin-top:8px;align-items:start}
+.sup .sv{height:120px;display:grid;place-items:center;overflow:hidden;border-radius:12px;border:1px solid var(--card-bd,rgba(255,255,255,.1))}
+.sup .sv svg{max-height:112px;width:100%}
+@media(max-width:560px){.fuse .fz,.sup{grid-template-columns:1fr}}
