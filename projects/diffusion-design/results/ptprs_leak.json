@@ -1,0 +1,124 @@
+{
+ "question": "Do the PTP-family models transfer to PTPsigma once molecules shared between the family training set and the PTPsigma evaluation set are removed?",
+ "eval_set": {
+  "source": "ChEMBL, every recorded PTPsigma activity (target CHEMBL2396508)",
+  "n_all": 59,
+  "n_encodable_by_the_latent_critic": 31,
+  "active_rule": "IC50 <= 3.16 uM or >= 50% inhibition in a single-concentration screen",
+  "n_active_all": 23,
+  "n_active_encodable": 11,
+  "molecules_also_in_family_training_splits": 9
+ },
+ "judge_ecfp4_logreg": {
+  "production_replica_all59": {
+   "n": 59,
+   "active": 23,
+   "n_train": 1331,
+   "C": 0.3,
+   "auc": 0.8381642512077294,
+   "ci": [
+    0.7205504144977829,
+    0.9335664335664335
+   ],
+   "eval_in_act_splits": 9
+  },
+  "production_replica_encodable31": {
+   "n": 31,
+   "active": 11,
+   "n_train": 1331,
+   "C": 0.3,
+   "auc": 0.9045454545454545,
+   "ci": [
+    0.7692226890756303,
+    1.0
+   ],
+   "eval_in_act_splits": 9
+  },
+  "leak_removed_all59": {
+   "n": 59,
+   "active": 23,
+   "n_train": 1325,
+   "C": 0.3,
+   "auc": 0.7004830917874396,
+   "ci": [
+    0.5570962918660286,
+    0.8255550305550305
+   ],
+   "eval_in_act_splits": 9
+  },
+  "leak_removed_encodable31": {
+   "n": 31,
+   "active": 11,
+   "n_train": 1325,
+   "C": 0.3,
+   "auc": 0.6227272727272728,
+   "ci": [
+    0.4190333850931677,
+    0.8043478260869564
+   ],
+   "eval_in_act_splits": 9
+  }
+ },
+ "latent_critic": {
+  "leak_removed": {
+   "eval_auc_mean_3_seeds": 0.27424242424242423,
+   "eval_auc_sd": 0.07796775957738553,
+   "eval_aucs": [
+    0.3681818181818182,
+    0.17727272727272725,
+    0.2772727272727273
+   ],
+   "eval_ci_seed1": [
+    0.15832799145299145,
+    0.601010101010101
+   ],
+   "family_test_auc_mean": 0.7557556080283353,
+   "n_train": 1325
+  },
+  "shipped_leaky_number_for_comparison": 0.6136363636363636
+ },
+ "attempted_improvements_all_failed": {
+  "uniform": {
+   "eval_auc_mean": 0.27424242424242423,
+   "eval_auc_sd": 0.07796775957738553,
+   "family_test_auc_mean": 0.7557556080283353,
+   "n_rows": 1325
+  },
+  "recep_w4": {
+   "eval_auc_mean": 0.1606060606060606,
+   "eval_auc_sd": 0.01830764541453723,
+   "family_test_auc_mean": 0.759297520661157,
+   "n_rows": 1616
+  },
+  "recep_w10": {
+   "eval_auc_mean": 0.20454545454545456,
+   "eval_auc_sd": 0.011134044285378097,
+   "family_test_auc_mean": 0.7519677292404565,
+   "n_rows": 2198
+  },
+  "recep_only": {
+   "eval_auc_mean": 0.2772727272727273,
+   "eval_auc_sd": 0.10291883453176782,
+   "family_test_auc_mean": 0.5862357339630067,
+   "n_rows": 97
+  },
+  "t2a_w10": {
+   "eval_auc_mean": 0.36818181818181817,
+   "eval_auc_sd": 0.2371780839921151,
+   "family_test_auc_mean": 0.7457693821330184,
+   "n_rows": 1640
+  }
+ },
+ "arms_explained": {
+  "uniform": "family-pooled training, the shipped recipe",
+  "recep_w4": "receptor-type PTP molecules (PTPRS/F/B/C/G) repeated 4x",
+  "recep_w10": "same, 10x",
+  "recep_only": "receptor-type molecules only (97)",
+  "t2a_w10": "type-IIa subfamily (PTPRS/PTPRF) repeated 10x"
+ },
+ "conclusion": "Leakage inflated both PTPsigma figures. Leak-free: judge AUC 0.70 (95% CI 0.56-0.83) on all 59 molecules and 0.62 (0.42-0.80) on the 31 the critic can encode; the latent steering critic is 0.27 +- 0.08, i.e. no measurable transfer to PTPsigma. Upweighting receptor-type PTPs, or training on them alone, did not help (every arm <= 0.37). Family-level held-out AUC is unaffected (0.75).",
+ "method": "Each arm retrained from the same autoencoder latents, 5-head bootstrap ensemble, 60 epochs, 3 seeds; judge = ECFP4 (radius 2, 1024 bits) logistic regression with C chosen on the family validation split; 95% CIs are 4000-sample bootstraps over the evaluation molecules.",
+ "scripts": [
+  "scripts/exp_act2.py"
+ ]
+}
