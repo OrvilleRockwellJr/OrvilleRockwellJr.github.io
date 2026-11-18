@@ -612,3 +612,9 @@ body{background-image:none!important}
 #g-plan.menumode .mm-sub #mm-adv{display:block!important}
 
 #p-go.home .dock{min-height:0!important}
+
+.fuse{margin-top:14px;padding:12px 14px;border-radius:14px;border:1px solid var(--line,rgba(255,255,255,.1));font-size:12.5px;line-height:1.5}
+.fuse>small{letter-spacing:.06em;opacity:.7}
+.fuse .fz{display:flex;gap:12px;align-items:flex-start;margin-top:8px}
+.fuse .sv{flex:none;width:96px}
+.fuse button.ghost{margin-top:6px;font-size:12px;padding:5px 10px;border-radius:999px;border:1px solid var(--ac,#8b5cf6);background:transparent;color:inherit;cursor:pointer}
