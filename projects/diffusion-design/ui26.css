@@ -513,3 +513,20 @@ details.how[open]>summary::before{transform:rotate(45deg)}
 .studio .cards{gap:16px!important}
 h3,.h3s{letter-spacing:-.01em}
 .twokey>h3,.studio h3{font-weight:600}
+
+/* minimal composer: one + menu, arrow send */
+.dock .prompt{min-height:28px!important;max-height:220px;overflow-y:auto;resize:none;padding:6px 2px!important;line-height:1.5;scrollbar-width:none}
+.dock .prompt::-webkit-scrollbar{display:none}
+.dock{padding:14px 14px 10px 18px!important}
+.dockbar{padding-top:8px!important;justify-content:space-between}
+.dockbar #g-gear{margin:0!important;width:36px;height:36px;border-radius:50%!important;border:1px solid var(--card-bd)!important}
+.dockbar #g-gear[aria-expanded=true]{transform:rotate(45deg)}
+.dockbar #g-gear svg{transition:none}
+.gen,#sc-go{width:38px!important;height:38px!important;padding:0!important;border-radius:50%!important;display:inline-grid!important;place-items:center;flex:none}
+.dockbar .gen{margin-left:auto!important}
+.dockbar #g-stop.stopbtn{width:38px!important;height:38px!important;padding:0!important;border-radius:50%!important;display:inline-grid;place-items:center;margin-left:auto!important}
+.dockbar #g-stop[hidden]{display:none!important}
+#g-plan .pmenu{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:10px}
+#g-plan .menurow{display:inline-flex;align-items:center;gap:8px;padding:7px 12px;border-radius:999px;border:1px solid var(--card-bd);background:transparent;color:var(--ink);font:inherit;font-size:13px;cursor:pointer}
+#g-plan .menurow:hover{background:var(--ac-soft)}
+#g-plan .live{display:block;font-size:12.5px;color:var(--muted);margin:0 0 10px}

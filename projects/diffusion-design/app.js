@@ -451,4 +451,6 @@ document.addEventListener("click",e=>{ const t=e.target.closest(".smi[data-smi]"
 (function(){ const b=$("#sidetoggle"), b2=$("#sidetoggle2"); if(!b) return; let closed=false; try{ closed=localStorage.getItem("ptp-side")==="closed"; }catch(e){}
  function apply(){ document.body.classList.toggle("sideclosed",closed); [b,b2].filter(Boolean).forEach(x=>{ x.setAttribute("aria-expanded",String(!closed)); x.setAttribute("aria-label",closed?"Open chats panel":"Close chats panel"); }); try{ localStorage.setItem("ptp-side",closed?"closed":"open"); }catch(e){} }
  [b,b2].filter(Boolean).forEach(x=>x.addEventListener("click",()=>{ if(innerWidth<=900){ const o=document.body.classList.toggle("sideopen"); const sb=$("#sidebtn"); if(sb) sb.setAttribute("aria-expanded",String(o)); return; } closed=!closed; apply(); })); apply(); })();
+
+(function(){ const P=document.querySelector("#g-prompt"); if(!P) return; const fit=()=>{ P.style.height="auto"; P.style.height=Math.min(P.scrollHeight,220)+"px"; }; P.addEventListener("input",fit); const d=Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype,"value"); Object.defineProperty(P,"value",{get(){return d.get.call(P)},set(v){d.set.call(P,v); fit();}}); fit(); })();
 })();
