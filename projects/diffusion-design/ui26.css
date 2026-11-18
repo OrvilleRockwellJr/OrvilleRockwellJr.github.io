@@ -588,3 +588,7 @@ h3,.h3s{letter-spacing:-.01em}
 @media(prefers-reduced-motion:reduce){#g-status .pulse{animation:none}}
 .bar{height:3px!important;border-radius:3px;overflow:hidden}.bar i{transition:width .35s var(--ease);border-radius:3px}
 .dockbar:has(#g-stop:not([hidden])) #g-make-go{display:none!important}
+/* minimal: no ambient light */
+body{background-image:none!important}
+#p-go.home::before{display:none!important;animation:none!important}
+.homehead h1,.homehead h2{text-shadow:none!important}
