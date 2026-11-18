@@ -1,0 +1,5 @@
+{"what":"Can the held-out DNA judge be improved cheaply? AUC on Luo test / Azimuth test / Kim test.",
+ "logistic_luo_only (shipped)":{"luo":0.872,"azimuth":0.746,"kim":0.818},
+ "logistic_luo_plus_azimuth_train":{"luo":0.855,"azimuth":0.756,"kim":0.824},
+ "gradient_boosting_luo_only":{"luo":0.878,"azimuth":0.754,"kim":0.831},
+ "verdict":"Gains are about 0.01 AUC, within noise for these test sizes, and the added lab would blur the judge's independence. Not adopted. Headroom from these sequence features looks small; more gain would need new information (chromatin, epigenetic context), not a bigger model."}

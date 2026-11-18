@@ -1,0 +1,6 @@
+{"what":"Request-understanding benchmark: 80 hand-written prompts (40 dev, 40 held-out test), gold labels for intent (design/score/say), modality, count, edit type, objective weights, push, steps, trust gate, locus, compare. A prompt counts only if every labelled field is right.",
+ "before":{"dev":0.80,"test":0.718},
+ "after_dev_fixes_only":{"dev":1.0,"test":0.897},
+ "after_all_fixes":{"dev":1.0,"test":1.0,"note":"test set was used to fix the last 4 misses, so this number is no longer held-out"},
+ "caveats":"Prompts and gold labels were written by the same person who wrote the parser, so this measures regression and coverage, not generalization to strangers. The parser is rule-based, not a language model.",
+ "script":"scripts/understand_bench.json"}
