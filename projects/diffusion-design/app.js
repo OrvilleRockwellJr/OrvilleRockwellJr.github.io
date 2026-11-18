@@ -225,8 +225,8 @@ function readPrompt(raw){
   const hi=(k,flag)=>flag?(new RegExp("(must|need|especially|priority|above all|most important|mainly|top priority|first and foremost)[^.]{0,40}("+k+")|("+k+")[^.]{0,30}((is|are) (the )?(top |main |first |highest )?(priority|key|crucial|essential)|above all( else)?|first and foremost)").test(t)?2:1.5):1;
   const w=[hi("brain|bbb|cns|penetrat\\w*",bb),hi("potent\\w*|activ\\w*|inhibit\\w*|affinity",ac),hi("safe\\w*|toxic\\w*|non-?toxic",tx)];
   if(off("brain|bbb|cns|blood[- ]brain")) w[0]=0; if(off("potency|activity|inhibition|affinity")) w[1]=0; if(off("toxic\\w*|safety|tox")) w[2]=0;
-  out.w=w.map(v=>v>=2?2:v>0?1:0); [[bb,"brain penetration"],[ac,"target activity"],[tx,"low toxicity"]].forEach(([f,n],i)=>{ if(w[i]===0) notes.push("Switching off "+n+" because you said to ignore it."); else if(f) notes.push("Weighting "+n+(out.w[i]===2?" high.":" normally (you mentioned it).")); });
-  if(out.make!=="dna"&&!bb&&!ac&&!tx) notes.push("No molecule objectives named, so brain penetration, activity and low toxicity are all on at normal weight.");
+  out.w=w.map(v=>v>=2?2:v>0?1:0); [[bb,"brain penetration"],[ac,"PTP-family activity"],[tx,"low toxicity"]].forEach(([f,n],i)=>{ if(w[i]===0) notes.push("Switching off "+n+" because you said to ignore it."); else if(f) notes.push("Weighting "+n+(out.w[i]===2?" high.":" normally (you mentioned it).")); });
+  if(out.make!=="dna"&&!bb&&!ac&&!tx) notes.push("No molecule objectives named, so brain penetration, PTP-family activity and low toxicity are all on at normal weight.");
   if(/\b(aggressive\w*|strong(ly)?|maxim\w+|push (it )?hard|hard|as (good|strong) as possible)\b/.test(t)) out.push="hard"; else if(/\b(gentle\w*|diverse|diversity|varied|explor\w*|novel|broad)\b/.test(t)) out.push="gentle";
   if(out.push!=="std") notes.push(out.push==="hard"?"Guidance pushed hard (less diverse, more optimized).":"Guidance gentle (more diverse, less optimized).");
   let n=null; const NW={a:1,an:1,one:1,two:2,three:3,four:4,five:5,six:6,seven:7,eight:8,nine:9,ten:10,eleven:11,twelve:12,sixteen:16,twenty:20,"twenty-four":24,"twenty four":24};
