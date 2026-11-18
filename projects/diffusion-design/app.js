@@ -298,9 +298,10 @@ $("#g-stop").addEventListener("click",()=>{ const r=S.go&&S.go.run; if(!r) retur
 function startStage(){
   const r=S.go.run, st=r.stages[r.i]; st.job.id=++S.job; S.cur={kind:st.kind,job:st.job,got:0,t0:performance.now(),chain:true};
   if(st.kind==="mol") S.mol={items:[],cmp:false,job:st.job}; else S.dna={items:[],job:st.job,cmp:false};
-  $("#g-status").textContent="Stage "+(r.i+1)+" of "+r.stages.length+": "+(st.kind==="mol"?"molecules":"guides")+"…"; S.worker.postMessage(st.job);
+  $("#g-status").innerHTML='<i class="pulse"></i><b>'+(st.kind==="mol"?"Denoising molecules":"Denoising guides")+'</b> <span>starting\u2026</span>'; S.worker.postMessage(st.job);
 }
-function chainItem(m){ const r=S.go&&S.go.run; if(!r) return; let done=S.cur.got, tot=0; r.stages.forEach((s,k)=>{ tot+=s.job.n; if(k<r.i) done+=s.job.n; }); $("#g-bar").style.width=(done/tot*100)+"%"; }
+function mmss(x){ x=Math.max(0,Math.round(x)); return Math.floor(x/60)+":"+String(x%60).padStart(2,"0"); }
+function chainItem(m){ const r=S.go&&S.go.run; if(!r) return; let done=S.cur.got, tot=0; r.stages.forEach((s,k)=>{ tot+=s.job.n; if(k<r.i) done+=s.job.n; }); $("#g-bar").style.width=(done/tot*100)+"%"; const st=r.stages[r.i], el=(performance.now()-r.t0)/1000, eta=done>0?el*(tot-done)/done:NaN; $("#g-status").innerHTML='<i class="pulse"></i><b>'+(st.kind==="mol"?"Denoising molecules":"Denoising guides")+'</b> <span>'+done+' of '+tot+' candidates</span> <span>'+mmss(el)+' elapsed'+(done>1&&isFinite(eta)?' \u00b7 about '+mmss(eta)+' left':'')+'</span>'+(r.stages.length>1?' <span>stage '+(r.i+1)+' of '+r.stages.length+'</span>':''); }
 function chainDone(m){
   const r=S.go.run, st=r.stages[r.i]; if(st.kind==="mol"){ r.mol=S.mol.items.map(x=>x.g); r.molU=S.mol.items.map(x=>x.u).filter(Boolean); if(r.seedInfo) r.mol.forEach(o=>{ if(o.valid) o.simSeed=tani(o.a,r.seedInfo.a); }); } else r.dna=S.dna.items.map(x=>x.g);
   r.i++; if(r.i<r.stages.length&&!m.cancelled&&!r.stopped){ startStage(); return; }

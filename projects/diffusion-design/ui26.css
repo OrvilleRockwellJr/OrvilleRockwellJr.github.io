@@ -578,3 +578,13 @@ h3,.h3s{letter-spacing:-.01em}
 .studio .metrics,.metrics{grid-template-columns:repeat(auto-fit,minmax(112px,1fr))}
 .studio .metrics div,.metrics div{padding:12px 12px!important}
 @media(max-width:600px){.studio .metrics,.metrics{grid-template-columns:repeat(2,1fr)}}
+
+/* running state */
+#g-status{display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px;font-size:13px;color:var(--muted)}
+#g-status b{color:var(--ink);font-weight:550}
+#g-status span+span::before{content:"\00b7";margin-right:14px;opacity:.5}
+#g-status .pulse{width:8px;height:8px;border-radius:50%;background:var(--ac);box-shadow:0 0 0 0 var(--ac-soft);animation:pls 1.4s ease-out infinite}
+@keyframes pls{0%{box-shadow:0 0 0 0 var(--ac-soft)}100%{box-shadow:0 0 0 9px transparent}}
+@media(prefers-reduced-motion:reduce){#g-status .pulse{animation:none}}
+.bar{height:3px!important;border-radius:3px;overflow:hidden}.bar i{transition:width .35s var(--ease);border-radius:3px}
+.dockbar:has(#g-stop:not([hidden])) #g-make-go{display:none!important}
