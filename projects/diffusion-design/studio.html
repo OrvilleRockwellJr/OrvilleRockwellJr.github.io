@@ -18,6 +18,7 @@
 <header class="top"><div class="page"><nav class="nav" aria-label="Page"><button type="button" class="sidebtn" id="sidebtn" aria-label="Show chats" aria-expanded="false"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg></button><a class="wm" href="./"><span class="wmk"><svg class="logo" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M24 4.5 40.9 14.25v19.5L24 43.5 7.1 33.75v-19.5z"/><path d="M17.5 12.5C30 16.5 30.5 21.5 24 24s-6 7.5 6.5 11.5"/><path d="M30.5 12.5C18 16.5 17.5 21.5 24 24s6 7.5-6.5 11.5"/><path d="M19.6 16h8.8M19.6 32h8.8" stroke-width="1.6"/></svg></span>PTP&sigma; Studio</a><span class="navr"><a href="studio.html">Studio</a><a href="evidence.html">Evidence</a><a href="evidence.html#method">Method</a><a href="https://github.com/OrvilleRockwellJr/orvillerockwelljr.github.io/tree/main/projects/diffusion-design">Code</a><button type="button" class="themebtn" id="theme" aria-pressed="false" aria-label="Toggle dark theme" title="Switch to dark theme"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5a8.5 8.5 0 1 0 10.7 10.7z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/></svg></button><a class="pill" href="../../">Orville Rockwell Jr. &rarr;</a></span></nav></div></header>
 <div class="shell studio" id="studio">
  <aside class="side" id="side" aria-label="Chats">
+  <button type="button" id="sidetoggle2" class="iconbtn sidetoggle" aria-label="Close chats panel" aria-expanded="true" title="Show or hide chats"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M9 4v16"/></svg></button>
   <button type="button" class="newchat" id="newchat"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>New chat</button>
   <div class="sidelabel">Chats</div>
   <ul id="chatlist" class="chatlist"></ul>
@@ -25,7 +26,7 @@
   <div class="sidefoot"><button type="button" class="linkbtn" id="dl-all">Download all chats (.json)</button><p class="small">Saved in this browser only. No account, nothing is uploaded.</p></div>
  </aside>
  <main class="stage" id="main">
-  <div class="stagebar"><button type="button" class="iconbtn" id="sidetoggle" aria-label="Close chats panel" aria-expanded="true" title="Show or hide chats"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M9 4v16"/></svg></button></div>
+  <div class="stagebar"><button type="button" class="iconbtn sidetoggle" id="sidetoggle" aria-label="Close chats panel" aria-expanded="true" title="Show or hide chats"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M9 4v16"/></svg></button></div>
   <div class="tabs" role="tablist" id="design" aria-label="Studio sections">
    <button role="tab" aria-selected="true" aria-controls="p-go" id="t-go">Design</button>
    <button role="tab" aria-selected="false" aria-controls="p-mol" id="t-mol">Molecules</button>
@@ -57,6 +58,10 @@
      <label>Uncertainty gate (molecules)<select id="g-gate"><option value="on" selected>On (recommended)</option><option value="off">Off, to see the critic get exploited</option></select></label>
      <label>Seed<input type="number" id="g-seed" value="21" min="0"></label>
      <label>Seed molecule (SMILES, optional)<input type="text" id="g-smi" placeholder="design analogs of this" autocomplete="off" spellcheck="false"></label>
+     <label>Guidance strength &gamma;<select id="g-gam"><option value="auto" selected>Auto (from your words)</option><option value="0">0, unguided</option><option value="2">2, gentle</option><option value="4">4, standard</option><option value="6">6</option><option value="8">8, hard</option></select></label>
+     <label>Trust gate threshold &tau;<select id="g-tau"><option value="auto" selected>Auto</option><option value="0.5">0.5, strict</option><option value="1">1.0</option><option value="2">2.0, lenient</option></select></label>
+     <label>Denoising steps<select id="g-steps"><option value="auto" selected>Auto</option><option value="30">30, fast</option><option value="60">60</option><option value="100">100, careful</option></select></label>
+     <label>Compare with unguided<select id="g-cmp"><option value="auto" selected>Auto (only if you ask)</option><option value="on">On, same noise, &gamma; = 0</option><option value="off">Off</option></select></label>
      <label>Analog distance<select id="g-str"><option value="0.1">Close (small edits)</option><option value="0.2" selected>Medium</option><option value="0.3">Far (new scaffolds)</option></select></label>
     </div>
     <ul class="small" id="g-notes"></ul>
