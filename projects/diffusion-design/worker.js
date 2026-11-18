@@ -44,6 +44,36 @@ function dnaRun(job,i,gamma,trace){
   const seq=E.dnaFromX(xf); const r=Dn.ens.eval(E.dnaToX(seq),0,1,false);
   return {seq,crit:r};
 }
+/* ---------- joint pair sampler ----------
+   One state per pair: x = [z_mol (64) | x_dna (120)] advanced in lockstep by one loop. The two denoisers are separate networks (block-diagonal),
+   so the molecule and the guide interact only through the pair reward below: every few steps all pairs are resampled together in proportion to
+   R = sqrt(molecule reward x guide reward x site coupling), so a trajectory survives only if the PAIR is promising (sequential Monte Carlo on the reward). */
+const sgm=z=>1/(1+Math.exp(-z));
+function dnaOk(s){ const gc=[...s.slice(4,24)].filter(c=>c==="G"||c==="C").length/20; return s.slice(25,27)==="GG"&&gc>=0.4&&gc<=0.7&&!s.slice(4,24).includes("TTTT"); }
+async function pairRun(job){
+  const N=job.n, steps=job.steps, eta=job.eta==null?0.5:job.eta, kappa=job.kappa==null?3:job.kappa, doRes=job.resample!==false, cpm=job.cp||null, hasLib=!!(job.lib&&job.lib.length);
+  const molObjs=[{ens:M.ens.bbb,want:1,weight:job.w[0]},{ens:M.ens.act,want:1,weight:job.w[1]},{ens:M.ens.tox,want:0,weight:job.w[2]}], wsum=(job.w[0]+job.w[1]+job.w[2])||1;
+  const dObjs=[{ens:Dn.ens,want:1,weight:1}]; if(hasLib&&job.wl>0&&job.gd>0) dObjs.push({ens:getLib(job),want:1,weight:job.wl});
+  const P=[]; for(let i=0;i<N;i++){ const rm=E.rng((job.seed*7919+i*104729)>>>0), rd=E.rng((job.seed*6151+i*92821)>>>0); const xm=new Float32Array(M.den.D), xd=new Float32Array(Dn.den.D); for(let k=0;k<xm.length;k++) xm[k]=rm.n(); for(let k=0;k<xd.length;k++) xd[k]=rd.n();
+    P.push({m:E.makeStepper({den:M.den,objectives:molObjs,gamma:job.gm,tau:job.tau,gate:job.gate?"ens":"none",eta,steps,x:xm,rnd:rm}),d:E.makeStepper({den:Dn.den,objectives:dObjs,gamma:job.gd,tau:1,gate:"none",eta,steps,clip:1.5,x:xd,rnd:rd}),anc:i}); }
+  const n=P[0].m.n; let nres=0, essLast=N;
+  const reward=p=>{ const c=molCrit(p.m.x0), rm=(job.w[0]*sgm(c.bbb.mean)+job.w[1]*sgm(c.act.mean)+job.w[2]*(1-sgm(c.tox.mean)))/wsum;
+    const seq=E.dnaFromX(p.d.x0), e=Dn.ens.eval(E.dnaToX(seq),0,1,false); let site=1; if(hasLib&&cpm) site=cpm[seq]!=null?cpm[seq]:0.6; const rg=sgm(e.mean)*(dnaOk(seq)?1:0.5)*site; return Math.sqrt(Math.max(1e-9,rm)*Math.max(1e-9,rg)); };
+  for(let si=0;si<n;si++){
+    if(cancelled.has(job.id)) return null;
+    for(const p of P){ p.m.step(si); p.d.step(si); }
+    let meanR=NaN;
+    if(si>=Math.floor(n*0.15)&&si<n-1&&(si%3===0)){ const R=P.map(reward); meanR=R.reduce((a,b)=>a+b,0)/N;
+      if(doRes){ const w=R.map(r=>Math.pow(r,kappa)), sw=w.reduce((a,b)=>a+b,0); const pw=w.map(v=>v/sw); const ess=1/pw.reduce((a,b)=>a+b*b,0); essLast=ess;
+        if(ess<0.6*N){ const u0=(E.rng((job.seed*131+si)>>>0).u())/N; const idx=[]; let c=pw[0], j=0; for(let k=0;k<N;k++){ const u=u0+k/N; while(u>c&&j<N-1){ j++; c+=pw[j]; } idx.push(j); }
+          const sm=P.map(p=>Float32Array.from(p.m.x)), sd=P.map(p=>Float32Array.from(p.d.x)), an=P.map(p=>p.anc);
+          idx.forEach((a,k)=>{ P[k].m.x.set(sm[a]); P[k].d.x.set(sd[a]); P[k].anc=an[a]; P[k].m.rnd=E.rng((job.seed*31+si*7919+k*104729+1)>>>0); P[k].d.rnd=E.rng((job.seed*37+si*6151+k*92821+3)>>>0); }); nres++; } } }
+    self.postMessage({evt:"pairstep",id:job.id,si,n,ess:essLast,res:nres,meanR:isNaN(meanR)?null:meanR,np:N}); await tick();
+  }
+  const out=[]; for(let i=0;i<N;i++){ const p=P[i], zz=unstd(p.m.x), base=M.dec.decode(zz).smiles, rnd=p.m.rnd, alts=[base].concat(M.dec.decodeMulti(zz,8,0.06,rnd)), c=molCrit(p.m.x), seq=E.dnaFromX(p.d.x), r=Dn.ens.eval(E.dnaToX(seq),0,1,false);
+    out.push({i,anc:p.anc,mol:{smiles:alts[0],alts:alts.slice(1),crit:{bbb:c.bbb,act:c.act,tox:c.tox}},dna:{seq,crit:r}}); }
+  return {out,nres,ess:essLast};
+}
 /* per-base report for a 30-nt site: in-silico mutagenesis of the critic ensemble, and prior "surprise" (denoising error under the coding-sequence prior) */
 const surpRef={};
 function surprise(seq){ const x0=E.dnaToX(seq), D=120, pos=new Float64Array(30), eps=new Float32Array(D), xt=new Float32Array(D), out=new Float32Array(D), rnd=E.rng(12345); let n=0;
@@ -71,6 +101,8 @@ self.onmessage=async(ev)=>{
       }
       self.postMessage({evt:"done",id:m.id,cancelled:cancelled.has(m.id)}); return;
     }
+    if(m.cmd==="genPair"){
+      const R=await pairRun(m); if(R){ for(const it of R.out){ self.postMessage({evt:"item",id:m.id,i:it.i,kind:"pair",anc:it.anc,mol:it.mol,dna:it.dna}); } self.postMessage({evt:"done",id:m.id,cancelled:false,res:R.res,nres:R.nres,ess:R.ess}); } else self.postMessage({evt:"done",id:m.id,cancelled:true}); return; }
     if(m.cmd==="genAnalog"){
       if(!M.enc) throw new Error("this model build has no encoder");
       { const pr=M.enc.tokenize(m.smiles); if(!pr.ok){ self.postMessage({evt:"seedError",id:m.id,why:pr.why}); return; }

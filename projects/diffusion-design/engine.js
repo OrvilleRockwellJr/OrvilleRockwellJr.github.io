@@ -111,6 +111,27 @@ function sample(o){
   }
   return x;
 }
+/* step-wise version of sample(): same update rule, but the caller drives the loop so many trajectories can advance in lockstep (joint pair sampling) */
+function makeStepper(o){
+  const D=o.den.D, x=Float32Array.from(o.x), eps=new Float32Array(D), gs=new Float32Array(D), x0=new Float32Array(D); const ts=timeSeq(o.steps);
+  const S={x,x0,ts,n:ts.length,rnd:o.rnd,gate:1};
+  S.step=function(si){
+    const ti=ts[si], ab=AB[ti], abp=si+1<ts.length?AB[ts[si+1]]:1.0;
+    o.den.eps(x,ti,eps); let gateAvg=1;
+    if(o.gamma>0&&o.objectives&&o.objectives.length){
+      gs.fill(0); let gsum=0,ng=0;
+      for(const ob of o.objectives){ if(!(ob.weight>0)) continue; const r=ob.ens.eval(x,ti,ob.want,true); let gate=1; if(o.gate==="ens") gate=1/(1+(r.sd/o.tau)*(r.sd/o.tau));
+        gsum+=gate; ng++; for(let k=0;k<D;k++) gs[k]+=ob.weight*gate*ob.ens.g[k]; }
+      gateAvg=ng?gsum/ng:1; const sc=Math.sqrt(1-ab)*o.gamma; for(let k=0;k<D;k++) eps[k]-=sc*gs[k];
+    }
+    const sa=Math.sqrt(ab), s1=Math.sqrt(1-ab);
+    for(let k=0;k<D;k++){ let v=(x[k]-s1*eps[k])/sa; if(o.clip!=null&&o.clip>0){ v=Math.max(-o.clip,Math.min(o.clip,v)); eps[k]=(x[k]-sa*v)/s1; } x0[k]=v; }
+    const eta=o.eta||0, sig=eta*Math.sqrt((1-abp)/(1-ab))*Math.sqrt(Math.max(0,1-ab/abp)); const c2=Math.sqrt(Math.max(0,1-abp-sig*sig)), sap=Math.sqrt(abp);
+    for(let k=0;k<D;k++){ x[k]=sap*x0[k]+c2*eps[k]+(sig>0?sig*S.rnd.n():0); }
+    S.gate=gateAvg; return S;
+  };
+  return S;
+}
 /* ---------- molecule decoder (GRU) ---------- */
 class MolDecoder{
   constructor(W,vocab,L){ this.vocab=vocab; this.L=L||48; this.zh=W.get("dec.zh.w"); this.zhb=W.get("dec.zh.b"); this.demb=W.get("dec.demb"); this.wih=W.get("dec.gru.wih"); this.whh=W.get("dec.gru.whh"); this.bih=W.get("dec.gru.bih"); this.bhh=W.get("dec.gru.bhh"); this.ow=W.get("dec.out.w"); this.ob=W.get("dec.out.b");
@@ -202,6 +223,6 @@ function findSites(seq,label,exonLo,exonHi,rows){
   for(const strand of [1,-1]){ const s=strand===1?seq:rc(seq); const lo=strand===1?exonLo:seq.length-exonHi, hi=strand===1?exonHi:seq.length-exonLo;
     for(let w=0;w+30<=s.length;w++){ const win=s.slice(w,w+30); if(win[25]!=="G"||win[26]!=="G"||/[^ACGT]/.test(win)) continue; const cut=w+4+17; rows.push({win,label,strand,cutIn:cut>=lo&&cut<hi}); } }
 }
-const API={LibCritic,findSites,rc,T,AB,Weights,Denoiser,Critic,Ensemble,rng,sample,timeSeq,MolDecoder,MolEncoder,dnaFromX,dnaToX,dnaConf,dnaJudge,sigmoid};
+const API={LibCritic,findSites,rc,T,AB,Weights,Denoiser,Critic,Ensemble,rng,sample,makeStepper,timeSeq,MolDecoder,MolEncoder,dnaFromX,dnaToX,dnaConf,dnaJudge,sigmoid};
 if(typeof module!=="undefined"&&module.exports) module.exports=API; else root.GDEngine=API;
 })(typeof self!=="undefined"?self:globalThis);
