@@ -534,3 +534,31 @@ h3,.h3s{letter-spacing:-.01em}
 #p-go:not(.home) #g-plan{max-height:min(440px,calc(100dvh - 250px))!important}
 .dock .prompt{min-height:24px!important}.dockbar{padding-top:4px!important}
 .dock .prompt{field-sizing:content}
+
+/* + menu: compact list, Claude-style */
+#p-go #g-plan.menumode,#p-go.home #g-plan.menumode{width:300px!important;left:0!important;right:auto!important;padding:6px!important;border-radius:16px!important;max-height:min(520px,calc(100dvh - 200px))!important;overflow:auto}
+#g-plan.menumode>.pmenu,#g-plan.menumode>.h3s,#g-plan.menumode>.grid4,#g-plan.menumode>#g-notes{display:none!important}
+#g-plan.menumode #mm-adv:empty{display:none}
+#g-menu{display:flex;flex-direction:column}
+.mm-row{display:flex;align-items:center;gap:12px;width:100%;padding:7px 10px;border:0;background:transparent;color:var(--ink);font:inherit;font-size:14.5px;border-radius:10px;cursor:pointer;text-align:left}
+.mm-row:hover,.mm-opt:hover{background:color-mix(in srgb,var(--ink) 8%,transparent)}
+.mm-row svg{flex:none;color:var(--muted)}
+.mm-row>span:first-of-type{flex:1;white-space:nowrap}
+.mm-row em{font-style:normal;color:var(--muted);font-size:12.5px;max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mm-row kbd{font:inherit;font-size:11px;color:var(--muted);white-space:nowrap}
+.mm-row .mm-cv{transition:transform .2s}.mm-row.open .mm-cv{transform:rotate(90deg)}
+.mm-ck{width:16px;height:16px;flex:none;color:var(--ac)!important}
+.mm-div{height:1px;background:var(--card-bd);margin:6px 4px}
+.mm-sub{padding:2px 0 6px 40px;display:flex;flex-direction:column}
+.mm-opt{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:7px 10px;border:0;background:transparent;color:var(--muted);font:inherit;font-size:13.5px;border-radius:8px;cursor:pointer;text-align:left}
+.mm-opt.on{color:var(--ink)}
+.mm-grp{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding:8px 10px 2px}
+#mm-adv{padding:4px 2px 0;display:flex;flex-direction:column;gap:8px}
+#mm-adv label{font-size:12px;color:var(--muted);display:flex;flex-direction:column;gap:4px}
+#mm-advslot #mm-adv{padding:0 0 4px}
+#g-plan.menumode .live{display:block;font-size:11.5px;color:var(--muted);padding:6px 10px 2px;border-top:1px solid var(--card-bd);margin-top:6px}
+.dockbar #g-gear[aria-expanded=true]{transform:none!important}
+#p-go #g-plan.menumode,#p-go.home #g-plan.menumode{width:320px!important}
+#p-go #g-plan.menumode.down,#p-go.home #g-plan.menumode.down{top:calc(100% + 8px)!important;bottom:auto!important}
+#g-plan.menumode{scrollbar-width:thin;overscroll-behavior:contain}
+#g-plan.menumode .mm-row{min-height:36px}

@@ -378,7 +378,36 @@ function liveLine(cfg){ const mk={both:"molecules + guides",mol:"molecules",dna:
   $("#g-live").textContent="Reads as: "+mk+" · "+cfg.n+(cfg.make==="both"?" each":"")+" · "+pu+" push"+tg; }
 let liveT=null; $("#g-prompt").addEventListener("input",()=>{ clearTimeout(liveT); liveT=setTimeout(()=>{ if(S.ready) doRead(); else $("#g-live").textContent=$("#g-prompt").value.trim()?"Models still loading…":"Waiting for your request."; },250); });
 $("#g-lib").addEventListener("change",()=>{ if(S.go){ S.go.cfg.lib=$("#g-lib").value; } });
-$("#g-gear").addEventListener("click",e=>{ e.stopPropagation(); const p=$("#g-plan"); p.hidden=!p.hidden; if(!p.hidden){ const hh=(document.querySelector(".top,header")||{getBoundingClientRect:()=>({bottom:64})}).getBoundingClientRect().bottom, top=$("#g-prompt").closest(".dock").getBoundingClientRect().top; p.style.setProperty("max-height",Math.max(200,Math.min(480,top-hh-20))+"px","important"); } $("#g-gear").setAttribute("aria-expanded",String(!p.hidden)); });
+
+/* ---------- + options menu: compact list that drives the real selects ---------- */
+const MI={clip:'<path d="M21 11.5l-8.6 8.6a5 5 0 01-7-7l8.6-8.6a3.3 3.3 0 014.7 4.7l-8.6 8.6a1.7 1.7 0 01-2.4-2.4l7.9-7.9"/>',target:'<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3.5"/>',layers:'<path d="M12 3l9 5-9 5-9-5 9-5zM3 13l9 5 9-5"/>',hash:'<path d="M5 9h14M5 15h14M10 4L8 20M16 4l-2 16"/>',sliders:'<path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/>',shield:'<path d="M12 3l8 3v6c0 4.5-3.2 8-8 9-4.8-1-8-4.5-8-9V6l8-3z"/>',split:'<path d="M6 4v6a4 4 0 004 4h4a4 4 0 004-4V4M12 14v6"/>',brain:'<path d="M9 4a3 3 0 00-3 3 3 3 0 00-2 3 3 3 0 001.5 2.6A3 3 0 009 17a3 3 0 003 2V6a2 2 0 00-3-2zM15 4a3 3 0 013 3 3 3 0 012 3 3 3 0 01-1.5 2.6A3 3 0 0115 17a3 3 0 01-3 2"/>',gear:'<circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/>'};
+const mIc=k=>'<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">'+MI[k]+'</svg>';
+const CHK='<svg class="mm-ck" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>', CHV='<svg class="mm-cv" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>';
+let mmOpen=null;
+function setSel(id,v){ const e=$("#"+id); e.value=v; e.dispatchEvent(new Event("input",{bubbles:true})); e.dispatchEvent(new Event("change",{bubbles:true})); }
+function buildMenu(){
+  const p=$("#g-plan"); let m=$("#g-menu"); if(!m){ m=document.createElement("div"); m.id="g-menu"; p.prepend(m); p.classList.add("menumode"); const live=$("#g-live"); if(live) m.after(live);
+    const adv=document.createElement("div"); adv.id="mm-adv"; ["g-seed","g-smi","g-str"].forEach(id=>{ const l=$("#"+id); if(l&&l.closest("label")) adv.appendChild(l.closest("label")); }); p.appendChild(adv); }
+  const adv=$("#mm-adv"); const html=[]; const text=id=>{ const e=$("#"+id); return e.options[e.selectedIndex].text.replace(/ \(.*/,"").replace(/,.*/,"").replace("Molecules and guides","Both").replace(" only",""); };
+  const sub=(key,icon,label,val,body)=>{ const o=mmOpen===key; html.push('<button type="button" class="mm-row'+(o?' open':'')+'" data-k="'+key+'">'+mIc(icon)+'<span>'+label+'</span><em>'+esc(val||"")+'</em>'+CHV+'</button>'+(o?'<div class="mm-sub">'+body+'</div>':'')); };
+  const opts=id=>[...$("#"+id).options].map(o=>'<button type="button" class="mm-opt'+(o.value===$("#"+id).value?' on':'')+'" data-sel="'+id+'" data-v="'+esc(o.value)+'"><span>'+esc(o.text)+'</span>'+(o.value===$("#"+id).value?CHK:'')+'</button>').join("");
+  html.push('<button type="button" class="mm-row" data-act="attach">'+mIc("clip")+'<span>Upload or add files</span></button><div class="mm-div"></div>');
+  sub("lib","target","Target",text("g-lib"),opts("g-lib")); sub("make","layers","Make",text("g-make"),opts("g-make")); sub("n","hash","Candidates each",$("#g-n").value,opts("g-n"));
+  html.push('<div class="mm-div"></div>');
+  const tog=(id,on,label,icon)=>html.push('<button type="button" class="mm-row" data-tog="'+id+'">'+mIc(icon)+'<span>'+label+'</span>'+(on?CHK:'<span class="mm-ck"></span>')+'</button>');
+  tog("g-gate",$("#g-gate").value==="on","Uncertainty gate","shield"); tog("g-cmp",$("#g-cmp").value==="on","Compare with unguided","split");
+  html.push('<div class="mm-div"></div>');
+  sub("obj","brain","Objectives","",["g-wb","g-wa","g-wt"].map(id=>'<div class="mm-grp">'+esc($("#"+id).closest("label").childNodes[0].textContent.trim())+'</div>'+opts(id)).join(""));
+  sub("steer","gear","Steering","γ, τ, steps",["g-push","g-gam","g-tau","g-steps"].map(id=>'<div class="mm-grp">'+esc($("#"+id).closest("label").childNodes[0].textContent.trim().replace("threshold ",""))+'</div>'+opts(id)).join(""));
+  sub("adv","sliders","Seed and analogs","","<div id=\"mm-advslot\"></div>");
+  m.innerHTML=html.join(""); const slot=$("#mm-advslot"); if(slot) slot.appendChild(adv);
+}
+document.addEventListener("click",e=>{ const m=e.target.closest("#g-menu"); if(!m) return; const b=e.target.closest("button"); if(!b) return; e.stopImmediatePropagation();
+  if(b.dataset.act==="attach"){ $("#g-photo").click(); $("#g-plan").hidden=true; $("#g-gear").setAttribute("aria-expanded","false"); return; }
+  if(b.dataset.sel){ setSel(b.dataset.sel,b.dataset.v); buildMenu(); return; }
+  if(b.dataset.tog){ const id=b.dataset.tog, on=$("#"+id).value==="on"; setSel(id,on?"off":"on"); buildMenu(); return; }
+  if(b.dataset.k){ mmOpen=mmOpen===b.dataset.k?null:b.dataset.k; buildMenu(); } });
+$("#g-gear").addEventListener("click",e=>{ e.stopPropagation(); const p=$("#g-plan"); p.hidden=!p.hidden; if(!p.hidden) buildMenu(); if(!p.hidden){ buildMenu(); const hh=(document.querySelector(".top,header")||{getBoundingClientRect:()=>({bottom:64})}).getBoundingClientRect().bottom, dk=$("#g-prompt").closest(".dock").getBoundingClientRect(), above=dk.top-hh-16, below=innerHeight-dk.bottom-16, need=p.scrollHeight+12; const down=above<need&&below>above; p.classList.toggle("down",down); p.style.setProperty("max-height",Math.max(220,Math.min(560,down?below:above))+"px","important"); } $("#g-gear").setAttribute("aria-expanded",String(!p.hidden)); });
 document.addEventListener("click",e=>{ const p=$("#g-plan"); if(!p.hidden&&!p.contains(e.target)&&!e.target.closest("#g-gear")){ p.hidden=true; $("#g-gear").setAttribute("aria-expanded","false"); } });
 document.addEventListener("keydown",e=>{ if(e.key==="Escape"){ const p=$("#g-plan"); if(!p.hidden){ p.hidden=true; $("#g-gear").setAttribute("aria-expanded","false"); } } });
 document.querySelectorAll("#go-modes .mode").forEach(b=>b.addEventListener("click",()=>{ const m=b.dataset.m; document.querySelectorAll("#go-modes .mode").forEach(x=>x.classList.toggle("on",x===b)); $("#go-gen").hidden=m!=="gen"; $("#go-score").hidden=m!=="score"; }));
