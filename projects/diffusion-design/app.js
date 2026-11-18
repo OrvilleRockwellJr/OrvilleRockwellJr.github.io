@@ -400,6 +400,86 @@ function pairsHtml(pairs,edit){
   return '<section class="twokey"><h3>Two-key pairs</h3><p class="small">'+(pairs[0].joint?'<b>Born together.</b> Each pair is one trajectory of the joint sampler: its molecule and guide were denoised side by side in one loop, and pairs were resampled as units, so the shown guide was never matched to the molecule afterwards. ':'')+''+(FZ()?'<b>Fused design.</b> One construct per row: a Cas9 guide plus a generated analog of the helper that acts on that guide\u2019s edit. The pair score still ranks the guide by where it cuts in PTPRS; it does not score the analog\u2019s effect on editing, because no model here can.':'One co-design, not two lists: each guide is judged by where it cuts relative to the molecule&rsquo;s binding pocket. If the molecule works through PTP&sigma;, its effect should match the knockout and vanish in knockout cells; a molecule that still acts there is off-target.')+'</p>'+(FZ()?helperHtml(edit||'ko'):'')+'<div class="pairs">'+pairs.map(card).join("")+'</div>'+
    (FZ()?'':editSupport(edit||"ko"))+'<details class="how"><summary>How pairs are ranked</summary><p class="small">Pair score = square root of (molecule score &times; guide score). Molecule score = mean of the judge&rsquo;s brain, activity and low-toxicity probabilities, halved if the judge fails it, times an audit-trust weight (trusted 1, disputed 0.7, likely exploited 0.3). Guide score = the judge&rsquo;s efficiency probability, halved if it fails the PAM, GC or run checks, times the same trust weight, times a coupling factor for how the cut relates to the molecule&rsquo;s pocket (1.0 upstream of the catalytic domains, 0.9 inside D1, 0.4 downstream of D1, 0.7 times that in the last exon, 0.2 outside coding sequence) and 0.6 if it is not an exact PTPRS site. This is a ranking rule I defined for choosing which pairs to test first. It is not a validated predictor of therapeutic benefit.</p></details></section>';
 }
+
+/* ---------- bench pack: controls a wet lab would run alongside these designs ---------- */
+function lcg(seed){ let x=seed>>>0||1; return ()=>((x=(1103515245*x+12345)>>>0)/4294967296); }
+function hashStr(t){ let h=2166136261; for(let i=0;i<t.length;i++){ h^=t.charCodeAt(i); h=Math.imul(h,16777619); } return h>>>0; }
+/* Non-targeting guide control: shuffle the 20-nt protospacer of the best on-target guide, keep an NGG PAM,
+   and reject any shuffle whose spacer appears among the NGG sites of the locus loaded here. */
+function ntControl(seq){
+  if(!seq||seq.length<27) return null;
+  const sp=seq.slice(4,24).split(""), pam=seq.slice(24,27), rnd=lcg(hashStr(seq));
+  const lib=(S.lib&&S.lib.wins)?S.lib.wins.map(w=>w.slice(4,24)):[];
+  for(let t=0;t<200;t++){
+    const a=sp.slice();
+    for(let i=a.length-1;i>0;i--){ const j=Math.floor(rnd()*(i+1)); const u=a[i]; a[i]=a[j]; a[j]=u; }
+    const cand=a.join(""); if(cand===seq.slice(4,24)) continue;
+    const gc=(cand.match(/[GC]/g)||[]).length/cand.length;
+    if(gc<0.4||gc>0.7||/TTTT/.test(cand)) continue;
+    if(lib.indexOf(cand)>=0) continue;
+    return {spacer:cand,pam,gc,tries:t+1,checked:lib.length};
+  }
+  return null;
+}
+function benchPack(r){
+  const bits=[]; const gd=(r.make!=="mol"&&r.dna)?r.dna.slice().sort((a,b)=>(+!!b.hit-+!!a.hit)||(b.jz-a.jz)):[];
+  const top=gd.find(o=>o.hit)||gd[0];
+  if(top){
+    const nt=ntControl(top.seq);
+    bits.push('<div class="bx"><b>Guide arm</b><ul class="small">'+
+      '<li><b>On-target:</b> <code>'+esc(top.seq.slice(4,24))+'</code> + <code>'+esc(top.seq.slice(24,27))+'</code> (spacer + PAM)'+(top.hit?', exact site in '+esc(top.hit.label):'')+'. This is a design, not a validated guide: no editing data exists for it.</li>'+
+      (nt?'<li><b>Non-targeting control:</b> <code>'+esc(nt.spacer)+'</code> + <code>'+esc(nt.pam)+'</code>. The on-target spacer shuffled (GC '+Math.round(nt.gc*100)+'%, no TTTT run), checked against the '+nt.checked+' NGG sites in the locus loaded here and found absent. That check covers this locus only, so run it through a genome-wide specificity tool before ordering.</li>':'')+
+      '<li><b>Untreated / Cas9-only arms:</b> cells with no guide and cells with Cas9 plus the non-targeting control separate the cut from delivery and from Cas9 itself.</li>'+
+      '<li><b>Readout:</b> indel rate at the cut site (amplicon sequencing) and loss of PTP&sigma; protein, since the whole design rests on removing the receptor.</li></ul></div>');
+  }
+  const fused=!!(r.seedInfo&&r.seedInfo.fused);
+  if(r.make!=="dna"&&!fused&&S.pref&&S.pref.meta){
+    const P=S.pref.meta, ai=P.y.indexOf(1), ii=P.y.indexOf(0);
+    if(ai>=0&&ii>=0) bits.push('<div class="bx"><b>Molecule arm</b><ul class="small">'+
+      '<li><b>Positive control:</b> <span class="smi" data-smi="'+esc(P.smiles[ai])+'">'+esc(P.smiles[ai])+'</span> &mdash; a ChEMBL molecule recorded active against PTP&sigma; ('+esc(P.source)+').</li>'+
+      '<li><b>Negative control:</b> <span class="smi" data-smi="'+esc(P.smiles[ii])+'">'+esc(P.smiles[ii])+'</span> &mdash; recorded inactive in the same set.</li>'+
+      '<li><b>Vehicle arm:</b> solvent only, at the same final concentration.</li>'+
+      '<li><b>Readout:</b> PTP&sigma; phosphatase assay for potency; the generated molecules are steered by a PTP-family model that does not predict PTP&sigma; potency, so treat every one as unranked on target activity until assayed.</li></ul></div>');
+  }
+  if(fused){ const h=HELPERS[r.edit==="hdr"?"hdr":"ko"];
+    bits.push('<div class="bx"><b>Support-molecule arm</b><ul class="small"><li><b>Positive control:</b> '+esc(h.name)+' itself (<span class="smi" data-smi="'+esc(h.smi)+'">'+esc(h.smi)+'</span>), the published compound the analogs were generated from.</li><li><b>Comparison:</b> the same guide with no molecule. Nothing in this studio scores what a support molecule does to editing, so that arm is the only thing that can show an effect.</li></ul></div>'); }
+  if(!bits.length) return "";
+  return '<section class="bench"><h3>Bench pack</h3><p class="small">Controls to run beside these designs, and what each one rules out. Nothing here is lab-validated; these are the arms that would make a result interpretable.</p>'+bits.join("")+'<p class="small"><button type="button" class="linkbtn" id="dl-bench">Download bench CSV</button> &middot; designs, scores and controls in one file.</p></section>';
+}
+function benchCsv(){
+  const r=S.go&&S.go.run; if(!r) return;
+  const rows=[["#","PTPsigma Studio bench pack. In-silico predictions from small public-data models; nothing lab-validated."],
+    ["#","activity model is PTP-family-level: leak-free PTPsigma AUC judge 0.70, steering critic 0.27 (no transfer); PTPsigma similarity rule 0.73 held out by chemical series"],
+    ["#","run",new Date().toISOString(),"request",r.use||""],[]];
+  if(r.make!=="mol"&&r.dna&&r.dna.length){
+    rows.push(["guides"],["role","spacer_20nt","pam","window_30nt","site","strand","critic_p","judge_p","gc","pam_ok"]);
+    const gd=r.dna.slice().sort((a,b)=>(+!!b.hit-+!!a.hit)||(b.jz-a.jz));
+    gd.forEach(o=>rows.push(["design",o.seq.slice(4,24),o.seq.slice(24,27),o.seq,o.hit?o.hit.label:"",o.hit?(o.hit.strand>0?"+":"-"):"",fmt(o.cp,3),fmt(o.jp,3),fmt(o.ck.gc,2),o.ck.pam]));
+    const top=gd.find(o=>o.hit)||gd[0], nt=top?ntControl(top.seq):null;
+    if(nt) rows.push(["non_targeting_control",nt.spacer,nt.pam,"","shuffled from the top spacer; absent from the "+nt.checked+" NGG sites in this locus","","","",fmt(nt.gc,2),true]);
+    rows.push([]);
+  }
+  if(r.make!=="dna"&&r.mol){
+    rows.push(["molecules (drug-like set, ranked as shown in the studio)"],["role","smiles","valid","judge_p_brain","judge_p_ptp_family_active","judge_p_toxic","ptpsigma_ref_closest_active","ptpsigma_ref_closest_inactive","mw","clogp","tpsa","nearest_known_tanimoto"]);
+    const vv=r.mol.filter(o=>drugLike(o,r)), lz2=leanZ(vv);
+    vv.slice().sort((a,b)=>molRank(b,r.w,lz2)-molRank(a,r.w,lz2)).forEach(o=>{ const pr=ptpRef(o.a);
+      rows.push(["design",o.a.canon,true,fmt(o.jp.bbb,3),fmt(o.jp.act,3),fmt(o.jp.tox,3),pr?fmt(pr.act,3):"",pr?fmt(pr.inact,3):"",fmt(o.a.mw,1),fmt(o.a.logp,2),fmt(o.a.tpsa,1),fmt(o.nn.t,3)]); });
+    const fz=!!(r.seedInfo&&r.seedInfo.fused);
+    if(!fz&&S.pref&&S.pref.meta){ const P=S.pref.meta, ai=P.y.indexOf(1), ii=P.y.indexOf(0);
+      if(ai>=0) rows.push(["positive_control_known_PTPsigma_active",P.smiles[ai]]);
+      if(ii>=0) rows.push(["negative_control_known_PTPsigma_inactive",P.smiles[ii]]); }
+    if(fz){ const h=HELPERS[r.edit==="hdr"?"hdr":"ko"]; rows.push(["positive_control_parent_helper_"+h.name,h.smi]); }
+  }
+  download("ptpsigma_bench_pack.csv",rows);
+}
+document.addEventListener("click",e=>{ const b=e.target.closest&&e.target.closest("#dl-bench"); if(b){ e.preventDefault(); benchCsv(); } });
+
+function drugLike(o,r){ return o.valid&&o.a.ro5<=1&&o.a.mw<=600&&o.a.logp<=6&&o.a.mw>=120&&sane(o.a)&&!(r&&r.seedInfo&&o.simSeed>=0.99); }
+/* PTPsigma similarity lean, standardised across the molecules of this run so it can sit beside the judge z-scores */
+function leanZ(list){ const m=new Map(), v=[]; list.forEach(o=>{ const l=ptpLean(o); if(l!=null){ m.set(o,l); v.push(l); } });
+  if(v.length<3) return new Map(); const mu=v.reduce((a,b)=>a+b,0)/v.length, sd=Math.sqrt(v.reduce((a,b)=>a+(b-mu)*(b-mu),0)/v.length)||1;
+  const z=new Map(); m.forEach((l,o)=>z.set(o,(l-mu)/sd)); return z; }
+function molRank(o,w,z){ const lz=z.get(o); const act=lz==null?o.jz.act:0.5*o.jz.act+0.5*lz; return o.jz.bbb*w[0]+act*w[1]-o.jz.tox*w[2]; }
 function renderShortlist(){
   const r=S.go.run, K=6; let html='<h3 class="h3s">Shortlist'+(r.use?' for: <i>'+esc(r.use.length>150?r.use.slice(0,150)+"…":r.use)+'</i>':'')+'</h3>';
   html+='<p class="small runline">Run: '+(r.make!=="dna"?'\u03b3 '+r.gm+' \u00b7 '+r.stp+' denoising steps \u00b7 trust gate \u03c4 '+r.tau+' \u00b7 ':'')+'chosen from your request'+(r.molU&&r.molU.length?' \u00b7 unguided baseline included':'')+'.</p>';
@@ -407,7 +487,7 @@ function renderShortlist(){
     html+='<div class="cmpbox"><b>Does the guidance help?</b><div class="cmprow"><span>Guided (\u03b3 '+r.gm+')</span><i style="--w:'+(gv.length?100*gp.length/gv.length:0)+'%"></i><b>'+pc(gp.length,gv.length)+'</b><small>'+gp.length+' of '+gv.length+' valid pass the judge</small></div><div class="cmprow"><span>Unguided (\u03b3 0)</span><i style="--w:'+(val.length?100*pas.length/val.length:0)+'%"></i><b>'+pc(pas.length,val.length)+'</b><small>'+pas.length+' of '+val.length+' valid pass the judge</small></div></div>'; }
   if(r.tr&&r.tr.length) html+='<details class="how"><summary>Replay: how candidate 1 was denoised</summary><div class="trace">'+r.tr.join("")+'</div></details>';
   const parts=[];
-  if(r.make!=="dna"){ const v0=r.mol.filter(o=>o.valid); const v=v0.filter(o=>o.a.ro5<=1&&o.a.mw<=600&&o.a.logp<=6&&o.a.mw>=120&&sane(o.a)&&!(r.seedInfo&&o.simSeed>=0.99)); const dropped=v0.length-v.length; const pass=v.filter(o=>o.pass); const ranked=v.slice().sort((a,b)=>(b.jz.bbb*r.w[0]+b.jz.act*r.w[1]-b.jz.tox*r.w[2])-(a.jz.bbb*r.w[0]+a.jz.act*r.w[1]-a.jz.tox*r.w[2])).slice(0,K);
+  if(r.make!=="dna"){ const v0=r.mol.filter(o=>o.valid); const v=v0.filter(o=>drugLike(o,r)); const dropped=v0.length-v.length; const pass=v.filter(o=>o.pass); const lz=leanZ(v); const ranked=v.slice().sort((a,b)=>molRank(b,r.w,lz)-molRank(a,r.w,lz)).slice(0,K);
     parts.push('<div><h3>Small molecules</h3><details class="how"><summary>'+v0.length+' of '+r.mol.length+' decoded to valid molecules, '+pass.length+' of '+v.length+' pass the held-out judge</summary><p class="small" style="margin-bottom:8px">'+v0.length+' of '+r.mol.length+' decoded to a valid molecule'+(dropped?'; '+dropped+' removed by a basic drug-likeness filter (MW 120 to 600, cLogP &le; 6, at most one rule-of-five violation, at least one ring and one polar atom, no unbranched chain of 8 or more carbons), because a steered generator can find structures the judge likes but no chemist would make':'')+'. '+pass.length+' of the rest pass the held-out judge on all three objectives. Generated '+r.mol.length+' (fewer than half decode, so the run draws twice the number you asked for). Showing the top '+ranked.length+'. Ranking uses the held-out judge for brain access and low toxicity, plus an activity term that is half the family-level judge and half the PTP\u03c3 similarity rule (the only PTP\u03c3-specific signal here with a measured held-out number, AUC 0.73 by chemical series); the steering critic is not used to rank, because it shows no transfer to PTP\u03c3.</p></details>'+funnel([["generated",r.mol.length],["valid molecule",v0.length],["drug-like",v.length],["judge passes all three",pass.length],["audit: trusted",v.filter(o=>auditMol(o)==="ok").length]])+'<p class="small legend"><i class="lg j"></i>held-out judge <i class="lg ct"></i>steering critic <i class="lg gp"></i>gap (red = likely exploited)</p><div class="cards">'+(ranked.length?ranked.map(o=>molCard(o,0,false)).join(""):'<p class="small">No valid molecules this run. Try a different seed or a gentler push.</p>')+'</div></div>'); }
   if(r.make!=="mol"){ const g=r.dna; const on=g.filter(o=>o.hit), onp=g.filter(o=>o.onpass), pass=g.filter(o=>o.pass);
     const ranked=g.slice().sort((a,b)=>(+!!b.hit-+!!a.hit)||(b.jz-a.jz)).filter((o,i,arr)=>arr.findIndex(x=>x.seq===o.seq)===i).slice(0,K);
@@ -425,7 +505,7 @@ function renderShortlist(){
    M("Critic gap",'<b>'+fmt(gapm)+'</b>',"mean |critic \u2212 judge|, lower is better","Mean absolute gap between the steering critic and the held-out judge")+'</div>'; }
   const stg=r.stages.map(s=>s.job), pm=stg.find(j=>j.cmd==="genMol"||j.cmd==="genAnalog"), pd=stg.find(j=>j.cmd==="genDna"); const pj=stg.find(j=>j.cmd==="genPair");
   html+='<details class="how"><summary>How these were made</summary><p class="small"> Each candidate was denoised from pure noise by a trained diffusion model (cosine schedule, T = 200, DDIM sampling), with the gradient of the critic ensemble added at every step. '+(pj?'<b>Joint pair sampler:</b> each of '+pj.n+' pair particles carries one state, a 64-d molecule latent plus a 120-d guide one-hot, advanced together in one loop of '+pj.steps+' steps (guidance &gamma; '+pj.gm+' for the molecule, '+pj.gd+' for the guide). Every few steps all pairs are resampled in proportion to a pair reward (molecule critics, guide critic and site coupling), '+(r.joint?r.joint.res:0)+' resampling event(s) this run, so a trajectory survives only if the pair is promising. The two denoisers are separate trained networks; the molecule and the guide interact through that reward, not through a learned cross-layer. ':'')+(pm?'Molecules: 64-d latent, '+pm.steps+' steps, guidance &gamma; = '+pm.gamma+', uncertainty gate '+(pm.gate?'on':'off')+'. ':'')+(pd?'Guides: 30-nt one-hot, '+pd.steps+' steps, guidance &gamma; = '+pd.gamma+(pd.lib?', pulled toward PTPRS cut sites':'')+'. ':'')+'Seed '+(pm?pm.seed:pd?pd.seed:pj.seed)+'. Not autoregressive: nothing is generated token by token.</p></details>';
-  const pairs=r.make==="both"?buildPairs(r.mol,r.dna,Math.min(6,r.n)):[]; html+=pairsHtml(pairs,r.edit); html+=(pairs.length?'<details class="how alld"><summary>All candidates, ranked on their own (not co-designed)</summary>':'')+'<div class="twocol">'+parts.join("")+'</div>'+(pairs.length?'</details>':'')+'<p class="small" style="margin-top:14px">In-silico predictions; the judge is a model, not an experiment. For a known locus, ranking every site on the Scan tab is the strongest baseline for guides. See the <a href="evidence.html">Evidence page</a>.</p>';
+  const pairs=r.make==="both"?buildPairs(r.mol,r.dna,Math.min(6,r.n)):[]; html+=pairsHtml(pairs,r.edit); html+=(pairs.length?'<details class="how alld"><summary>All candidates, ranked on their own (not co-designed)</summary>':'')+'<div class="twocol">'+parts.join("")+'</div>'+(pairs.length?'</details>':'')+'<p class="small" style="margin-top:14px">In-silico predictions; the judge is a model, not an experiment. For a known locus, ranking every site on the Scan tab is the strongest baseline for guides. See the <a href="evidence.html">Evidence page</a>.</p>'; html+=benchPack(r);
   $("#g-out").innerHTML=html;
   document.dispatchEvent(new CustomEvent("ptp:turn",{detail:{kind:"gen",prompt:S.go.raw||"",use:r.use||"",make:r.make,n:r.n,push:r.push,libk:r.libk,mol:r.make!=="dna"?r.mol:[],dna:r.make!=="mol"?r.dna:[],seed:r.seedInfo?{smiles:r.seedInfo.smiles,strength:r.seedInfo.strength}:null,photo:r.photo?{name:r.photo.name,thumb:r.photo.thumb,kind:r.photo.kindLabel,found:r.photo.foundText}:null,pairs:pairs.map(p=>({smiles:p.m.o.a.canon,guide:p.g.o.seq,score:+p.score.toFixed(3),site:p.g.si?p.g.si.text:""})),html}}));
 }

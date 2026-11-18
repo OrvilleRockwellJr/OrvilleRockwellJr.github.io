@@ -631,3 +631,13 @@ body{background-image:none!important}
 .sup .sv{height:120px;display:grid;place-items:center;overflow:hidden;border-radius:12px;border:1px solid var(--card-bd,rgba(255,255,255,.1))}
 .sup .sv svg{max-height:112px;width:100%}
 @media(max-width:560px){.fuse .fz,.sup{grid-template-columns:1fr}}
+
+/* bench pack */
+.bench{margin-top:22px;padding-top:16px;border-top:1px solid var(--line)}
+.bench h3{margin:0 0 4px}
+.bench .bx{margin-top:12px;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--card)}
+.bench .bx>b{display:block;margin-bottom:6px;font-size:13px;letter-spacing:.02em;text-transform:uppercase;color:var(--muted)}
+.bench .bx ul{margin:0;padding-left:18px}
+.bench .bx li{margin:4px 0}
+.bench code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px;word-break:break-all;background:var(--chipbg,rgba(127,127,127,.12));padding:1px 5px;border-radius:5px}
+.bench .smi{word-break:break-all;font-size:12px}
