@@ -601,23 +601,9 @@ footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;back
             <h3><span class="mk ic d-auto" aria-hidden="true"></span>GPS-Denied Visual Navigation for Drones</h3>
             <p class="where"><b>Prof. Benjamin Kimia's group</b>, LEMS, Brown University<br>Research contributor, 2026 to present</p>
             <span class="status live">Ongoing</span>
-            <p class="sum">Localizing a fast-moving drone without satellite navigation, where motion blur and low texture starve any single view of features. The approach integrates many synchronized views with inertial cues, so every downstream estimate inherits the geometry and timing of the camera rig.</p>
-            <p class="cur"><b>Now.</b> Scaling to 16 cameras on two Raspberry&nbsp;Pi&nbsp;5s, with latency tests.</p>
-            <p class="key"><b>My part.</b> I own the multi-camera sensing layer the visual pipeline rests on: hardware bring-up of a synchronized camera array on a Raspberry&nbsp;Pi&nbsp;5, camera calibration, and frame-level time synchronization, with calibration and test code contributed to the group's repository.</p>
+            <p class="sum">Localizing a fast-moving drone without satellite navigation, where motion blur and low texture starve any single view of features. The approach integrates many synchronized views with inertial cues, so every downstream estimate inherits the geometry and timing of the camera rig. Fusion is only as good as its timestamps: residual timing offsets between cameras and errors in the calibrated geometry between them turn directly into pose error, while the baselines and overlap between views set how much parallax each pair provides.</p>
+            <p class="key"><b>My part.</b> I own the multi-camera sensing layer the visual pipeline rests on: hardware bring-up of a synchronized camera array on a Raspberry&nbsp;Pi&nbsp;5, camera calibration, and frame-level time synchronization. I am now scaling the rig to 16 cameras across two Raspberry&nbsp;Pi&nbsp;5s, with latency tests, and have contributed calibration and test code to the group's repository.</p>
             <p class="methods">Multi-camera systems, camera calibration, time synchronization, visual&ndash;inertial navigation</p>
-          </div>
-        </article>
-
-        <article class="entry t-bio" id="loop">
-          <a class="thumb" href="https://urirock-closed-loop-demo.hf.space/app/home" style="display:block" aria-label="Open the closed-loop discovery demo, which runs on real ChEMBL data"><img src="assets/img/closed-loop-demo.jpg" alt="Closed-loop discovery demo: hits found versus experiments on JAK2 for raw scores, isotonic calibration and isotonic with a raw-score tie-break" loading="lazy" width="960" height="600"></a>
-          <div>
-            <h3><span class="mk ic d-both" aria-hidden="true"></span>Calibration-Aware Active Learning for Closed-Loop Discovery</h3>
-            <p class="where"><b>Independent research</b>, self-directed<br>Bridges autonomous decision-making and computational biology</p>
-            <span class="status result">Preliminary result</span>
-            <p class="sum">A self-driving lab is a control loop: a model proposes candidates, a system tests a subset, and the results retrain the model. I simulated that loop over five ChEMBL targets, 20 seeds each, and asked whether <em>calibrating</em> the scoring model makes it more efficient.</p>
-            <p class="key"><b>Result.</b> Not for greedy selection. Isotonic calibration never significantly improved hit recovery and significantly hurt it on 2 of 5 targets (JAK2: 375.0 versus 384.3 hits at a 400-experiment budget, p&nbsp;&lt;&nbsp;0.01), even as it lowered calibration error on all five. The mechanism is resolution loss: isotonic regression is monotone but piecewise constant, so it leaves a plateau of tied scores at the top of the ranking (88 to 2,212 molecules) and the batch is drawn almost at random from it. Breaking ties with the raw score, or using strictly monotone calibrators (Platt, beta), recovers the loss. A retrospective simulation, not a wet-lab campaign.</p>
-            <p class="methods">Active learning, calibration, sequential decisions, ChEMBL, RDKit</p>
-            <p class="more"><a href="https://urirock-closed-loop-demo.hf.space/app/home">Try the demo on real ChEMBL data</a> &middot; <a href="notes/calibration-ties.html">Read the research note: When calibration breaks the loop</a></p>
           </div>
         </article>
 
@@ -631,6 +617,19 @@ footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;back
             <p class="key"><b>Design.</b> Guidance classifiers are five-head ensembles trained on noised inputs, and a trust gate fades a classifier's push when its heads disagree. A separate held-out judge on different features scores every result, so reward hacking shows up as a gap. Splits are by scaffold (molecules) and by gene (guides). <b>Results.</b> For molecules at &gamma;&nbsp;=&nbsp;4, the gate keeps 86% of valid molecules unique (29% without it) and lifts the held-out judge pass rate on all three objectives to 34% (17% without the gate, 14% unguided); about 46% of decoded latents are valid. Against the fair baseline of filtering unguided samples to the critic's top 10%, guided-and-filtered reaches 81% versus 49%. For guides, guidance raises judge-rated efficiency from 0.49 to 0.79 at &gamma;&nbsp;=&nbsp;16, but the gate did not help there. Generic guides never matched a real PTPRS site; a target-site critic makes 100% exact PTPRS sites (54% also pass the judge and checks), yet plain scan-and-rank beats it (76%), which the Evidence tab reports. <b>Limits.</b> Small public datasets; the generator can be fooled (a ring-free 48-carbon chain passed the judge once, so the shortlist filters for drug-likeness); the PTP-family activity model is a proxy for PTP&sigma; (30 molecules with exact potencies). Fully in silico; nothing here is lab-validated.</p>
             <p class="methods">Diffusion models, classifier guidance, ensemble uncertainty, scaffold- and gene-split evaluation, generative genomics, in-browser inference</p>
             <p class="more"><a href="projects/diffusion-design/">Open the platform</a> &middot; <a href="projects/diffusion-design/evidence.html">Evidence</a> &middot; <a href="https://github.com/OrvilleRockwellJr/orvillerockwelljr.github.io/tree/main/projects/diffusion-design">Code</a></p>
+          </div>
+        </article>
+
+        <article class="entry t-bio" id="loop">
+          <a class="thumb" href="https://urirock-closed-loop-demo.hf.space/app/home" style="display:block" aria-label="Open the closed-loop discovery demo, which runs on real ChEMBL data"><img src="assets/img/closed-loop-demo.jpg" alt="Closed-loop discovery demo: hits found versus experiments on JAK2 for raw scores, isotonic calibration and isotonic with a raw-score tie-break" loading="lazy" width="960" height="600"></a>
+          <div>
+            <h3><span class="mk ic d-both" aria-hidden="true"></span>Calibration-Aware Active Learning for Closed-Loop Discovery</h3>
+            <p class="where"><b>Independent research</b>, self-directed<br>Bridges autonomous decision-making and computational biology</p>
+            <span class="status result">Preliminary result</span>
+            <p class="sum">A self-driving lab is a control loop: a model proposes candidates, a system tests a subset, and the results retrain the model. I simulated that loop over five ChEMBL targets, 20 seeds each, and asked whether <em>calibrating</em> the scoring model makes it more efficient. Each round selects a batch under a 400-experiment budget, and I compared raw scores, isotonic calibration, and isotonic calibration with a raw-score tie-break on how many true hits each recovers.</p>
+            <p class="key"><b>Result.</b> Not for greedy selection. Isotonic calibration never significantly improved hit recovery and significantly hurt it on 2 of 5 targets (JAK2: 375.0 versus 384.3 hits at a 400-experiment budget, p&nbsp;&lt;&nbsp;0.01), even as it lowered calibration error on all five. The mechanism is resolution loss: isotonic regression is monotone but piecewise constant, so it leaves a plateau of tied scores at the top of the ranking (88 to 2,212 molecules) and the batch is drawn almost at random from it. Breaking ties with the raw score, or using strictly monotone calibrators (Platt, beta), recovers the loss. A retrospective simulation, not a wet-lab campaign.</p>
+            <p class="methods">Active learning, calibration, sequential decisions, ChEMBL, RDKit</p>
+            <p class="more"><a href="https://urirock-closed-loop-demo.hf.space/app/home">Try the demo on real ChEMBL data</a> &middot; <a href="notes/calibration-ties.html">Read the research note: When calibration breaks the loop</a></p>
           </div>
         </article>
 
@@ -662,8 +661,7 @@ footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;back
             <p class="where"><b>Team project</b>, Northeastern Marine Robotics (student club)<br>MATE ROV competition team, 2026 to present</p>
             <span class="status live">Ongoing</span>
             <p class="sum">Underwater perception for a semi-autonomous ROV, where turbidity, refraction and changing light break assumptions that hold in air.</p>
-            <p class="cur"><b>Recent.</b> Wrote mocked unit tests for the crab-recognition node and the IMU node, with a draft pull request open for the IMU tests. The crab tests surfaced three real bugs.</p>
-            <p class="key"><b>My part.</b> I develop deep-learning object detection and visual&ndash;IMU sensor fusion in the ROV's ROS perception stack, including the recognition node and its automated tests.</p>
+            <p class="key"><b>My part.</b> I develop deep-learning object detection and visual&ndash;IMU sensor fusion in the ROV's ROS perception stack, including the recognition node. I wrote mocked unit tests for the crab-recognition node and the IMU node, with a draft pull request open for the IMU tests, and the crab tests surfaced three real bugs.</p>
             <p class="methods">Deep object detection, visual&ndash;IMU fusion, ROS, OpenCV, I&sup2;C and UART</p>
           </div>
         </article>
