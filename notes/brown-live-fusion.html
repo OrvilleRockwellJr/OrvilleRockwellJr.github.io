@@ -4,95 +4,226 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>GPS-Denied Visual Navigation for Drones | Orville Rockwell Jr.</title>
-<meta name="description" content="GPS-denied visual navigation for drones at Brown's LEMS group: how the mechanical, electrical and software work fit together, and a screen recording of the two-Raspberry-Pi synchronized multi-camera rig.">
+<meta name="description" content="GPS-denied visual navigation for drones at Brown's LEMS group: how the mechanical, electrical and software work fit together, the 16-camera rig, and a screen recording of the two-Raspberry-Pi synchronized capture.">
 <meta name="author" content="Orville Rockwell Jr.">
-<meta name="theme-color" content="#14305A">
+<meta name="theme-color" content="#0B1B33">
 <link rel="canonical" href="https://orvillerockwelljr.com/notes/brown-live-fusion.html">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Source+Serif+4:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--ink:#1C2633;--muted:#5B6573;--rule:#E2E6EB;--wash:#F4F6F9;--cv:#1F4E8C;--navy:#14305A;--navy-2:#0F2547;
+:root{--ink:#1C2633;--muted:#5B6573;--rule:#E2E6EB;--wash:#F4F6F9;--cv:#1F4E8C;--navy:#14305A;--deep:#0B1B33;
+  --mech:#3E7BD0;--elec:#1AA3AA;--soft:#D9568A;
   --serif:"Source Serif 4",Georgia,serif;--sans:"IBM Plex Sans","Helvetica Neue",Arial,sans-serif}
 *{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:64px}
 body{margin:0;background:#fff;color:var(--ink);font-family:var(--serif);font-size:18px;line-height:1.65}
 a{color:var(--cv);text-underline-offset:3px}
-a:focus-visible{outline:2px solid var(--cv);outline-offset:3px}
-.wrap{max-width:56rem;margin:0 auto;padding:0 22px}
-header.band{background:radial-gradient(120% 140% at 85% -10%,#1E4A85 0%,var(--navy) 45%,var(--navy-2) 100%);color:#fff;padding-bottom:20px}
-.crumb{font-family:var(--sans);font-size:14px;padding-top:14px;margin:0}
-.crumb a{color:#BFD5F7}
-.sub{font-family:var(--sans);font-size:15px;color:#BFD5F7;margin:8px 0 0}
-h1{font-size:clamp(1.5rem,3.6vw,2rem);line-height:1.15;margin:16px 0 0;font-weight:700}
-main{padding:28px 0 40px}
-video{display:block;width:100%;height:auto;background:#000;border:1px solid var(--rule);border-radius:4px}
-p{margin:16px 0 0}
+a:focus-visible,button:focus-visible{outline:2px solid #8DB6F2;outline-offset:3px}
+.wrap{max-width:60rem;margin:0 auto;padding:0 max(22px,env(safe-area-inset-left,0px))}
+p{margin:14px 0 0}
 .cap{font-family:var(--sans);font-size:14.5px;color:var(--muted);line-height:1.55}
-h2{font-family:var(--sans);font-size:1.15rem;margin:34px 0 0;color:var(--navy)}
-.teams{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:16px 0 0;padding:0;list-style:none}
-.teams li{border:1px solid var(--rule);border-radius:4px;padding:14px 16px;background:var(--wash);font-size:16px;line-height:1.5}
-.teams b{display:block;font-family:var(--sans);color:var(--navy);margin-bottom:4px}
-.overlap{border-left:4px solid var(--cv);background:var(--wash);padding:12px 16px;margin:16px 0 0;font-size:17px}
-@media(max-width:680px){.teams{grid-template-columns:1fr}}
-table{border-collapse:collapse;width:100%;margin:16px 0 0;font-family:var(--sans);font-size:14.5px}
-th,td{border:1px solid var(--rule);padding:8px 10px;text-align:right}
-th:first-child,td:first-child{text-align:left}
-th{background:var(--wash);color:var(--navy)}
-.tw{overflow-x:auto}
-ol,ul{margin:14px 0 0;padding-left:1.3em}
-li{margin:6px 0}
+/* hero */
+.hero{background:radial-gradient(120% 120% at 80% -20%,#1E4A85 0%,#10294D 42%,var(--deep) 100%);color:#fff;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;left:0;right:0;bottom:0;height:5px;background:linear-gradient(90deg,var(--mech) 0 33.3%,var(--elec) 33.3% 66.6%,var(--soft) 66.6%)}
+.crumb{font-family:var(--sans);font-size:14px;padding-top:16px;margin:0}
+.crumb a{color:#BFD5F7}
+.kick{font-family:var(--sans);font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:#8DB6F2;margin:34px 0 0;font-weight:600}
+h1{font-family:var(--sans);font-size:clamp(1.9rem,5vw,3rem);line-height:1.08;margin:10px 0 0;font-weight:700;letter-spacing:-.01em;max-width:18em}
+.lede{font-size:clamp(1.05rem,2vw,1.25rem);color:#D6E3F8;max-width:38em;margin:16px 0 0;line-height:1.55}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;margin:30px 0 0;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.14);border-radius:8px;overflow:hidden}
+.stats div{background:rgba(11,27,51,.55);padding:14px 16px;font-family:var(--sans)}
+.stats b{display:block;font-size:1.6rem;line-height:1.1;font-weight:700}
+.stats span{font-size:13px;color:#BFD5F7;line-height:1.35;display:block;margin-top:4px}
+.vid{margin:30px 0 -1px;position:relative;z-index:1}
+video{display:block;width:100%;height:auto;background:#000;border-radius:10px 10px 0 0;border:1px solid rgba(255,255,255,.18);border-bottom:0}
+/* nav */
+nav.sec{position:sticky;top:0;z-index:5;background:rgba(255,255,255,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--rule);font-family:var(--sans);font-size:14.5px}
+nav.sec .wrap{display:flex;gap:4px;overflow-x:auto;white-space:nowrap}
+nav.sec a{color:var(--muted);text-decoration:none;padding:15px 12px;border-bottom:3px solid transparent;font-weight:500}
+nav.sec a:hover,nav.sec a.on{color:var(--navy);border-bottom-color:var(--cv)}
+/* sections */
+section{padding:46px 0 6px}
+.eyebrow{font-family:var(--sans);font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--cv);font-weight:600;margin:0}
+h2{font-family:var(--sans);font-size:clamp(1.4rem,3vw,1.8rem);line-height:1.2;margin:6px 0 0;color:var(--navy);letter-spacing:-.005em}
+h3{font-family:var(--sans);font-size:1rem;margin:0;color:var(--navy)}
+/* teams */
+.teams{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:22px 0 0;padding:0;list-style:none}
+.teams li{border:1px solid var(--rule);border-top:4px solid var(--c);border-radius:8px;padding:16px 18px;background:#fff;font-size:15.5px;line-height:1.5;box-shadow:0 1px 2px rgba(20,48,90,.05)}
+.teams b{display:block;font-family:var(--sans);color:var(--navy);font-size:1.1rem;margin-bottom:6px}
+.venn{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:26px;align-items:center;margin:30px 0 0;padding:24px;background:var(--wash);border-radius:10px}
+.venn svg{width:100%;height:auto;display:block}
+.venn h3{font-size:1.15rem}
+.venn ul{margin:12px 0 0;padding:0;list-style:none;font-size:15.5px;line-height:1.5}
+.venn li{margin:10px 0;padding-left:20px;position:relative}
+.venn li::before{content:"";position:absolute;left:0;top:.5em;width:10px;height:10px;border-radius:50%;background:var(--c)}
+/* coverage */
+.cg{margin:22px 0 0}
+.cg h3{margin-bottom:8px}
+.br{display:grid;grid-template-columns:11.5rem 1fr 10.5rem;gap:12px;align-items:center;margin:6px 0;font-family:var(--sans);font-size:14px}
+.bt{position:relative;height:16px;background:#E9EDF2;border-radius:4px;overflow:hidden}
+.bt i{position:absolute;left:0;top:0;bottom:0;border-radius:4px 0 0 4px}
+.b1{background:#9DBDE8}.b2{background:var(--navy)}
+.bv b{color:var(--navy)}.bv em{color:var(--muted);font-style:normal;font-size:13px}
+.key{display:flex;gap:18px;font-family:var(--sans);font-size:13.5px;color:var(--muted);margin:16px 0 0;flex-wrap:wrap}
+.key i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:22px 0 0}
+.facts div{border:1px solid var(--rule);border-radius:8px;padding:14px 16px;font-size:15.5px;line-height:1.5}
+.facts b{font-family:var(--sans);color:var(--navy);display:block;margin-bottom:4px}
+/* my part */
+.steps{list-style:none;margin:24px 0 0;padding:0;counter-reset:s;border-left:2px solid var(--rule);margin-left:15px}
+.steps li{counter-increment:s;position:relative;padding:0 0 22px 34px;margin:0;font-size:16.5px}
+.steps li::before{content:counter(s);position:absolute;left:-17px;top:-2px;width:32px;height:32px;border-radius:50%;background:var(--navy);color:#fff;font-family:var(--sans);font-weight:700;font-size:15px;display:grid;place-items:center}
+.steps li:last-child{padding-bottom:0}
+.steps li.now::before{background:var(--elec)}
+.steps b{font-family:var(--sans);color:var(--navy)}
+/* geometry */
+.geo{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:26px;align-items:start;margin:22px 0 0}
+.geo svg{width:100%;height:auto;display:block;background:var(--wash);border-radius:10px}
+.geo ul{margin:0;padding:0;list-style:none}
+.geo li{margin:0 0 16px;font-size:16px;line-height:1.55}
+.geo li b{font-family:var(--sans);color:var(--navy);display:block}
+.eq{font-family:var(--sans);background:var(--wash);border-radius:6px;padding:2px 8px;white-space:nowrap}
+.tbl{overflow-x:auto}
+footer{margin-top:48px;border-top:1px solid var(--rule);padding:22px 0 40px}
+@media(max-width:760px){
+ .stats{grid-template-columns:repeat(2,1fr)}
+ .teams,.facts,.venn,.geo{grid-template-columns:1fr}
+ .br{grid-template-columns:1fr;gap:3px;margin:12px 0}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 </style>
 </head>
 <body>
-<header class="band"><div class="wrap">
+<header class="hero"><div class="wrap">
   <p class="crumb"><a href="../index.html#research">&larr; Research</a></p>
+  <p class="kick">Research project &middot; LEMS, Brown University</p>
   <h1>GPS-Denied Visual Navigation for Drones</h1>
-  <p class="sub">Prof. Benjamin Kimia's group, LEMS, Brown University</p>
+  <p class="lede">Localizing a fast-moving drone without satellite navigation by fusing many synchronized camera views with inertial cues. Prof. Benjamin Kimia's group.</p>
+  <div class="stats">
+    <div><b>16</b><span>cameras on a spherical frame, rings of 1-4-6-4-1</span></div>
+    <div><b>80&deg;&times;65&deg;</b><span>field of view per camera</span></div>
+    <div><b>99.95%</b><span>simulated coverage at 2&nbsp;m</span></div>
+    <div><b>3 teams</b><span>mechanical, electrical, software</span></div>
+  </div>
+  <div class="vid">
+    <video controls playsinline preload="metadata" poster="../assets/video/brown-live-fusion-poster.jpg">
+      <source src="../assets/video/brown-live-fusion.mp4" type="video/mp4">
+      Your browser cannot play this video. <a href="../assets/video/brown-live-fusion.mp4">Download it</a>.
+    </video>
+  </div>
 </div></header>
+
+<nav class="sec" aria-label="Sections"><div class="wrap">
+  <a href="#problem">Problem</a><a href="#teams">Teams</a><a href="#rig">Camera rig</a><a href="#part">My part</a><a href="#geometry">Propeller geometry</a>
+</div></nav>
+
 <main><div class="wrap">
-  <video controls playsinline preload="metadata" poster="../assets/video/brown-live-fusion-poster.jpg">
-    <source src="../assets/video/brown-live-fusion.mp4" type="video/mp4">
-    Your browser cannot play this video. <a href="../assets/video/brown-live-fusion.mp4">Download it</a>.
-  </video>
-  <p class="cap">Screen recording, 25 seconds, no sound. The live fusion view of the multi-camera rig. Two Raspberry Pi 5s, each on its own Ethernet link, stream synchronized capture into one page; the status line for each camera shows its frame rate, frame count and the synchronization offset between the two. The browser shows each stream with its own network delay, so on-screen frames are not frame-locked; timing comes from the capture logs.</p>
+  <p class="cap" style="margin-top:16px">Screen recording, 25 seconds, no sound: the live fusion view. Two Raspberry Pi 5s, each on its own Ethernet link, stream synchronized capture into one page; each camera's status line shows frame rate, frame count and the synchronization offset between the two. The browser shows each stream with its own network delay, so on-screen frames are not frame-locked; timing comes from the capture logs.</p>
 
-  <h2>The problem</h2>
-  <p>Localizing a fast-moving drone without satellite navigation is hard because motion blur and low texture starve any single view of features. The approach integrates many synchronized views with inertial cues, so every downstream estimate inherits the geometry and timing of the camera rig. Fusion is only as good as its timestamps: residual timing offsets between cameras and errors in the calibrated geometry between them turn directly into pose error, while the baselines and overlap between views set how much parallax each pair provides.</p>
+  <section id="problem">
+    <p class="eyebrow">The problem</p>
+    <h2>One view is never enough</h2>
+    <p>Localizing a fast-moving drone without satellite navigation is hard because motion blur and low texture starve any single view of features. The approach integrates many synchronized views with inertial cues, so every downstream estimate inherits the geometry and timing of the camera rig. Fusion is only as good as its timestamps: residual timing offsets between cameras and errors in the calibrated geometry between them turn directly into pose error, while the baselines and overlap between views set how much parallax each pair provides.</p>
+  </section>
 
-  <h2>Three teams, one system</h2>
-  <ul class="teams">
-    <li><b>Mechanical</b>Designs and 3D-prints the frame that holds the cameras at fixed positions, since the geometry between cameras has to stay put for calibration to hold.</li>
-    <li><b>Electrical</b>Builds the capture hardware: camera modules, synchronization boards, Raspberry Pi 5 compute and the wired links that bring the streams together.</li>
-    <li><b>Software</b>Calibrates the cameras, detects and tracks features, and estimates pose from the fused views and inertial cues.</li>
-  </ul>
-  <p class="overlap">The teams overlap most where vision meets hardware. Computer vision depends on electrical choices (how cameras are triggered, how frames are timestamped, how fast streams reach the processor), and the electrical design is judged by what the software can recover from it. The mechanical frame sets the geometry the calibration software has to estimate. Timing and geometry are the shared problem.</p>
+  <section id="teams">
+    <p class="eyebrow">How the work is split</p>
+    <h2>Three teams, one system</h2>
+    <ul class="teams">
+      <li style="--c:var(--mech)"><b>Mechanical</b>Designs and 3D-prints the frame that holds the cameras at fixed positions, since the geometry between cameras has to stay put for calibration to hold.</li>
+      <li style="--c:var(--elec)"><b>Electrical</b>Builds the capture hardware: camera modules, synchronization boards, Raspberry Pi 5 compute and the wired links that bring the streams together.</li>
+      <li style="--c:var(--soft)"><b>Software</b>Calibrates the cameras, detects and tracks features, and estimates pose from the fused views and inertial cues.</li>
+    </ul>
+    <div class="venn">
+      <svg viewBox="0 0 320 290" role="img" aria-label="Venn diagram of the mechanical, electrical and software teams and what they share">
+        <g style="mix-blend-mode:multiply" fill-opacity=".55">
+          <circle cx="120" cy="105" r="86" fill="#3E7BD0"/>
+          <circle cx="200" cy="105" r="86" fill="#1AA3AA"/>
+          <circle cx="160" cy="173" r="86" fill="#D9568A"/>
+        </g>
+        <g font-family="IBM Plex Sans,Arial,sans-serif" text-anchor="middle" fill="#0B1B33">
+          <text x="92" y="82" font-size="14" font-weight="700">Mechanical</text>
+          <text x="228" y="82" font-size="14" font-weight="700">Electrical</text>
+          <text x="160" y="236" font-size="14" font-weight="700">Software</text>
+          <text x="124" y="160" font-size="10.5">calibrated</text><text x="124" y="173" font-size="10.5">geometry</text>
+          <text x="196" y="160" font-size="10.5">timing &amp;</text><text x="196" y="173" font-size="10.5">triggering</text>
+          <text x="160" y="128" font-size="10.5" font-weight="700">sync'd</text><text x="160" y="141" font-size="10.5" font-weight="700">capture</text>
+        </g>
+      </svg>
+      <div>
+        <h3>Where the teams overlap</h3>
+        <ul>
+          <li style="--c:var(--elec)"><b>Vision meets electrical.</b> Computer vision depends on how cameras are triggered, how frames are timestamped and how fast streams reach the processor, and the electrical design is judged by what the software can recover from it.</li>
+          <li style="--c:var(--mech)"><b>Geometry meets software.</b> The mechanical frame sets the geometry the calibration software has to estimate.</li>
+          <li style="--c:var(--soft)"><b>Timing and geometry are the shared problem.</b></li>
+        </ul>
+      </div>
+    </div>
+  </section>
 
-  <h2>Camera layout and coverage</h2>
-  <p>The rig is designed as 16 cameras on a spherical frame in rings of 1-4-6-4-1, chosen because it was easier to design and to analyze for blind spots. Every camera uses an 80&deg;&nbsp;&times;&nbsp;65&deg; field of view. In side-by-side tests against 70&deg;&nbsp;&times;&nbsp;55&deg; cameras, the wider lens saw far more of a 12-inch checkerboard placed 2&nbsp;m from the smallest three-camera triangle (only the middle squares were blind, close to the theoretical prediction), and propellers took up a smaller share of each view at 0.5, 1 and 2&nbsp;ft. Placing the propellers between the middle and second rings obstructs the least, because the cameras there face away from them.</p>
-  <p>To compare designs, the camera positions and angles from the CAD frame were projected onto 650,000 test points spread over the upper hemisphere 2&nbsp;m from the frame, so each point receives the pixel that sees it. Coverage is the share of points seen by at least one camera; stereo is the share seen by two or more.</p>
-  <div class="tw"><table>
-    <tr><th>Distance</th><th>Sphere, no props</th><th>Sphere + arms + props</th><th>Integrated airframe</th></tr>
-    <tr><td>2&nbsp;m</td><td>99.95% (54.3% stereo)</td><td>99.95% (50.2% stereo)</td><td>99.89% (51.0% stereo)</td></tr>
-    <tr><td>1&nbsp;m</td><td>99.51% (41.3% stereo)</td><td>99.50% (37.5% stereo)</td><td>98.68% (36.3% stereo)</td></tr>
-    <tr><td>0.5&nbsp;m</td><td>96.04% (20.7% stereo)</td><td>95.58% (17.9% stereo)</td><td>91.89% (17.1% stereo)</td></tr>
-  </table></div>
-  <p class="cap">Group design analysis from the project's Team A coverage study; simulated coverage, not flight results.</p>
+  <section id="rig">
+    <p class="eyebrow">Design analysis</p>
+    <h2>Camera layout and coverage</h2>
+    <p>The rig is 16 cameras on a spherical frame in rings of 1-4-6-4-1, chosen because it was easier to design and to analyze for blind spots. Every camera uses an 80&deg;&nbsp;&times;&nbsp;65&deg; field of view.</p>
+    <div class="facts">
+      <div><b>Wider lens wins</b>Against 70&deg;&times;55&deg; cameras, the 80&deg;&times;65&deg; lens saw far more of a 12-inch checkerboard 2&nbsp;m from the smallest three-camera triangle; only the middle squares were blind, close to the theoretical prediction.</div>
+      <div><b>Smaller propeller footprint</b>At 0.5, 1 and 2&nbsp;ft the propellers took up a smaller share of each 80&deg;&times;65&deg; view than of a 70&deg;&times;55&deg; view.</div>
+      <div><b>Propeller placement</b>Between the middle and second rings obstructs least, because the cameras there face away from the propellers.</div>
+    </div>
+    <p>To compare designs, camera positions and angles from the CAD frame were projected onto 650,000 test points spread over the upper hemisphere 2&nbsp;m from the frame, so each point receives the pixel that sees it. Coverage is the share of points seen by at least one camera; stereo is the share seen by two or more.</p>
+    <div class="cg"><h3>2&nbsp;m</h3><div class="br"><span class="bn">Sphere, no props</span><div class="bt"><i class="b1" style="width:99.95%"></i><i class="b2" style="width:54.3%"></i></div><span class="bv"><b>99.95%</b> <em>54.3% stereo</em></span></div><div class="br"><span class="bn">Sphere + arms + props</span><div class="bt"><i class="b1" style="width:99.95%"></i><i class="b2" style="width:50.2%"></i></div><span class="bv"><b>99.95%</b> <em>50.2% stereo</em></span></div><div class="br"><span class="bn">Integrated airframe</span><div class="bt"><i class="b1" style="width:99.89%"></i><i class="b2" style="width:51.0%"></i></div><span class="bv"><b>99.89%</b> <em>51.0% stereo</em></span></div></div><div class="cg"><h3>1&nbsp;m</h3><div class="br"><span class="bn">Sphere, no props</span><div class="bt"><i class="b1" style="width:99.51%"></i><i class="b2" style="width:41.3%"></i></div><span class="bv"><b>99.51%</b> <em>41.3% stereo</em></span></div><div class="br"><span class="bn">Sphere + arms + props</span><div class="bt"><i class="b1" style="width:99.5%"></i><i class="b2" style="width:37.5%"></i></div><span class="bv"><b>99.50%</b> <em>37.5% stereo</em></span></div><div class="br"><span class="bn">Integrated airframe</span><div class="bt"><i class="b1" style="width:98.68%"></i><i class="b2" style="width:36.3%"></i></div><span class="bv"><b>98.68%</b> <em>36.3% stereo</em></span></div></div><div class="cg"><h3>0.5&nbsp;m</h3><div class="br"><span class="bn">Sphere, no props</span><div class="bt"><i class="b1" style="width:96.04%"></i><i class="b2" style="width:20.7%"></i></div><span class="bv"><b>96.04%</b> <em>20.7% stereo</em></span></div><div class="br"><span class="bn">Sphere + arms + props</span><div class="bt"><i class="b1" style="width:95.58%"></i><i class="b2" style="width:17.9%"></i></div><span class="bv"><b>95.58%</b> <em>17.9% stereo</em></span></div><div class="br"><span class="bn">Integrated airframe</span><div class="bt"><i class="b1" style="width:91.89%"></i><i class="b2" style="width:17.1%"></i></div><span class="bv"><b>91.89%</b> <em>17.1% stereo</em></span></div></div>
+    <div class="key"><span><i style="background:#9DBDE8"></i>Coverage (seen by 1+ cameras)</span><span><i style="background:var(--navy)"></i>Stereo (seen by 2+ cameras)</span></div>
+    <p class="cap">Group design analysis from the project's Team A coverage study; simulated coverage, not flight results.</p>
+  </section>
 
-  <h2>My part</h2>
-  <p>My work started with the geometry of how propellers block the cameras, and moved to the multi-camera sensing layer the visual pipeline rests on, which sits at the overlap above.</p>
-  <ol>
-    <li><b>Propeller obstruction versus camera standoff.</b> A field-of-view model of how much of a propeller a three-camera triangle sees, used to size the standoff and to argue for smaller propellers.</li>
-    <li><b>Camera calibration</b> and hardware bring-up of a synchronized camera array on a Raspberry&nbsp;Pi&nbsp;5.</li>
-    <li><b>Multi-camera fusion software.</b> I wrote the software that fuses two Raspberry&nbsp;Pi&nbsp;5s on separate Ethernet links into one capture, shown in the recording above, with frame-level time synchronization.</li>
-    <li><b>Now:</b> scaling the rig to 16 cameras across the two Pis, with latency tests, and contributing calibration and test code to the group's repository.</li>
-  </ol>
+  <section id="part">
+    <p class="eyebrow">What I did</p>
+    <h2>My part</h2>
+    <p>My work started with the geometry of how propellers block the cameras, and moved to the multi-camera sensing layer the visual pipeline rests on, which sits at the overlap above.</p>
+    <ol class="steps">
+      <li><b>Propeller obstruction versus camera standoff.</b> A field-of-view model of how much of a propeller a three-camera triangle sees, used to size the standoff and to argue for smaller propellers.</li>
+      <li><b>Camera calibration</b> and hardware bring-up of a synchronized camera array on a Raspberry&nbsp;Pi&nbsp;5.</li>
+      <li><b>Multi-camera fusion software.</b> I wrote the software that fuses two Raspberry&nbsp;Pi&nbsp;5s on separate Ethernet links into one capture, shown in the recording above, with frame-level time synchronization.</li>
+      <li class="now"><b>Now:</b> scaling the rig to 16 cameras across the two Pis, with latency tests, and contributing calibration and test code to the group's repository.</li>
+    </ol>
+  </section>
 
-  <h2>Propeller size versus camera standoff</h2>
-  <p>Setup: three cameras on a wall plane, each 80&deg;&nbsp;&times;&nbsp;65&deg; (half-angles 40&deg; and 32.5&deg;), so at depth <i>z</i> a camera sees a window 2<i>z</i>&middot;tan&nbsp;40&deg; wide and 2<i>z</i>&middot;tan&nbsp;32.5&deg; tall. The propeller is modeled as a disc of diameter <i>D</i> centered on the triangle centroid. The model assumes an equilateral triangle, parallel optical axes and a disc parallel to the wall.</p>
-  <ul>
-    <li><b>Visible propeller area</b> is about 0.367&nbsp;&middot;&nbsp;<i>D</i>&sup2;&nbsp;/&nbsp;<i>z</i>&sup2; of the view. At 18&nbsp;in that is 11.3% for a 10&nbsp;in propeller and 4.1% for 6&nbsp;in; at 24&nbsp;in it is 6.4% and 2.3%.</li>
-    <li><b>All three cameras see the whole propeller</b> once <i>z</i>&nbsp;&ge;&nbsp;(0.866<i>s</i>&nbsp;+&nbsp;<i>D</i>)&nbsp;/&nbsp;1.274, where <i>s</i> is the triangle side. For a 10&nbsp;in propeller, the largest triangle needs about 24&nbsp;in of standoff (<i>s</i>&nbsp;&asymp;&nbsp;24&nbsp;in) and the smallest about 10&nbsp;in (<i>s</i>&nbsp;&asymp;&nbsp;3&nbsp;in).</li>
-    <li><b>Why shrink the propellers.</b> Each inch of propeller diameter costs 0.785&nbsp;in of standoff. Going from 10&nbsp;in to 8&nbsp;in saves 1.6&nbsp;in; going to 6&nbsp;in saves 3.1&nbsp;in and cuts the visible area by 64%.</li>
-  </ul>
-  <p class="cap"><a href="../index.html#research">Back to Research</a></p>
+  <section id="geometry">
+    <p class="eyebrow">Analysis</p>
+    <h2>Propeller size versus camera standoff</h2>
+    <p>Three cameras on a wall plane, each 80&deg;&nbsp;&times;&nbsp;65&deg; (half-angles 40&deg; and 32.5&deg;), so at depth <i>z</i> a camera sees a window 2<i>z</i>&middot;tan&nbsp;40&deg; wide and 2<i>z</i>&middot;tan&nbsp;32.5&deg; tall. The propeller is a disc of diameter <i>D</i> centered on the triangle centroid. Assumes an equilateral triangle, parallel optical axes and a disc parallel to the wall.</p>
+    <div class="geo">
+      <svg viewBox="0 0 320 230" role="img" aria-label="Side view: three cameras on a wall, their fields of view widening to a propeller disc at standoff z">
+        <rect x="18" y="20" width="10" height="190" fill="#14305A"/>
+        <g stroke="#1F4E8C" stroke-width="1.5" fill="#1F4E8C" fill-opacity=".10">
+          <polygon points="28,70 290,10 290,130"/>
+          <polygon points="28,115 290,55 290,175"/>
+          <polygon points="28,160 290,100 290,220"/>
+        </g>
+        <g fill="#D9568A"><circle cx="28" cy="70" r="5"/><circle cx="28" cy="115" r="5"/><circle cx="28" cy="160" r="5"/></g>
+        <ellipse cx="190" cy="115" rx="7" ry="42" fill="#0B1B33" fill-opacity=".85"/>
+        <g font-family="IBM Plex Sans,Arial,sans-serif" font-size="12" fill="#0B1B33">
+          <text x="38" y="204">wall, 3 cameras</text>
+          <text x="196" y="68">propeller, &#216; <tspan font-style="italic">D</tspan></text>
+          <line x1="28" y1="224" x2="190" y2="224" stroke="#0B1B33" stroke-width="1.2"/>
+          <text x="104" y="219" text-anchor="middle" font-style="italic">z</text>
+        </g>
+      </svg>
+      <ul>
+        <li><b>Visible propeller area</b>About <span class="eq">0.367&middot;D&sup2;/z&sup2;</span> of the view. At 18&nbsp;in that is 11.3% for a 10&nbsp;in propeller and 4.1% for 6&nbsp;in; at 24&nbsp;in it is 6.4% and 2.3%.</li>
+        <li><b>All three cameras see the whole propeller</b>Once <span class="eq">z &ge; (0.866s + D)/1.274</span>, with <i>s</i> the triangle side. For a 10&nbsp;in propeller the largest triangle needs about 24&nbsp;in of standoff (<i>s</i>&nbsp;&asymp;&nbsp;24&nbsp;in) and the smallest about 10&nbsp;in (<i>s</i>&nbsp;&asymp;&nbsp;3&nbsp;in).</li>
+        <li><b>Why shrink the propellers</b>Each inch of diameter costs 0.785&nbsp;in of standoff. 10&nbsp;in to 8&nbsp;in saves 1.6&nbsp;in; 10&nbsp;in to 6&nbsp;in saves 3.1&nbsp;in and cuts visible area by 64%.</li>
+      </ul>
+    </div>
+    <p class="cap">Schematic, not to scale.</p>
+  </section>
+  <footer><a href="../index.html#research">&larr; Back to Research</a></footer>
 </div></main>
+<script>
+(function(){try{var l=[].slice.call(document.querySelectorAll('nav.sec a')),s=l.map(function(a){return document.querySelector(a.getAttribute('href'))});
+function f(){var y=window.scrollY+120,i=0;s.forEach(function(e,k){if(e&&e.offsetTop<=y)i=k});l.forEach(function(a,k){a.classList.toggle('on',k===i)})}
+addEventListener('scroll',f,{passive:true});f()}catch(e){}})();
+</script>
 </body>
 </html>
