@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NUWave ROV Software</title>
+<meta name="description" content="Software for Northeastern Marine Robotics' NUWave ROV: a ROS 2 stack split between a topside laptop and a bottomside Nano, and my work on crab recognition and sensor-node testing.">
+<meta name="theme-color" content="#06161B"><link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://orvillerockwelljr.com/projects/nuwave-rov/">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#06161B;--panel:#0C2128;--line:#173540;--txt:#B9CDD1;--hi:#F2FBFA;--sea:#4FD1C5;--coral:#FF7A59;--mut:#7FA0A6;--d:Sora,sans-serif;--m:"IBM Plex Mono",monospace}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--txt);font:16px/1.6 Inter,system-ui,sans-serif}
+.w{max-width:64rem;margin:0 auto;padding:0 22px}a{color:var(--sea);text-underline-offset:3px}
+.bar{border-bottom:1px solid var(--line)}.bar .w{display:flex;justify-content:space-between;align-items:center;height:52px;font:500 12px var(--m);letter-spacing:.1em;text-transform:uppercase;color:var(--mut)}.bar b{color:var(--hi)}
+.hero{padding:40px 0 26px;background:radial-gradient(60% 100% at 100% 0,#0F3A42 0,transparent 70%)}
+.badge{display:inline-block;font:500 12px var(--m);letter-spacing:.1em;text-transform:uppercase;color:var(--coral);border:1px solid var(--coral);padding:5px 11px;border-radius:99px}
+h1{font:700 clamp(2rem,4.8vw,3.2rem)/1.05 var(--d);letter-spacing:-.025em;color:var(--hi);margin:14px 0 0;max-width:15em}h1 span{color:var(--sea)}
+.lede{font-size:1.05rem;max-width:44em;color:#A5BFC4;margin:14px 0 0}
+.grid{display:grid;grid-template-columns:1.2fr 1fr;gap:26px;align-items:center;margin-top:22px}
+.ph{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--panel)}.ph img{display:block;width:100%;height:auto}
+.stats{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.stats div{background:var(--panel);padding:12px 16px}.stats b{display:block;font:700 1.6rem/1 var(--d);color:var(--sea)}.stats span{font-size:13px;color:var(--mut)}
+section{padding:38px 0 2px;border-top:1px solid var(--line);margin-top:30px}
+.eb{font:500 12px var(--m);letter-spacing:.14em;text-transform:uppercase;color:var(--sea);margin:0}
+h2{font:700 clamp(1.4rem,2.8vw,1.95rem)/1.15 var(--d);color:var(--hi);margin:6px 0 0;letter-spacing:-.02em}
+p{margin:10px 0 0;max-width:46em}
+.cap{font:12.5px/1.5 var(--m);color:var(--mut);max-width:none}
+.fig{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px;margin-top:16px}.fig svg{width:100%;height:auto;display:block;font-family:Inter,sans-serif}
+.pk{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:16px}.pk span{font:500 12.5px var(--m);background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:8px 10px;color:var(--txt)}
+.pk span.me{border-color:var(--coral);color:var(--hi)}
+table{border-collapse:collapse;width:100%;font-size:14px;margin-top:14px;background:var(--panel)}th,td{padding:9px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}th{font:500 12px var(--m);letter-spacing:.08em;text-transform:uppercase;color:var(--mut)}
+.done{color:var(--sea)}.prog{color:var(--coral)}
+.lim{list-style:none;padding:0;margin:14px 0 0;max-width:46em}.lim li{padding:8px 0 8px 20px;border-bottom:1px solid var(--line);position:relative;font-size:15px}.lim li:before{content:"";position:absolute;left:0;top:17px;width:8px;height:2px;background:var(--coral)}
+footer{margin-top:44px;border-top:1px solid var(--line);padding:18px 0 34px;font:12.5px var(--m);color:var(--mut);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+@media(max-width:760px){.grid{grid-template-columns:1fr}.pk{grid-template-columns:repeat(2,1fr)}.bar .w span{display:none}}
+</style></head><body>
+<div class="bar"><div class="w"><b>NUWave ROV</b><span>Northeastern Marine Robotics &middot; 2026</span></div></div>
+<header class="hero"><div class="w">
+<span class="badge">Team project &middot; ongoing</span>
+<h1>The software that runs an <span>underwater robot</span>.</h1>
+<p class="lede">NUWave is the remotely operated vehicle (ROV) built by Northeastern's Marine Robotics team for the MATE ROV competition. Its software is a ROS&nbsp;2 stack split between a topside laptop and a computer on the vehicle. My part is perception and testing: a crab-detection node, and the tests that keep the sensor nodes honest.</p>
+<div class="grid">
+<div class="ph"><img src="../../assets/img/rov.jpg" alt="The NUWave remotely operated underwater vehicle during a pool run" width="477" height="298"></div>
+<div class="stats">
+<div><b>12</b><span>ROS 2 packages in the team repository</span></div>
+<div><b>28</b><span>test functions in the crab-recognition suite I wrote (merged Oct 26)</span></div>
+<div><b>3</b><span>Jira tasks assigned to me: one done, two in progress</span></div>
+</div>
+</div>
+</div></header>
+
+<main class="w">
+<section><p class="eb">The team</p><h2>What the club builds</h2>
+<p>Northeastern Marine Robotics, part of NURobotics, builds marine robots and works on making marine robotics more accessible. Its ROV competes in the MATE ROV Competition, where vehicles solve real-world tasks such as installing floating solar panels and modeling coral in 3D; the team's page says it has placed as high as 8th in the world. The club also builds an electric boat for the ASNE PEP race. The software group meets on Sundays. <a href="https://nurobotics.org/marine-robotics/" target="_blank" rel="noopener">Team page</a></p></section>
+
+<section><p class="eb">The stack</p><h2>Two computers, one robot</h2>
+<p>The code lives in the public <a href="https://github.com/NEURoboticsClub/nuwave-rov" target="_blank" rel="noopener">nuwave-rov</a> repository. A pilot drives from a topside laptop (joystick input, the operator interface and the controllers), and a Nano computer on the vehicle runs the thruster output and power monitoring. Both run ROS&nbsp;2 nodes that exchange messages. Sensor, camera and detection nodes sit in their own packages.</p>
+<div class="fig"><svg viewBox="0 0 760 210" role="img" aria-label="Topside laptop and bottomside Nano exchanging ROS 2 messages">
+<rect x="16" y="20" width="270" height="170" rx="12" fill="#0A1C22" stroke="#173540"/>
+<text x="34" y="46" font-size="12" fill="#7FA0A6" font-family="IBM Plex Mono" letter-spacing="1.5">TOPSIDE LAPTOP</text>
+<text x="34" y="78" font-size="14" fill="#F2FBFA">houston (joystick input)</text><text x="34" y="104" font-size="14" fill="#F2FBFA">thruster and arm controllers</text><text x="34" y="130" font-size="14" fill="#F2FBFA">web GUI</text>
+<text x="34" y="156" font-size="14" fill="#F2FBFA">crab recognition (my node)</text>
+<rect x="474" y="20" width="270" height="170" rx="12" fill="#0A1C22" stroke="#173540"/>
+<text x="492" y="46" font-size="12" fill="#7FA0A6" font-family="IBM Plex Mono" letter-spacing="1.5">BOTTOMSIDE NANO</text>
+<text x="492" y="78" font-size="14" fill="#F2FBFA">thruster PWM output</text><text x="492" y="104" font-size="14" fill="#F2FBFA">power monitors</text><text x="492" y="130" font-size="14" fill="#F2FBFA">(sensor nodes: see packages)</text>
+<line x1="296" y1="80" x2="464" y2="80" stroke="#4FD1C5" stroke-width="2"/><polygon points="464,80 454,75 454,85" fill="#4FD1C5"/>
+<line x1="464" y1="130" x2="296" y2="130" stroke="#4FD1C5" stroke-width="2"/><polygon points="296,130 306,125 306,135" fill="#4FD1C5"/>
+<text x="380" y="68" text-anchor="middle" font-size="12" fill="#7FA0A6" font-family="IBM Plex Mono">commands</text>
+<text x="380" y="152" text-anchor="middle" font-size="12" fill="#7FA0A6" font-family="IBM Plex Mono">status, video</text>
+</svg></div>
+<p class="cap" style="margin-top:8px">Schematic from the repository's run instructions and package list, not a wiring diagram. Only the nodes the instructions place on each computer are shown; I did not confirm where the camera, IMU and depth-sensor nodes run.</p>
+<div class="pk"><span>arm_controller</span><span>camera</span><span class="me">crab_recognition</span><span>depth_sensor</span><span>houston</span><span class="me">imu</span><span>nuwave_utils</span><span>power_monitor</span><span>stabilization</span><span>thruster</span><span>thruster_controller</span><span>web_gui</span></div>
+<p class="cap" style="margin-top:8px">The twelve packages in the repository. Orange: packages I have written code or tests for.</p></section>
+
+<section><p class="eb">My part</p><h2>Crab detection and tests</h2>
+<p>The <b>crab recognition node</b> looks for European green crabs: it runs a YOLO model on frames from up to four cameras. When the operator presses the detect button, it runs the model once on the latest frame from each camera, draws boxes and a per-camera crab count, and saves the annotated images with a timestamp and camera ID.</p>
+<p>I wrote the package's README, then the node's unit tests. The suite uses a stand-in for the YOLO model and synthetic JPEG frames, so it runs without a GPU or a camera. It checks parameter defaults, the camera-count limit of one to four, frame buffering (only the latest frame is kept, undecodable data is ignored), the busy flag that stops overlapping detections, output file naming and folder creation, that only green crabs are drawn, and the per-camera and total counts in the log.</p>
+<table><thead><tr><th>Task</th><th>What</th><th>Status</th></tr></thead><tbody>
+<tr><td>KAN-9</td><td>Test CrabRecognitionNode: scan and camera callbacks, single-run detection, startup and <code>main()</code></td><td class="done">Done, Nov 9</td></tr>
+<tr><td>KAN-12</td><td>Test IMUPublisher: quaternion multiply, vector rotation, timer callback, startup</td><td class="prog">In progress; tests on a branch</td></tr>
+<tr><td>KAN-14</td><td>Test DepthSensorNode: depth read, read-and-publish, startup</td><td class="prog">In progress</td></tr>
+</tbody></table>
+<p class="cap" style="margin-top:8px">Task text and status from the team's Jira board; commit history from the public repository, as of Nov 26, 2026.</p></section>
+
+<section><p class="eb">Direction</p><h2>Where I want to take it</h2>
+<p>The vehicle's cameras and inertial sensor already produce the two streams that visual&ndash;inertial fusion needs. Underwater, turbidity, refraction and changing light break assumptions that hold in air, so the interesting work is detection and pose estimates that know when to distrust themselves. That is the same question I study in my other projects, and it is a direction, not a result: I have no underwater fusion results yet.</p>
+<ul class="lim"><li>The detection model and its weights belong to the team; I did not train them.</li><li>The IMU and depth-sensor test tasks are still in progress, so they are not claimed as finished.</li><li>No competition or pool results are reported here.</li></ul></section>
+</main>
+<footer class="w"><span>Written by Orville Rockwell Jr. &middot; team project, student club</span><a href="../../index.html#projects">Back to my site</a></footer>
+</body></html>
