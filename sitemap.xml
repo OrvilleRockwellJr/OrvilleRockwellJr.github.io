@@ -11,7 +11,7 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://orvillerockwelljr.com/notes/calibration-ties.html</loc>
+    <loc>https://orvillerockwelljr.com/projects/closed-loop-discovery/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -42,6 +42,11 @@
   </url>
   <url>
     <loc>https://orvillerockwelljr.com/projects/diffusion-design/evidence.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://orvillerockwelljr.com/projects/human-alignment-calibration/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>

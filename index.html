@@ -543,7 +543,7 @@ footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;back
   <nav class="top" aria-label="Sections">
     <a href="#research">Research</a>
     <a href="#projects">Projects</a>
-    <a href="notes/calibration-ties.html">Notes</a>
+    <a href="projects/closed-loop-discovery/">Manuscript in prep.</a>
     <a href="about.html">About</a>
   </nav>
 
@@ -622,15 +622,15 @@ footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;back
         </article>
 
         <article class="entry t-bio" id="loop">
-          <a class="thumb" href="https://urirock-closed-loop-demo.hf.space/app/home" style="display:block" aria-label="Open the closed-loop discovery demo, which runs on real ChEMBL data"><img src="assets/img/closed-loop-demo.jpg" alt="Closed-loop discovery demo: hits found versus experiments on JAK2 for raw scores, isotonic calibration and isotonic with a raw-score tie-break" loading="lazy" width="960" height="600"></a>
+          <a class="thumb" href="projects/closed-loop-discovery/" style="display:block" aria-label="Open the closed-loop discovery project page"><img src="assets/img/closed-loop-demo.jpg" alt="Closed-loop discovery demo: hits found versus experiments on JAK2 for raw scores, isotonic calibration and isotonic with a raw-score tie-break" loading="lazy" width="960" height="600"></a>
           <div>
             <h3><span class="mk ic d-both" aria-hidden="true"></span>Calibration-Aware Active Learning for Closed-Loop Discovery</h3>
             <p class="where"><b>Independent research</b>, self-directed<br>Bridges autonomous decision-making and computational biology</p>
-            <span class="status result">Preliminary result</span>
+            <span class="status result">Manuscript in preparation</span>
             <p class="sum">A self-driving lab is a control loop: a model proposes candidates, a system tests a subset, and the results retrain the model. I simulated that loop over five ChEMBL targets, 20 seeds each, and asked whether <em>calibrating</em> the scoring model makes it more efficient. Each round selects a batch under a 400-experiment budget, and I compared raw scores, isotonic calibration, and isotonic calibration with a raw-score tie-break on how many true hits each recovers.</p>
             <p class="key"><b>Result.</b> Not for greedy selection. Isotonic calibration never significantly improved hit recovery and significantly hurt it on 2 of 5 targets (JAK2: 375.0 versus 384.3 hits at a 400-experiment budget, p&nbsp;&lt;&nbsp;0.01), even as it lowered calibration error on all five. The mechanism is resolution loss: isotonic regression is monotone but piecewise constant, so it leaves a plateau of tied scores at the top of the ranking (88 to 2,212 molecules) and the batch is drawn almost at random from it. Breaking ties with the raw score, or using strictly monotone calibrators (Platt, beta), recovers the loss. A retrospective simulation, not a wet-lab campaign.</p>
             <p class="methods">Active learning, calibration, sequential decisions, ChEMBL, RDKit</p>
-            <p class="more"><a href="https://urirock-closed-loop-demo.hf.space/app/home">Try the demo on real ChEMBL data</a> &middot; <a href="notes/calibration-ties.html">Read the research note: When calibration breaks the loop</a></p>
+            <p class="more"><a href="projects/closed-loop-discovery/">Open the project page</a> &middot; <a href="https://urirock-closed-loop-demo.hf.space/app/home">Try the demo on real ChEMBL data</a></p>
           </div>
         </article>
 
