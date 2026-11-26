@@ -33,6 +33,25 @@ table{border-collapse:collapse;width:100%;font:13px var(--m);margin-top:22px;bac
 .rem{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:24px}.rem div{background:var(--panel);border:1px solid var(--line);border-top:3px solid var(--teal);border-radius:10px;padding:16px 18px;font-size:15.5px;line-height:1.5}.rem b{display:block;font:700 1.05rem var(--d);color:var(--hi);margin-bottom:4px}
 .lim{list-style:none;padding:0;margin:16px 0 0;max-width:46em}.lim li{padding:10px 0 10px 22px;border-bottom:1px solid var(--line);position:relative;font-size:16px}.lim li::before{content:"\203A";position:absolute;left:4px;color:var(--amb)}
 footer{margin-top:60px;border-top:1px solid var(--line);padding:22px 0 44px;font:12.5px var(--m);color:var(--mut);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}footer a{color:var(--mut)}
+
+/* compact pass */
+body{font-size:16px;line-height:1.6}
+.w{max-width:66rem}
+.hero{padding:34px 0 22px}
+h1{font-size:clamp(1.9rem,4.4vw,3rem);margin-top:12px}
+.lede{font-size:1.02rem;margin-top:12px;max-width:46em}
+.grid2{gap:22px;margin-top:20px}
+.stats div{padding:12px 16px}.stats b{font-size:1.5rem}.stats span{font-size:12.5px;margin-top:3px}
+.btns{margin-top:18px}
+section{padding:36px 0 2px}
+h2{font-size:clamp(1.4rem,2.6vw,1.9rem)}
+p{margin-top:10px}
+.fig{padding:10px;border-radius:14px}
+table{margin-top:14px;font-size:12.5px}th,td{padding:7px 10px}
+.rem{margin-top:16px;gap:12px}.rem div{padding:13px 15px;font-size:14.5px}
+.lim li{padding:8px 0 8px 20px;font-size:15px}
+footer{margin-top:36px;padding:16px 0 30px}
+.eq{margin-top:10px;padding:9px 13px;font-size:13.5px}
 @media(max-width:760px){.grid2,.stats,.rem{grid-template-columns:1fr}.bar .w span{display:none}}
 </style></head><body>
 <div class="bar"><div class="w"><b>Closed-loop discovery</b><span>Independent research &middot; Nov 2026</span></div></div>
@@ -67,9 +86,10 @@ footer{margin-top:60px;border-top:1px solid var(--line);padding:22px 0 44px;font
 <section><div class="w"><p class="eb">Why</p><h2>Calibration can trade away resolution</h2>
 <p>Isotonic regression fits the monotone function that best maps scores to observed outcomes:</p>
 <div class="eq">f* = argmin over non-decreasing f of &sum;<sub>i</sub> (y<sub>i</sub> &minus; f(s<sub>i</sub>))&sup2;</div>
-<p>On finite data the solution is a step function: adjacent candidates whose labels disagree with their order are pooled into a single level. That never reverses two candidates, but it can merge them, and merged candidates cannot be ranked against each other. The selection step reads only the top of the ranking. When hundreds or thousands of molecules share the maximum score and the batch is smaller than that, the model&rsquo;s remaining ordering information is discarded at the one place it mattered.</p>
-<div class="fig" style="max-width:540px;margin-top:22px"><svg viewBox="0 0 470 250" role="img" aria-label="Schematic: smooth raw scores versus a staircase isotonic fit whose top step ties many candidates"><rect x="340" y="30" width="100" height="170" fill="#FFB020" fill-opacity=".10"/><path d="M40,193.7 L50,192.4 L60,190.8 L70,188.9 L80,186.7 L90,184.0 L100,180.9 L110,177.3 L120,173.1 L130,168.3 L140,163.0 L150,157.0 L160,150.4 L170,143.3 L180,135.8 L190,128.0 L200,120.0 L210,112.0 L220,104.2 L230,96.7 L240,89.6 L250,83.0 L260,77.0 L270,71.7 L280,66.9 L290,62.7 L300,59.1 L310,56.0 L320,53.3 L330,51.1 L340,49.2 L350,47.6 L360,46.3 L370,45.2 L380,44.3 L390,43.5 L400,42.9 L410,42.4 L420,41.9 L430,41.6" fill="none" stroke="#5EEAD4" stroke-width="2.5"/><path d="M40,179.7 L160,179.7 M160,127.7 L230,127.7 M230,80.8 L290,80.8 M290,56.4 L340,56.4 M340,41.6 L440,41.6 " fill="none" stroke="#FFB020" stroke-width="2.5"/><text x="390" y="24" font-size="11.5" fill="#FFB020" text-anchor="middle">tied at the top</text><text x="44" y="236" font-size="11" fill="#8EA0BD">candidates, ordered by raw score &#8594;</text><text x="46" y="220" font-size="11" fill="#5EEAD4">&#9472; raw score</text><text x="140" y="220" font-size="11" fill="#FFB020">&#9472; isotonic fit</text></svg></div>
-<p class="cap">Schematic. Raw scores rise smoothly with rank; the isotonic fit is a staircase, and the batch is drawn from the top step.</p></div></section>
+<div class="grid2" style="align-items:start;margin-top:8px"><div><p style="margin-top:6px">On finite data the solution is a step function: adjacent candidates whose labels disagree with their order are pooled into a single level. That never reverses two candidates, but it can merge them, and merged candidates cannot be ranked against each other. The selection step reads only the top of the ranking. When hundreds or thousands of molecules share the maximum score and the batch is smaller than that, the model&rsquo;s remaining ordering information is discarded at the one place it mattered.</p></div><div><div class="fig"><svg viewBox="0 0 470 250" role="img" aria-label="Schematic: smooth raw scores versus a staircase isotonic fit whose top step ties many candidates"><rect x="340" y="30" width="100" height="170" fill="#FFB020" fill-opacity=".10"/><path d="M40,193.7 L50,192.4 L60,190.8 L70,188.9 L80,186.7 L90,184.0 L100,180.9 L110,177.3 L120,173.1 L130,168.3 L140,163.0 L150,157.0 L160,150.4 L170,143.3 L180,135.8 L190,128.0 L200,120.0 L210,112.0 L220,104.2 L230,96.7 L240,89.6 L250,83.0 L260,77.0 L270,71.7 L280,66.9 L290,62.7 L300,59.1 L310,56.0 L320,53.3 L330,51.1 L340,49.2 L350,47.6 L360,46.3 L370,45.2 L380,44.3 L390,43.5 L400,42.9 L410,42.4 L420,41.9 L430,41.6" fill="none" stroke="#5EEAD4" stroke-width="2.5"/><path d="M40,179.7 L160,179.7 M160,127.7 L230,127.7 M230,80.8 L290,80.8 M290,56.4 L340,56.4 M340,41.6 L440,41.6 " fill="none" stroke="#FFB020" stroke-width="2.5"/><text x="390" y="24" font-size="11.5" fill="#FFB020" text-anchor="middle">tied at the top</text><text x="44" y="236" font-size="11" fill="#8EA0BD">candidates, ordered by raw score &#8594;</text><text x="46" y="220" font-size="11" fill="#5EEAD4">&#9472; raw score</text><text x="140" y="220" font-size="11" fill="#FFB020">&#9472; isotonic fit</text></svg></div><p class="cap">Schematic. Raw scores rise smoothly with rank; the isotonic fit is a staircase, and the batch is drawn from the top step.</p></div></div>
+
+
+</div></section>
 
 <section><div class="w"><p class="eb">What recovers it</p><h2>Three fixes, one lesson</h2>
 <div class="rem"><div><b>Break ties with the raw score</b>Rank by calibrated probability first and raw score second. It returned greedy selection to raw levels on every target (JAK2: 383.9 versus 384.3), a direct causal test.</div><div><b>Use a strictly monotone calibrator</b>Platt and beta calibration preserve the full ranking while still correcting overconfidence.</div><div><b>Evaluate the decision</b>Report hits at budget and enrichment at the top of the ranking alongside calibration error. The two can move in opposite directions.</div></div>
