@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Two Raspberry Pis, one synchronized view | Orville Rockwell Jr.</title>
+<meta name="description" content="Screen recording of the multi-camera rig for GPS-denied drone navigation at Brown's LEMS group: two Raspberry Pi 5s capturing in sync, shown in a live fusion view.">
+<meta name="author" content="Orville Rockwell Jr.">
+<meta name="theme-color" content="#14305A">
+<link rel="canonical" href="https://orvillerockwelljr.com/notes/brown-live-fusion.html">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<style>
+:root{--ink:#1C2633;--muted:#5B6573;--rule:#E2E6EB;--wash:#F4F6F9;--cv:#1F4E8C;--navy:#14305A;--navy-2:#0F2547;
+  --serif:"Source Serif 4",Georgia,serif;--sans:"IBM Plex Sans","Helvetica Neue",Arial,sans-serif}
+*{box-sizing:border-box}
+body{margin:0;background:#fff;color:var(--ink);font-family:var(--serif);font-size:18px;line-height:1.65}
+a{color:var(--cv);text-underline-offset:3px}
+a:focus-visible{outline:2px solid var(--cv);outline-offset:3px}
+.wrap{max-width:56rem;margin:0 auto;padding:0 22px}
+header.band{background:radial-gradient(120% 140% at 85% -10%,#1E4A85 0%,var(--navy) 45%,var(--navy-2) 100%);color:#fff;padding-bottom:20px}
+.crumb{font-family:var(--sans);font-size:14px;padding-top:14px;margin:0}
+.crumb a{color:#BFD5F7}
+h1{font-size:clamp(1.5rem,3.6vw,2rem);line-height:1.15;margin:16px 0 0;font-weight:700}
+main{padding:28px 0 40px}
+video{display:block;width:100%;height:auto;background:#000;border:1px solid var(--rule);border-radius:4px}
+p{margin:16px 0 0}
+.cap{font-family:var(--sans);font-size:14.5px;color:var(--muted);line-height:1.55}
+</style>
+</head>
+<body>
+<header class="band"><div class="wrap">
+  <p class="crumb"><a href="../index.html#research">&larr; Research</a></p>
+  <h1>Two Raspberry Pis, one synchronized view</h1>
+</div></header>
+<main><div class="wrap">
+  <video controls playsinline preload="metadata" poster="../assets/video/brown-live-fusion-poster.jpg">
+    <source src="../assets/video/brown-live-fusion.mp4" type="video/mp4">
+    Your browser cannot play this video. <a href="../assets/video/brown-live-fusion.mp4">Download it</a>.
+  </video>
+  <p class="cap">Screen recording, 25 seconds, no sound. The live fusion view of the multi-camera rig for GPS-denied drone navigation (Prof. Benjamin Kimia's group, LEMS, Brown University). Two Raspberry Pi 5s, each on its own Ethernet link, stream synchronized capture into one page; the status line for each camera shows its frame rate, frame count and the synchronization offset between the two. The browser shows each stream with its own network delay, so on-screen frames are not frame-locked; timing comes from the capture logs.</p>
+  <p class="cap"><a href="../index.html#research">Back to Research</a></p>
+</div></main>
+</body>
+</html>
