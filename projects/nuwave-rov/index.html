@@ -44,7 +44,7 @@ footer{margin-top:44px;border-top:1px solid var(--line);padding:18px 0 34px;font
 <div class="stats">
 <div><b>12</b><span>ROS 2 packages in the team repository</span></div>
 <div><b>28</b><span>test functions in the crab-recognition suite I wrote (merged Oct 26)</span></div>
-<div><b>3</b><span>Jira tasks assigned to me: one done, two in progress</span></div>
+<div><b>3</b><span>Jira tasks assigned to me: one done, one in review, one in progress</span></div>
 </div>
 </div>
 </div></header>
@@ -77,14 +77,14 @@ footer{margin-top:44px;border-top:1px solid var(--line);padding:18px 0 34px;font
 <p>I wrote the package's README, then the node's unit tests. The suite uses a stand-in for the YOLO model and synthetic JPEG frames, so it runs without a GPU or a camera. It checks parameter defaults, the camera-count limit of one to four, frame buffering (only the latest frame is kept, undecodable data is ignored), the busy flag that stops overlapping detections, output file naming and folder creation, that only green crabs are drawn, and the per-camera and total counts in the log.</p>
 <table><thead><tr><th>Task</th><th>What</th><th>Status</th></tr></thead><tbody>
 <tr><td>KAN-9</td><td>Test CrabRecognitionNode: scan and camera callbacks, single-run detection, startup and <code>main()</code></td><td class="done">Done, Nov 9</td></tr>
-<tr><td>KAN-12</td><td>Test IMUPublisher: quaternion multiply, vector rotation, timer callback, startup</td><td class="prog">In progress; tests on a branch</td></tr>
+<tr><td>KAN-12</td><td>Test IMUPublisher: quaternion multiply, vector rotation, timer callback, startup</td><td class="prog">In review; <a href="https://github.com/NEURoboticsClub/nuwave-rov/pull/107" target="_blank" rel="noopener">pull request #107</a> open (draft), 62 mocked tests</td></tr>
 <tr><td>KAN-14</td><td>Test DepthSensorNode: depth read, read-and-publish, startup</td><td class="prog">In progress</td></tr>
 </tbody></table>
 <p class="cap" style="margin-top:8px">Task text and status from the team's Jira board; commit history from the public repository, as of Nov 26, 2026.</p></section>
 
 <section><p class="eb">Direction</p><h2>Where I want to take it</h2>
 <p>The vehicle's cameras and inertial sensor already produce the two streams that visual&ndash;inertial fusion needs. Underwater, turbidity, refraction and changing light break assumptions that hold in air, so the interesting work is detection and pose estimates that know when to distrust themselves. That is the same question I study in my other projects, and it is a direction, not a result: I have no underwater fusion results yet.</p>
-<ul class="lim"><li>The detection model and its weights belong to the team; I did not train them.</li><li>The IMU and depth-sensor test tasks are still in progress, so they are not claimed as finished.</li><li>No competition or pool results are reported here.</li></ul></section>
+<ul class="lim"><li>The detection model and its weights belong to the team; I did not train them.</li><li>The IMU tests are in review and not yet merged, and the depth-sensor tests are still in progress, so neither is claimed as finished.</li><li>No competition or pool results are reported here.</li></ul></section>
 </main>
 <footer class="w"><span>Written by Orville Rockwell Jr. &middot; team project, student club</span><a href="../../index.html#projects">Back to my site</a></footer>
 </body></html>
