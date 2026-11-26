@@ -26,17 +26,17 @@ p{margin:14px 0 0}
 /* hero */
 .hero{background:radial-gradient(120% 120% at 80% -20%,#1E4A85 0%,#10294D 42%,var(--deep) 100%);color:#fff;position:relative;overflow:hidden}
 .hero::after{content:"";position:absolute;left:0;right:0;bottom:0;height:5px;background:linear-gradient(90deg,var(--mech) 0 33.3%,var(--elec) 33.3% 66.6%,var(--soft) 66.6%)}
-.crumb{font-family:var(--sans);font-size:14px;padding-top:16px;margin:0}
+.crumb{font-family:var(--sans);font-size:14px;padding-top:12px;margin:0}
 .crumb a{color:#BFD5F7}
-.kick{font-family:var(--sans);font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:#8DB6F2;margin:34px 0 0;font-weight:600}
-h1{font-family:var(--sans);font-size:clamp(1.9rem,5vw,3rem);line-height:1.08;margin:10px 0 0;font-weight:700;letter-spacing:-.01em;max-width:18em}
-.lede{font-size:clamp(1.05rem,2vw,1.25rem);color:#D6E3F8;max-width:38em;margin:16px 0 0;line-height:1.55}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;margin:30px 0 0;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.14);border-radius:8px;overflow:hidden}
-.stats div{background:rgba(11,27,51,.55);padding:14px 16px;font-family:var(--sans)}
-.stats b{display:block;font-size:1.6rem;line-height:1.1;font-weight:700}
-.stats span{font-size:13px;color:#BFD5F7;line-height:1.35;display:block;margin-top:4px}
-.vid{margin:30px 0 -1px;position:relative;z-index:1}
-video{display:block;width:100%;height:auto;background:#000;border-radius:10px 10px 0 0;border:1px solid rgba(255,255,255,.18);border-bottom:0}
+.kick{font-family:var(--sans);font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:#8DB6F2;margin:12px 0 0;font-weight:600}
+h1{font-family:var(--sans);font-size:clamp(1.6rem,4vw,2.3rem);line-height:1.1;margin:6px 0 0;font-weight:700;letter-spacing:-.01em}
+.lede{font-size:clamp(.98rem,1.8vw,1.1rem);color:#D6E3F8;max-width:none;margin:6px 0 0;line-height:1.4}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;margin:14px 0 0;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.14);border-radius:8px;overflow:hidden}
+.stats div{background:rgba(11,27,51,.55);padding:7px 12px;font-family:var(--sans);white-space:nowrap}
+.stats b{display:inline;font-size:1.25rem;line-height:1.1;font-weight:700;margin-right:8px}
+.stats span{font-size:12.5px;color:#BFD5F7;line-height:1.3;display:inline;white-space:nowrap}
+.vid{margin:14px 0 -1px;position:relative;z-index:1;background:#000;border-radius:10px 10px 0 0}
+video{display:block;width:100%;height:auto;max-height:calc(100vh - 235px);min-height:200px;object-fit:contain;background:#000;border-radius:10px 10px 0 0;border:1px solid rgba(255,255,255,.18);border-bottom:0}
 /* nav */
 nav.sec{position:sticky;top:0;z-index:5;background:rgba(255,255,255,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--rule);font-family:var(--sans);font-size:14.5px}
 nav.sec .wrap{display:flex;gap:4px;overflow-x:auto;white-space:nowrap}
@@ -87,7 +87,7 @@ h3{font-family:var(--sans);font-size:1rem;margin:0;color:var(--navy)}
 .tbl{overflow-x:auto}
 footer{margin-top:48px;border-top:1px solid var(--rule);padding:22px 0 40px}
 @media(max-width:760px){
- .stats{grid-template-columns:repeat(2,1fr)}
+ .stats{grid-template-columns:repeat(2,1fr)}.stats b,.stats span{display:block;margin:0}video{max-height:none;min-height:0}
  .teams,.facts,.venn,.geo{grid-template-columns:1fr}
  .br{grid-template-columns:1fr;gap:3px;margin:12px 0}
 }
@@ -99,15 +99,15 @@ footer{margin-top:48px;border-top:1px solid var(--rule);padding:22px 0 40px}
   <p class="crumb"><a href="../index.html#research">&larr; Research</a></p>
   <p class="kick">Research project &middot; LEMS, Brown University</p>
   <h1>GPS-Denied Visual Navigation for Drones</h1>
-  <p class="lede">Localizing a fast-moving drone without satellite navigation by fusing many synchronized camera views with inertial cues. Prof. Benjamin Kimia's group.</p>
+  <p class="lede">Localizing a drone without GPS by fusing synchronized camera views with inertial cues. Prof.&nbsp;Benjamin&nbsp;Kimia's group.</p>
   <div class="stats">
-    <div><b>16</b><span>cameras on a spherical frame, rings of 1-4-6-4-1</span></div>
-    <div><b>80&deg;&times;65&deg;</b><span>field of view per camera</span></div>
-    <div><b>99.95%</b><span>simulated coverage at 2&nbsp;m</span></div>
-    <div><b>3 teams</b><span>mechanical, electrical, software</span></div>
+    <div><b>16</b><span>cameras, 1-4-6-4-1 rings</span></div>
+    <div><b>80&deg;&times;65&deg;</b><span>FOV per camera</span></div>
+    <div><b>99.95%</b><span>coverage at 2&nbsp;m (sim.)</span></div>
+    <div><b>3 teams</b><span>mech, elec, software</span></div>
   </div>
   <div class="vid">
-    <video controls playsinline preload="metadata" poster="../assets/video/brown-live-fusion-poster.jpg">
+    <video controls autoplay muted playsinline preload="auto" poster="../assets/video/brown-live-fusion-poster.jpg">
       <source src="../assets/video/brown-live-fusion.mp4" type="video/mp4">
       Your browser cannot play this video. <a href="../assets/video/brown-live-fusion.mp4">Download it</a>.
     </video>
