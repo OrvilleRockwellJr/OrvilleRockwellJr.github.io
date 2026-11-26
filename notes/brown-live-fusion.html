@@ -97,7 +97,7 @@ footer{margin-top:48px;border-top:1px solid var(--rule);padding:22px 0 40px}
 }
 
 /* standalone project-site theme */
-:root{--bg:#070B14;--panel:#0E1626;--line:#1C2A44;--txt:#C9D3E3;--hi:#F2F6FC;--acc:#3FE0D0;--ink:#C9D3E3;--muted:#8A97AD;--rule:#1C2A44;--navy:#F2F6FC;--cv:#3FE0D0;
+:root{--bg:#070B14;--panel:#0E1626;--line:#1C2A44;--txt:#C9D3E3;--hi:#F2F6FC;--acc:#F5B342;--ink:#C9D3E3;--muted:#8A97AD;--rule:#1C2A44;--navy:#F2F6FC;--cv:#3FE0D0;
   --serif:"Inter",system-ui,sans-serif;--sans:"Space Grotesk","Inter",sans-serif;--mono:"JetBrains Mono",ui-monospace,monospace}
 body{background:var(--bg);color:var(--txt);font-size:17px}
 a{color:var(--acc)}
@@ -128,12 +128,12 @@ h1{font-size:clamp(2rem,5vw,3.4rem);letter-spacing:-.03em;line-height:1.04}
 .teams li,.facts div{background:var(--panel);border-color:var(--line);box-shadow:none}
 .teams li{border-top-color:var(--c)}
 .venn{background:var(--panel);border:1px solid var(--line)}
-.venn svg,.geo svg{background:#EEF2F7;border-radius:10px;padding:6px}
-.bt{background:#16223A}.b1{background:#3B6FB5}.b2{background:var(--acc)}
+.geo svg{background:#EEF2F7;border-radius:10px;padding:6px}
+.bt{background:#16223A}.b1{background:#8FA6C8}.b2{background:var(--acc)}
 .bv b{color:var(--hi)}
 .steps{border-left-color:var(--line)}
 .steps li::before{background:var(--panel);border:2px solid var(--acc);color:var(--acc)}
-.steps li.now::before{background:var(--acc);color:#04201D}
+.steps li.now::before{background:var(--acc);color:#1A1200}
 .eq{background:var(--panel);border:1px solid var(--line);color:var(--hi);font-family:var(--mono);font-size:.9em}
 section{padding:64px 0 6px}
 footer{border-top-color:var(--line);font-family:var(--mono);font-size:12.5px;color:var(--muted);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
@@ -143,7 +143,7 @@ footer a{color:var(--muted)}footer a:hover{color:var(--acc)}
 </style>
 </head>
 <body id="top">
-<div class="bar"><div class="wrap"><a class="brand" href="#top"><svg viewBox="0 0 26 26" aria-hidden="true"><circle cx="13" cy="13" r="12" fill="none" stroke="#3FE0D0" stroke-width="1.5"/><g fill="#3FE0D0"><circle cx="13" cy="5" r="2"/><circle cx="6" cy="10" r="2"/><circle cx="20" cy="10" r="2"/><circle cx="6" cy="17" r="2"/><circle cx="20" cy="17" r="2"/><circle cx="13" cy="21" r="2"/></g></svg>GPS-denied nav<small>16-cam rig</small></a><nav aria-label="Sections"><a href="#problem">Problem</a><a href="#teams">Teams</a><a href="#rig">Rig</a><a href="#part">My part</a><a href="#software">Software</a><a href="#geometry">Geometry</a></nav></div></div>
+<div class="bar"><div class="wrap"><a class="brand" href="#top"><svg viewBox="0 0 26 26" aria-hidden="true"><circle cx="13" cy="13" r="12" fill="none" stroke="#F5B342" stroke-width="1.5"/><g fill="#F5B342"><circle cx="13" cy="5" r="2"/><circle cx="6" cy="10" r="2"/><circle cx="20" cy="10" r="2"/><circle cx="6" cy="17" r="2"/><circle cx="20" cy="17" r="2"/><circle cx="13" cy="21" r="2"/></g></svg>GPS-denied nav<small>16-cam rig</small></a><nav aria-label="Sections"><a href="#problem">Problem</a><a href="#teams">Teams</a><a href="#rig">Rig</a><a href="#part">My part</a><a href="#software">Software</a><a href="#geometry">Geometry</a></nav></div></div>
 <header class="hero"><div class="wrap">
     <p class="kick">Research project &middot; LEMS, Brown University</p>
   <h1>GPS-Denied Visual Navigation for Drones</h1>
@@ -182,12 +182,12 @@ footer a{color:var(--muted)}footer a:hover{color:var(--acc)}
     </ul>
     <div class="venn">
       <svg viewBox="0 0 320 290" role="img" aria-label="Venn diagram of the mechanical, electrical and software teams and what they share">
-        <g style="mix-blend-mode:multiply" fill-opacity=".55">
+        <g style="mix-blend-mode:screen" fill-opacity=".62">
           <circle cx="120" cy="105" r="86" fill="#3E7BD0"/>
           <circle cx="200" cy="105" r="86" fill="#1AA3AA"/>
           <circle cx="160" cy="173" r="86" fill="#D9568A"/>
         </g>
-        <g font-family="IBM Plex Sans,Arial,sans-serif" text-anchor="middle" fill="#0B1B33">
+        <g font-family="IBM Plex Sans,Arial,sans-serif" text-anchor="middle" fill="#F4F7FD">
           <text x="92" y="82" font-size="14" font-weight="700">Mechanical</text>
           <text x="228" y="82" font-size="14" font-weight="700">Electrical</text>
           <text x="160" y="236" font-size="14" font-weight="700">Software</text>
@@ -218,7 +218,7 @@ footer a{color:var(--muted)}footer a:hover{color:var(--acc)}
     </div>
     <p>To compare designs, camera positions and angles from the CAD frame were projected onto 650,000 test points spread over the upper hemisphere 2&nbsp;m from the frame, so each point receives the pixel that sees it. Coverage is the share of points seen by at least one camera; stereo is the share seen by two or more.</p>
     <div class="cg"><h3>2&nbsp;m</h3><div class="br"><span class="bn">Sphere, no props</span><div class="bt"><i class="b1" style="width:99.95%"></i><i class="b2" style="width:54.3%"></i></div><span class="bv"><b>99.95%</b> <em>54.3% stereo</em></span></div><div class="br"><span class="bn">Sphere + arms + props</span><div class="bt"><i class="b1" style="width:99.95%"></i><i class="b2" style="width:50.2%"></i></div><span class="bv"><b>99.95%</b> <em>50.2% stereo</em></span></div><div class="br"><span class="bn">Integrated airframe</span><div class="bt"><i class="b1" style="width:99.89%"></i><i class="b2" style="width:51.0%"></i></div><span class="bv"><b>99.89%</b> <em>51.0% stereo</em></span></div></div><div class="cg"><h3>1&nbsp;m</h3><div class="br"><span class="bn">Sphere, no props</span><div class="bt"><i class="b1" style="width:99.51%"></i><i class="b2" style="width:41.3%"></i></div><span class="bv"><b>99.51%</b> <em>41.3% stereo</em></span></div><div class="br"><span class="bn">Sphere + arms + props</span><div class="bt"><i class="b1" style="width:99.5%"></i><i class="b2" style="width:37.5%"></i></div><span class="bv"><b>99.50%</b> <em>37.5% stereo</em></span></div><div class="br"><span class="bn">Integrated airframe</span><div class="bt"><i class="b1" style="width:98.68%"></i><i class="b2" style="width:36.3%"></i></div><span class="bv"><b>98.68%</b> <em>36.3% stereo</em></span></div></div><div class="cg"><h3>0.5&nbsp;m</h3><div class="br"><span class="bn">Sphere, no props</span><div class="bt"><i class="b1" style="width:96.04%"></i><i class="b2" style="width:20.7%"></i></div><span class="bv"><b>96.04%</b> <em>20.7% stereo</em></span></div><div class="br"><span class="bn">Sphere + arms + props</span><div class="bt"><i class="b1" style="width:95.58%"></i><i class="b2" style="width:17.9%"></i></div><span class="bv"><b>95.58%</b> <em>17.9% stereo</em></span></div><div class="br"><span class="bn">Integrated airframe</span><div class="bt"><i class="b1" style="width:91.89%"></i><i class="b2" style="width:17.1%"></i></div><span class="bv"><b>91.89%</b> <em>17.1% stereo</em></span></div></div>
-    <div class="key"><span><i style="background:#3B6FB5"></i>Coverage (seen by 1+ cameras)</span><span><i style="background:#3FE0D0"></i>Stereo (seen by 2+ cameras)</span></div>
+    <div class="key"><span><i style="background:#8FA6C8"></i>Coverage (seen by 1+ cameras)</span><span><i style="background:#F5B342"></i>Stereo (seen by 2+ cameras)</span></div>
     <p class="cap">Group design analysis from the project's Team A coverage study; simulated coverage, not flight results.</p>
   </section>
 
