@@ -37,6 +37,8 @@ th,td{border:1px solid var(--rule);padding:8px 10px;text-align:right}
 th:first-child,td:first-child{text-align:left}
 th{background:var(--wash);color:var(--navy)}
 .tw{overflow-x:auto}
+ol,ul{margin:14px 0 0;padding-left:1.3em}
+li{margin:6px 0}
 </style>
 </head>
 <body>
@@ -75,7 +77,21 @@ th{background:var(--wash);color:var(--navy)}
   <p class="cap">Group design analysis from the project's Team A coverage study; simulated coverage, not flight results.</p>
 
   <h2>My part</h2>
-  <p>I own the multi-camera sensing layer the visual pipeline rests on, which sits at the overlap above: hardware bring-up of a synchronized camera array on a Raspberry&nbsp;Pi&nbsp;5, camera calibration, and frame-level time synchronization. I wrote the software that fuses two Raspberry&nbsp;Pi&nbsp;5s on separate Ethernet links into one capture, shown in the recording above, and I am scaling the rig to 16 cameras across the two Pis, with latency tests. I have contributed calibration and test code to the group's repository.</p>
+  <p>My work started with the geometry of how propellers block the cameras, and moved to the multi-camera sensing layer the visual pipeline rests on, which sits at the overlap above.</p>
+  <ol>
+    <li><b>Propeller obstruction versus camera standoff.</b> A field-of-view model of how much of a propeller a three-camera triangle sees, used to size the standoff and to argue for smaller propellers.</li>
+    <li><b>Camera calibration</b> and hardware bring-up of a synchronized camera array on a Raspberry&nbsp;Pi&nbsp;5.</li>
+    <li><b>Multi-camera fusion software.</b> I wrote the software that fuses two Raspberry&nbsp;Pi&nbsp;5s on separate Ethernet links into one capture, shown in the recording above, with frame-level time synchronization.</li>
+    <li><b>Now:</b> scaling the rig to 16 cameras across the two Pis, with latency tests, and contributing calibration and test code to the group's repository.</li>
+  </ol>
+
+  <h2>Propeller size versus camera standoff</h2>
+  <p>Setup: three cameras on a wall plane, each 80&deg;&nbsp;&times;&nbsp;65&deg; (half-angles 40&deg; and 32.5&deg;), so at depth <i>z</i> a camera sees a window 2<i>z</i>&middot;tan&nbsp;40&deg; wide and 2<i>z</i>&middot;tan&nbsp;32.5&deg; tall. The propeller is modeled as a disc of diameter <i>D</i> centered on the triangle centroid. The model assumes an equilateral triangle, parallel optical axes and a disc parallel to the wall.</p>
+  <ul>
+    <li><b>Visible propeller area</b> is about 0.367&nbsp;&middot;&nbsp;<i>D</i>&sup2;&nbsp;/&nbsp;<i>z</i>&sup2; of the view. At 18&nbsp;in that is 11.3% for a 10&nbsp;in propeller and 4.1% for 6&nbsp;in; at 24&nbsp;in it is 6.4% and 2.3%.</li>
+    <li><b>All three cameras see the whole propeller</b> once <i>z</i>&nbsp;&ge;&nbsp;(0.866<i>s</i>&nbsp;+&nbsp;<i>D</i>)&nbsp;/&nbsp;1.274, where <i>s</i> is the triangle side. For a 10&nbsp;in propeller, the largest triangle needs about 24&nbsp;in of standoff (<i>s</i>&nbsp;&asymp;&nbsp;24&nbsp;in) and the smallest about 10&nbsp;in (<i>s</i>&nbsp;&asymp;&nbsp;3&nbsp;in).</li>
+    <li><b>Why shrink the propellers.</b> Each inch of propeller diameter costs 0.785&nbsp;in of standoff. Going from 10&nbsp;in to 8&nbsp;in saves 1.6&nbsp;in; going to 6&nbsp;in saves 3.1&nbsp;in and cuts the visible area by 64%.</li>
+  </ul>
   <p class="cap"><a href="../index.html#research">Back to Research</a></p>
 </div></main>
 </body>
