@@ -6,20 +6,20 @@
 <title>16-Camera GPS-Denied Drone Navigation</title>
 <meta name="description" content="GPS-denied visual navigation for drones at Brown's LEMS group: how the mechanical, electrical and software work fit together, the 16-camera rig, and a screen recording of the two-Raspberry-Pi synchronized capture.">
 <meta name="author" content="Orville Rockwell Jr.">
-<meta name="theme-color" content="#120D0A">
+<meta name="theme-color" content="#140C09">
 <link rel="canonical" href="https://orvillerockwelljr.com/notes/brown-live-fusion.html">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root{--ink:#1C2633;--muted:#5B6573;--rule:#E2E6EB;--wash:#F4F6F9;--cv:#1F4E8C;--navy:#14305A;--deep:#0B1B33;
-  --mech:#3E7BD0;--elec:#1AA3AA;--soft:#D9568A;
+:root{--ink:#1C2633;--muted:#7A6757;--rule:#E2E6EB;--wash:#F4F6F9;--cv:#C98B5A;--navy:#3A2418;--deep:#2A1810;
+  --mech:#C98B5A;--elec:#E0392F;--soft:#F0E3D3;
   --serif:"Source Serif 4",Georgia,serif;--sans:"IBM Plex Sans","Helvetica Neue",Arial,sans-serif}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:72px}
 body{margin:0;background:#fff;color:var(--ink);font-family:var(--serif);font-size:18px;line-height:1.65}
 a{color:var(--cv);text-underline-offset:3px}
-a:focus-visible,button:focus-visible{outline:2px solid #8DB6F2;outline-offset:3px}
+a:focus-visible,button:focus-visible{outline:2px solid #F2A59E;outline-offset:3px}
 .wrap{max-width:60rem;margin:0 auto;padding:0 max(22px,env(safe-area-inset-left,0px))}
 p{margin:14px 0 0}
 .cap{font-family:var(--sans);font-size:14.5px;color:var(--muted);line-height:1.55}
@@ -27,14 +27,14 @@ p{margin:14px 0 0}
 .hero{background:radial-gradient(120% 120% at 80% -20%,#1E4A85 0%,#10294D 42%,var(--deep) 100%);color:#fff;position:relative;overflow:hidden}
 .hero::after{content:"";position:absolute;left:0;right:0;bottom:0;height:5px;background:linear-gradient(90deg,var(--mech) 0 33.3%,var(--elec) 33.3% 66.6%,var(--soft) 66.6%)}
 .crumb{font-family:var(--sans);font-size:14px;padding-top:12px;margin:0}
-.crumb a{color:#BFD5F7}
-.kick{font-family:var(--sans);font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:#8DB6F2;margin:12px 0 0;font-weight:600}
+.crumb a{color:#EBD9C4}
+.kick{font-family:var(--sans);font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:#F2A59E;margin:12px 0 0;font-weight:600}
 h1{font-family:var(--sans);font-size:clamp(1.6rem,4vw,2.3rem);line-height:1.1;margin:6px 0 0;font-weight:700;letter-spacing:-.01em}
-.lede{font-size:clamp(.98rem,1.8vw,1.1rem);color:#D6E3F8;max-width:none;margin:6px 0 0;line-height:1.4}
+.lede{font-size:clamp(.98rem,1.8vw,1.1rem);color:#EBD9C4;max-width:none;margin:6px 0 0;line-height:1.4}
 .stats{display:grid;grid-template-columns:repeat(4,auto);gap:1px;margin:14px 0 0;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.14);border-radius:8px;overflow:hidden}
 .stats div{background:rgba(11,27,51,.55);padding:7px 12px;font-family:var(--sans);white-space:nowrap}
 .stats b{display:inline;font-size:1.25rem;line-height:1.1;font-weight:700;margin-right:8px}
-.stats span{font-size:12.5px;color:#BFD5F7;line-height:1.3;display:inline;white-space:nowrap}
+.stats span{font-size:12.5px;color:#EBD9C4;line-height:1.3;display:inline;white-space:nowrap}
 .vid{margin:14px 0 -1px;position:relative;z-index:1;background:#000;border-radius:10px 10px 0 0}
 video{display:block;width:100%;height:auto;max-height:calc(100vh - 235px);min-height:200px;object-fit:contain;background:#000;border-radius:10px 10px 0 0;border:1px solid rgba(255,255,255,.18);border-bottom:0}
 /* nav */
@@ -61,9 +61,9 @@ h3{font-family:var(--sans);font-size:1rem;margin:0;color:var(--navy)}
 .cg{margin:22px 0 0}
 .cg h3{margin-bottom:8px}
 .br{display:grid;grid-template-columns:11.5rem 1fr 10.5rem;gap:12px;align-items:center;margin:6px 0;font-family:var(--sans);font-size:14px}
-.bt{position:relative;height:16px;background:#E9EDF2;border-radius:4px;overflow:hidden}
+.bt{position:relative;height:16px;background:#EFE4D6;border-radius:4px;overflow:hidden}
 .bt i{position:absolute;left:0;top:0;bottom:0;border-radius:4px 0 0 4px}
-.b1{background:#9DBDE8}.b2{background:var(--navy)}
+.b1{background:#E8D9C6}.b2{background:var(--navy)}
 .bv b{color:var(--navy)}.bv em{color:var(--muted);font-style:normal;font-size:13px}
 .key{display:flex;gap:18px;font-family:var(--sans);font-size:13.5px;color:var(--muted);margin:16px 0 0;flex-wrap:wrap}
 .key i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-1px}
@@ -97,7 +97,7 @@ footer{margin-top:48px;border-top:1px solid var(--rule);padding:22px 0 40px}
 }
 
 /* standalone project-site theme */
-:root{--bg:#120D0A;--panel:#1D1511;--line:#352820;--txt:#D9CFC6;--hi:#FBF7F2;--acc:#FFC72C;--brownred:#D6362D;--ink:#C9D3E3;--muted:#A39688;--rule:#1C2A44;--navy:#F2F6FC;--cv:#3FE0D0;
+:root{--bg:#120D0A;--panel:#1D1511;--line:#352820;--txt:#D9CFC6;--hi:#FBF7F2;--acc:#F25A4F;--brownred:#D6362D;--ink:#D9CFC6;--muted:#A39688;--rule:#1C2A44;--navy:#FFF8F0;--cv:#F25A4F;
   --serif:"Inter",system-ui,sans-serif;--sans:"Space Grotesk","Inter",sans-serif;--mono:"JetBrains Mono",ui-monospace,monospace}
 body{background:var(--bg);color:var(--txt);font-size:17px}
 a{color:var(--acc)}
@@ -119,7 +119,7 @@ h2{font-size:clamp(1.6rem,3.4vw,2.3rem);letter-spacing:-.02em}
 .hero .wrap{padding-top:28px}
 h1{font-size:clamp(2rem,5vw,3.4rem);letter-spacing:-.03em;line-height:1.04}
 .kick{color:var(--acc)}
-.lede{color:#B4C3DA}
+.lede{color:#D9C6B0}
 .stats{background:var(--line);border-color:var(--line)}
 .stats div{background:#1A120E;white-space:normal}
 .stats span{white-space:normal}
@@ -129,7 +129,7 @@ h1{font-size:clamp(2rem,5vw,3.4rem);letter-spacing:-.03em;line-height:1.04}
 .teams li{border-top-color:var(--c)}
 .venn{background:var(--panel);border:1px solid var(--line)}
 .geo svg{background:#F3EEE7;border-radius:10px;padding:6px}
-.bt{background:#16223A}.b1{background:#8FA6C8}.b2{background:var(--acc)}
+.bt{background:#16223A}.b1{background:#E8D9C6}.b2{background:var(--acc)}
 .bv b{color:var(--hi)}
 .steps{border-left-color:var(--line)}
 .steps li::before{background:var(--panel);border:2px solid var(--acc);color:var(--acc)}
@@ -219,22 +219,59 @@ video{max-height:calc(100vh - 270px);min-height:200px}
 .hero{padding-bottom:40px}
 .stats{margin-top:20px!important}
 @media(max-width:760px){.hgrid{grid-template-columns:1fr}video{max-height:none}}
+
+/* v10: Brown palette (brown, red, cream), no blue */
+:root{--bg:#140C09;--panel:#211510;--line:#3A2820;--txt:#E3D6C8;--hi:#FFF8F0;--acc:#F25A4F;--brownred:#E0392F;--muted:#A8998A}
+body{background:var(--bg)}
+.hero{background:radial-gradient(75% 110% at 90% -10%,#5B392A 0%,#2B1A12 45%,var(--bg) 100%)}
+.hero::after{background:linear-gradient(90deg,#E0392F 0 60%,#F0E3D3 60%)}
+.stats b{color:#FFF1E0}
+.stats div{background:rgba(255,241,224,.04)}
+.rig{filter:drop-shadow(0 0 30px rgba(242,90,79,.18))}.cm{fill:#F0E3D3}
+.bar .wrap{background:rgba(33,21,16,.82)}
+.bar nav a.on{background:rgba(242,90,79,.16);color:#FFB3AC}
+.kick,.eyebrow{color:#F2837A}
+.vgrid{display:grid;grid-template-columns:minmax(0,1fr) 200px;gap:18px;align-items:stretch;margin-top:16px}
+.vgrid .vid{margin:0}
+.readout{display:flex;flex-direction:column;gap:10px}
+.readout .rt{font:500 11px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0}
+.readout div{flex:1;border:1px solid var(--line);border-radius:14px;padding:12px 14px;background:rgba(255,241,224,.04);display:flex;flex-direction:column;justify-content:center}
+.readout b{font:700 1.7rem/1 var(--sans);color:#FFF1E0}.readout small{font-size:.8rem;color:#F2837A;font-weight:600}
+.readout span{font-size:12.5px;color:var(--muted);margin-top:4px;line-height:1.35}
+video{max-height:calc(100vh - 300px);border-color:rgba(240,227,211,.22)}
+.steps li::before{border-color:#F25A4F;color:#F25A4F}.steps li.now::before{background:#F25A4F;color:#fff}
+.cm{animation-duration:3.2s}
+.teams li::after{opacity:.18}
+.b1{background:#E8D9C6}.b2{background:#E0392F}
+.bt{background:#2D1E17}
+section::before{-webkit-text-stroke:1px rgba(242,90,79,.3)}
+.stats span,.cap,.key{color:var(--muted)}
+.eq{border-color:var(--line)}
+a{color:#F2837A}
+@media(max-width:900px){.vgrid{grid-template-columns:1fr}.readout{flex-direction:row}.readout .rt{display:none}.readout div{flex:1}}
+@media(max-width:560px){.readout{flex-direction:column}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 </style>
 </head>
 <body id="top">
-<div class="bar"><div class="wrap"><a class="brand" href="#top"><svg viewBox="0 0 26 26" aria-hidden="true"><circle cx="13" cy="13" r="12" fill="none" stroke="#F5B342" stroke-width="1.5"/><g fill="#F5B342"><circle cx="13" cy="5" r="2"/><circle cx="6" cy="10" r="2"/><circle cx="20" cy="10" r="2"/><circle cx="6" cy="17" r="2"/><circle cx="20" cy="17" r="2"/><circle cx="13" cy="21" r="2"/></g></svg>GPS-denied nav<small>16-cam rig</small></a><nav aria-label="Sections"><a href="#problem">Problem</a><a href="#teams">Teams</a><a href="#rig">Rig</a><a href="#part">My part</a><a href="#software">Software</a><a href="#geometry">Geometry</a></nav></div></div>
+<div class="bar"><div class="wrap"><a class="brand" href="#top"><svg viewBox="0 0 26 26" aria-hidden="true"><circle cx="13" cy="13" r="12" fill="none" stroke="#E0392F" stroke-width="1.5"/><g fill="#E0392F"><circle cx="13" cy="5" r="2"/><circle cx="6" cy="10" r="2"/><circle cx="20" cy="10" r="2"/><circle cx="6" cy="17" r="2"/><circle cx="20" cy="17" r="2"/><circle cx="13" cy="21" r="2"/></g></svg>GPS-denied nav<small>16-cam rig</small></a><nav aria-label="Sections"><a href="#problem">Problem</a><a href="#teams">Teams</a><a href="#rig">Rig</a><a href="#part">My part</a><a href="#software">Software</a><a href="#geometry">Geometry</a></nav></div></div>
 <header class="hero"><div class="wrap">
     <div class="hgrid"><div>
   <p class="kick">Research project &middot; LEMS, Brown University</p>
   <h1>GPS-Denied Visual Navigation for Drones</h1>
   <p class="lede">Localizing a drone without GPS by fusing synchronized camera views with inertial cues. Prof.&nbsp;Benjamin&nbsp;Kimia's group.</p>
-  </div><svg class="rig" viewBox="0 0 300 300" role="img" aria-label="The 16-camera rig as rings of 1, 4, 6, 4 and 1 cameras"><circle cx="150" cy="150" r="118" fill="none" stroke="#FFC72C" stroke-opacity=".18" stroke-dasharray="3 6"/><circle class="cm" style="--i:0" cx="150" cy="40" r="7"/><ellipse cx="150" cy="95" rx="84" ry="18" fill="none" stroke="#FFC72C" stroke-opacity=".25"/><circle class="cm" style="--i:1" cx="230" cy="100" r="5.5" opacity="1"/><circle class="cm" style="--i:2" cx="125" cy="113" r="5.5" opacity="1"/><circle class="cm" style="--i:3" cx="70" cy="90" r="4" opacity="0.55"/><circle class="cm" style="--i:4" cx="175" cy="77" r="4" opacity="0.55"/><ellipse cx="150" cy="150" rx="119" ry="26" fill="none" stroke="#FFC72C" stroke-opacity=".25"/><circle class="cm" style="--i:5" cx="269" cy="150" r="4" opacity="0.55"/><circle class="cm" style="--i:6" cx="210" cy="173" r="5.5" opacity="1"/><circle class="cm" style="--i:7" cx="91" cy="173" r="5.5" opacity="1"/><circle class="cm" style="--i:8" cx="31" cy="150" r="5.5" opacity="1"/><circle class="cm" style="--i:9" cx="90" cy="127" r="4" opacity="0.55"/><circle class="cm" style="--i:10" cx="210" cy="127" r="4" opacity="0.55"/><ellipse cx="150" cy="205" rx="84" ry="18" fill="none" stroke="#FFC72C" stroke-opacity=".25"/><circle class="cm" style="--i:11" cx="230" cy="210" r="5.5" opacity="1"/><circle class="cm" style="--i:12" cx="125" cy="223" r="5.5" opacity="1"/><circle class="cm" style="--i:13" cx="70" cy="200" r="4" opacity="0.55"/><circle class="cm" style="--i:14" cx="175" cy="187" r="4" opacity="0.55"/><circle class="cm" style="--i:15" cx="150" cy="260" r="7"/><text x="150" y="292" font-size="11" text-anchor="middle" fill="#A39688" font-family="JetBrains Mono,monospace" letter-spacing="2">1 &#183; 4 &#183; 6 &#183; 4 &#183; 1</text></svg></div>
+  </div><svg class="rig" viewBox="0 0 300 300" role="img" aria-label="The 16-camera rig as rings of 1, 4, 6, 4 and 1 cameras"><circle cx="150" cy="150" r="118" fill="none" stroke="#F25A4F" stroke-opacity=".18" stroke-dasharray="3 6"/><circle class="cm" style="--i:0" cx="150" cy="40" r="7"/><ellipse cx="150" cy="95" rx="84" ry="18" fill="none" stroke="#F25A4F" stroke-opacity=".25"/><circle class="cm" style="--i:1" cx="230" cy="100" r="5.5" opacity="1"/><circle class="cm" style="--i:2" cx="125" cy="113" r="5.5" opacity="1"/><circle class="cm" style="--i:3" cx="70" cy="90" r="4" opacity="0.55"/><circle class="cm" style="--i:4" cx="175" cy="77" r="4" opacity="0.55"/><ellipse cx="150" cy="150" rx="119" ry="26" fill="none" stroke="#F25A4F" stroke-opacity=".25"/><circle class="cm" style="--i:5" cx="269" cy="150" r="4" opacity="0.55"/><circle class="cm" style="--i:6" cx="210" cy="173" r="5.5" opacity="1"/><circle class="cm" style="--i:7" cx="91" cy="173" r="5.5" opacity="1"/><circle class="cm" style="--i:8" cx="31" cy="150" r="5.5" opacity="1"/><circle class="cm" style="--i:9" cx="90" cy="127" r="4" opacity="0.55"/><circle class="cm" style="--i:10" cx="210" cy="127" r="4" opacity="0.55"/><ellipse cx="150" cy="205" rx="84" ry="18" fill="none" stroke="#F25A4F" stroke-opacity=".25"/><circle class="cm" style="--i:11" cx="230" cy="210" r="5.5" opacity="1"/><circle class="cm" style="--i:12" cx="125" cy="223" r="5.5" opacity="1"/><circle class="cm" style="--i:13" cx="70" cy="200" r="4" opacity="0.55"/><circle class="cm" style="--i:14" cx="175" cy="187" r="4" opacity="0.55"/><circle class="cm" style="--i:15" cx="150" cy="260" r="7"/><text x="150" y="292" font-size="11" text-anchor="middle" fill="#A39688" font-family="JetBrains Mono,monospace" letter-spacing="2">1 &#183; 4 &#183; 6 &#183; 4 &#183; 1</text></svg></div>
+  <div class="vgrid">
   <div class="vid">
-    <video controls autoplay muted loop playsinline preload="auto" poster="../assets/video/brown-live-fusion-poster.jpg">
-      <source src="../assets/video/brown-live-fusion.mp4" type="video/mp4">
+    <video controls autoplay muted loop playsinline preload="auto" poster="../assets/video/brown-live-fusion-tight.jpg">
+      <source src="../assets/video/brown-live-fusion-tight.mp4" type="video/mp4">
       Your browser cannot play this video. <a href="../assets/video/brown-live-fusion.mp4">Download it</a>.
     </video>
+  </div>
+  <aside class="readout" aria-label="Readings from the recording"><p class="rt">From the recording</p>
+    <div><b>30.5<small> fps</small></b><span>frame rate, both streams</span></div>
+    <div><b>0 / &minus;1<small> &micro;s</small></b><span>synchronization offset between the two Pis</span></div>
+    <div><b>0</b><span>camera timeouts</span></div></aside>
   </div>
   <div class="stats" style="margin-top:26px">
     <div><b>16</b><span>cameras, 1-4-6-4-1 rings</span></div>
@@ -265,12 +302,12 @@ video{max-height:calc(100vh - 270px);min-height:200px}
     </ul>
     <div class="venn">
       <svg viewBox="0 0 320 290" role="img" aria-label="Venn diagram of the mechanical, electrical and software teams and what they share">
-        <g style="mix-blend-mode:screen" fill-opacity=".62">
-          <circle cx="120" cy="105" r="86" fill="#3E7BD0"/>
-          <circle cx="200" cy="105" r="86" fill="#1AA3AA"/>
-          <circle cx="160" cy="173" r="86" fill="#D9568A"/>
+        <g style="mix-blend-mode:normal" fill-opacity=".72">
+          <circle cx="120" cy="105" r="86" fill="#C98B5A"/>
+          <circle cx="200" cy="105" r="86" fill="#E0392F"/>
+          <circle cx="160" cy="173" r="86" fill="#F0E3D3"/>
         </g>
-        <g font-family="IBM Plex Sans,Arial,sans-serif" text-anchor="middle" fill="#F4F7FD">
+        <g font-family="IBM Plex Sans,Arial,sans-serif" text-anchor="middle" fill="#1E120C">
           <text x="92" y="82" font-size="14" font-weight="700">Mechanical</text>
           <text x="228" y="82" font-size="14" font-weight="700">Electrical</text>
           <text x="160" y="236" font-size="14" font-weight="700">Software</text>
@@ -301,7 +338,7 @@ video{max-height:calc(100vh - 270px);min-height:200px}
     </div>
     <p>To compare designs, camera positions and angles from the CAD frame were projected onto 650,000 test points spread over the upper hemisphere 2&nbsp;m from the frame, so each point receives the pixel that sees it. Coverage is the share of points seen by at least one camera; stereo is the share seen by two or more.</p>
     <div class="cg"><h3>2&nbsp;m</h3><div class="br"><span class="bn">Sphere, no props</span><div class="bt"><i class="b1" style="width:99.95%"></i><i class="b2" style="width:54.3%"></i></div><span class="bv"><b>99.95%</b> <em>54.3% stereo</em></span></div><div class="br"><span class="bn">Sphere + arms + props</span><div class="bt"><i class="b1" style="width:99.95%"></i><i class="b2" style="width:50.2%"></i></div><span class="bv"><b>99.95%</b> <em>50.2% stereo</em></span></div><div class="br"><span class="bn">Integrated airframe</span><div class="bt"><i class="b1" style="width:99.89%"></i><i class="b2" style="width:51.0%"></i></div><span class="bv"><b>99.89%</b> <em>51.0% stereo</em></span></div></div><div class="cg"><h3>1&nbsp;m</h3><div class="br"><span class="bn">Sphere, no props</span><div class="bt"><i class="b1" style="width:99.51%"></i><i class="b2" style="width:41.3%"></i></div><span class="bv"><b>99.51%</b> <em>41.3% stereo</em></span></div><div class="br"><span class="bn">Sphere + arms + props</span><div class="bt"><i class="b1" style="width:99.5%"></i><i class="b2" style="width:37.5%"></i></div><span class="bv"><b>99.50%</b> <em>37.5% stereo</em></span></div><div class="br"><span class="bn">Integrated airframe</span><div class="bt"><i class="b1" style="width:98.68%"></i><i class="b2" style="width:36.3%"></i></div><span class="bv"><b>98.68%</b> <em>36.3% stereo</em></span></div></div><div class="cg"><h3>0.5&nbsp;m</h3><div class="br"><span class="bn">Sphere, no props</span><div class="bt"><i class="b1" style="width:96.04%"></i><i class="b2" style="width:20.7%"></i></div><span class="bv"><b>96.04%</b> <em>20.7% stereo</em></span></div><div class="br"><span class="bn">Sphere + arms + props</span><div class="bt"><i class="b1" style="width:95.58%"></i><i class="b2" style="width:17.9%"></i></div><span class="bv"><b>95.58%</b> <em>17.9% stereo</em></span></div><div class="br"><span class="bn">Integrated airframe</span><div class="bt"><i class="b1" style="width:91.89%"></i><i class="b2" style="width:17.1%"></i></div><span class="bv"><b>91.89%</b> <em>17.1% stereo</em></span></div></div>
-    <div class="key"><span><i style="background:#8FA6C8"></i>Coverage (seen by 1+ cameras)</span><span><i style="background:#F5B342"></i>Stereo (seen by 2+ cameras)</span></div>
+    <div class="key"><span><i style="background:#E8D9C6"></i>Coverage (seen by 1+ cameras)</span><span><i style="background:#E0392F"></i>Stereo (seen by 2+ cameras)</span></div>
     <p class="cap">Group design analysis from the project's Team A coverage study; simulated coverage, not flight results.</p>
   </section>
 
@@ -324,30 +361,30 @@ video{max-height:calc(100vh - 270px);min-height:200px}
     <p>The group's camera-sync code drove up to 8 cameras from a single Raspberry&nbsp;Pi. A 16-camera rig needs two Pis, and that moves the problem from one board to two machines on separate network links, each with its own clock and its own stream. The software below is what I wrote to make those two Pis behave as one camera system for this rig.</p>
     <div class="geo">
       <svg viewBox="-50 0 620 420" role="img" aria-label="Diagram: two Raspberry Pi 5 boards, each with a camera sync board and cameras, send synchronized streams over separate Ethernet or Wi-Fi links through a switch into the fusion software, which produces a live view and timing logs">
-  <defs><marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#14305A"/></marker></defs>
-  <g font-family="IBM Plex Sans,Arial,sans-serif" text-anchor="middle" fill="#0B1B33">
+  <defs><marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#3A2418"/></marker></defs>
+  <g font-family="IBM Plex Sans,Arial,sans-serif" text-anchor="middle" fill="#2A1810">
     <!-- cameras -->
-    <g fill="#1AA3AA" fill-opacity=".85"><circle cx="85" cy="34" r="13"/><circle cx="135" cy="34" r="13"/><circle cx="385" cy="34" r="13"/><circle cx="435" cy="34" r="13"/></g>
-    <text x="110" y="68" font-size="12.5" fill="#5B6573">cameras</text>
-    <text x="410" y="68" font-size="12.5" fill="#5B6573">cameras</text>
-    <g stroke="#14305A" stroke-width="1.6" marker-end="url(#ah)"><line x1="110" y1="76" x2="110" y2="98"/><line x1="410" y1="76" x2="410" y2="98"/></g>
+    <g fill="#C98B5A" fill-opacity=".85"><circle cx="85" cy="34" r="13"/><circle cx="135" cy="34" r="13"/><circle cx="385" cy="34" r="13"/><circle cx="435" cy="34" r="13"/></g>
+    <text x="110" y="68" font-size="12.5" fill="#7A6757">cameras</text>
+    <text x="410" y="68" font-size="12.5" fill="#7A6757">cameras</text>
+    <g stroke="#3A2418" stroke-width="1.6" marker-end="url(#ah)"><line x1="110" y1="76" x2="110" y2="98"/><line x1="410" y1="76" x2="410" y2="98"/></g>
     <!-- Pis -->
-    <g fill="#fff" stroke="#14305A" stroke-width="2"><rect x="30" y="100" width="160" height="78" rx="8"/><rect x="330" y="100" width="160" height="78" rx="8"/></g>
+    <g fill="#fff" stroke="#3A2418" stroke-width="2"><rect x="30" y="100" width="160" height="78" rx="8"/><rect x="330" y="100" width="160" height="78" rx="8"/></g>
     <text x="110" y="126" font-size="15" font-weight="700">Raspberry Pi 5 &#183; A</text><text x="110" y="148" font-size="12.5">camera sync board</text><text x="110" y="166" font-size="12.5">synchronized capture</text>
     <text x="410" y="126" font-size="15" font-weight="700">Raspberry Pi 5 &#183; B</text><text x="410" y="148" font-size="12.5">camera sync board</text><text x="410" y="166" font-size="12.5">synchronized capture</text>
     <!-- links -->
-    <g stroke="#14305A" stroke-width="1.6" marker-end="url(#ah)"><line x1="110" y1="180" x2="110" y2="208"/><line x1="410" y1="180" x2="410" y2="208"/></g>
-    <text x="102" y="198" font-size="11" text-anchor="end" fill="#5B6573">Ethernet / Wi-Fi link A</text><text x="418" y="198" font-size="11" text-anchor="start" fill="#5B6573">Ethernet / Wi-Fi link B</text>
+    <g stroke="#3A2418" stroke-width="1.6" marker-end="url(#ah)"><line x1="110" y1="180" x2="110" y2="208"/><line x1="410" y1="180" x2="410" y2="208"/></g>
+    <text x="102" y="198" font-size="11" text-anchor="end" fill="#7A6757">Ethernet / Wi-Fi link A</text><text x="418" y="198" font-size="11" text-anchor="start" fill="#7A6757">Ethernet / Wi-Fi link B</text>
     <!-- switch -->
-    <rect x="30" y="210" width="460" height="34" rx="8" fill="#E9EDF2" stroke="#14305A" stroke-width="1.5"/><text x="260" y="232" font-size="14" font-weight="600">Ethernet switch / Wi-Fi</text>
-    <line x1="260" y1="246" x2="260" y2="272" stroke="#14305A" stroke-width="1.6" marker-end="url(#ah)"/>
+    <rect x="30" y="210" width="460" height="34" rx="8" fill="#EFE4D6" stroke="#3A2418" stroke-width="1.5"/><text x="260" y="232" font-size="14" font-weight="600">Ethernet switch / Wi-Fi</text>
+    <line x1="260" y1="246" x2="260" y2="272" stroke="#3A2418" stroke-width="1.6" marker-end="url(#ah)"/>
     <!-- fusion -->
-    <rect x="70" y="274" width="380" height="64" rx="10" fill="#14305A"/>
+    <rect x="70" y="274" width="380" height="64" rx="10" fill="#3A2418"/>
     <text x="260" y="302" font-size="17" font-weight="700" fill="#fff">Fusion software</text>
-    <text x="260" y="324" font-size="12.5" fill="#BFD5F7">merges both Pis into one capture with frame-level sync</text>
-    <g stroke="#14305A" stroke-width="1.6" marker-end="url(#ah)"><line x1="170" y1="340" x2="140" y2="368"/><line x1="350" y1="340" x2="380" y2="368"/></g>
+    <text x="260" y="324" font-size="12.5" fill="#EBD9C4">merges both Pis into one capture with frame-level sync</text>
+    <g stroke="#3A2418" stroke-width="1.6" marker-end="url(#ah)"><line x1="170" y1="340" x2="140" y2="368"/><line x1="350" y1="340" x2="380" y2="368"/></g>
     <!-- outputs -->
-    <g fill="#fff" stroke="#D9568A" stroke-width="2"><rect x="30" y="370" width="220" height="40" rx="8"/><rect x="270" y="370" width="220" height="40" rx="8"/></g>
+    <g fill="#fff" stroke="#E0392F" stroke-width="2"><rect x="30" y="370" width="220" height="40" rx="8"/><rect x="270" y="370" width="220" height="40" rx="8"/></g>
     <text x="140" y="395" font-size="13.5" font-weight="600">live view, per-camera status</text><text x="380" y="395" font-size="13.5" font-weight="600">capture logs for timing</text>
   </g>
 </svg>
@@ -366,18 +403,18 @@ video{max-height:calc(100vh - 270px);min-height:200px}
     <p>Three cameras on a wall plane, each 80&deg;&nbsp;&times;&nbsp;65&deg; (half-angles 40&deg; and 32.5&deg;), so at depth <i>z</i> a camera sees a window 2<i>z</i>&middot;tan&nbsp;40&deg; wide and 2<i>z</i>&middot;tan&nbsp;32.5&deg; tall. The propeller is a disc of diameter <i>D</i> centered on the triangle centroid. Assumes an equilateral triangle, parallel optical axes and a disc parallel to the wall.</p>
     <div class="geo">
       <svg viewBox="0 0 320 230" role="img" aria-label="Side view: three cameras on a wall, their fields of view widening to a propeller disc at standoff z">
-        <rect x="18" y="20" width="10" height="190" fill="#14305A"/>
-        <g stroke="#1F4E8C" stroke-width="1.5" fill="#1F4E8C" fill-opacity=".10">
+        <rect x="18" y="20" width="10" height="190" fill="#3A2418"/>
+        <g stroke="#C98B5A" stroke-width="1.5" fill="#C98B5A" fill-opacity=".10">
           <polygon points="28,70 290,10 290,130"/>
           <polygon points="28,115 290,55 290,175"/>
           <polygon points="28,160 290,100 290,220"/>
         </g>
-        <g fill="#D9568A"><circle cx="28" cy="70" r="5"/><circle cx="28" cy="115" r="5"/><circle cx="28" cy="160" r="5"/></g>
-        <ellipse cx="190" cy="115" rx="7" ry="42" fill="#0B1B33" fill-opacity=".85"/>
-        <g font-family="IBM Plex Sans,Arial,sans-serif" font-size="12" fill="#0B1B33">
+        <g fill="#E0392F"><circle cx="28" cy="70" r="5"/><circle cx="28" cy="115" r="5"/><circle cx="28" cy="160" r="5"/></g>
+        <ellipse cx="190" cy="115" rx="7" ry="42" fill="#2A1810" fill-opacity=".85"/>
+        <g font-family="IBM Plex Sans,Arial,sans-serif" font-size="12" fill="#2A1810">
           <text x="38" y="204">wall, 3 cameras</text>
           <text x="196" y="68">propeller, &#216; <tspan font-style="italic">D</tspan></text>
-          <line x1="28" y1="224" x2="190" y2="224" stroke="#0B1B33" stroke-width="1.2"/>
+          <line x1="28" y1="224" x2="190" y2="224" stroke="#2A1810" stroke-width="1.2"/>
           <text x="104" y="219" text-anchor="middle" font-style="italic">z</text>
         </g>
       </svg>
