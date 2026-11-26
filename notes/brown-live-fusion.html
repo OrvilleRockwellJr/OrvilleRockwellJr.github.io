@@ -3,20 +3,20 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>GPS-Denied Visual Navigation for Drones | Orville Rockwell Jr.</title>
+<title>16-Camera GPS-Denied Drone Navigation</title>
 <meta name="description" content="GPS-denied visual navigation for drones at Brown's LEMS group: how the mechanical, electrical and software work fit together, the 16-camera rig, and a screen recording of the two-Raspberry-Pi synchronized capture.">
 <meta name="author" content="Orville Rockwell Jr.">
-<meta name="theme-color" content="#0B1B33">
+<meta name="theme-color" content="#070B14">
 <link rel="canonical" href="https://orvillerockwelljr.com/notes/brown-live-fusion.html">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Source+Serif+4:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{--ink:#1C2633;--muted:#5B6573;--rule:#E2E6EB;--wash:#F4F6F9;--cv:#1F4E8C;--navy:#14305A;--deep:#0B1B33;
   --mech:#3E7BD0;--elec:#1AA3AA;--soft:#D9568A;
   --serif:"Source Serif 4",Georgia,serif;--sans:"IBM Plex Sans","Helvetica Neue",Arial,sans-serif}
 *{box-sizing:border-box}
-html{scroll-behavior:smooth;scroll-padding-top:64px}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
 body{margin:0;background:#fff;color:var(--ink);font-family:var(--serif);font-size:18px;line-height:1.65}
 a{color:var(--cv);text-underline-offset:3px}
 a:focus-visible,button:focus-visible{outline:2px solid #8DB6F2;outline-offset:3px}
@@ -31,7 +31,7 @@ p{margin:14px 0 0}
 .kick{font-family:var(--sans);font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:#8DB6F2;margin:12px 0 0;font-weight:600}
 h1{font-family:var(--sans);font-size:clamp(1.6rem,4vw,2.3rem);line-height:1.1;margin:6px 0 0;font-weight:700;letter-spacing:-.01em}
 .lede{font-size:clamp(.98rem,1.8vw,1.1rem);color:#D6E3F8;max-width:none;margin:6px 0 0;line-height:1.4}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;margin:14px 0 0;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.14);border-radius:8px;overflow:hidden}
+.stats{display:grid;grid-template-columns:repeat(4,auto);gap:1px;margin:14px 0 0;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.14);border-radius:8px;overflow:hidden}
 .stats div{background:rgba(11,27,51,.55);padding:7px 12px;font-family:var(--sans);white-space:nowrap}
 .stats b{display:inline;font-size:1.25rem;line-height:1.1;font-weight:700;margin-right:8px}
 .stats span{font-size:12.5px;color:#BFD5F7;line-height:1.3;display:inline;white-space:nowrap}
@@ -82,6 +82,9 @@ h3{font-family:var(--sans);font-size:1rem;margin:0;color:var(--navy)}
 .geo svg{width:100%;height:auto;display:block;background:var(--wash);border-radius:10px}
 .geo ul{margin:0;padding:0;list-style:none}
 .geo li{margin:0 0 16px;font-size:16px;line-height:1.55}
+#software .geo{grid-template-columns:1fr;gap:22px}
+#software .geo svg{max-width:680px;width:100%;margin:0 auto}
+#software .geo ul{display:grid;grid-template-columns:1fr 1fr;gap:6px 30px}
 .geo li b{font-family:var(--sans);color:var(--navy);display:block}
 .eq{font-family:var(--sans);background:var(--wash);border-radius:6px;padding:2px 8px;white-space:nowrap}
 .tbl{overflow-x:auto}
@@ -89,15 +92,60 @@ footer{margin-top:48px;border-top:1px solid var(--rule);padding:22px 0 40px}
 @media(max-width:760px){
  .stats{grid-template-columns:repeat(2,1fr)}.stats b,.stats span{display:block;margin:0}video{max-height:none;min-height:0}
  .teams,.facts,.venn,.geo{grid-template-columns:1fr}
+ #software .geo ul{grid-template-columns:1fr}
  .br{grid-template-columns:1fr;gap:3px;margin:12px 0}
 }
+
+/* standalone project-site theme */
+:root{--bg:#070B14;--panel:#0E1626;--line:#1C2A44;--txt:#C9D3E3;--hi:#F2F6FC;--acc:#3FE0D0;--ink:#C9D3E3;--muted:#8A97AD;--rule:#1C2A44;--navy:#F2F6FC;--cv:#3FE0D0;
+  --serif:"Inter",system-ui,sans-serif;--sans:"Space Grotesk","Inter",sans-serif;--mono:"JetBrains Mono",ui-monospace,monospace}
+body{background:var(--bg);color:var(--txt);font-size:17px}
+a{color:var(--acc)}
+h2,h3,.teams b,.facts b,.geo li b,.steps b,.venn h3{color:var(--hi)}
+h2{font-size:clamp(1.6rem,3.4vw,2.3rem);letter-spacing:-.02em}
+.eyebrow,.kick,.cap,.stats span,.key,.br{font-family:var(--mono)}
+.eyebrow{color:var(--acc);letter-spacing:.14em}
+.cap{font-size:12.5px;color:var(--muted)}
+.bar{position:sticky;top:0;z-index:6;background:rgba(7,11,20,.88);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.bar .wrap{display:flex;align-items:center;gap:22px;height:56px}
+.brand{display:flex;align-items:center;gap:10px;font-family:var(--sans);font-weight:700;color:var(--hi);text-decoration:none;letter-spacing:-.01em;white-space:nowrap}
+.brand svg{width:26px;height:26px}
+.brand small{font-family:var(--mono);font-weight:400;font-size:11px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-left:2px}
+.bar nav{display:flex;gap:2px;overflow-x:auto;white-space:nowrap;margin-left:auto;font-family:var(--mono);font-size:12.5px}
+.bar nav a{color:var(--muted);text-decoration:none;padding:8px 11px;border-radius:6px}
+.bar nav a:hover,.bar nav a.on{color:var(--hi);background:var(--panel)}
+.hero{background:radial-gradient(90% 120% at 85% -30%,#123A5E 0%,#0A1426 45%,var(--bg) 100%);color:var(--hi)}
+.hero::after{height:3px}
+.hero .wrap{padding-top:28px}
+h1{font-size:clamp(2rem,5vw,3.4rem);letter-spacing:-.03em;line-height:1.04}
+.kick{color:var(--acc)}
+.lede{color:#B4C3DA}
+.stats{background:var(--line);border-color:var(--line)}
+.stats div{background:#0B1322;white-space:normal}
+.stats span{white-space:normal}
+.stats b{font-family:var(--sans);color:var(--acc)}
+.stats span{color:var(--muted)}
+.teams li,.facts div{background:var(--panel);border-color:var(--line);box-shadow:none}
+.teams li{border-top-color:var(--c)}
+.venn{background:var(--panel);border:1px solid var(--line)}
+.venn svg,.geo svg{background:#EEF2F7;border-radius:10px;padding:6px}
+.bt{background:#16223A}.b1{background:#3B6FB5}.b2{background:var(--acc)}
+.bv b{color:var(--hi)}
+.steps{border-left-color:var(--line)}
+.steps li::before{background:var(--panel);border:2px solid var(--acc);color:var(--acc)}
+.steps li.now::before{background:var(--acc);color:#04201D}
+.eq{background:var(--panel);border:1px solid var(--line);color:var(--hi);font-family:var(--mono);font-size:.9em}
+section{padding:64px 0 6px}
+footer{border-top-color:var(--line);font-family:var(--mono);font-size:12.5px;color:var(--muted);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+footer a{color:var(--muted)}footer a:hover{color:var(--acc)}
+@media(max-width:760px){.brand small{display:none}.bar .wrap{gap:10px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 </style>
 </head>
-<body>
+<body id="top">
+<div class="bar"><div class="wrap"><a class="brand" href="#top"><svg viewBox="0 0 26 26" aria-hidden="true"><circle cx="13" cy="13" r="12" fill="none" stroke="#3FE0D0" stroke-width="1.5"/><g fill="#3FE0D0"><circle cx="13" cy="5" r="2"/><circle cx="6" cy="10" r="2"/><circle cx="20" cy="10" r="2"/><circle cx="6" cy="17" r="2"/><circle cx="20" cy="17" r="2"/><circle cx="13" cy="21" r="2"/></g></svg>GPS-denied nav<small>16-cam rig</small></a><nav aria-label="Sections"><a href="#problem">Problem</a><a href="#teams">Teams</a><a href="#rig">Rig</a><a href="#part">My part</a><a href="#software">Software</a><a href="#geometry">Geometry</a></nav></div></div>
 <header class="hero"><div class="wrap">
-  <p class="crumb"><a href="../index.html#research">&larr; Research</a></p>
-  <p class="kick">Research project &middot; LEMS, Brown University</p>
+    <p class="kick">Research project &middot; LEMS, Brown University</p>
   <h1>GPS-Denied Visual Navigation for Drones</h1>
   <p class="lede">Localizing a drone without GPS by fusing synchronized camera views with inertial cues. Prof.&nbsp;Benjamin&nbsp;Kimia's group.</p>
   <div class="stats">
@@ -114,12 +162,9 @@ footer{margin-top:48px;border-top:1px solid var(--rule);padding:22px 0 40px}
   </div>
 </div></header>
 
-<nav class="sec" aria-label="Sections"><div class="wrap">
-  <a href="#problem">Problem</a><a href="#teams">Teams</a><a href="#rig">Camera rig</a><a href="#part">My part</a><a href="#software">Fusion software</a><a href="#geometry">Propeller geometry</a>
-</div></nav>
 
 <main><div class="wrap">
-  <p class="cap" style="margin-top:16px">Screen recording, 25 seconds, no sound: the live fusion view. Two Raspberry Pi 5s, each on its own Ethernet link, stream synchronized capture into one page; each camera's status line shows frame rate, frame count and the synchronization offset between the two. The browser shows each stream with its own network delay, so on-screen frames are not frame-locked; timing comes from the capture logs.</p>
+  <p class="cap" style="margin-top:16px">Screen recording, 25 seconds, no sound: the live fusion view. Two Raspberry Pi 5s, each on its own network link (Ethernet or Wi-Fi), stream synchronized capture into one page; each camera's status line shows frame rate, frame count and the synchronization offset between the two. The browser shows each stream with its own network delay, so on-screen frames are not frame-locked; timing comes from the capture logs.</p>
 
   <section id="problem">
     <p class="eyebrow">The problem</p>
@@ -173,7 +218,7 @@ footer{margin-top:48px;border-top:1px solid var(--rule);padding:22px 0 40px}
     </div>
     <p>To compare designs, camera positions and angles from the CAD frame were projected onto 650,000 test points spread over the upper hemisphere 2&nbsp;m from the frame, so each point receives the pixel that sees it. Coverage is the share of points seen by at least one camera; stereo is the share seen by two or more.</p>
     <div class="cg"><h3>2&nbsp;m</h3><div class="br"><span class="bn">Sphere, no props</span><div class="bt"><i class="b1" style="width:99.95%"></i><i class="b2" style="width:54.3%"></i></div><span class="bv"><b>99.95%</b> <em>54.3% stereo</em></span></div><div class="br"><span class="bn">Sphere + arms + props</span><div class="bt"><i class="b1" style="width:99.95%"></i><i class="b2" style="width:50.2%"></i></div><span class="bv"><b>99.95%</b> <em>50.2% stereo</em></span></div><div class="br"><span class="bn">Integrated airframe</span><div class="bt"><i class="b1" style="width:99.89%"></i><i class="b2" style="width:51.0%"></i></div><span class="bv"><b>99.89%</b> <em>51.0% stereo</em></span></div></div><div class="cg"><h3>1&nbsp;m</h3><div class="br"><span class="bn">Sphere, no props</span><div class="bt"><i class="b1" style="width:99.51%"></i><i class="b2" style="width:41.3%"></i></div><span class="bv"><b>99.51%</b> <em>41.3% stereo</em></span></div><div class="br"><span class="bn">Sphere + arms + props</span><div class="bt"><i class="b1" style="width:99.5%"></i><i class="b2" style="width:37.5%"></i></div><span class="bv"><b>99.50%</b> <em>37.5% stereo</em></span></div><div class="br"><span class="bn">Integrated airframe</span><div class="bt"><i class="b1" style="width:98.68%"></i><i class="b2" style="width:36.3%"></i></div><span class="bv"><b>98.68%</b> <em>36.3% stereo</em></span></div></div><div class="cg"><h3>0.5&nbsp;m</h3><div class="br"><span class="bn">Sphere, no props</span><div class="bt"><i class="b1" style="width:96.04%"></i><i class="b2" style="width:20.7%"></i></div><span class="bv"><b>96.04%</b> <em>20.7% stereo</em></span></div><div class="br"><span class="bn">Sphere + arms + props</span><div class="bt"><i class="b1" style="width:95.58%"></i><i class="b2" style="width:17.9%"></i></div><span class="bv"><b>95.58%</b> <em>17.9% stereo</em></span></div><div class="br"><span class="bn">Integrated airframe</span><div class="bt"><i class="b1" style="width:91.89%"></i><i class="b2" style="width:17.1%"></i></div><span class="bv"><b>91.89%</b> <em>17.1% stereo</em></span></div></div>
-    <div class="key"><span><i style="background:#9DBDE8"></i>Coverage (seen by 1+ cameras)</span><span><i style="background:var(--navy)"></i>Stereo (seen by 2+ cameras)</span></div>
+    <div class="key"><span><i style="background:#3B6FB5"></i>Coverage (seen by 1+ cameras)</span><span><i style="background:#3FE0D0"></i>Stereo (seen by 2+ cameras)</span></div>
     <p class="cap">Group design analysis from the project's Team A coverage study; simulated coverage, not flight results.</p>
   </section>
 
@@ -184,7 +229,7 @@ footer{margin-top:48px;border-top:1px solid var(--rule);padding:22px 0 40px}
     <ol class="steps">
       <li><b>Propeller obstruction versus camera standoff.</b> A field-of-view model of how much of a propeller a three-camera triangle sees, used to size the standoff and to argue for smaller propellers.</li>
       <li><b>Camera calibration</b> and hardware bring-up of a synchronized camera array on a Raspberry&nbsp;Pi&nbsp;5.</li>
-      <li><b>Multi-camera fusion software.</b> I wrote the software that fuses two Raspberry&nbsp;Pi&nbsp;5s on separate Ethernet links into one capture, shown in the recording above, with frame-level time synchronization.</li>
+      <li><b>Multi-camera fusion software.</b> I wrote the software that fuses two Raspberry&nbsp;Pi&nbsp;5s on separate network links into one capture, shown in the recording above, with frame-level time synchronization.</li>
       <li class="now"><b>Now:</b> scaling the rig to 16 cameras across the two Pis, with latency tests, and contributing calibration and test code to the group's repository.</li>
     </ol>
   </section>
@@ -195,7 +240,7 @@ footer{margin-top:48px;border-top:1px solid var(--rule);padding:22px 0 40px}
     <h2>The fusion software</h2>
     <p>The group's camera-sync code drove up to 8 cameras from a single Raspberry&nbsp;Pi. A 16-camera rig needs two Pis, and that moves the problem from one board to two machines on separate network links, each with its own clock and its own stream. The software below is what I wrote to make those two Pis behave as one camera system for this rig.</p>
     <div class="geo">
-      <svg viewBox="0 0 520 420" role="img" aria-label="Diagram: two Raspberry Pi 5 boards, each with a camera sync board and cameras, send synchronized streams over separate Ethernet links through a switch into the fusion software, which produces a live view and timing logs">
+      <svg viewBox="-50 0 620 420" role="img" aria-label="Diagram: two Raspberry Pi 5 boards, each with a camera sync board and cameras, send synchronized streams over separate Ethernet or Wi-Fi links through a switch into the fusion software, which produces a live view and timing logs">
   <defs><marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#14305A"/></marker></defs>
   <g font-family="IBM Plex Sans,Arial,sans-serif" text-anchor="middle" fill="#0B1B33">
     <!-- cameras -->
@@ -209,9 +254,9 @@ footer{margin-top:48px;border-top:1px solid var(--rule);padding:22px 0 40px}
     <text x="410" y="126" font-size="15" font-weight="700">Raspberry Pi 5 &#183; B</text><text x="410" y="148" font-size="12.5">camera sync board</text><text x="410" y="166" font-size="12.5">synchronized capture</text>
     <!-- links -->
     <g stroke="#14305A" stroke-width="1.6" marker-end="url(#ah)"><line x1="110" y1="180" x2="110" y2="208"/><line x1="410" y1="180" x2="410" y2="208"/></g>
-    <text x="102" y="198" font-size="12" text-anchor="end" fill="#5B6573">Ethernet link A</text><text x="418" y="198" font-size="12" text-anchor="start" fill="#5B6573">Ethernet link B</text>
+    <text x="102" y="198" font-size="11" text-anchor="end" fill="#5B6573">Ethernet / Wi-Fi link A</text><text x="418" y="198" font-size="11" text-anchor="start" fill="#5B6573">Ethernet / Wi-Fi link B</text>
     <!-- switch -->
-    <rect x="30" y="210" width="460" height="34" rx="8" fill="#E9EDF2" stroke="#14305A" stroke-width="1.5"/><text x="260" y="232" font-size="14" font-weight="600">Ethernet switch</text>
+    <rect x="30" y="210" width="460" height="34" rx="8" fill="#E9EDF2" stroke="#14305A" stroke-width="1.5"/><text x="260" y="232" font-size="14" font-weight="600">Ethernet switch / Wi-Fi</text>
     <line x1="260" y1="246" x2="260" y2="272" stroke="#14305A" stroke-width="1.6" marker-end="url(#ah)"/>
     <!-- fusion -->
     <rect x="70" y="274" width="380" height="64" rx="10" fill="#14305A"/>
@@ -224,7 +269,7 @@ footer{margin-top:48px;border-top:1px solid var(--rule);padding:22px 0 40px}
   </g>
 </svg>
       <ul>
-        <li><b>What it does</b>Takes the synchronized capture from each Pi over its own Ethernet link and fuses the two into one capture with frame-level time synchronization, so a frame from one Pi can be compared with the matching frame from the other.</li>
+        <li><b>What it does</b>Takes the synchronized capture from each Pi over its own network link (Ethernet, or Wi-Fi in some tests) and fuses the two into one capture with frame-level time synchronization, so a frame from one Pi can be compared with the matching frame from the other.</li>
         <li><b>What the live view reports</b>For every camera: frame rate (about 30.5&nbsp;fps in the recording), frame count, the synchronization offset between the cameras in microseconds, camera timeouts and restarts. Those are the numbers the downstream pose estimation depends on.</li>
         <li><b>Why it matters for the research</b>Fusion is only as good as its timestamps. Cross-Pi synchronization is the step that lets the rig grow beyond one board, which is what a 16-camera layout requires. This is the first stage: the sensing layer that visual localization will sit on.</li>
         <li><b>Next</b>Add the second sync board on each Pi to reach 16 cameras, then measure latency by moving a target across the shared view from different positions and averaging across cameras.</li>
@@ -261,10 +306,10 @@ footer{margin-top:48px;border-top:1px solid var(--rule);padding:22px 0 40px}
     </div>
     <p class="cap">Schematic, not to scale.</p>
   </section>
-  <footer><a href="../index.html#research">&larr; Back to Research</a></footer>
+  <footer><span>LEMS, Brown University &middot; research in progress</span><span>Written by <a href="../index.html">Orville Rockwell Jr.</a> &middot; <a href="../index.html#research">all research</a></span></footer>
 </div></main>
 <script>
-(function(){try{var l=[].slice.call(document.querySelectorAll('nav.sec a')),s=l.map(function(a){return document.querySelector(a.getAttribute('href'))});
+(function(){try{var l=[].slice.call(document.querySelectorAll('.bar nav a')),s=l.map(function(a){return document.querySelector(a.getAttribute('href'))});
 function f(){var y=window.scrollY+120,i=0;s.forEach(function(e,k){if(e&&e.offsetTop<=y)i=k});l.forEach(function(a,k){a.classList.toggle('on',k===i)})}
 addEventListener('scroll',f,{passive:true});f()}catch(e){}})();
 </script>
