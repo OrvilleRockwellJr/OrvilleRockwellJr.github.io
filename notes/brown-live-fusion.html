@@ -205,6 +205,20 @@ h2{font-size:clamp(1.9rem,4vw,2.9rem);letter-spacing:-.025em}
 footer{border-top:0;margin-top:90px;padding-bottom:60px}
 @media(max-width:900px){.stats{grid-template-columns:repeat(2,1fr)}.vid{margin-bottom:-40px}}
 @media(max-width:760px){.bar .wrap{padding:0 8px 0 14px}.steps li{padding-left:64px}}
+
+/* v9: video above the fold */
+.hero .wrap{padding-top:22px}
+.hgrid{grid-template-columns:1fr auto;gap:24px}
+.rig{max-width:150px}
+.rig text{display:none}
+h1{font-size:clamp(1.9rem,4vw,2.9rem);margin-top:4px}
+.kick{margin-top:6px}
+.lede{margin-top:8px;font-size:1rem}
+.vid{margin:16px 0 0}
+video{max-height:calc(100vh - 270px);min-height:200px}
+.hero{padding-bottom:40px}
+.stats{margin-top:20px!important}
+@media(max-width:760px){.hgrid{grid-template-columns:1fr}video{max-height:none}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 </style>
 </head>
@@ -216,18 +230,19 @@ footer{border-top:0;margin-top:90px;padding-bottom:60px}
   <h1>GPS-Denied Visual Navigation for Drones</h1>
   <p class="lede">Localizing a drone without GPS by fusing synchronized camera views with inertial cues. Prof.&nbsp;Benjamin&nbsp;Kimia's group.</p>
   </div><svg class="rig" viewBox="0 0 300 300" role="img" aria-label="The 16-camera rig as rings of 1, 4, 6, 4 and 1 cameras"><circle cx="150" cy="150" r="118" fill="none" stroke="#FFC72C" stroke-opacity=".18" stroke-dasharray="3 6"/><circle class="cm" style="--i:0" cx="150" cy="40" r="7"/><ellipse cx="150" cy="95" rx="84" ry="18" fill="none" stroke="#FFC72C" stroke-opacity=".25"/><circle class="cm" style="--i:1" cx="230" cy="100" r="5.5" opacity="1"/><circle class="cm" style="--i:2" cx="125" cy="113" r="5.5" opacity="1"/><circle class="cm" style="--i:3" cx="70" cy="90" r="4" opacity="0.55"/><circle class="cm" style="--i:4" cx="175" cy="77" r="4" opacity="0.55"/><ellipse cx="150" cy="150" rx="119" ry="26" fill="none" stroke="#FFC72C" stroke-opacity=".25"/><circle class="cm" style="--i:5" cx="269" cy="150" r="4" opacity="0.55"/><circle class="cm" style="--i:6" cx="210" cy="173" r="5.5" opacity="1"/><circle class="cm" style="--i:7" cx="91" cy="173" r="5.5" opacity="1"/><circle class="cm" style="--i:8" cx="31" cy="150" r="5.5" opacity="1"/><circle class="cm" style="--i:9" cx="90" cy="127" r="4" opacity="0.55"/><circle class="cm" style="--i:10" cx="210" cy="127" r="4" opacity="0.55"/><ellipse cx="150" cy="205" rx="84" ry="18" fill="none" stroke="#FFC72C" stroke-opacity=".25"/><circle class="cm" style="--i:11" cx="230" cy="210" r="5.5" opacity="1"/><circle class="cm" style="--i:12" cx="125" cy="223" r="5.5" opacity="1"/><circle class="cm" style="--i:13" cx="70" cy="200" r="4" opacity="0.55"/><circle class="cm" style="--i:14" cx="175" cy="187" r="4" opacity="0.55"/><circle class="cm" style="--i:15" cx="150" cy="260" r="7"/><text x="150" y="292" font-size="11" text-anchor="middle" fill="#A39688" font-family="JetBrains Mono,monospace" letter-spacing="2">1 &#183; 4 &#183; 6 &#183; 4 &#183; 1</text></svg></div>
-  <div class="stats">
+  <div class="vid">
+    <video controls autoplay muted loop playsinline preload="auto" poster="../assets/video/brown-live-fusion-poster.jpg">
+      <source src="../assets/video/brown-live-fusion.mp4" type="video/mp4">
+      Your browser cannot play this video. <a href="../assets/video/brown-live-fusion.mp4">Download it</a>.
+    </video>
+  </div>
+  <div class="stats" style="margin-top:26px">
     <div><b>16</b><span>cameras, 1-4-6-4-1 rings</span></div>
     <div><b>80&deg;&times;65&deg;</b><span>FOV per camera</span></div>
     <div><b>99.95%</b><span>coverage at 2&nbsp;m (sim.)</span></div>
     <div><b>3 teams</b><span>mech, elec, software</span></div>
   </div>
-  <div class="vid">
-    <video controls autoplay muted playsinline preload="auto" poster="../assets/video/brown-live-fusion-poster.jpg">
-      <source src="../assets/video/brown-live-fusion.mp4" type="video/mp4">
-      Your browser cannot play this video. <a href="../assets/video/brown-live-fusion.mp4">Download it</a>.
-    </video>
-  </div>
+
 </div></header>
 
 
