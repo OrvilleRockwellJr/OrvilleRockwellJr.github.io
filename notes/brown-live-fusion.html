@@ -32,6 +32,11 @@ h2{font-family:var(--sans);font-size:1.15rem;margin:34px 0 0;color:var(--navy)}
 .teams b{display:block;font-family:var(--sans);color:var(--navy);margin-bottom:4px}
 .overlap{border-left:4px solid var(--cv);background:var(--wash);padding:12px 16px;margin:16px 0 0;font-size:17px}
 @media(max-width:680px){.teams{grid-template-columns:1fr}}
+table{border-collapse:collapse;width:100%;margin:16px 0 0;font-family:var(--sans);font-size:14.5px}
+th,td{border:1px solid var(--rule);padding:8px 10px;text-align:right}
+th:first-child,td:first-child{text-align:left}
+th{background:var(--wash);color:var(--navy)}
+.tw{overflow-x:auto}
 </style>
 </head>
 <body>
@@ -57,6 +62,17 @@ h2{font-family:var(--sans);font-size:1.15rem;margin:34px 0 0;color:var(--navy)}
     <li><b>Software</b>Calibrates the cameras, detects and tracks features, and estimates pose from the fused views and inertial cues.</li>
   </ul>
   <p class="overlap">The teams overlap most where vision meets hardware. Computer vision depends on electrical choices (how cameras are triggered, how frames are timestamped, how fast streams reach the processor), and the electrical design is judged by what the software can recover from it. The mechanical frame sets the geometry the calibration software has to estimate. Timing and geometry are the shared problem.</p>
+
+  <h2>Camera layout and coverage</h2>
+  <p>The rig is designed as 16 cameras on a spherical frame in rings of 1-4-6-4-1, chosen because it was easier to design and to analyze for blind spots. Every camera uses an 80&deg;&nbsp;&times;&nbsp;65&deg; field of view. In side-by-side tests against 70&deg;&nbsp;&times;&nbsp;55&deg; cameras, the wider lens saw far more of a 12-inch checkerboard placed 2&nbsp;m from the smallest three-camera triangle (only the middle squares were blind, close to the theoretical prediction), and propellers took up a smaller share of each view at 0.5, 1 and 2&nbsp;ft. Placing the propellers between the middle and second rings obstructs the least, because the cameras there face away from them.</p>
+  <p>To compare designs, the camera positions and angles from the CAD frame were projected onto 650,000 test points spread over the upper hemisphere 2&nbsp;m from the frame, so each point receives the pixel that sees it. Coverage is the share of points seen by at least one camera; stereo is the share seen by two or more.</p>
+  <div class="tw"><table>
+    <tr><th>Distance</th><th>Sphere, no props</th><th>Sphere + arms + props</th><th>Integrated airframe</th></tr>
+    <tr><td>2&nbsp;m</td><td>99.95% (54.3% stereo)</td><td>99.95% (50.2% stereo)</td><td>99.89% (51.0% stereo)</td></tr>
+    <tr><td>1&nbsp;m</td><td>99.51% (41.3% stereo)</td><td>99.50% (37.5% stereo)</td><td>98.68% (36.3% stereo)</td></tr>
+    <tr><td>0.5&nbsp;m</td><td>96.04% (20.7% stereo)</td><td>95.58% (17.9% stereo)</td><td>91.89% (17.1% stereo)</td></tr>
+  </table></div>
+  <p class="cap">Group design analysis from the project's Team A coverage study; simulated coverage, not flight results.</p>
 
   <h2>My part</h2>
   <p>I own the multi-camera sensing layer the visual pipeline rests on, which sits at the overlap above: hardware bring-up of a synchronized camera array on a Raspberry&nbsp;Pi&nbsp;5, camera calibration, and frame-level time synchronization. I wrote the software that fuses two Raspberry&nbsp;Pi&nbsp;5s on separate Ethernet links into one capture, shown in the recording above, and I am scaling the rig to 16 cameras across the two Pis, with latency tests. I have contributed calibration and test code to the group's repository.</p>
