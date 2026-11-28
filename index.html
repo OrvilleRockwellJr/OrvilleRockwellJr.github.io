@@ -315,7 +315,8 @@ footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;back
 .mast .links{margin-top:30px;gap:10px 28px}
 @media (min-width:760px){.mast .hero{padding-top:76px;padding-bottom:68px}}
 </style>
-<style>.phd-line{cursor:pointer}.phd-line.hide,.phd-line.hide strong{color:transparent;-webkit-text-fill-color:transparent;user-select:none;-webkit-user-select:none}</style>
+
+<style>.entry .thumb img{transition:transform .25s ease,box-shadow .25s ease}.entry .thumb:hover img{transform:translateY(-2px);box-shadow:0 8px 22px rgba(11,30,60,.18)}@media(prefers-reduced-motion:reduce){.entry .thumb img{transition:none}.entry .thumb:hover img{transform:none}}</style>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -563,7 +564,7 @@ footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;back
           <span class="chip c2"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="6" r="2.6"/><circle cx="19" cy="6" r="2.6"/><circle cx="5" cy="18" r="2.6"/><circle cx="19" cy="18" r="2.6"/><path d="M7 8l3 3m4 0l3-3M7 16l3-3m4 0l3 3"/><rect x="10" y="10" width="4" height="4" rx="1"/></svg>Autonomous Systems</span>
         </div>
         <div class="bio">
-          <p>Welcome! I'm a Master's student in Applied Artificial Intelligence at Northeastern University. Before this, I received my B.S. in Information Technology from Purdue University Global. <span id="phd-line" class="phd-line">I am currently applying to <strong>PhD programs for Fall 2027</strong>.</span></p>
+          <p>Welcome! I'm a Master's student in Applied Artificial Intelligence at Northeastern University. Before this, I received my B.S. in Information Technology from Purdue University Global. I am currently applying to <strong>PhD programs for Fall 2027</strong>.</p>
         </div>
         <p class="links">
           <a href="mailto:Rockwell.o@northeastern.edu">Email</a>
@@ -582,7 +583,7 @@ footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;back
 
     <section id="areas">
       <h2>Research areas</h2>
-      <p class="venn-legend"><span><i class="d-auto"></i>Autonomous systems</span><span><i class="d-bio"></i>Computational biology</span><span><i class="d-both"></i>Both</span></p>
+      <p class="venn-legend"><span><i class="d-auto"></i>Autonomous systems</span><span><i class="d-bio"></i>Computational biology</span><span><i class="d-both"></i>Both (where they meet)</span></p>
       <ul class="mcards">
         <li class="mcard"><h3>Computer vision</h3><div class="pg"><span class="vp d-both">Multi-view geometry</span><span class="vp d-auto">Self-supervised 3D</span></div><div class="pg"><span class="vp d-bio">Cryo-EM reconstruction</span></div></li>
         <li class="mcard"><h3>Machine learning</h3><div class="pg"><span class="vp d-auto">Multi-sensor fusion</span><span class="vp d-auto">GPS-denied navigation</span></div><div class="pg"><span class="vp d-bio">Active learning</span></div></li>
@@ -614,7 +615,7 @@ footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;back
             <h3><span class="mk ic d-bio" aria-hidden="true"></span>Classifier-Guided Diffusion for Post-Stroke Drug Design</h3>
             <p class="where"><b>Independent research</b>, Northeastern University<br>Began as a project in Applied AI (AAI 6600, Prof. Elena Izotova), 2026 to present</p>
             <span class="status">Working prototype</span>
-            <p class="sum">No effective treatment exists for the glial scar that blocks axon regrowth after stroke, and its receptor PTP&sigma; is the target. One guided-diffusion engine, built in the spirit of genome-scale generative models such as Evo&nbsp;2 but steered by classifier gradients, designs two kinds of candidate: small molecules and gene-editing guide sequences. Type what you want and what it is for, and one run returns a molecule shortlist and a guide shortlist for the same target. It runs entirely in the browser, with no server or API; click the screenshot to try it.</p>
+            <p class="sum">No effective treatment exists for the glial scar that blocks axon regrowth after stroke, and its receptor PTP&sigma; is the target. One guided-diffusion engine, built in the spirit of genome-scale generative models such as Evo&nbsp;2 but steered by classifier gradients, designs two kinds of candidate: small molecules and gene-editing guide sequences. Type what you want and what it is for, and one run returns a molecule shortlist and a guide shortlist for the same target. It runs entirely in the browser, with no server or API; click the screenshot to try it. PTP&sigma; Design Studio is the name of the interface to this model, the way Claude is the name of an interface to a language model.</p>
             <p class="key"><b>Design.</b> Guidance classifiers are five-head ensembles trained on noised inputs, and a trust gate fades a classifier's push when its heads disagree. A separate held-out judge on different features scores every result, so reward hacking shows up as a gap. Splits are by scaffold (molecules) and by gene (guides). <b>Results.</b> For molecules at &gamma;&nbsp;=&nbsp;4, the gate keeps 86% of valid molecules unique (29% without it) and lifts the held-out judge pass rate on all three objectives to 34% (17% without the gate, 14% unguided); about 46% of decoded latents are valid. Against the fair baseline of filtering unguided samples to the critic's top 10%, guided-and-filtered reaches 81% versus 49%. For guides, guidance raises judge-rated efficiency from 0.49 to 0.79 at &gamma;&nbsp;=&nbsp;16, but the gate did not help there. Generic guides never matched a real PTPRS site; a target-site critic makes 100% exact PTPRS sites (54% also pass the judge and checks), yet plain scan-and-rank beats it (76%), which the Evidence tab reports. <b>Limits.</b> Small public datasets; the generator can be fooled (a ring-free 48-carbon chain passed the judge once, so the shortlist filters for drug-likeness); the PTP-family activity model is a proxy for PTP&sigma; (30 molecules with exact potencies). Fully in silico; nothing here is lab-validated.</p>
             <p class="methods">Diffusion models, classifier guidance, ensemble uncertainty, scaffold- and gene-split evaluation, generative genomics, in-browser inference</p>
             <p class="more"><a href="projects/diffusion-design/">Open the platform</a> &middot; <a href="projects/diffusion-design/evidence.html">Evidence</a> &middot; <a href="https://github.com/OrvilleRockwellJr/orvillerockwelljr.github.io/tree/main/projects/diffusion-design">Code</a></p>
@@ -628,7 +629,7 @@ footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;back
             <p class="where"><b>Independent research</b>, self-directed<br>Bridges autonomous decision-making and computational biology</p>
             <span class="status result">Manuscript in preparation</span>
             <p class="sum">A self-driving lab is a control loop: a model proposes candidates, a system tests a subset, and the results retrain the model. I simulated that loop over five ChEMBL targets, 20 seeds each, and asked whether <em>calibrating</em> the scoring model makes it more efficient. Each round selects a batch under a 400-experiment budget, and I compared raw scores, isotonic calibration, and isotonic calibration with a raw-score tie-break on how many true hits each recovers.</p>
-            <p class="key"><b>Result.</b> Not for greedy selection. Isotonic calibration never significantly improved hit recovery and significantly hurt it on 2 of 5 targets (JAK2: 375.0 versus 384.3 hits at a 400-experiment budget, p&nbsp;&lt;&nbsp;0.01), even as it lowered calibration error on all five. The mechanism is resolution loss: isotonic regression is monotone but piecewise constant, so it leaves a plateau of tied scores at the top of the ranking (88 to 2,212 molecules) and the batch is drawn almost at random from it. Breaking ties with the raw score, or using strictly monotone calibrators (Platt, beta), recovers the loss. A retrospective simulation, not a wet-lab campaign.</p>
+            <p class="key"><b>Result.</b> Not for greedy selection. Isotonic calibration never significantly improved hit recovery and significantly hurt it on 2 of 5 targets (JAK2: 375.0 hits with isotonic calibration versus 384.3 with raw scores at a 400-experiment budget, p&nbsp;&lt;&nbsp;0.01), even as it lowered calibration error on all five. The mechanism is resolution loss: isotonic regression is monotone but piecewise constant, so it leaves a plateau of tied scores at the top of the ranking (88 to 2,212 molecules) and the batch is drawn almost at random from it. Breaking ties with the raw score, or using strictly monotone calibrators (Platt, beta), recovers the loss. A retrospective simulation, not a wet-lab campaign.</p>
             <p class="methods">Active learning, calibration, sequential decisions, ChEMBL, RDKit</p>
             <p class="more"><a href="projects/closed-loop-discovery/">Open the project page</a> &middot; <a href="https://urirock-closed-loop-demo.hf.space/app/home">Try the demo on real ChEMBL data</a></p>
           </div>
@@ -662,7 +663,7 @@ footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;back
             <p class="where"><b>Team project</b>, Northeastern Marine Robotics (student club)<br>MATE ROV competition team, 2026 to present</p>
             <span class="status live">Ongoing</span>
             <p class="sum">Underwater perception for a semi-autonomous ROV, where turbidity, refraction and changing light break assumptions that hold in air.</p>
-            <p class="key"><b>My part.</b> I develop deep-learning object detection and visual&ndash;IMU sensor fusion in the ROV's ROS perception stack, including the recognition node. I wrote the crab-recognition node's README and mocked unit tests (merged), and I opened a pull request with 62 mocked unit tests for the IMU node (in review) and am writing the depth-sensor tests.</p>
+            <p class="key"><b>My part.</b> I develop deep-learning object detection and visual&ndash;IMU sensor fusion in the ROV's ROS perception stack, including the recognition node. I wrote the crab-recognition node's README and mocked unit tests (merged), and I opened a pull request with 62 mocked unit tests for the IMU node (in review) and am writing the depth-sensor tests. <b>Status.</b> No competition result yet.</p>
             <p class="methods">Deep object detection, visual&ndash;IMU fusion, ROS, OpenCV, I&sup2;C and UART</p>
           </div>
         </article>
@@ -673,8 +674,8 @@ footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;back
             <h3><span class="mk ic d-ml" aria-hidden="true"></span>VAD-LSTM: Volatility-Aware Distributional Forecasting</h3>
             <p class="where"><b>Course project</b>, Applied Deep Learning (AAI 6640), Northeastern University<br>Team lead of four</p>
             <span class="status">In progress</span>
-            <p class="sum">A recurrent network that forecasts a full probability distribution rather than a point estimate, so any threshold question is read straight off the model. It extends the GARCH&ndash;LSTM equivalence of Zhao et al. (2024) with an in-cell variance recursion and a Student-t output head.</p>
-            <p class="key"><b>My part.</b> I lead the team and own the ten-year dataset and the evaluation: purged walk-forward splits, isotonic recalibration and conformal coverage.</p>
+            <p class="sum">A recurrent network that forecasts a full probability distribution rather than a point estimate, so any threshold question is read straight off the model. Juroom is the name of its front end, the way Claude is the name of an interface to a language model. It extends the GARCH&ndash;LSTM equivalence of Zhao et al. (2024) with an in-cell variance recursion and a Student-t output head.</p>
+            <p class="key"><b>My part.</b> I lead the team and own the ten-year dataset and the evaluation: purged walk-forward splits, isotonic recalibration and conformal coverage. <b>Status.</b> No final results yet; evaluation is in progress.</p>
             <p class="methods">TensorFlow Probability, sequence models, calibration, conformal prediction</p>
             <p class="more"><a href="https://orvillerockwelljr.com/aai6640-team5/">Try the model: Juroom</a></p>
           </div>
@@ -734,6 +735,6 @@ footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;back
   });
 })();
 </script>
-<script>(function(){var e=document.getElementById("phd-line");if(!e)return;e.addEventListener("click",function(){e.classList.toggle("hide")})})();</script>
+
 </body>
 </html>
